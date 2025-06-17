@@ -1,0 +1,44 @@
+@use '../../../config' as *;
+
+@mixin smooth-font {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@mixin reset-button {
+  margin: 0;
+  outline: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+}
+
+@mixin absolute-center($args...) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) $args;
+}
+
+@mixin font-size($size: 16px, $height: $size) {
+  line-height: $height / $size;
+  font-size: rem($size);
+}
+
+@mixin accent-background() {
+  @include transition(#{background-size, text-decoration-color});
+
+  background-image: linear-gradient(to bottom, var(--accent) 0%, var(--accent) 100%);
+  background-position: left 100%;
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+}

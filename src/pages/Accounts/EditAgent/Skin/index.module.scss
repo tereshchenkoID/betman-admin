@@ -1,0 +1,96 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+  position: relative;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 1fr rem(56px);
+  column-gap: rem(16px);
+}
+
+.remove {
+  @include size(100%);
+
+  border-radius: var(--default-border-radius);
+}
+
+.tab {
+  @include flex(null, center);
+
+  border-bottom: rem(1px) solid var(--color-border);
+  height: rem(40px);
+}
+
+.link {
+  @include flex(center, center);
+  @include make-spacer(px, 10px);
+
+  position: relative;
+  height: 100%;
+  text-transform: uppercase;
+  font-size: rem(14px);
+
+  &::after {
+    @include transition(width);
+    @include size(0, rem(2px));
+
+    position: absolute;
+    right: 0;
+    bottom: rem(-1px);
+    left: 0;
+    background-color: var(--color-primary);
+    content: '';
+  }
+
+  &.active {
+    pointer-events: none;
+  }
+
+  &.active,
+  &:hover {
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &.active {
+    color: var(--color-primary);
+    pointer-events: none;
+  }
+}
+
+.modal {
+  @include flex(center, center, column);
+
+  position: fixed;
+  inset: 0;
+  z-index: $z-index-13;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.wrapper {
+  @include flex(center, center, column);
+  @include make-spacer(p, 16px);
+
+  border-radius: var(--default-border-radius);
+  box-shadow: var(--default-box-shadow);
+  background-color: var(--color-white);
+  gap: rem(16px);
+}
+
+.action {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(16px);
+}

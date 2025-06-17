@@ -1,0 +1,95 @@
+@use 'scss/config' as *;
+
+.block {
+  @include size(100%, rem(56px));
+
+  position: relative;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &:hover {
+
+    .input {
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+.label {
+  @include make-spacer(px, 4px);
+  @include transition;
+
+  position: absolute;
+  top: rem(16px);
+  left: rem(16px);
+  transform: translateY(rem(-23px));
+  background-color: var(--color-white);
+  color: rgba(0, 0, 0, 0.8);
+  font-size: rem(12px);
+  pointer-events: none;
+
+  span {
+    @include make-spacer(ml, 3px);
+
+    color: var(--color-warning);
+  }
+}
+
+.eye {
+  @include absolute-center-right(0);
+  @include size(rem(56px), 100%);
+
+  opacity: 0.5;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.input {
+  @include make-spacer(px, 16px);
+  @include transition(border-color);
+  @include size(100%);
+
+  border: rem(1px) solid var(--color-border);
+  border-radius: var(--default-border-radius);
+  background-color: var(--color-white);
+  color: var(--color-text);
+  overflow: hidden;
+  font-weight: var(--typography-thin);
+  text-align: left;
+
+  &[type='datetime-local'],
+  &[type='date'] {
+    width: 100%;
+    direction: ltr;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--color-white);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' opacity='0.7' viewBox='0 0 24 24' fill='none'%3E%3Crect fill='white'/%3E%3Cg filter='url(%23filter0_d_15_268)'%3E%3Cpath d='M3 8.26667V19C3 19.5523 3.44772 20 4 20H20C20.5523 20 21 19.5523 21 19V8.26667M3 8.26667V5C3 4.44772 3.44772 4 4 4H20C20.5523 4 21 4.44772 21 5V8.26667M3 8.26667H21' stroke='%23000000' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter1_d_15_268)'%3E%3Cpath d='M7 2V5' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter2_d_15_268)'%3E%3Cpath d='M17 2V5' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter3_d_15_268)'%3E%3Cpath d='M18 11H16' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter4_d_15_268)'%3E%3Cpath d='M18 17H16' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter5_d_15_268)'%3E%3Cpath d='M13 11H11' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter6_d_15_268)'%3E%3Cpath d='M13 17H11' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter7_d_15_268)'%3E%3Cpath d='M8 11H6' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter8_d_15_268)'%3E%3Cpath d='M8 17H6' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter9_d_15_268)'%3E%3Cpath d='M18 14H16' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter10_d_15_268)'%3E%3Cpath d='M13 14H11' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cg filter='url(%23filter11_d_15_268)'%3E%3Cpath d='M8 14H6' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_15_268' x='1.5' y='3.5' width='21' height='19' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter1_d_15_268' x='5.5' y='1.5' width='3' height='6' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter2_d_15_268' x='15.5' y='1.5' width='3' height='6' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter3_d_15_268' x='14.5' y='10.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter4_d_15_268' x='14.5' y='16.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter5_d_15_268' x='9.5' y='10.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter6_d_15_268' x='9.5' y='16.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter7_d_15_268' x='4.5' y='10.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter8_d_15_268' x='4.5' y='16.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter9_d_15_268' x='14.5' y='13.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter10_d_15_268' x='9.5' y='13.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3Cfilter id='filter11_d_15_268' x='4.5' y='13.5' width='5' height='3' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='1'/%3E%3CfeGaussianBlur stdDeviation='0.5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_15_268'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_15_268' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E");
+    background-position: right rem(16px) top 50%;
+    background-repeat: no-repeat;
+    background-size: rem(24px);
+
+    &::-webkit-calendar-picker-indicator {
+      opacity: 0;
+    }
+  }
+
+  &::-webkit-date-and-time-value {
+    text-align: left;
+  }
+
+  &:focus {
+    border-color: var(--color-primary);
+  }
+
+  &:is(:-webkit-autofill, :autofill) {
+    -webkit-box-shadow: 0 0 0 30px var(--color-white) inset !important;
+    color: var(--color-text) !important;
+  }
+}

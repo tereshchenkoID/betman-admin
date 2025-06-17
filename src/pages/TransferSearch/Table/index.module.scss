@@ -1,0 +1,58 @@
+@use 'scss/config' as *;
+
+.block {
+  width: 100%;
+  overflow: hidden;
+  font-size: rem(14px);
+  font-weight: var(--typography-thin);
+}
+
+.wrapper {
+  @include make-spacer(pt, 10px);
+  @include make-spacer(pl, 10px);
+
+  background-color: var(--color-primary-01);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: rem(50px) repeat(7, 1fr);
+  border-bottom: rem(1px) solid var(--color-border);
+
+  &.headline {
+    font-size: rem(12px);
+    font-weight: var(--typography-medium);
+  }
+
+  &.wide {
+    @include make-spacer(pb, 12px);
+
+    grid-template-columns: 1fr;
+  }
+
+  &.sm {
+    grid-template-columns: rem(50px) 1fr;
+  }
+
+  &.active {
+    background-color: var(--color-primary-05);
+  }
+}
+
+.cell {
+  @include flex(null, center, null, wrap);
+  @include make-spacer(p, 12px);
+}
+
+.icon {
+  @include make-spacer(mr, 10px);
+
+  color: var(--color-primary);
+}
+
+.empty {
+  @include make-spacer(pt, 12px);
+  @include make-spacer(px, 12px);
+
+  text-align: center;
+}

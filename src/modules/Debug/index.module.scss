@@ -1,0 +1,35 @@
+@use 'scss/config' as *;
+
+.block {
+  @include make-spacer(mb, 20px);
+
+  position: relative;
+  border: rem(1px) solid var(--color-border);
+  border-radius: var(--default-border-radius);
+  background-color: #f4f4f4;
+}
+
+.button {
+  @include flex(space-between, center);
+  @include make-spacer(p, 10px);
+
+  gap: rem(5px);
+  width: 100%;
+
+  &.active {
+
+    .icon {
+      transform: rotateZ(180deg);
+    }
+  }
+}
+
+.icon {
+  @include transition;
+
+  font-size: rem(14px);
+}
+
+.pre {
+  @include make-spacer(p, 10px);
+}

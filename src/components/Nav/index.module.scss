@@ -1,0 +1,112 @@
+@use 'scss/config' as *;
+
+.block {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+  z-index: $z-index-10;
+  border-right: rem(1px) solid var(--color-border);
+  background-color: var(--color-white);
+  width: rem(56px);
+  height: 100%;
+  overflow: hidden;
+
+  &.active {
+    width: rem(320px);
+  }
+}
+
+.icon,
+.arrow {
+  opacity: 0.7;
+}
+
+.wrapper {
+  @include flex($direction: column);
+  @include size(rem(320px), 100%);
+}
+
+.logo,
+.action {
+  @include size(100%, rem(64px));
+  @include make-spacer(pl, rem(7px));
+  @include flex(null, center);
+
+  flex-shrink: 0;
+}
+
+.logo {
+
+  a {
+    @include size(rem(42px));
+  }
+}
+
+.list {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.item {
+  cursor: pointer;
+
+  &.active {
+
+    .arrow {
+      transform: rotateZ(180deg);
+    }
+
+    .submenu {
+      display: block;
+    }
+  }
+}
+
+.link {
+  @include transition;
+  @include make-spacer(pl, 16px);
+  @include make-spacer(pr, 24px);
+
+  display: grid;
+  grid-template-columns: rem(26px) 1fr rem(10px);
+  align-items: center;
+  column-gap: rem(14px);
+  height: rem(48px);
+  text-transform: uppercase;
+  font-size: rem(13px);
+
+  span {
+    @include transition;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--color-primary);
+
+    span {
+      transform: translateX(rem(5px));
+    }
+  }
+
+  &.active {
+    color: var(--color-primary);
+    pointer-events: none;
+  }
+}
+
+.icon {
+  @include size(rem(20px));
+
+  text-align: center;
+}
+
+.arrow {
+  @include transition(transform, 0.3s);
+
+  text-align: right;
+}
+
+.submenu {
+  display: none;
+}

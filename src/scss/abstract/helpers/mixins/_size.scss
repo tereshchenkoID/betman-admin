@@ -1,0 +1,25 @@
+///
+/// Ease to set the width and height values
+///
+/// Mixin make easy to set the value `width` and `height` in the same time.
+///
+/// @access public
+///
+/// @param {Length} $width - `width` element
+/// @param {Length} $height ($width) - `height` element
+///
+/// @example scss - usage
+///   .foo {
+///     @include size(10em);
+///   }
+///
+///   .bar {
+///    @include size(100%, 10em);
+///   }
+///
+/// https://sass-guidelin.es/ru/#section-33
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}

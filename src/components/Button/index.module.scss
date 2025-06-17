@@ -1,0 +1,52 @@
+@use 'scss/config' as *;
+
+.block {
+  @include size(fit-content, rem(38px));
+  @include make-spacer(px, 20px);
+
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--default-border-radius);
+  min-width: rem(100px);
+  overflow: hidden;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: currentColor;
+  font-size: rem(14px);
+
+  &:disabled {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  &.default {
+    border: rem(1px) solid var(--color-border);
+
+    &:hover {
+      background-color: var(--color-border);
+    }
+  }
+
+  &.primary {
+    border: rem(1px) solid var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+    }
+  }
+
+  &.warning {
+    border: rem(1px) solid var(--color-warning);
+    background-color: var(--color-warning);
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-warning-hover);
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex($align-items: center);
+  @include make-spacer(pl, 30px);
+
+  position: relative;
+  cursor: pointer;
+  height: rem(20px);
+
+  &:hover {
+
+    .item {
+      border-color: var(--color-primary);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.input {
+  @include size(0);
+
+  position: absolute;
+  opacity: 0;
+
+  &:checked ~ .item {
+    background-color: var(--color-primary);
+  }
+}
+
+.item {
+  @include transition(all);
+  @include size(rem(20px));
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: rem(1px) solid var(--color-border);
+  border-radius: var(--default-border-radius);
+  background-color: var(--color-border);
+}

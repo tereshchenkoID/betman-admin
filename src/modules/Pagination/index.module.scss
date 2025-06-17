@@ -1,0 +1,54 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex(flex-end, center);
+
+  position: relative;
+  z-index: 1;
+
+  &.top {
+    @include make-spacer(mb, 8px);
+    @include make-spacer(pb, 8px);
+
+    border-bottom: rem(1px) solid var(--color-border);
+  }
+
+  &.bottom {
+    @include make-spacer(mt, 8px);
+    @include make-spacer(pt, 8px);
+
+    border-top: rem(1px) solid var(--color-border);
+  }
+}
+
+.counts {
+  @include flex(null, center);
+
+  gap: rem(4px);
+  font-size: rem(14px);
+}
+
+.actions {
+  @include make-spacer(ml, 16px);
+  @include flex(null, center);
+}
+
+.action {
+  @include size(rem(48px));
+
+  border-radius: var(--default-border-radius);
+  font-size: rem(14px);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}
+
+.icon {
+  color: rgba(0, 0, 0, 0.4);
+}

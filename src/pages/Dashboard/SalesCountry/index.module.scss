@@ -1,0 +1,6 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  row-gap: rem(16px);
+}

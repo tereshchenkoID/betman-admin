@@ -1,0 +1,23 @@
+@use 'scss/config' as *;
+
+.title {
+  @include make-spacer(pb, 4px);
+  @include flex(space-between, center);
+}
+
+.scale {
+  @include size(100%, rem(10px));
+
+  position: relative;
+  border-radius: rem(2px);
+  background-color: var(--color-border);
+  overflow: hidden;
+}
+
+.value {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-primary);
+}

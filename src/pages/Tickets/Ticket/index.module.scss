@@ -1,0 +1,86 @@
+@use 'scss/config' as *;
+
+.block {
+  
+  &:not(.highlight) {
+    &.active {
+      background-color: var(--color-alto-01);
+
+      > .row {
+        background-color: var(--color-alto-02);
+      }
+    }
+
+    &.win {
+      background-color: var(--color-primary-01);
+  
+      > .row {
+        background-color: var(--color-primary-02);
+      }
+    }
+  }
+
+  &.highlight {
+    background-color: var(--color-warning-01);
+
+    > .row {
+      background-color: var(--color-warning-02);
+    }
+  }
+}
+
+.row {
+  display: grid;
+  grid-template-columns: rem(50px) repeat(4, 1fr) rem(100px) repeat(3, 1fr) rem(130px);
+  font-size: rem(14px);
+
+  &.headline {
+    font-size: rem(12px);
+    font-weight: var(--typography-medium);
+  }
+}
+
+.cell {
+  @include flex(null, center, null, wrap);
+  @include make-spacer(p, 12px);
+
+  overflow-wrap: anywhere;
+}
+
+.dropdown {
+  @include make-spacer(p, 16px);
+
+  .row {
+    border-bottom: rem(1px) solid var(--color-border);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+
+.table {
+
+  .row {
+
+    &:nth-child(1) {
+      font-size: rem(12px);
+    }
+  }
+
+  &.sm {
+    @include make-spacer(mb, 16px);
+
+    .row {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  &.lg {
+
+    .row {
+      grid-template-columns: 1.5fr repeat(2, 1fr) 1.5fr 1fr rem(150px) 1.5fr rem(160px);
+    }
+  }
+}

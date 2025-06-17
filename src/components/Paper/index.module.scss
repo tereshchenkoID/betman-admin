@@ -1,0 +1,48 @@
+@use 'scss/config' as *;
+
+.block {
+  @include make-spacer(mb, 16px);
+  @include make-spacer(p, 16px);
+  @include flex($direction: column);
+
+  border-radius: var(--default-border-radius);
+  box-shadow: var(--default-box-shadow);
+  background-color: var(--color-white);
+  height: 100%;
+
+  &:last-child {
+    @include make-spacer(mb, 0);
+  }
+
+  &.transparent {
+    border-radius: unset;
+    box-shadow: unset;
+    background-color: transparent;
+  }
+
+  &.sm {
+    height: auto;
+
+    .body {
+      overflow: unset;
+    }
+  }
+}
+
+.headline {
+  @include flex(space-between, center);
+}
+
+.option {
+  flex-shrink: 0;
+  width: rem(200px);
+}
+
+.hr {
+  @include make-spacer(my, 24px);
+}
+
+.body {
+  flex-grow: 1;
+  overflow: hidden;
+}

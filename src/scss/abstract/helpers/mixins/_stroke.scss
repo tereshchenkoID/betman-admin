@@ -1,0 +1,5 @@
+@mixin stroke($width, $color, $text-color) {
+  -webkit-text-stroke-width: $width;
+  -webkit-text-stroke-color: $color;
+  color: $text-color;
+}

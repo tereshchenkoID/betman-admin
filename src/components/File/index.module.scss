@@ -1,0 +1,65 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  grid-template-columns: rem(200px) 1fr;
+  column-gap: rem(6px);
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.label {
+  @include size(100%, rem(70px));
+
+  display: block;
+  position: relative;
+  border-radius: var(--default-border-radius);
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGElEQVR42mP4DwX79u0DYwYMARgDBjAEAKXxOakVMs6xAAAAAElFTkSuQmCC');
+  cursor: pointer;
+}
+
+.input {
+  display: none;
+}
+
+.preview {
+  @include size(100%, rem(70px));
+
+  overflow: hidden;
+}
+
+.img {
+  @include size(auto, 100%);
+  @include make-spacer(mx, auto);
+
+  display: block;
+}
+
+.icon {
+  @include absolute-center;
+
+  color: var(--color-border);
+  font-size: rem(36px);
+}
+
+.actions {
+  display: grid;
+  row-gap: rem(6px);
+}
+
+.action {
+  @include size(rem(32px));
+
+  border-radius: var(--default-border-radius);
+  background-color: var(--color-warning);
+  color: var(--color-white);
+  font-size: rem(12px);
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}

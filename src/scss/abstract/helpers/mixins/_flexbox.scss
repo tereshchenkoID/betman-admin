@@ -1,0 +1,46 @@
+///
+/// Simple use Flexbox
+///
+/// @access public
+///
+/// @param {Sub-Property} $justify-content
+/// @param {Sub-Property} $align-items
+/// @param {Sub-Property} $direction
+/// @param {Sub-Property} $wrap
+/// @param {Sub-Property} $display
+/// @example scss - usage
+///
+/// .foo {
+///   @include flex(space-between, center, column, wrap);
+/// }
+/// or
+/// .foo {
+///   @include flex(space-between, center, $display: inline-flex);
+/// }
+///
+
+@mixin flex(
+  $justify-content: null,
+  $align-items: null,
+  $direction: null,
+  $wrap: null,
+  $display: flex
+) {
+  @if $justify-content != null {
+    justify-content: $justify-content;
+  }
+
+  @if $align-items != null {
+    align-items: $align-items;
+  }
+
+  @if $direction != null {
+    flex-direction: $direction;
+  }
+
+  @if $wrap != null {
+    flex-wrap: $wrap;
+  }
+
+  display: $display;
+}

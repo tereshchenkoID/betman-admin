@@ -1,0 +1,37 @@
+@use 'scss/config' as *;
+
+.block {
+  --select-height: 56px;
+
+  @include size(100%, var(--select-height));
+
+  position: relative;
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.sm {
+    --select-height: 46px;
+  }
+
+  &.md {
+    --select-height: 52px;
+  }
+}
+
+.label {
+  @include make-spacer(px, 4px);
+  @include transition;
+
+  position: absolute;
+  top: rem(16px);
+  left: rem(16px);
+  transform: translateY(rem(-23px));
+  background-color: var(--color-white);
+  color: rgba(0, 0, 0, 0.8);
+  font-size: rem(12px);
+  pointer-events: none;
+}
+

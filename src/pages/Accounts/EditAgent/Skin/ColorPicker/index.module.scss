@@ -1,0 +1,38 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: rem(8px);
+
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.color {
+  @include size(rem(42px));
+
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 50%;
+  border: rem(2px) solid var(--color-border);
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: $z-index-1;
+}
+
+.field {
+  height: rem(42px);
+}

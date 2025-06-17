@@ -1,0 +1,40 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex(center, center);
+
+  position: fixed;
+  inset: 0;
+  z-index: $z-index-13;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.item {
+  @include size(rem(50px));
+
+  position: relative;
+  border-radius: 50%;
+
+  &::before {
+    @include size(100%);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: rem(10px) solid var(--color-primary);
+    border-radius: inherit;
+    animation: 1s infinite ease-in-out spin;
+    content: '';
+  }
+
+  @keyframes spin {
+
+    from {
+      transform: scale(0);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "hostnames": {
+    "PROD": "https://api.oddsbit.io/api"
+  }
+}

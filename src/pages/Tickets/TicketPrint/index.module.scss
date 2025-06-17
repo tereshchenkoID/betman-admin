@@ -1,0 +1,93 @@
+@use 'scss/config' as *;
+
+$color: #000;
+
+.block {
+  position: relative;
+}
+
+.wrapper {
+  @include make-spacer(mx, auto);
+  @include make-spacer(p, 20px);
+
+  // max-width: rem(490px);
+  max-width: rem(350px);
+  color: $color;
+  font-family: Open Sans, sans-serif;
+  font-size: rem(12px);
+  line-height: 1.2;
+}
+
+.headline {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-gap: rem(20px);
+  align-items: center;
+}
+
+.logo {
+  @include size(auto, rem(55px));
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  &:not(:last-child) {
+    @include make-spacer(mb, 5px);
+  }
+
+  > * {
+
+    &:nth-child(2) {
+      text-align: right;
+    }
+  }
+
+  &.lg {
+    grid-template-columns: 1fr 2fr 1fr;
+
+    > * {
+
+      &:nth-child(2) {
+        text-align: center;
+      }
+
+      &:nth-child(3) {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.body {
+  @include make-spacer(py, 10px);
+}
+
+.title {
+  @include make-spacer(mb, 10px);
+
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.code {
+  @include flex(center, center);
+  @include make-spacer(mx, auto);
+  @include make-spacer(mb, 10px);
+
+  height: rem(40px);
+  text-align: center;
+  font-size: rem(20px);
+  overflow: hidden;
+}
+
+.item {
+  @include make-spacer(py, 8px);
+
+  border-top: rem(1px) solid $color;
+}
+
+.action {
+  text-align: right;
+}

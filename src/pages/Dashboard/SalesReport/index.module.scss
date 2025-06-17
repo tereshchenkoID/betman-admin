@@ -1,0 +1,37 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex($direction: column);
+
+  gap: rem(20px);
+  height: 100%;
+}
+
+.chart {
+  flex-grow: 1;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: rem(70px) auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.meta {
+  @include flex($align-items: center);
+
+  gap: rem(8px);
+}
+
+.label {
+  @include size(rem(50px), rem(20px));
+
+  border: rem(1px) solid var(--color-border);
+}

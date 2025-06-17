@@ -1,0 +1,47 @@
+@use 'scss/config' as *;
+
+:root {
+  --font-size: 16px;
+  --font-family: 'Roboto', sans-serif;
+  --font-family-alt: 'Montserrat', sans-serif;
+  --line-height: 1.5;
+  --typography-thin: 300;
+  --typography-medium: 500;
+  --typography-bold: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include make-spacer(m, 0);
+
+  font-weight: var(--typography-medium);
+}
+
+
+h1 {
+  font-size: 1.375rem;
+}
+
+h2 {
+  font-size: 1.325rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+h4 {
+  font-size: 1.275rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}

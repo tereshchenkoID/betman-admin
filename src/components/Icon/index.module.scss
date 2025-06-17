@@ -1,0 +1,6 @@
+@use 'scss/config' as *;
+@use 'scss/mixin/components/icon' as *;
+
+.block {
+  @include icon;
+}

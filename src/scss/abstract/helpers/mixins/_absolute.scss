@@ -1,0 +1,42 @@
+@mixin absolute-filled {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@mixin absolute-center($args...) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) $args;
+}
+
+@mixin absolute-center-left($args) {
+  position: absolute;
+  top: 50%;
+  left: $args;
+  transform: translateY(-50%);
+}
+
+@mixin absolute-center-right($args) {
+  position: absolute;
+  top: 50%;
+  right: $args;
+  transform: translateY(-50%);
+}
+
+@mixin absolute-center-top($args) {
+  position: absolute;
+  top: $args;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin absolute-center-bottom($args) {
+  position: absolute;
+  bottom: $args;
+  left: 50%;
+  transform: translateX(-50%);
+}
