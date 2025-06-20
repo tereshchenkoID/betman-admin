@@ -41,46 +41,31 @@ const Login = () => {
     formData.append('username', filter.username)
     formData.append('password', filter.password)
 
-    sessionStorage.setItem('authToken', JSON.stringify({
-      agent_id: "1000",
-      code: "0",
-      id: "101610",
-      type: 1,
-      username: "admin",
-    }))
-    dispatch(setAuth({
-      agent_id: "1000",
-      code: "0",
-      id: "101610",
-      type: 1,
-      username: "admin",
-    }))
-
-    // postData('login/', formData).then(json => {
-    //   if (json.code === '0') {
-    //     sessionStorage.setItem('authToken', JSON.stringify(json))
-    //     dispatch(setAuth(json))
-    //     dispatch(
-    //       setToastify({
-    //         type: 'success',
-    //         text: t('successfully_logged'),
-    //       }),
-    //     )
-    //   } else {
-    //     dispatch(
-    //       setToastify({
-    //         type: 'error',
-    //         text: json.error_message,
-    //       }),
-    //     )
-    //   }
-    // })
+    postData('login/', formData).then(json => {
+      if (json.code === '0') {
+        sessionStorage.setItem('authToken', JSON.stringify(json))
+        dispatch(setAuth(json))
+        dispatch(
+          setToastify({
+            type: 'success',
+            text: t('successfully_logged'),
+          }),
+        )
+      } else {
+        dispatch(
+          setToastify({
+            type: 'error',
+            text: json.error_message,
+          }),
+        )
+      }
+    })
   }
 
   return (
     <div className={style.block}>
       <Paper headline={t('login')} classes={['sm']}>
-        <form onSubmit={handleSubmit} className={style.form}>
+        <form className={style.form} onSubmit={handleSubmit}>
           <Field
             type={'text'}
             placeholder={t('username')}

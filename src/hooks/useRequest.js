@@ -14,9 +14,9 @@ const handleUnauthorized = (response) => {
 const server = axios.create({
   baseURL: getHostName(),
   withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  // headers: {
+  //   'Content-Type': 'application/json',
+  // },
 })
 
 export const getData = async (url) => {
