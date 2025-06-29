@@ -6,10 +6,10 @@ import {getData, postData} from 'hooks/useRequest'
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
+import Field from "components/Field";
+import PlayersTable from "./PlayersTable";
 
 import style from './index.module.scss'
-import PlayersTable from "./PlayersTable";
-import Field from "../../components/Field";
 
 const DATA = [
   {

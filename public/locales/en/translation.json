@@ -7,5 +7,14 @@
   "import_players": "Import players",
   "create_voucher": "Create Voucher",
   "create": "Create",
-  "players": "Players"
+  "players": "Players",
+  "reports": "Reports",
+  "apply": "Apply",
+  "summery_report": "Summary report",
+  "select_player": "Select player",
+  "select_kiosk": "Select kiosk",
+  "select_provider": "Select provider",
+  "select_game": "Select game",
+  "history_report": "History report",
+  "financial_report": "Financial report"
 }

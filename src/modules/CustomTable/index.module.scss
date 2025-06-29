@@ -45,7 +45,8 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(50px) repeat(5, 1fr) rem(100px) repeat(3, 1fr) rem(135px);
+  //grid-template-columns: rem(70px) repeat(5, 1fr) rem(100px) repeat(3, 1fr) rem(135px);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   border-bottom: rem(1px) solid var(--color-border);
   font-size: rem(12px);
   font-weight: var(--typography-medium);

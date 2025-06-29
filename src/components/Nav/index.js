@@ -32,6 +32,24 @@ const Nav = () => {
       ],
     },
     {
+      text: 'reports',
+      icon: 'fa-solid fa-file',
+      submenu: [
+        {
+          text: 'reports',
+          link: '/reports',
+        },
+        {
+          text: 'history',
+          link: '/history',
+        },
+        {
+          text: 'financial',
+          link: '/financial',
+        },
+      ],
+    },
+    {
       text: 'account',
       icon: 'fa-solid fa-user',
       submenu: [
