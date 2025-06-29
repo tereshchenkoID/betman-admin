@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "agent": "Agent X",
+    "shop": "Shop 1",
+    "username": "jdoe",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "+123456789",
+    "balance": 100.5,
+    "currency": "USD",
+    "createdAt": "2025-06-21"
+  },
+  {
+    "id": 2,
+    "agent": "Agent Y",
+    "shop": "Shop 2",
+    "username": "asmith",
+    "name": "Alice Smith",
+    "email": "alice@example.com",
+    "phone": "+987654321",
+    "balance": -24.75,
+    "currency": "EUR",
+    "createdAt": "2025-06-20"
+  }
+]

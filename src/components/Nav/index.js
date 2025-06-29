@@ -22,48 +22,6 @@ const Nav = () => {
   const [active, setActive] = useState(false)
   const menu = [
     {
-      text: 'wallet_system',
-      icon: 'fa-solid fa-wallet',
-      submenu: [
-        {
-          text: 'accounts',
-          link: '/accounts',
-        },
-        {
-          text: 'transfer_search',
-          link: '/transfer-search',
-        },
-      ],
-    },
-    {
-      text: 'ticket_management',
-      icon: 'fa-solid fa-money-bill',
-      submenu: [
-        {
-          text: 'tickets',
-          link: '/tickets',
-        },
-      ],
-    },
-    {
-      text: 'financial',
-      icon: 'fa-solid fa-credit-card',
-      submenu: [
-        {
-          text: 'general_overview',
-          link: '/general-overview',
-        },
-        {
-          text: 'daily_sums',
-          link: '/daily-sums',
-        },
-        {
-          text: 'settlement',
-          link: '/settlement',
-        },
-      ],
-    },
-    {
       text: 'account',
       icon: 'fa-solid fa-user',
       submenu: [

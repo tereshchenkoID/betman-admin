@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 
 import classNames from 'classnames'
 
-import TicketPrint from 'pages/Tickets/TicketPrint'
 import TransferAgent from 'pages/Accounts/TransferAgent'
 import ChangePassword from 'pages/Accounts/ChangePassword'
 import TransferMoney from 'pages/Accounts/TransferMoney'
@@ -15,8 +14,6 @@ import style from './index.module.scss'
 
 const checkCmd = data => {
   switch (data.meta.cmd) {
-    case 'ticket-print':
-      return <TicketPrint data={data} />
     case 'account-change-password':
       return <ChangePassword data={data} />
     case 'account-transfer-agent':

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
-import { timeframe } from 'constant/config'
-
 import {
   Chart as ChartJS,
   PointElement,
@@ -17,25 +15,15 @@ import {
   LineElement,
 } from 'chart.js'
 
-import { postData } from 'hooks/useRequest'
-import { getTimeframeFrom, getTimeframeTo } from 'helpers/getTimeframe'
-import { convertOptions } from 'helpers/convertOptions'
-import { getDate } from 'helpers/getDate'
+import {getData, postData} from 'hooks/useRequest'
 
 import Debug from 'modules/Debug'
-import Agents from 'modules/Agents'
-import Select from 'components/Select'
-import Field from 'components/Field'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
-import SalesCountry from './SalesCountry'
-import SalesReport from './SalesReport'
-import RtpControl from './RtpControl'
-import OnlineMonitor from './OnlineMonitor'
-import GamesReport from './GamesReport'
-import GamesTypeUsage from './GamesTypeUsage'
 
 import style from './index.module.scss'
+import PlayersTable from "./PlayersTable";
+import Field from "../../components/Field";
 
 ChartJS.register(
   ArcElement,
@@ -49,20 +37,46 @@ ChartJS.register(
   Legend,
 )
 
+const users = [
+  {
+    id: 1,
+    agent: 'Agent X',
+    shop: 'Shop 1',
+    username: 'jdoe',
+    name: 'John Doe',
+    email: 'john@example.com',
+    phone: '+123456789',
+    balance: 100.5,
+    currency: 'USD',
+    createdAt: '2025-06-21',
+  },
+  {
+    id: 2,
+    agent: 'Agent Y',
+    shop: 'Shop 2',
+    username: 'asmith',
+    name: 'Alice Smith',
+    email: 'alice@example.com',
+    phone: '+987654321',
+    balance: -24.75,
+    currency: 'EUR',
+    createdAt: '2025-06-20',
+  },
+];
+
 const Dashboard = () => {
   const { t } = useTranslation()
   const { agents } = useSelector(state => state.agents)
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
+  const [players, setPlayers] = useState([])
 
   const initialValue = {
     agent: {
       id: agents[0].id,
       username: agents[0].username,
     },
-    'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
-    'date-to': getDate(new Date(), 'datetime-local'),
-    timeframe: '',
+    playerID: '',
   }
 
   const [filter, setFilter] = useState(initialValue)
@@ -82,10 +96,7 @@ const Dashboard = () => {
     event && event.preventDefault()
     const formData = new FormData()
 
-    formData.append('id', filter.agent.id)
-    formData.append('username', filter.agent.username)
-    formData.append('date-from', filter['date-from'])
-    formData.append('date-to', filter['date-to'])
+    formData.append('playerID', filter.playerID)
 
     postData('dashboard/', formData).then(json => {
       if (json.status === 'OK') {
@@ -94,6 +105,16 @@ const Dashboard = () => {
       }
     })
   }
+
+  useEffect(() => {
+    getData('/json/players.json').then(data => {
+      if (!data.error) {
+        setPlayers(data)
+      } else {
+        console.error('Failed to load players:', data.message)
+      }
+    })
+  }, [])
 
   useEffect(() => {
     handleSubmit()
@@ -114,47 +135,30 @@ const Dashboard = () => {
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
             <div>
-              <Agents
-                data={filter.agent}
-                options={agents}
-                onChange={value => handlePropsChange('agent', value)}
-              />
-            </div>
-            <div>
-              <Select
-                placeholder={t('timeframe')}
-                options={convertOptions(timeframe.TIMEFRAME)}
-                data={filter.timeframe}
-                onChange={value => {
-                  handlePropsChange('timeframe', value)
-                  handlePropsChange(
-                    'date-from',
-                    getTimeframeFrom(value, 'datetime-local'),
-                  )
-                  handlePropsChange(
-                    'date-to',
-                    getTimeframeTo(value, 'datetime-local'),
-                  )
-                }}
-              />
-            </div>
-            <div>
               <Field
-                type={'datetime-local'}
-                placeholder={t('date_from')}
-                data={filter['date-from']}
-                onChange={value => handlePropsChange('date-from', value)}
+                type={'text'}
+                placeholder={t('player_field_placeholder')}
+                data={filter['playerID']}
+                onChange={value => handlePropsChange('playerID', value)}
               />
             </div>
-            <div>
-              <Field
-                type={'datetime-local'}
-                placeholder={t('date_to')}
-                data={filter['date-to']}
-                onChange={value => handlePropsChange('date-to', value)}
+            <div className={style.actions}>
+              <Button
+                type={'button'}
+                placeholder={t('import_players')}
+                onChange={() => alert(t('import_players'))}
+              />
+              <Button
+                type={'button'}
+                placeholder={t('create_voucher')}
+                onChange={() => alert(t('create_voucher'))}
+              />
+              <Button
+                type={'button'}
+                placeholder={t('create')}
+                onChange={() => alert(t('create'))}
               />
             </div>
-            <div />
           </div>
           <div className={style.actions}>
             <Button
@@ -170,14 +174,7 @@ const Dashboard = () => {
           </div>
         </form>
       </Paper>
-      <div className={style.grid}>
-        <OnlineMonitor data={data} />
-        <GamesTypeUsage data={data} />
-        <GamesReport data={data} />
-        <SalesReport data={data} />
-        <SalesCountry data={data} />
-        <RtpControl data={data} />
-      </div>
+      <PlayersTable data={users} />;
     </div>
   )
 }
