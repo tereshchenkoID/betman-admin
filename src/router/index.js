@@ -23,6 +23,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: withSuspense(Dashboard) },
       { path: 'login', element: withSuspense(Login) },
+      { path: 'players', element: withSuspense(Dashboard) },
       { path: 'accounts', element: withSuspense(Accounts) },
       { path: 'settings', element: withSuspense(Settings) },
     ],

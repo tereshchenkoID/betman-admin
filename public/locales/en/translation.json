@@ -6,5 +6,6 @@
   "player_field_placeholder": "Player ID or username",
   "import_players": "Import players",
   "create_voucher": "Create Voucher",
-  "create": "Create"
+  "create": "Create",
+  "players": "Players"
 }

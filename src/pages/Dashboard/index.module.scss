@@ -41,4 +41,9 @@
   @include flex(flex-end, center);
 
   gap: rem(16px);
+
+  button {
+    height: 100%;
+    min-height: 38px;
+  }
 }

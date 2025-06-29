@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import Icon from 'components/Icon'
 import CustomTable from 'modules/CustomTable'
 import Pagination from 'modules/Pagination'
@@ -16,14 +16,14 @@ const PlayersTable = ({ data }) => {
     return data.slice(start, start + pagination.quantity)
   }, [data, pagination])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPagination((prev) => ({
       ...prev,
       results: data.length,
       pages: Math.ceil(data.length / prev.quantity),
       page: Math.min(prev.page, Math.ceil(data.length / prev.quantity) - 1),
     }))
-  }, [data])
+  }, [])
 
   const nextHandleSubmit = () => {
     setPagination((prev) => ({

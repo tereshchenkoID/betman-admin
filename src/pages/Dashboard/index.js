@@ -1,19 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-
-import {
-  Chart as ChartJS,
-  PointElement,
-  ArcElement,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  LineElement,
-} from 'chart.js'
 
 import {getData, postData} from 'hooks/useRequest'
 
@@ -25,19 +11,7 @@ import style from './index.module.scss'
 import PlayersTable from "./PlayersTable";
 import Field from "../../components/Field";
 
-ChartJS.register(
-  ArcElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-)
-
-const users = [
+const DATA = [
   {
     id: 1,
     agent: 'Agent X',
@@ -66,65 +40,36 @@ const users = [
 
 const Dashboard = () => {
   const { t } = useTranslation()
-  const { agents } = useSelector(state => state.agents)
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
-  const [players, setPlayers] = useState([])
-
-  const initialValue = {
-    agent: {
-      id: agents[0].id,
-      username: agents[0].username,
-    },
-    playerID: '',
-  }
-
-  const [filter, setFilter] = useState(initialValue)
-
-  const handleResetForm = () => {
-    setFilter(initialValue)
-  }
-
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
+  const [filter, setFilter] = useState()
 
   const handleSubmit = event => {
     event && event.preventDefault()
-    const formData = new FormData()
-
-    formData.append('playerID', filter.playerID)
-
-    postData('dashboard/', formData).then(json => {
-      if (json.status === 'OK') {
-        setData(json.data)
-        loading && setLoading(false)
-      }
-    })
+    // const formData = new FormData()
+    //
+    // formData.append('playerID', filter.playerID)
+    //
+    // postData('dashboard/', formData).then(json => {
+    //   if (json.status === 'OK') {
+    //     setData(json.data)
+    //     loading && setLoading(false)
+    //   }
+    // })
   }
 
   useEffect(() => {
-    getData('/json/players.json').then(data => {
-      if (!data.error) {
-        setPlayers(data)
-      } else {
-        console.error('Failed to load players:', data.message)
-      }
-    })
+    setData(DATA)
+    setLoading(false)
+    // getData('/json/players.json').then(data => {
+    //   if (!data.error) {
+    //     setPlayers(data)
+    //   } else {
+    //     console.error('Failed to load players:', data.message)
+    //   }
+    // })
   }, [])
 
-  useEffect(() => {
-    handleSubmit()
-
-    const interval = setInterval(() => {
-      handleSubmit()
-    }, 60000)
-
-    return () => clearInterval(interval)
-  }, [filter])
 
   if (loading) return
 
@@ -138,43 +83,43 @@ const Dashboard = () => {
               <Field
                 type={'text'}
                 placeholder={t('player_field_placeholder')}
-                data={filter['playerID']}
-                onChange={value => handlePropsChange('playerID', value)}
+                data={filter}
+                onChange={value => setFilter(value)}
               />
             </div>
             <div className={style.actions}>
               <Button
-                type={'button'}
-                placeholder={t('import_players')}
-                onChange={() => alert(t('import_players'))}
+                type={'submit'}
+                classes={'primary'}
+                placeholder={t('search')}
               />
-              <Button
-                type={'button'}
-                placeholder={t('create_voucher')}
-                onChange={() => alert(t('create_voucher'))}
-              />
-              <Button
-                type={'button'}
-                placeholder={t('create')}
-                onChange={() => alert(t('create'))}
-              />
+              {/*<Button*/}
+              {/*  type={'reset'}*/}
+              {/*  placeholder={t('cancel')}*/}
+              {/*  onChange={handleResetForm}*/}
+              {/*/>*/}
             </div>
           </div>
           <div className={style.actions}>
             <Button
-              type={'submit'}
-              classes={'primary'}
-              placeholder={t('search')}
+              type={'button'}
+              placeholder={t('import_players')}
+              onChange={() => alert(t('import_players'))}
             />
             <Button
-              type={'reset'}
-              placeholder={t('cancel')}
-              onChange={handleResetForm}
+              type={'button'}
+              placeholder={t('create_voucher')}
+              onChange={() => alert(t('create_voucher'))}
+            />
+            <Button
+              type={'button'}
+              placeholder={t('create')}
+              onChange={() => alert(t('create'))}
             />
           </div>
         </form>
       </Paper>
-      <PlayersTable data={users} />;
+      <PlayersTable data={data} />
     </div>
   )
 }
