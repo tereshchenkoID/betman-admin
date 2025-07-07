@@ -1,9 +1,17 @@
 import React, { useEffect, useState, useMemo } from 'react'
+import { useDispatch } from "react-redux";
+import { useTranslation } from 'react-i18next'
+
+import { types } from 'constant/config'
+import { setAside } from 'store/actions/asideAction'
+
 import Icon from 'components/Icon'
 import CustomTable from 'modules/CustomTable'
 import Pagination from 'modules/Pagination'
 
 const PlayersTable = ({ data }) => {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [pagination, setPagination] = useState({
     page: 0,
     quantity: 10,
@@ -50,6 +58,34 @@ const PlayersTable = ({ data }) => {
     }))
   }
 
+  const handleDeposit= (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('deposit_balance'),
+          cmd: 'account-deposit-balance',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handleWithdrawal = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('withdrawal_balance'),
+          cmd: 'account-withdrawal-balance',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
   const columns = [
     { key: 'id', label: 'ID', sortable: true },
     { key: 'agent', label: 'Agent' },
@@ -72,8 +108,8 @@ const PlayersTable = ({ data }) => {
       render: (user) => (
         <>
           <Icon icon="fa-eye" alt="View" action={() => console.log('View', user)} />
-          <Icon icon="fa-arrow-down" alt="Deposit" action={() => console.log('Deposit', user)} />
-          <Icon icon="fa-arrow-up" alt="Withdrawal" action={() => console.log('Withdraw', user)} />
+          <Icon icon="fa-arrow-down" alt="Deposit" action={e => handleDeposit(e, types.TYPE[5])} />
+          <Icon icon="fa-arrow-up" alt="Withdrawal" action={e => handleWithdrawal(e, types.TYPE[4])} />
         </>
       ),
     },

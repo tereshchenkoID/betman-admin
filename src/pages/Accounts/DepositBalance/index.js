@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { types } from 'constant/config'
+import {types} from 'constant/config'
 
 import { postData } from 'hooks/useRequest'
 import { setToastify } from 'store/actions/toastifyAction'
@@ -12,18 +12,25 @@ import { searchById } from 'helpers/searchById'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
+import CustomSelect from "components/Select";
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const CreateVoucher = ({ data }) => {
+const DepositBalance = ({ data }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const { agents } = useSelector(state => state.agents)
   const initialValue = {
     parent_id: data.id,
     parent_username: data.username,
-    initial_balance: null,
+    player: '',
+    amount: null,
+    bonusOptions: {
+      cashback: 'cashback',
+      bounceback: 'bounceback'
+    },
+    bonus: '',
   }
   const [filter, setFilter] = useState(initialValue)
   const [inherit, setInherit] = useState(null)
@@ -41,70 +48,58 @@ const CreateVoucher = ({ data }) => {
     setFilter(initialValue)
   }
 
+  const bonusOptions = useMemo(() => {
+    return Object.entries(filter.bonusOptions).map(([key, label]) => ({
+      value: key,
+      label,
+    }))
+  }, [filter.bonusOptions])
+
   const handleSubmit = e => {
     e.preventDefault()
 
-    if (filter.new_password !== filter.confirm_password) {
-      dispatch(
-        setToastify({
-          type: 'error',
-          text: t('password_mismatch'),
-        }),
-      )
-    } else if (
-      filter.new_password.length < 3 ||
-      filter.confirm_password.length < 3
-    ) {
-      dispatch(
-        setToastify({
-          type: 'error',
-          text: t('password_must_length'),
-        }),
-      )
-    } else {
-      const formData = new FormData()
-      Object.entries(filter).map(([key, value]) => {
-        formData.append(key, value)
-        return true
-      })
+    const formData = new FormData()
+    Object.entries(filter).map(([key, value]) => {
+      formData.append(key, value)
+      return true
+    })
 
-      console.log(find)
+    console.log(find)
 
-      postData(`new/${data.type.toLowerCase()}/`, formData).then(json => {
-        if (json.status === 'OK') {
-          dispatch(
-            setToastify({
-              type: 'success',
-              text: json.message,
-            }),
-          ).then(() => {
-            handleResetForm()
+    postData(`new/${data.type.toLowerCase()}/`, formData).then(json => {
+      if (json.status === 'OK') {
+        dispatch(
+          setToastify({
+            type: 'success',
+            text: json.message,
+          }),
+        ).then(() => {
+          handleResetForm()
 
-            if (find.length > 0) {
-              if (data.type === types.TYPE[0]) {
-                if(!find[0].clients) {
-                  find[0].clients = [];
-                }
-                find[0].clients.push(json.data)
-              } else {
-                find[0].shops.push(json.data)
+          if (find.length > 0) {
+            if (data.type === types.TYPE[0]) {
+              if(!find[0].clients) {
+                find[0].clients = [];
               }
-
-              dispatch(updateAgents(list))
+              find[0].clients.push(json.data)
+            } else {
+              find[0].shops.push(json.data)
             }
 
-            dispatch(setAside(null))
-          })
-        } else {
-          dispatch(
-            setToastify({
-              type: 'error',
-              text: json.error_message,
-            }),
-          )
-        }
-      })
-    }
+            dispatch(updateAgents(list))
+          }
+
+          dispatch(setAside(null))
+        })
+      } else {
+        dispatch(
+          setToastify({
+            type: 'error',
+            text: json.error_message,
+          }),
+        )
+      }
+    })
   }
 
   const handleInherit = () => {
@@ -137,14 +132,28 @@ const CreateVoucher = ({ data }) => {
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
       <Field
+        type={'text'}
+        placeholder={t('player')}
+        data={filter.player}
+        onChange={value => handlePropsChange('player', value)}
+        required={true}
+        disabled={true}
+      />
+      <Field
         type={'number'}
-        placeholder={t('initial_balance_label')}
-        data={filter.initial_balance}
-        onChange={value => handlePropsChange('initial_balance', value)}
+        placeholder={t('amount_label')}
+        data={filter.amount}
+        onChange={value => handlePropsChange('amount', value)}
         required={true}
       />
+      <CustomSelect
+        placeholder={t('select_bonus')}
+        options={bonusOptions}
+        data={filter.bonus}
+        onChange={value => handlePropsChange('bonus', value)}
+      />
       <div className={style.actions}>
-        <Button type={'submit'} classes={'primary'} placeholder={t('create')} />
+        <Button type={'submit'} classes={'primary'} placeholder={t('deposit')} />
         <Button
           type={'reset'}
           placeholder={t('cancel')}
@@ -155,4 +164,4 @@ const CreateVoucher = ({ data }) => {
   )
 }
 
-export default CreateVoucher
+export default DepositBalance

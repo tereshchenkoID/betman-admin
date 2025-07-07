@@ -10,6 +10,8 @@ import EditAgent from 'pages/Accounts/EditAgent'
 import NewPlayer from 'pages/Accounts/NewPlayer'
 import CreateVoucher from 'pages/Accounts/CreateVoucher'
 import ImportPlayers from 'pages/Accounts/ImportPlayers'
+import DepositBalance from 'pages/Accounts/DepositBalance'
+import WithdrawalBalance from 'pages/Accounts/WithdrawalBalance'
 import Paper from 'components/Paper'
 
 import style from './index.module.scss'
@@ -26,6 +28,10 @@ const checkCmd = data => {
       return <CreateVoucher data={data} />
     case 'account-import-players':
       return <ImportPlayers data={data} />
+    case 'account-deposit-balance':
+      return <DepositBalance data={data} />
+    case 'account-withdrawal-balance':
+      return <WithdrawalBalance data={data} />
     case 'account-edit-agent':
       return <EditAgent data={data} />
     case 'account-transfer-money':

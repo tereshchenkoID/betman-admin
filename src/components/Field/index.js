@@ -11,6 +11,7 @@ const Field = ({
   onChange,
   classes = null,
   required = false,
+  disabled = false,
   min = null,
   max = null,
 }) => {
@@ -37,6 +38,7 @@ const Field = ({
           onChange(e.currentTarget.value)
         }}
         required={required}
+        disabled={disabled}
         min={min}
         max={max}
       />
