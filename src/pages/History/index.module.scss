@@ -32,8 +32,9 @@
 
 .filter {
   @include make-spacer(mb, rem(16px));
-  @include flex($justify-content: flex-end);
 
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: rem(16px);
 }
 

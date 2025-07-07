@@ -168,13 +168,13 @@ const History = () => {
                 onChange={value => handlePropsChange('date-to', value)}
               />
             </div>
-            <div className={style.actions}>
-              <Button
-                type={'submit'}
-                classes={'primary'}
-                placeholder={t('apply')}
-              />
-            </div>
+          </div>
+          <div className={style.actions}>
+            <Button
+              type={'submit'}
+              classes={'primary'}
+              placeholder={t('apply')}
+            />
           </div>
         </form>
       </Paper>

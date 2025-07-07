@@ -80,7 +80,7 @@ const Option = ({ t, data, filter, config_1, config_2 }) => {
     dispatch(
       setAside({
         meta: {
-          title: `${t('new')} ${t(type)}`,
+          title: `${t('new_player')}`,
           cmd: 'account-new-agent',
           buttonRef: e.target,
         },

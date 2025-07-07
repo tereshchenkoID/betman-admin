@@ -16,5 +16,12 @@
   "select_provider": "Select provider",
   "select_game": "Select game",
   "history_report": "History report",
-  "financial_report": "Financial report"
+  "financial_report": "Financial report",
+  "new_player": "New player",
+  "initial_balance": "Initial balance",
+  "initial_balance_label": "Enter initial balance",
+  "import_players_text_1": "In order to import players into the Shop, prepare a file in CSV format, separated by a semicolon.",
+  "import_players_text_2": "The file must contain the following columns: Login, Password, Phone, Name, Email",
+  "example": "Example:",
+  "example_text": "login;password;name;phone;email\nplayer1;password1;Player 1;+79999999999;player1@example.com\nplayer2;password2;Player 2;+79999999998;player2@example.com\nplayer3;password3;Player 3;+79999999997;player3@example.com"
 }

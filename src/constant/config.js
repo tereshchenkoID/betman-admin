@@ -25,8 +25,10 @@ export const types = {
   },
 
   TYPE: {
-    0: 'AGENT',
+    0: 'PLAYER',
     1: 'SHOP',
+    2: 'VOUCHER',
+    3: 'Import players',
   },
 
   LEVEL_TYPE: {

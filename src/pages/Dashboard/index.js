@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from "react-redux";
 
-import {getData, postData} from 'hooks/useRequest'
+import { types } from 'constant/config'
+import { setAside } from 'store/actions/asideAction'
 
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
@@ -40,6 +42,7 @@ const DATA = [
 
 const Dashboard = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
   const [filter, setFilter] = useState()
@@ -70,6 +73,47 @@ const Dashboard = () => {
     // })
   }, [])
 
+  const handleNewAgent = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: `${t('new')} ${t(type)}`,
+          cmd: 'account-new-agent',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handleNewVoucher = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: `${t('create')} ${t(type)}`,
+          cmd: 'account-create-voucher',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handleImportPlayers = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('import_players'),
+          cmd: 'account-import-players',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
 
   if (loading) return
 
@@ -104,17 +148,17 @@ const Dashboard = () => {
             <Button
               type={'button'}
               placeholder={t('import_players')}
-              onChange={() => alert(t('import_players'))}
+              onChange={e => handleImportPlayers(e, types.TYPE[3])}
             />
             <Button
               type={'button'}
               placeholder={t('create_voucher')}
-              onChange={() => alert(t('create_voucher'))}
+              onChange={e => handleNewVoucher(e, types.TYPE[2])}
             />
             <Button
               type={'button'}
               placeholder={t('create')}
-              onChange={() => alert(t('create'))}
+              onChange={e => handleNewAgent(e, types.TYPE[0])}
             />
           </div>
         </form>
