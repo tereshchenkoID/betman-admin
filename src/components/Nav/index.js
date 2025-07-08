@@ -22,6 +22,11 @@ const Nav = () => {
   const [active, setActive] = useState(false)
   const menu = [
     {
+      text: 'accounts',
+      icon: 'fa-solid fa-users',
+      link: '/accounts',
+    },
+    {
       text: 'players',
       icon: 'fa-solid fa-users',
       link: '/players',

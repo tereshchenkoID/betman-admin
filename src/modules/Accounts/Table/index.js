@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import classNames from 'classnames'
 
@@ -80,7 +80,7 @@ const Option = ({ t, data, filter, config_1, config_2 }) => {
     dispatch(
       setAside({
         meta: {
-          title: `${t('new_player')}`,
+          title: `${t('new')} ${t(type)}`,
           cmd: 'account-new-agent',
           buttonRef: e.target,
         },
@@ -94,35 +94,30 @@ const Option = ({ t, data, filter, config_1, config_2 }) => {
     <>
       <div className={style.row}>
         <div className={style.cell}>
-          {
-            (isShops && isClients) &&
-            <Dropdown
-              data={activeAccounts}
-              action={() => setActiveAccounts(!activeAccounts)}
-            />
-          }
+          <Dropdown
+            data={activeAccounts}
+            action={() => setActiveAccounts(!activeAccounts)}
+          />
         </div>
-        {
-          config_1.map((key, value_idx) => (
-            <div
-              key={value_idx}
-              className={classNames(
-                style.cell,
-                data[key.key] === '1' && style.warning,
-              )}
-            >
-              {key.key !== 'commission' && key.key !== 'credits' ? (
-                key.key === 'locked' ? (
-                  service.YES_NO[data[key.key]]
-                ) : (
-                  data[key.key]
-                )
+        {config_1.map((key, value_idx) => (
+          <div
+            key={value_idx}
+            className={classNames(
+              style.cell,
+              data[key.key] === '1' && style.warning,
+            )}
+          >
+            {key.key !== 'commission' && key.key !== 'credits' ? (
+              key.key === 'locked' ? (
+                service.YES_NO[data[key.key]]
               ) : (
-                <div>{data[key.key] && <ReadMore data={data[key.key]} />}</div>
-              )}
-            </div>
-          ))
-        }
+                data[key.key]
+              )
+            ) : (
+              <div>{data[key.key] && <ReadMore data={data[key.key]} />}</div>
+            )}
+          </div>
+        ))}
         <div className={style.cell}>
           <Icon
             icon={'fa-add'}
@@ -151,40 +146,27 @@ const Option = ({ t, data, filter, config_1, config_2 }) => {
           />
         </div>
       </div>
-      {
-        activeAccounts &&
+      {activeAccounts && (
         <div className={style.wrapper}>
           <>
-            <div
-              className={
-                classNames(
-                  style.row,
-                  style.sm
-                )
-              }
-            >
+            <div className={classNames(style.row, style.sm)}>
               <div className={style.cell}>
-                {
-                  isShops &&
+                {isShops && (
                   <Dropdown
                     data={activeShops}
                     action={() => setActiveShops(!activeShops)}
                   />
-                }
+                )}
               </div>
-              {
-                config_2.map((_, value) =>
-                <div
-                  key={value}
-                  className={style.cell}
-                >
+              {config_2.map((_, value) => (
+                <div key={value} className={style.cell}>
                   <FontAwesomeIcon
                     icon="fa-solid fa-shop"
                     className={style.icon}
                   />
                   {t('shops')} ({data.shops.length})
                 </div>
-              )}
+              ))}
               <div className={style.cell}>
                 <Icon
                   icon={'fa-add'}
@@ -192,61 +174,57 @@ const Option = ({ t, data, filter, config_1, config_2 }) => {
                 />
               </div>
             </div>
-            {
-              activeShops &&
+            {activeShops && (
               <div className={style.wrapper}>
-                {
-                  data.shops.map((el, idx) => (
-                    <div key={idx} className={style.row}>
-                      <div className={style.cell} />
-                      {config_1.map((key, value_idx) => (
-                        <div key={value_idx} className={style.cell}>
-                          {key.key !== 'commission' && key.key !== 'credits' ? (
-                            key.key === 'locked' ? (
-                              service.YES_NO[el[key.key]]
-                            ) : (
-                              el[key.key]
-                            )
+                {data.shops.map((el, idx) => (
+                  <div key={idx} className={style.row}>
+                    <div className={style.cell} />
+                    {config_1.map((key, value_idx) => (
+                      <div key={value_idx} className={style.cell}>
+                        {key.key !== 'commission' && key.key !== 'credits' ? (
+                          key.key === 'locked' ? (
+                            service.YES_NO[el[key.key]]
                           ) : (
-                            <div>
-                              {el[key.key] && <ReadMore data={el[key.key]} />}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                      <div className={style.cell}>
-                        <Icon
-                          icon={'fa-pencil'}
-                          action={e => handleEditAgent(e, types.TYPE[1], el)}
-                        />
-                        <Icon
-                          icon={'fa-dollar'}
-                          action={e =>
-                            handleTransferMoney(e, el, {
-                              parent_id: data.id,
-                              idx: idx,
-                            })
-                          }
-                          alt={'transfer_money'}
-                        />
-                        <Icon
-                          icon={'fa-lock'}
-                          action={e => handleChangePassword(e, el)}
-                        />
-                        <Icon
-                          icon={'fa-exchange-alt'}
-                          action={e => handleTransferAgent(e, el)}
-                        />
+                            el[key.key]
+                          )
+                        ) : (
+                          <div>
+                            {el[key.key] && <ReadMore data={el[key.key]} />}
+                          </div>
+                        )}
                       </div>
+                    ))}
+                    <div className={style.cell}>
+                      <Icon
+                        icon={'fa-pencil'}
+                        action={e => handleEditAgent(e, types.TYPE[1], el)}
+                      />
+                      <Icon
+                        icon={'fa-dollar'}
+                        action={e =>
+                          handleTransferMoney(e, el, {
+                            parent_id: data.id,
+                            idx: idx,
+                          })
+                        }
+                        alt={'transfer_money'}
+                      />
+                      <Icon
+                        icon={'fa-lock'}
+                        action={e => handleChangePassword(e, el)}
+                      />
+                      <Icon
+                        icon={'fa-exchange-alt'}
+                        action={e => handleTransferAgent(e, el)}
+                      />
                     </div>
-                  ))
-                }
+                  </div>
+                ))}
               </div>
-            }
+            )}
           </>
-          {
-            isClients &&
-            data.clients.map((el, idx) =>
+          {isClients &&
+            data.clients.map((el, idx) => (
               <Option
                 key={idx}
                 t={t}
@@ -255,10 +233,9 @@ const Option = ({ t, data, filter, config_1, config_2 }) => {
                 config_2={config_2}
                 filter={filter}
               />
-            )
-          }
+            ))}
         </div>
-      }
+      )}
     </>
   )
 }

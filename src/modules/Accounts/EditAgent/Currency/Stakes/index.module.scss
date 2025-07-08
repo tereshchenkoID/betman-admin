@@ -1,0 +1,58 @@
+@use 'scss/config' as *;
+
+.block,
+.group,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+  position: relative;
+}
+
+.grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.currencies {
+  @include make-spacer(pb, 8px);
+  @include flex(null, center);
+
+  gap: rem(4px);
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    width: rem(15px);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color-alto);
+    height: rem(5px);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: rem(5px) solid var(--color-alto);
+    background-color: var(--color-primary);
+  }
+}
+
+.currency {
+  @include make-spacer(p, 5px);
+
+  border-radius: var(--default-border-radius);
+  font-size: rem(14px);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  &.active {
+    background: var(--color-primary);
+    color: var(--color-white);
+    pointer-events: none;
+  }
+}
