@@ -11,7 +11,7 @@ const Debug = ({ data }) => {
   const { settings } = useSelector(state => state.settings)
   const [active, setActive] = useState(false)
 
-  if(settings.mode !== 'debug') 
+  if(settings.mode !== 'debug')
     return
 
   return (
@@ -21,9 +21,9 @@ const Debug = ({ data }) => {
         onClick={() => setActive(!active)}
       >
         Debug
-        <FontAwesomeIcon 
-          icon="fa-solid fa-angle-down" 
-          className={style.icon} 
+        <FontAwesomeIcon
+          icon="fa-solid fa-angle-down"
+          className={style.icon}
         />
       </button>
       {active && (

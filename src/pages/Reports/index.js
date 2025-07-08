@@ -1,43 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {getData, postData} from 'hooks/useRequest'
+import { getDate } from 'helpers/getDate'
 
 import Debug from 'modules/Debug'
-import { getDate } from 'helpers/getDate'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
-import CustomSelect from "components/Select";
 import Field from 'components/Field'
-import SummaryTable from "./SummaryTable";
+import CustomSelect from "components/Select"
+import SummaryTable from "./SummaryTable"
 
 import style from './index.module.scss'
-
 
 const DATA = [
   {
     currency: 'UAH',
     provider: 'Agent X',
     profit: '111',
-    balanceProfit: '222',
-    bonusProfit: '222',
+    balanceProfit: '123.4',
+    bonusProfit: '55',
     cashProfit: '222',
-    profitPSP: '222',
-    jackpot: '222',
-    spin: '222',
-    netProfit: '222',
+    profitPSP: '11.334',
+    jackpot: '88',
+    spin: '56',
+    netProfit: '34',
   },
   {
     currency: 'EUR',
     provider: 'Agent Y',
-    profit: '222',
-    balanceProfit: '111',
+    profit: '2222',
+    balanceProfit: '289.6',
     bonusProfit: '111',
-    cashProfit: '111',
+    cashProfit: '123.22',
     profitPSP: '111',
-    jackpot: '111',
+    jackpot: '23.11',
     spin: '111',
-    netProfit: '111',
+    netProfit: '1.11',
   },
 ];
 
@@ -47,7 +45,6 @@ const Reports = () => {
   const [data, setData] = useState(null)
   const [filter, setFilter] = useState({
     provider: '',
-    kiosk: '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
   })
@@ -55,11 +52,6 @@ const Reports = () => {
   const providerOptions = [
     { label: 'Agent X', value: 'Agent X' },
     { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const kioskOptions = [
-    { label: 'Kiosk 1', value: 'Kiosk 1' },
-    { label: 'Kiosk 2', value: 'Kiosk 1' },
   ]
 
   const handleFilterChange = (key, value) => {
@@ -114,14 +106,6 @@ const Reports = () => {
                 options={providerOptions}
                 data={filter.provider}
                 onChange={value => handleFilterChange('provider', value)}
-              />
-            </div>
-            <div>
-              <CustomSelect
-                placeholder={t('select_kiosk')}
-                options={kioskOptions}
-                data={filter.kiosk}
-                onChange={value => handleFilterChange('kiosk', value)}
               />
             </div>
             <div>

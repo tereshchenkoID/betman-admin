@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {getData, postData} from 'hooks/useRequest'
+import { getDate } from 'helpers/getDate'
 
 import Debug from 'modules/Debug'
-import { getDate } from 'helpers/getDate'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
-import CustomSelect from "components/Select";
 import Field from 'components/Field'
-import FinancialTable from "./FinancialTable";
+import CustomSelect from "components/Select"
+import FinancialTable from "./FinancialTable"
 
 import style from './index.module.scss'
-
 
 const DATA = [
   {
@@ -22,12 +20,11 @@ const DATA = [
     store: 'test_m2',
     user: 'test_kv2',
     player: 'player_1',
-    kiosk: '-',
     type: 'In (deposit)',
     sum: '500.00',
     currency: 'UAH',
-    balanceAfter: '500,00',
-    bonusBalanceAfter: '0,00',
+    balanceAfter: '500.00',
+    bonusBalanceAfter: '20.00',
   },
   {
     id: 2,
@@ -36,12 +33,11 @@ const DATA = [
     store: 'test_m3',
     user: 'test_kv2',
     player: 'player_2',
-    kiosk: 'kiosk 1',
     type: 'In (deposit)',
     sum: '500.00',
     currency: 'EUR',
-    balanceAfter: '500,00',
-    bonusBalanceAfter: '0,00',
+    balanceAfter: '200.00',
+    bonusBalanceAfter: '1.00',
   },
 ];
 
@@ -59,11 +55,6 @@ const Financial = () => {
   const playerOptions = [
     { label: 'Agent X', value: 'Agent X' },
     { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const kioskOptions = [
-    { label: 'Kiosk 1', value: 'Kiosk 1' },
-    { label: 'Kiosk 2', value: 'Kiosk 1' },
   ]
 
   const handleFilterChange = (key, value) => {
@@ -118,14 +109,6 @@ const Financial = () => {
                 options={playerOptions}
                 data={filter.provider}
                 onChange={value => handleFilterChange('provider', value)}
-              />
-            </div>
-            <div>
-              <CustomSelect
-                placeholder={t('select_kiosk')}
-                options={kioskOptions}
-                data={filter.kiosk}
-                onChange={value => handleFilterChange('kiosk', value)}
               />
             </div>
             <div>

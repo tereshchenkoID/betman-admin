@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import {getData, postData} from 'hooks/useRequest'
+
+import { getDate } from 'helpers/getDate'
 
 import Debug from 'modules/Debug'
-import { getDate } from 'helpers/getDate'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
-import CustomSelect from "components/Select";
 import Field from 'components/Field'
-import HistoryTable from "./HistoryTable";
+import CustomSelect from "components/Select"
+import HistoryTable from "./HistoryTable"
 
 import style from './index.module.scss'
-
 
 const DATA = [
   {
@@ -21,9 +20,9 @@ const DATA = [
     provider: 'casino',
     game: 'game 1',
     startDate: '17.06.2025, 17:51:02',
-    bet: '222',
-    toWin: '222',
-    profit: '222',
+    bet: '11.2',
+    toWin: '67.3',
+    profit: '345.78',
     currency: 'UAH',
     action: 'action',
   },
@@ -33,9 +32,9 @@ const DATA = [
     provider: 'casino 2',
     game: 'game 2',
     startDate: '17.06.2025, 16:39:31',
-    bet: '111',
-    toWin: '111',
-    profit: '111',
+    bet: '234.55',
+    toWin: '233',
+    profit: '11905.33',
     currency: 'EUR',
     action: 'action',
   },
@@ -57,11 +56,6 @@ const History = () => {
   const pleyerOptions = [
     { label: 'Agent X', value: 'Agent X' },
     { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const kioskOptions = [
-    { label: 'Kiosk 1', value: 'Kiosk 1' },
-    { label: 'Kiosk 2', value: 'Kiosk 2' },
   ]
 
   const providerOptions = [
@@ -130,14 +124,6 @@ const History = () => {
             </div>
             <div>
               <CustomSelect
-                placeholder={t('select_kiosk')}
-                options={providerOptions}
-                data={filter.kiosk}
-                onChange={value => handleFilterChange('kiosk', value)}
-              />
-            </div>
-            <div>
-              <CustomSelect
                 placeholder={t('select_provider')}
                 options={gameOptions}
                 data={filter.provider}
@@ -147,7 +133,7 @@ const History = () => {
             <div>
               <CustomSelect
                 placeholder={t('select_game')}
-                options={kioskOptions}
+                options={gameOptions}
                 data={filter.game}
                 onChange={value => handleFilterChange('game', value)}
               />

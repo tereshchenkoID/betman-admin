@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import Icon from 'components/Icon'
+
 import CustomTable from 'modules/CustomTable'
 import Pagination from 'modules/Pagination'
 
@@ -53,14 +53,14 @@ const SummaryTable = ({ data }) => {
   const columns = [
     { key: 'currency', label: 'Currency' },
     { key: 'provider', label: 'Provider' },
-    { key: 'profit', label: 'Profit' },
-    { key: 'balanceProfit', label: 'Balance Profit' },
-    { key: 'bonusProfit', label: 'Bonus Profit' },
-    { key: 'cashProfit', label: 'Cash Profit' },
-    { key: 'profitPSP', label: 'Profit PSP' },
-    { key: 'jackpot', label: 'Jackpot' },
-    { key: 'spin', label: 'Spin' },
-    { key: 'netProfit', label: 'Net Profit' },
+    { key: 'profit', label: 'Profit', sortable: true },
+    { key: 'balanceProfit', label: 'Balance Profit', sortable: true },
+    { key: 'bonusProfit', label: 'Bonus Profit', sortable: true },
+    { key: 'cashProfit', label: 'Cash Profit', sortable: true },
+    { key: 'profitPSP', label: 'Profit PSP', sortable: true },
+    { key: 'jackpot', label: 'Jackpot', sortable: true },
+    { key: 'spin', label: 'Spin', sortable: true },
+    { key: 'netProfit', label: 'Net Profit', sortable: true },
   ]
 
   return (

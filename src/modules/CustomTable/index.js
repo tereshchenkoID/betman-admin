@@ -35,28 +35,30 @@ const CustomTable = ({ data = [], columns = [], defaultSortKey = null }) => {
     <div className={style.block}>
       <div className={style.table}>
         <div className={style.row}>
-          {columns.map(({ key, label, sortable }) => {
-            const isSorted = sortConfig.key === key
-            const isAsc = sortConfig.direction === 'asc'
+          {
+            columns.map(({ key, label, sortable }) => {
+              const isSorted = sortConfig.key === key
+              const isAsc = sortConfig.direction === 'asc'
 
-            return (
-              <div
-                key={key}
-                className={style.cell}
-                onClick={() => sortable && toggleSort(key)}
-                style={{ cursor: sortable ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: 4 }}
-              >
-                <span>{label}</span>
-                {
-                  sortable &&
-                  <FontAwesomeIcon
-                    className={style.sort}
-                    icon={`fa-solid ${isSorted ? (isAsc ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short') : 'fa-sort'}`}
-                  />
-                }
-              </div>
-            )
-          })}
+              return (
+                <div
+                  key={key}
+                  className={style.cell}
+                  onClick={() => sortable && toggleSort(key)}
+                  style={{ cursor: sortable ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: 4 }}
+                >
+                  <span>{label}</span>
+                  {
+                    sortable &&
+                    <FontAwesomeIcon
+                      className={style.sort}
+                      icon={`fa-solid ${isSorted ? (isAsc ? 'fa-arrow-up-wide-short' : 'fa-arrow-down-wide-short') : 'fa-sort'}`}
+                    />
+                  }
+                </div>
+              )
+            })
+          }
         </div>
 
         {

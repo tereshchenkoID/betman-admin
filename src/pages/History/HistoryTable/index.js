@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import Icon from 'components/Icon'
+
 import CustomTable from 'modules/CustomTable'
 import Pagination from 'modules/Pagination'
 
@@ -56,9 +56,9 @@ const HistoryTable = ({ data }) => {
     { key: 'provider', label: 'Provider' },
     { key: 'game', label: 'Game' },
     { key: 'startDate', label: 'Start date' },
-    { key: 'bet', label: 'Bet' },
-    { key: 'toWin', label: 'To win' },
-    { key: 'profit', label: 'Profit' },
+    { key: 'bet', label: 'Bet', sortable: true },
+    { key: 'toWin', label: 'To win', sortable: true },
+    { key: 'profit', label: 'Profit', sortable: true },
     { key: 'currency', label: 'Currency' },
     { key: 'action', label: 'Action' },
   ]

@@ -31,13 +31,20 @@
 
 .row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   border-bottom: rem(1px) solid var(--color-border);
   font-size: rem(12px);
   font-weight: var(--typography-medium);
 
   &:last-child {
     border-bottom: 0;
+  }
+
+  &:first-child {
+    .cell {
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
   }
 }
 
