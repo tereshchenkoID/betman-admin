@@ -24,12 +24,7 @@ const Nav = () => {
     {
       text: 'players',
       icon: 'fa-solid fa-users',
-      submenu: [
-        {
-          text: 'players',
-          link: '/players',
-        },
-      ],
+      link: '/players',
     },
     {
       text: 'reports',
@@ -108,42 +103,62 @@ const Nav = () => {
               key={idx}
               className={classNames(style.item, idx === active && style.active)}
             >
-              <span
-                className={style.link}
-                onClick={() => {
-                  setActive(idx)
-                  setShow(true)
-                  dispatch(setAside(null))
-                }}
-              >
-                <FontAwesomeIcon icon={el.icon} className={style.icon} />
-                <span>{t(el.text)}</span>
-                {el.submenu.length > 0 && (
-                  <FontAwesomeIcon
-                    icon="fa-solid fa-angle-down"
-                    className={style.arrow}
-                  />
-                )}
-              </span>
-              {el.submenu.length > 0 && (
-                <div className={style.submenu}>
-                  {el.submenu.map((el_s, idx_s) => (
+              {
+                el.submenu
+                  ?
+                    <>
+                      <span
+                        className={style.link}
+                        onClick={() => {
+                          setActive(idx)
+                          setShow(true)
+                          dispatch(setAside(null))
+                        }}
+                      >
+                        <FontAwesomeIcon icon={el.icon} className={style.icon} />
+                        <span>{t(el.text)}</span>
+                        <FontAwesomeIcon
+                          icon="fa-solid fa-angle-down"
+                          className={style.arrow}
+                        />
+                      </span>
+                      <div className={style.submenu}>
+                        {
+                          el.submenu.map((el_s, idx_s) => (
+                            <Link
+                              key={idx_s}
+                              to={el_s.link}
+                              rel="noreferrer"
+                              className={classNames(
+                                style.link,
+                                pathname === el_s.link && style.active,
+                              )}
+                              onClick={() => dispatch(setAside(null))}
+                            >
+                              {
+                                el_s.icon &&
+                                <FontAwesomeIcon icon={el_s.icon} className={style.icon} />
+                              }
+                              <span>{t(el_s.text)}</span>
+                            </Link>
+                          ))
+                        }
+                      </div>
+                    </>
+                  :
                     <Link
-                      key={idx_s}
-                      to={el_s.link}
+                      to={el.link}
                       rel="noreferrer"
                       className={classNames(
                         style.link,
-                        pathname === el_s.link && style.active,
+                        pathname === el.link && style.active,
                       )}
                       onClick={() => dispatch(setAside(null))}
                     >
-                      <i className={style.icon} />
-                      <span>{t(el_s.text)}</span>
+                      <FontAwesomeIcon icon={el.icon} className={style.icon} />
+                      <span>{t(el.text)}</span>
                     </Link>
-                  ))}
-                </div>
-              )}
+              }
             </li>
           ))}
         </ul>

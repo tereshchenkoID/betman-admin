@@ -98,7 +98,13 @@ const PlayersTable = ({ data }) => {
       key: 'balance',
       label: 'Balance',
       sortable: true,
-      render: (user) => parseFloat(user.balance).toFixed(2),
+      render: (user) => (
+        <>
+          <Icon icon="fa-minus" alt="Withdrawal" action={e => handleWithdrawal(e, types.TYPE[4])} />
+          {parseFloat(user.balance).toFixed(2)}
+          <Icon icon="fa-plus" alt="Deposit" action={e => handleDeposit(e, types.TYPE[5])} />
+        </>
+      )
     },
     { key: 'currency', label: 'Currency' },
     { key: 'createdAt', label: 'Created at' },
@@ -106,11 +112,7 @@ const PlayersTable = ({ data }) => {
       key: 'actions',
       label: 'Actions',
       render: (user) => (
-        <>
-          <Icon icon="fa-eye" alt="View" action={() => console.log('View', user)} />
-          <Icon icon="fa-arrow-down" alt="Deposit" action={e => handleDeposit(e, types.TYPE[5])} />
-          <Icon icon="fa-arrow-up" alt="Withdrawal" action={e => handleWithdrawal(e, types.TYPE[4])} />
-        </>
+        <Icon icon="fa-eye" alt="View" action={() => console.log('View', user)} />
       ),
     },
   ]

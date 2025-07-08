@@ -13,20 +13,6 @@
   &:last-child {
     @include make-spacer(mb, 0);
   }
-
-  &.transparent {
-    border-radius: unset;
-    box-shadow: unset;
-    background-color: transparent;
-  }
-
-  &.sm {
-    height: auto;
-
-    .body {
-      overflow: unset;
-    }
-  }
 }
 
 .grid {
@@ -45,8 +31,7 @@
 
 .row {
   display: grid;
-  //grid-template-columns: rem(70px) repeat(5, 1fr) rem(100px) repeat(3, 1fr) rem(135px);
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   border-bottom: rem(1px) solid var(--color-border);
   font-size: rem(12px);
   font-weight: var(--typography-medium);
@@ -54,23 +39,19 @@
   &:last-child {
     border-bottom: 0;
   }
-
-  &.wide {
-    grid-template-columns: 1fr;
-  }
 }
 
 .cell {
-  @include flex(null, center, null, wrap);
-  @include make-spacer(p, 12px);
-
-  &.wide {
-    justify-content: center;
-  }
+  @include flex($align-items: center, $wrap: wrap);
+  @include make-spacer(p, 8px);
 }
 
 .empty {
   @include make-spacer(p, 12px);
 
   text-align: center;
+}
+
+.sort {
+  @include make-spacer(ml, 4px);
 }

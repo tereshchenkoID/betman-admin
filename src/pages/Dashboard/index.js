@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux"
 
-import { types } from 'constant/config'
 import { setAside } from 'store/actions/asideAction'
 
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
-import Field from "components/Field";
-import PlayersTable from "./PlayersTable";
+import Field from "components/Field"
+import PlayersTable from "./PlayersTable"
 
 import style from './index.module.scss'
 
@@ -45,7 +44,7 @@ const Dashboard = () => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
-  const [filter, setFilter] = useState()
+  const [filter, setFilter] = useState('')
 
   const handleSubmit = event => {
     event && event.preventDefault()
@@ -61,6 +60,10 @@ const Dashboard = () => {
     // })
   }
 
+  const handleResetForm = () => {
+    setFilter('')
+  }
+
   useEffect(() => {
     setData(DATA)
     setLoading(false)
@@ -73,40 +76,12 @@ const Dashboard = () => {
     // })
   }, [])
 
-  const handleNewAgent = (e, type) => {
+  const handleNewForm = (e, type, cmd) => {
     dispatch(
       setAside({
         meta: {
-          title: `${t('new')} ${t(type)}`,
-          cmd: 'account-new-agent',
-          buttonRef: e.target,
-        },
-        type: type,
-        ...data,
-      }),
-    )
-  }
-
-  const handleNewVoucher = (e, type) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: `${t('create')} ${t(type)}`,
-          cmd: 'account-create-voucher',
-          buttonRef: e.target,
-        },
-        type: type,
-        ...data,
-      }),
-    )
-  }
-
-  const handleImportPlayers = (e, type) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('import_players'),
-          cmd: 'account-import-players',
+          title: t(type),
+          cmd: cmd,
           buttonRef: e.target,
         },
         type: type,
@@ -131,34 +106,34 @@ const Dashboard = () => {
                 onChange={value => setFilter(value)}
               />
             </div>
-            <div className={style.actions}>
-              <Button
-                type={'submit'}
-                classes={'primary'}
-                placeholder={t('search')}
-              />
-              {/*<Button*/}
-              {/*  type={'reset'}*/}
-              {/*  placeholder={t('cancel')}*/}
-              {/*  onChange={handleResetForm}*/}
-              {/*/>*/}
-            </div>
+          </div>
+          <div className={style.actions}>
+            <Button
+              type={'submit'}
+              classes={'primary'}
+              placeholder={t('search')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleResetForm}
+            />
           </div>
           <div className={style.actions}>
             <Button
               type={'button'}
               placeholder={t('import_players')}
-              onChange={e => handleImportPlayers(e, types.TYPE[3])}
+              onChange={e => handleNewForm(e, 'new-player', 'account-new-agent')}
             />
             <Button
               type={'button'}
               placeholder={t('create_voucher')}
-              onChange={e => handleNewVoucher(e, types.TYPE[2])}
+              onChange={e => handleNewForm(e, 'create_voucher', 'account-create-voucher')}
             />
             <Button
               type={'button'}
-              placeholder={t('create')}
-              onChange={e => handleNewAgent(e, types.TYPE[0])}
+              placeholder={t('create_agent')}
+              onChange={e => handleNewForm(e, 'create_new_agent', 'account-new-agent')}
             />
           </div>
         </form>
