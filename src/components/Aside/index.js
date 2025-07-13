@@ -7,6 +7,7 @@ import TransferAgent from 'pages/Accounts/TransferAgent'
 import ChangePassword from 'pages/Accounts/ChangePassword'
 import TransferMoney from 'pages/Accounts/TransferMoney'
 import EditAgent from 'pages/Accounts/EditAgent'
+import EditUser from 'pages/Accounts/EditUser'
 import NewPlayer from 'pages/Accounts/NewPlayer'
 import CreateVoucher from 'pages/Accounts/CreateVoucher'
 import ImportPlayers from 'pages/Accounts/ImportPlayers'
@@ -34,6 +35,8 @@ const checkCmd = data => {
       return <WithdrawalBalance data={data} />
     case 'account-edit-agent':
       return <EditAgent data={data} />
+    case 'account-edit-user':
+      return <EditUser data={data} />
     case 'account-transfer-money':
       return <TransferMoney data={data} />
     default:

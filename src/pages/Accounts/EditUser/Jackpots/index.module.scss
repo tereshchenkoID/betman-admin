@@ -1,0 +1,30 @@
+@use 'scss/config' as *;
+
+.table {
+  display: grid;
+  gap: 12px;
+}
+
+.header,
+.row {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.label {
+  font-weight: 500;
+}
+
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+  position: relative;
+}

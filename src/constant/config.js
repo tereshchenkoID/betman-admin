@@ -31,6 +31,7 @@ export const types = {
     3: 'IMPORT PLAYERS',
     4: 'DEPOSIT',
     5: 'WITHDRAWAL',
+    6: 'USER',
   },
 
   LEVEL_TYPE: {

@@ -28,12 +28,22 @@
 }
 
 .logo,
-.action {
+.action,
+.setting {
   @include size(100%, rem(64px));
   @include make-spacer(pl, rem(7px));
   @include flex(null, center);
 
   flex-shrink: 0;
+}
+
+.setting {
+  button {
+    @include size(rem(40px), rem(40px));
+  }
+  svg {
+    @include size(rem(30px), rem(30px));
+  }
 }
 
 .logo {

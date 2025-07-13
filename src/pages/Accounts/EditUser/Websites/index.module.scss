@@ -1,0 +1,29 @@
+@use 'scss/config' as *;
+
+.table {
+  margin-top: 1rem;
+  display: table;
+  width: 100%;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+  position: relative;
+}
