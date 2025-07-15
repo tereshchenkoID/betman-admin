@@ -1,9 +1,13 @@
 @use 'scss/config' as *;
 
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
 .header {
   @include flex(null, center);
 
-  background-color: #fafafa;
   border-bottom: rem(1px) solid var(--color-border);
   height: rem(40px);
   overflow-x: auto;
@@ -59,11 +63,6 @@
     color: var(--color-primary);
     pointer-events: none;
   }
-}
-
-.block {
-  display: grid;
-  gap: rem(16px);
 }
 
 .actions {

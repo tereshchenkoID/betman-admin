@@ -10,8 +10,8 @@ import classNames from 'classnames'
 
 import { setAside } from 'store/actions/asideAction'
 
-import Toggle from '../Toggle'
-import Icon from "../Icon";
+import Toggle from 'components/Toggle'
+import Icon from "components/Icon"
 
 import style from './index.module.scss'
 
@@ -186,9 +186,14 @@ const Nav = () => {
           ))}
         </ul>
         <hr/>
-        <div ref={buttonRef} className={style.setting}>
-          <Icon icon="fa-gear" alt="gear" action={e => handleEditUser(e, types.TYPE[6])} />
+        <div className={style.setting}>
+          <Icon
+            icon={'fa-gear'}
+            alt={'gear'}
+            action={e => handleEditUser(e, types.TYPE[6])}
+          />
         </div>
+        <hr/>
         <div ref={buttonRef} className={style.action}>
           <Toggle active={show} action={setShow}/>
         </div>

@@ -28,6 +28,14 @@
     grid-template-columns: rem(50px) 1fr rem(200px);
   }
 
+  &.md {
+    grid-template-columns: rem(100px) repeat(4, 1fr) rem(200px);
+  }
+
+  &.lg {
+    grid-template-columns: rem(100px) repeat(7, 1fr) rem(200px);
+  }
+
   &.active {
     background-color: var(--color-primary-05);
   }

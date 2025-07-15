@@ -1,25 +1,25 @@
 @use 'scss/config' as *;
 
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
 .table {
   display: grid;
-  gap: 12px;
+  gap: rem(8px);
 }
 
 .header,
 .row {
   display: grid;
   grid-template-columns: 2fr repeat(4, 1fr);
-  gap: 12px;
+  gap: rem(12px);
   align-items: center;
 }
 
 .label {
-  font-weight: 500;
-}
-
-.block {
-  display: grid;
-  gap: rem(16px);
+  font-size: rem(14px);
 }
 
 .actions {

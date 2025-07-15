@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import classNames from "classnames";
+import classNames from 'classnames'
 
 import { postData } from 'hooks/useRequest'
 import { setToastify } from 'store/actions/toastifyAction'
 import { setAgents } from 'store/actions/agentsAction'
 
 import Button from 'components/Button'
-import Select from "components/Select";
-import ToggleSwitch from "components/ToggleSwitch";
-import Field from "components/Field";
+import Select from 'components/Select'
+import ToggleSwitch from 'components/ToggleSwitch'
+import Field from 'components/Field'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'

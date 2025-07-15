@@ -26,10 +26,12 @@ const Currency = ({ data, inherit }) => {
           <button
             key={idx}
             type={'button'}
-            className={classNames(
-              style.currency,
-              active === el && style.active,
-            )}
+            className={
+              classNames(
+                style.currency,
+                active === el && style.active,
+              )
+            }
             onClick={() => setActive(el)}
           >
             {el}
@@ -39,7 +41,12 @@ const Currency = ({ data, inherit }) => {
       <div className={style.tab}>
         <button
           type={'button'}
-          className={classNames(style.link, tab === 0 && style.active)}
+          className={
+            classNames(
+              style.link,
+              tab === 0 && style.active
+            )
+          }
           onClick={() => setTab(0)}
         >
           {t('stakes')}
@@ -48,7 +55,12 @@ const Currency = ({ data, inherit }) => {
           isAdmin &&
           <button
             type={'button'}
-            className={classNames(style.link, tab === 1 && style.active)}
+            className={
+              classNames(
+                style.link,
+                tab === 1 && style.active
+              )
+            }
             onClick={() => setTab(1)}
           >
             {t('jackpots')}

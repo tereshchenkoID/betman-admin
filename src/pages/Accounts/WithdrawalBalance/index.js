@@ -1,26 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
-
-import {types} from 'constant/config'
-
-import { postData } from 'hooks/useRequest'
-import { setToastify } from 'store/actions/toastifyAction'
-import { setAside } from 'store/actions/asideAction'
-import { updateAgents } from 'store/actions/agentsAction'
-import { searchById } from 'helpers/searchById'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
-import CustomSelect from "components/Select";
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
 const WithdrawalBalance = ({ data }) => {
-  const dispatch = useDispatch()
   const { t } = useTranslation()
-  const { agents } = useSelector(state => state.agents)
   const initialValue = {
     parent_id: data.id,
     parent_username: data.username,
@@ -28,9 +16,6 @@ const WithdrawalBalance = ({ data }) => {
     amount: null,
   }
   const [filter, setFilter] = useState(initialValue)
-  const [inherit, setInherit] = useState(null)
-  const list = agents
-  const find = useMemo(() => searchById(list[0], data.id), [])
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -45,76 +30,7 @@ const WithdrawalBalance = ({ data }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
-
-    const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
-
-    console.log(find)
-
-    postData(`new/${data.type.toLowerCase()}/`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
-
-          if (find.length > 0) {
-            if (data.type === types.TYPE[0]) {
-              if(!find[0].clients) {
-                find[0].clients = [];
-              }
-              find[0].clients.push(json.data)
-            } else {
-              find[0].shops.push(json.data)
-            }
-
-            dispatch(updateAgents(list))
-          }
-
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
   }
-
-  const handleInherit = () => {
-    const formData = new FormData()
-    formData.append('id', data.id)
-    formData.append('type', data.type.toLowerCase())
-
-    postData(`inherit/`, formData).then(json => {
-      if (json.status === 'OK') {
-        setInherit(json.data)
-
-        initialValue.country = json.data.country
-        initialValue.currency = json.data.currency
-        initialValue.web_players_allowed = json.data.web_players_allowed
-        initialValue.children_creation_allowed =
-          json.data.children_creation_allowed
-
-        setFilter(() => initialValue)
-      }
-    })
-  }
-
-  useEffect(() => {
-    handleInherit()
-  }, [])
-
-  if (!inherit) return
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>

@@ -6,11 +6,12 @@
 }
 
 .currencies {
-  @include make-spacer(pb, 8px);
   @include flex(null, center);
 
-  gap: rem(4px);
+  border-bottom: rem(1px) solid var(--color-border);
+  height: rem(40px);
   overflow-x: auto;
+  overflow-y: hidden;
 
   &::-webkit-scrollbar {
     width: rem(15px);
@@ -28,7 +29,7 @@
 }
 
 .currency {
-  @include make-spacer(p, 5px);
+  @include make-spacer(p, 4px);
 
   border-radius: var(--default-border-radius);
   font-size: rem(14px);

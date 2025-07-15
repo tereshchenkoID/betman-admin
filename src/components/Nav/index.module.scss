@@ -38,11 +38,13 @@
 }
 
 .setting {
+
   button {
-    @include size(rem(40px), rem(40px));
+    @include size(rem(40px));
   }
+
   svg {
-    @include size(rem(30px), rem(30px));
+    @include size(rem(30px));
   }
 }
 

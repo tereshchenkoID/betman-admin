@@ -2,10 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import { modes, service } from 'constant/config'
-
 import { postData } from 'hooks/useRequest'
-import { convertOptions } from 'helpers/convertOptions'
 import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'
@@ -34,17 +31,12 @@ const Websites = ({ data, inherit, setUpdate }) => {
     ...data.shop,
     domains: data.shop?.domains ?? DATA,
   })
-  const isDisabled = inherit === '1'
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
       ...prevData,
       [fieldName]: fieldValue,
     }))
-  }
-
-  const handleResetForm = () => {
-    setFilter(data.shop)
   }
 
   const handleSubmit = e => {
@@ -85,9 +77,9 @@ const Websites = ({ data, inherit, setUpdate }) => {
       <form className={style.block} onSubmit={handleSubmit}>
         <div className={style.table}>
           <div className={style.row}>
-            <div className={style.cell}><strong>ID</strong></div>
-            <div className={style.cell}><strong>{t('domain_name')}</strong></div>
-            <div className={style.cell}><strong></strong></div>
+            <div className={style.cell}>ID</div>
+            <div className={style.cell}>{t('domain_name')}</div>
+            <div className={style.cell} />
           </div>
           {filter.domains?.map((domain, idx) => (
             <div className={style.row} key={domain.id}>
