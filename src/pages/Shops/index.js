@@ -1,9 +1,11 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { service } from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
 import { getData } from 'hooks/useRequest'
+import { convertOptions } from 'helpers/convertOptions'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -59,6 +61,8 @@ const Shops = () => {
   const { t } = useTranslation()
   const { agent } = useParams()
   const initialValue = {
+    'q': '',
+    'locked': '',
     'agent': Number(agent) || '',
     'date-from': getDate(new Date().setHours(-24, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
@@ -78,6 +82,8 @@ const Shops = () => {
     e && e.preventDefault()
 
     const formData = new FormData()
+    formData.append('q', filter['q'])
+    formData.append('locked', filter['locked'])
     formData.append('date-from', filter['date-from'])
     formData.append('date-to', filter['date-to'])
     formData.append('page', pagination.page)
@@ -161,6 +167,12 @@ const Shops = () => {
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.grid}>
+            <Field
+              type='text'
+              placeholder={t('id_username')}
+              data={filter['q']}
+              onChange={value => handlePropsChange('q', value)}
+            />
             <CustomSelect
               placeholder={t('agents')}
               options={agentsOptions}
@@ -178,6 +190,12 @@ const Shops = () => {
               placeholder={t('date_to')}
               data={filter['date-to']}
               onChange={value => handlePropsChange('date-to', value)}
+            />
+            <CustomSelect
+              placeholder={t('locked')}
+              options={convertOptions(service.YES_NO)}
+              data={filter['locked']}
+              onChange={value => handlePropsChange('locked', value)}
             />
           </div>
           <div className={style.actions}>

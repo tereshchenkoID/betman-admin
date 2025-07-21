@@ -51,3 +51,25 @@
   color: var(--color-primary);
   text-decoration: underline;
 }
+
+
+.actions {
+  @include make-spacer(mt, 4px);
+}
+
+.icon {
+  color: var(--color-white);
+  border-radius: var(--default-border-radius);
+
+  &.deposit {
+    background-color: var(--color-primary);
+  }
+
+  &.withdraw {
+    background-color: var(--color-warning);
+  }
+
+  &:hover {
+    color: var(--color-white);
+  }
+}

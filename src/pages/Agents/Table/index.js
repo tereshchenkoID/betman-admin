@@ -56,7 +56,31 @@ const Table = ({ data, config }) => {
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
-        return value ? <ReadMore data={value} /> : null
+        return value
+          ?
+            <div>
+              <ReadMore data={value} />
+              <div className={style.actions}>
+                <Icon
+                  classes={[
+                    style.icon,
+                    style.deposit
+                  ]}
+                  icon="fa-plus"
+                  alt="deposit"
+                />
+                <Icon
+                  classes={[
+                    style.icon,
+                    style.withdraw
+                  ]}
+                  icon="fa-minus"
+                  alt="withdraw"
+                />
+              </div>
+            </div>
+          :
+            null
       default:
         return value
     }

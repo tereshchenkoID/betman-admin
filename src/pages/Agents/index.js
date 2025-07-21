@@ -1,15 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { getDate } from "helpers/getDate"
-import { getData } from "hooks/useRequest"
+import { service } from 'constant/config'
+
+import { getDate } from 'helpers/getDate'
+import { getData } from 'hooks/useRequest'
+import { convertOptions } from 'helpers/convertOptions'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
-import Field from "components/Field"
-import Loader from "components/Loader"
+import Field from 'components/Field'
+import Loader from 'components/Loader'
+import CustomSelect from 'components/Select'
+import Pagination from 'modules/Pagination'
 import Debug from 'modules/Debug'
-import Pagination from "modules/Pagination"
 import Table from './Table'
 
 import style from './index.module.scss'
@@ -52,6 +56,8 @@ const CONFIG = [
 const Agents = () => {
   const { t } = useTranslation()
   const initialValue = {
+    'q': '',
+    'locked': '',
     'date-from': getDate(new Date().setHours(-24, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
   }
@@ -69,6 +75,8 @@ const Agents = () => {
     e && e.preventDefault()
 
     const formData = new FormData()
+    formData.append('q', filter['q'])
+    formData.append('locked', filter['locked'])
     formData.append('date-from', filter['date-from'])
     formData.append('date-to', filter['date-to'])
     formData.append('page', pagination.page)
@@ -141,16 +149,28 @@ const Agents = () => {
         <form onSubmit={handleSubmit}>
           <div className={style.grid}>
             <Field
-              type="datetime-local"
+              type='text'
+              placeholder={t('id_username')}
+              data={filter['q']}
+              onChange={value => handlePropsChange('q', value)}
+            />
+            <Field
+              type='datetime-local'
               placeholder={t('date_from')}
               data={filter['date-from']}
               onChange={value => handlePropsChange('date-from', value)}
             />
             <Field
-              type="datetime-local"
+              type='datetime-local'
               placeholder={t('date_to')}
               data={filter['date-to']}
               onChange={value => handlePropsChange('date-to', value)}
+            />
+            <CustomSelect
+              placeholder={t('locked')}
+              options={convertOptions(service.YES_NO)}
+              data={filter['locked']}
+              onChange={value => handlePropsChange('locked', value)}
             />
           </div>
           <div className={style.actions}>
@@ -180,7 +200,7 @@ const Agents = () => {
                   handleDataChange={setData}
                 />
                 <Pagination
-                  position="bottom"
+                  position='bottom'
                   pagination={pagination}
                   nextHandler={nextHandleSubmit}
                   prevHandler={prevHandleSubmit}
@@ -195,20 +215,3 @@ const Agents = () => {
 }
 
 export default Agents
-
-
-// Shop
-// filters: Subagent, Date create,
-
-// Players
-// filters: Subagent, Shop, Date create, Date last played, Date last deposit
-
-// Cashier
-// filters: Subagent, Shop, Date create, Date last played, Date last deposit, withdrawal
-
-
-// Agent - 0
-// Subagent - 1
-// Shop - 2
-// Cashier - 3
-// Players - 4
