@@ -4,22 +4,3 @@
   display: grid;
   gap: rem(16px);
 }
-
-.filter {
-  @include make-spacer(mb, rem(16px));
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: rem(16px);
-
-  & > * {
-    grid-column: 4;
-  }
-}
-
-.actions {
-  @include flex(flex-end, center);
-  @include make-spacer(mb, rem(16px));
-
-  gap: rem(16px);
-}

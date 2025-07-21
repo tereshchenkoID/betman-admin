@@ -4,42 +4,42 @@
     "page": "0",
     "pages": "1",
     "quantity": "20",
-    "results": "2"
+    "results": "20"
   },
   "data": [
     {
-      "id": "1000",
-      "username": "test",
-      "full_name": "Test",
+      "id": "1",
+      "username": "austin",
+      "full_name": "Shop",
       "locked": "0",
       "currency": "USD",
       "date_created": "1752608279798",
-      "email": "test@mail.com",
-      "phone": "+2332833463684",
+      "credits": {
+        "ETB": "999827582.68"
+      },
       "agent": {
         "id": "1000",
         "username": "austin"
       },
-      "credits": {
-        "ETB": "999827582.68"
-      }
+      "cashiers": "10",
+      "players": "1"
     },
     {
-      "id": "1001",
-      "username": "player",
-      "full_name": "Player",
+      "id": "2",
+      "username": "test",
+      "full_name": "Austin Shop",
       "locked": "0",
       "currency": "USD",
       "date_created": "1752508279798",
-      "email": "tes2t@mail.com",
-      "phone": "+3332833463684",
+      "credits": {
+        "ETB": "999827582.68"
+      },
       "agent": {
         "id": "1000",
         "username": "austin"
       },
-      "credits": {
-        "ETB": "999827582.68"
-      }
+      "cashiers": "20",
+      "players": "100"
     }
   ]
 }

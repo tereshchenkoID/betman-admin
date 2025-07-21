@@ -1,14 +1,19 @@
 import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
+import { NAVIGATION } from "../constant/config"
 
-import App from '../App'
+import App from 'App'
 import Loader from 'components/Loader'
+
+const Agents = lazy(() => import('pages/Agents'))
+const Shops = lazy(() => import('pages/Shops'))
+const Players = lazy(() => import('pages/Players'))
+const Cashiers = lazy(() => import('pages/Cashiers'))
 
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
 const Settings = lazy(() => import('pages/Settings'))
-const Accounts = lazy(() => import('pages/Accounts'))
 const Reports = lazy(() => import('pages/Reports'))
 const History = lazy(() => import('pages/History'))
 const Financial = lazy(() => import('pages/Financial'))
@@ -25,14 +30,15 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: withSuspense(Dashboard) },
-      { path: 'accounts', element: withSuspense(Accounts) },
-      { path: 'login', element: withSuspense(Login) },
-      { path: 'players', element: withSuspense(Dashboard) },
-      { path: 'reports', element: withSuspense(Reports) },
-      { path: 'history', element: withSuspense(History) },
-      { path: 'financial', element: withSuspense(Financial) },
-      { path: 'accounts', element: withSuspense(Accounts) },
-      { path: 'settings', element: withSuspense(Settings) },
+      { path: NAVIGATION.agents.link, element: withSuspense(Agents) },
+      { path: `${NAVIGATION.shops.link}/:agent?`, element: withSuspense(Shops) },
+      { path: `${NAVIGATION.players.link}/:agent?/:shop?`, element: withSuspense(Players) },
+      { path: `${NAVIGATION.cashiers.link}/:agent?/:shop?`, element: withSuspense(Cashiers) },
+      { path: NAVIGATION.login.link, element: withSuspense(Login) },
+      { path: NAVIGATION.reports.link, element: withSuspense(Reports) },
+      { path: NAVIGATION.history.link, element: withSuspense(History) },
+      { path: NAVIGATION.financial.link, element: withSuspense(Financial) },
+      { path: NAVIGATION.settings.link, element: withSuspense(Settings) },
     ],
   },
 ])

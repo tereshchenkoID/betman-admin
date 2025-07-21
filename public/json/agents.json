@@ -9,37 +9,36 @@
   "data": [
     {
       "id": "1000",
-      "username": "test",
+      "username": "austin",
       "full_name": "Test",
       "locked": "0",
       "currency": "USD",
       "date_created": "1752608279798",
-      "email": "test@mail.com",
-      "phone": "+2332833463684",
-      "agent": {
-        "id": "1000",
-        "username": "austin"
-      },
       "credits": {
-        "ETB": "999827582.68"
-      }
+        "ETB": "999827582.68",
+        "KES": "184306557.00",
+        "NGN": "100000000.00",
+        "SSP": "96500000.00",
+        "UGX": "90000000.00",
+        "USD": "99314641.38"
+      },
+      "shops": "4",
+      "cashiers": "10",
+      "players": "1"
     },
     {
       "id": "1001",
-      "username": "player",
-      "full_name": "Player",
+      "username": "test",
+      "full_name": "Austin Test",
       "locked": "0",
       "currency": "USD",
       "date_created": "1752508279798",
-      "email": "tes2t@mail.com",
-      "phone": "+3332833463684",
-      "agent": {
-        "id": "1000",
-        "username": "austin"
-      },
       "credits": {
         "ETB": "999827582.68"
-      }
+      },
+      "shops": "14",
+      "cashiers": "20",
+      "players": "100"
     }
   ]
 }

@@ -12,13 +12,15 @@ const ReadMore = ({ data }) => {
   return (
     <div className={classNames(style.block, active && style.active)}>
       <ul className={style.list}>
-        {Object.entries(data).map(([key, value]) => (
-          <li key={key}>
-            {key} {value}
-          </li>
-        ))}
+        {
+          Object.entries(data).map(([key, value]) =>
+            <li key={key}>
+              {key} {value}
+            </li>
+          )}
       </ul>
-      {Object.entries(data).length > 2 && (
+      {
+        Object.entries(data).length > 2 &&
         <button
           className={style.button}
           type={'button'}
@@ -26,7 +28,7 @@ const ReadMore = ({ data }) => {
         >
           {active ? t('less_more') : t('read_more')}
         </button>
-      )}
+      }
     </div>
   )
 }

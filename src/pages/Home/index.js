@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { useLocation, Outlet } from 'react-router-dom'
 
 import { setSettings } from 'store/actions/settingsAction'
-import { setAgents } from 'store/actions/agentsAction'
 
 import Loader from 'components/Loader'
 import Header from 'components/Header'
@@ -20,12 +19,8 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(setSettings())
-    dispatch(setAgents()).then(json => {
-      if(json) {
-        setLoading(false)
-        setLoaded(true)
-      }
-    })
+    setLoading(false)
+    setLoaded(true)
   }, [dispatch])
 
   useEffect(() => {

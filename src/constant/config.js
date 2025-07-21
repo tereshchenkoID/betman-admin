@@ -1,104 +1,59 @@
-export const statuses = {
-  STAKE_STATUSES: {
-    0: 'OPEN',
-    4: 'LOSE',
-    5: 'WIN',
-    13: 'CANCEL',
+export const NAVIGATION = {
+  home: {
+    text: 'home',
+    link: '/',
   },
-
-  TICKET_STATUSES: {
-    0: 'CONFIRMED',
-    4: 'LOSE',
-    5: 'WON (Not Paid)',
-    6: 'WON (Paid Out)',
-    9: 'EXPIRED',
-    13: 'CANCELLED',
+  agents: {
+    text: 'agents',
+    icon: 'fa-solid fa-users',
+    link: '/agents',
   },
+  shops: {
+    text: 'shops',
+    icon: 'fa-solid fa-shop',
+    link: '/shops',
+  },
+  cashiers: {
+    text: 'cashiers',
+    icon: 'fa-solid fa-cash-register',
+    link: '/cashiers',
+  },
+  players: {
+    text: 'players',
+    icon: 'fa-solid fa-users',
+    link: '/players',
+  },
+  reports: {
+    text: 'reports',
+    link: '/reports',
+  },
+  history: {
+    text: 'history',
+    link: '/history',
+  },
+  financial: {
+    text: 'financial',
+    link: '/financial',
+  },
+  settings: {
+    text: 'settings',
+    link: '/settings'
+  },
+  login: {
+    text: 'login',
+    link: '/login'
+  }
 }
 
-export const DEFAULT = '-1'
-
-export const types = {
-  ACCOUNT_TYPE : {
-    'Admin': 1,
-    'Manager': 2
-  },
-
-  TYPE: {
-    0: 'PLAYER',
-    1: 'SHOP',
-    2: 'VOUCHER',
-    3: 'IMPORT PLAYERS',
-    4: 'DEPOSIT',
-    5: 'WITHDRAWAL',
-    6: 'USER',
-  },
-
-  LEVEL_TYPE: {
-    0: 'STAFF',
-    1: 'MASTER',
-  },
-
-  PLAYER_TYPE: {
-    0: 'ANY',
-    1: 'SHOP',
-    2: 'WEB',
-  },
-
-  TRANSFER_TYPE: {
-    0: 'DEPOSIT',
-    1: 'PAYOUT',
-  },
-
-  AGENT_TRANSFER_TYPE: {
-    0: 'TO AGENT',
-    1: 'FROM AGENT',
-    2: 'TO SHOP',
-    3: 'FROM SHOP',
-    4: 'COMMISSION TO AGENT',
-    5: 'COMMISSION TO SHOP',
-    6: 'CASH-IN',
-    7: 'CASH-OUT',
-  },
-}
-
-export const timeframe = {
-  TIMEFRAME: {
-    0: 'CURRENT HOURS',
-    1: 'TODAY',
-    2: 'THIS WEEK',
-    3: 'THIS MONTH',
-    4: 'LAST HOURS',
-    5: 'YESTERDAY',
-    6: 'LAST WEEK',
-    7: 'LAST MONTH',
-  },
-}
-
-export const modes = {
-  STAKE_MODE: {
-    0: 'PER BET',
-    1: 'PER GROUP',
-  },
-
-  PRINTING_MODE: {
-    0: 'POS',
-    1: 'WEB PRINT',
-    2: 'DISABLED',
-  },
-}
-
-export const ticket = {
-  PAYOUT: {
-    0: 'AFTER SCAN',
-    1: 'IMMEDIATELY',
-    2: 'IMMEDIATELY TO WALLET',
-  },
+export const ACCOUNT_TYPE = {
+  'AGENT': 0,
+  'SUBAGENT': 1,
+  'SHOP': 2,
+  'CASHIER': 3,
+  'PLAYER': 4
 }
 
 export const service = {
-  COLORS: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0'],
-
   YES_NO: {
     0: 'NO',
     1: 'YES',

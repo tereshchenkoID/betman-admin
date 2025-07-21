@@ -27,48 +27,47 @@ const Paper = ({
       className={
         classNames(
           style.block,
-          classes && classes.map(el => style[el]),
+          classes && classes.map(el => style[el] || el),
         )
       }
     >
-      {headline && (
+      {
+        headline &&
         <>
           <div className={style.headline}>
             <h5>{headline}</h5>
             {
-              close && (
-                <Icon
-                  icon={'fa-times'}
-                  action={() => dispatch(setAside(null))}
-                  alt={'Close'}
-                />
-              )
+              close &&
+              <Icon
+                icon={'fa-times'}
+                action={() => dispatch(setAside(null))}
+                alt={'Close'}
+              />
             }
             {
-              quantity && (
-                <div className={style.option}>
-                  <Select
-                    placeholder={t('rows')}
-                    options={[
-                      { value: 20, label: '20' },
-                      { value: 50, label: '50' },
-                      { value: 100, label: '100' },
-                    ]}
-                    data={quantity}
-                    onChange={value =>
-                      setQuantity(prevData => ({
-                        ...prevData,
-                        quantity: value,
-                      }))
-                    }
-                  />
-                </div>
-              )
+              quantity &&
+              <div className={style.option}>
+                <Select
+                  placeholder={t('rows')}
+                  options={[
+                    { value: 20, label: '20' },
+                    { value: 50, label: '50' },
+                    { value: 100, label: '100' },
+                  ]}
+                  data={Number(quantity)}
+                  onChange={value =>
+                    setQuantity(prevData => ({
+                      ...prevData,
+                      quantity: value,
+                    }))
+                  }
+                />
+              </div>
             }
           </div>
           <hr className={style.hr} />
         </>
-      )}
+      }
       <div className={style.body}>{children}</div>
     </div>
   )

@@ -4,7 +4,6 @@ import thunk from 'redux-thunk'
 import settingsReducer from './reducers/settingsReducer'
 import toastifyReducer from './reducers/toastifyReducer'
 import asideReducer from './reducers/asideReducer'
-import agentsReducer from './reducers/agentsReducer'
 import authReducer from './reducers/authReducer'
 import cmdReducer from './reducers/cmdReducer'
 
@@ -12,7 +11,6 @@ const allReducer = combineReducers({
   settings: settingsReducer,
   toastify: toastifyReducer,
   aside: asideReducer,
-  agents: agentsReducer,
   auth: authReducer,
   cmd: cmdReducer,
 })

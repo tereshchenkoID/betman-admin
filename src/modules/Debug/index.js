@@ -9,10 +9,10 @@ import style from './index.module.scss'
 
 const Debug = ({ data }) => {
   const { settings } = useSelector(state => state.settings)
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(true)
 
-  if(settings.mode !== 'debug')
-    return
+  // if(settings.mode !== 'debug')
+  //   return
 
   return (
     <div className={style.block}>

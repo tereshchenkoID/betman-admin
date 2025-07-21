@@ -5,6 +5,7 @@
   @include make-spacer(p, 16px);
   @include flex($direction: column);
 
+  position: relative;
   border-radius: var(--default-border-radius);
   box-shadow: var(--default-box-shadow);
   background-color: var(--color-white);

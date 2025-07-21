@@ -15,13 +15,17 @@ const Pagination = ({
   endHandlerSubmit,
 }) => {
   const { t } = useTranslation()
-
-  const isLargest =
-    pagination.page === pagination.pages ||
-    pagination.quantity >= pagination.results
+  const isLargest = pagination.page === pagination.pages || pagination.quantity >= pagination.results
 
   return (
-    <div className={classNames(style.block, style[position])}>
+    <div
+      className={
+        classNames(
+          style.block,
+          style[position]
+        )
+      }
+    >
       <div className={style.counts}>
         <strong>
           {pagination.pages > 0 ? pagination.page * pagination.quantity + 1 : 1}

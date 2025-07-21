@@ -3,7 +3,6 @@ import { getHostName } from 'helpers/getHostName'
 
 const handleUnauthorized = (response) => {
   if (response?.data?.code === '4') {
-    console.log(response.data)
     sessionStorage.clear()
     window.location = '/'
     return -1

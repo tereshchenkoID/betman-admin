@@ -4,7 +4,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useOutsideClick } from 'hooks/useOutsideClick'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { types } from 'constant/config'
+
+import { NAVIGATION } from 'constant/config'
 
 import classNames from 'classnames'
 
@@ -22,45 +23,26 @@ const Nav = () => {
   const { settings } = useSelector(state => state.settings)
   const [show, setShow] = useState(false)
   const [active, setActive] = useState(false)
-  const [data, setData] = useState(null)
 
   const menu = [
-    {
-      text: 'accounts',
-      icon: 'fa-solid fa-users',
-      link: '/accounts',
-    },
-    {
-      text: 'players',
-      icon: 'fa-solid fa-users',
-      link: '/players',
-    },
+    NAVIGATION.agents,
+    NAVIGATION.shops,
+    NAVIGATION.cashiers,
+    NAVIGATION.players,
     {
       text: 'reports',
       icon: 'fa-solid fa-file',
       submenu: [
-        {
-          text: 'reports',
-          link: '/reports',
-        },
-        {
-          text: 'history',
-          link: '/history',
-        },
-        {
-          text: 'financial',
-          link: '/financial',
-        },
+        NAVIGATION.reports,
+        NAVIGATION.history,
+        NAVIGATION.financial,
       ],
     },
     {
       text: 'account',
       icon: 'fa-solid fa-user',
       submenu: [
-        {
-          text: 'settings',
-          link: '/settings',
-        },
+        NAVIGATION.settings,
       ],
     },
   ]
@@ -81,29 +63,20 @@ const Nav = () => {
     },
   )
 
-  const handleEditUser = (e, type, el = null) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: `${t('edit')} ${t(type)}`,
-          cmd: 'account-edit-user',
-          buttonRef: e.target,
-        },
-        type: type,
-        ...(el || data),
-      }),
-    )
-  }
-
   return (
     <nav
       ref={blockRef}
-      className={classNames(style.block, show && style.active)}
+      className={
+        classNames(
+          style.block,
+          show && style.active
+        )
+      }
     >
       <div className={style.wrapper}>
         <div className={style.logo}>
           <Link
-            to={`/`}
+            to={NAVIGATION.home.link}
             rel="noreferrer"
             onClick={() => {
               setShow(false)
@@ -121,81 +94,103 @@ const Nav = () => {
         </div>
         <hr/>
         <ul className={style.list}>
-          {menu.map((el, idx) => (
+          {
+            menu.map((el, idx) =>
             <li
               key={idx}
-              className={classNames(style.item, idx === active && style.active)}
+              className={
+                classNames(
+                  style.item,
+                  idx === active && style.active
+                )
+              }
             >
               {
                 el.submenu
                   ?
-                  <>
-                      <span
-                        className={style.link}
-                        onClick={() => {
-                          setActive(idx)
-                          setShow(true)
-                          dispatch(setAside(null))
-                        }}
-                      >
-                        <FontAwesomeIcon icon={el.icon} className={style.icon}/>
-                        <span>{t(el.text)}</span>
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-angle-down"
-                          className={style.arrow}
-                        />
-                      </span>
-                    <div className={style.submenu}>
-                      {
-                        el.submenu.map((el_s, idx_s) => (
-                          <Link
-                            key={idx_s}
-                            to={el_s.link}
-                            rel="noreferrer"
-                            className={classNames(
-                              style.link,
-                              pathname === el_s.link && style.active,
-                            )}
-                            onClick={() => dispatch(setAside(null))}
-                          >
-                            {
-                              el_s.icon &&
-                              <FontAwesomeIcon icon={el_s.icon} className={style.icon}/>
-                            }
-                            <span>{t(el_s.text)}</span>
-                          </Link>
-                        ))
-                      }
-                    </div>
-                  </>
+                    <>
+                        <span
+                          className={style.link}
+                          onClick={() => {
+                            setActive(idx)
+                            setShow(true)
+                            dispatch(setAside(null))
+                          }}
+                        >
+                          <FontAwesomeIcon icon={el.icon} className={style.icon}/>
+                          <span>{t(el.text)}</span>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-angle-down"
+                            className={style.arrow}
+                          />
+                        </span>
+                      <div className={style.submenu}>
+                        {
+                          el.submenu.map((el_s, idx_s) => (
+                            <Link
+                              key={idx_s}
+                              to={el_s.link}
+                              rel="noreferrer"
+                              className={classNames(
+                                style.link,
+                                pathname === el_s.link && style.active,
+                              )}
+                              onClick={() => dispatch(setAside(null))}
+                            >
+                              {
+                                el_s.icon &&
+                                <FontAwesomeIcon icon={el_s.icon} className={style.icon}/>
+                              }
+                              <span>{t(el_s.text)}</span>
+                            </Link>
+                          ))
+                        }
+                      </div>
+                    </>
                   :
-                  <Link
-                    to={el.link}
-                    rel="noreferrer"
-                    className={classNames(
-                      style.link,
-                      pathname === el.link && style.active,
-                    )}
-                    onClick={() => dispatch(setAside(null))}
-                  >
-                    <FontAwesomeIcon icon={el.icon} className={style.icon}/>
-                    <span>{t(el.text)}</span>
-                  </Link>
+                    <Link
+                      to={el.link}
+                      rel="noreferrer"
+                      className={classNames(
+                        style.link,
+                        pathname === el.link && style.active,
+                      )}
+                      onClick={() => dispatch(setAside(null))}
+                    >
+                      <FontAwesomeIcon icon={el.icon} className={style.icon}/>
+                      <span>{t(el.text)}</span>
+                    </Link>
               }
             </li>
-          ))}
+          )}
         </ul>
         <hr/>
         <div className={style.setting}>
           <Icon
             icon={'fa-gear'}
             alt={'gear'}
-            action={e => handleEditUser(e, types.TYPE[6])}
+            action={e =>
+              dispatch(
+                setAside({
+                  meta: {
+                    title: t('edit'),
+                    cmd: 'settings',
+                    buttonRef: e.target,
+                  }
+                }),
+              )
+            }
           />
         </div>
         <hr/>
-        <div ref={buttonRef} className={style.action}>
-          <Toggle active={show} action={setShow}/>
+        <div
+          ref={buttonRef}
+          className={style.action}
+        >
+          <Toggle
+            active={show}
+            action={setShow}
+          />
         </div>
       </div>
     </nav>

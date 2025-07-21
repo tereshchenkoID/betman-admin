@@ -1,7 +1,7 @@
 @use 'scss/config' as *;
 
 .block {
-  @include make-spacer(mb, 20px);
+  @include make-spacer(mb, 24px);
 
   position: relative;
   border: rem(1px) solid var(--color-border);
@@ -11,9 +11,9 @@
 
 .button {
   @include flex(space-between, center);
-  @include make-spacer(p, 10px);
+  @include make-spacer(p, 8px);
 
-  gap: rem(5px);
+  gap: rem(4px);
   width: 100%;
 
   &.active {
@@ -31,5 +31,7 @@
 }
 
 .pre {
-  @include make-spacer(p, 10px);
+  @include make-spacer(mt, 0);
+  @include make-spacer(mx, 8px);
+  @include make-spacer(mb, 8px);
 }
