@@ -55,12 +55,7 @@ const Paper = ({
                     { value: 100, label: '100' },
                   ]}
                   data={Number(quantity)}
-                  onChange={value =>
-                    setQuantity(prevData => ({
-                      ...prevData,
-                      quantity: value,
-                    }))
-                  }
+                  onChange={value => setQuantity(value)}
                 />
               </div>
             }

@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
@@ -80,24 +80,30 @@ const Players = () => {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState(initialValue)
   const [data, setData] = useState({})
-  const [pagination, setPagination] = useState({
-    page: 0,
-    quantity: 20,
-    results: 0,
-    pages: 0,
+  const [quantity, setQuantity] = useState(20)
+  const [sort, setSort] = useState({
+    key: null,
+    direction: null,
   })
+
   const isSingle = agent || shop
 
-  const handleSubmit = e => {
+  const handleSubmit = (e, page) => {
     e && e.preventDefault()
 
+    setLoading(true)
+
     const formData = new FormData()
+    formData.append('page', page)
+    formData.append('quantity', quantity)
     formData.append('q', filter['q'])
     formData.append('locked', filter['locked'])
     formData.append('date-from', filter['date-from'])
     formData.append('date-to', filter['date-to'])
-    formData.append('page', pagination.page)
-    formData.append('quantity', pagination.quantity)
+
+    if (sort.direction !== null) {
+      formData.append('sort', JSON.stringify(sort))
+    }
 
     if (isSingle) {
       formData.append('agent', agent)
@@ -107,8 +113,7 @@ const Players = () => {
     // TODO Update after api on postData
     getData('http://localhost:3001/json/players.json').then(json => {
       if (json.code === '0') {
-        setData(json.data)
-        setPagination(json.pagination)
+        setData(json)
         setLoading(false)
       } else {
         console.error('Failed to load players:', data.message)
@@ -127,37 +132,28 @@ const Players = () => {
     }))
   }
 
-  const nextHandleSubmit = () => {
-    setPagination((prev) => ({
-      ...prev,
-      page: Math.min(prev.page + 1, prev.pages - 1),
-    }))
-  }
+  const handleSortChange = (fieldName) => {
+    setSort((prev) => {
+      if (prev.key === fieldName) {
+        const nextDirection =
+          prev.direction === null
+            ? 'asc'
+            : prev.direction === 'asc'
+              ? 'desc'
+              : null;
 
-  const prevHandleSubmit = () => {
-    setPagination((prev) => ({
-      ...prev,
-      page: Math.max(prev.page - 1, 0),
-    }))
-  }
+        return {
+          key: nextDirection ? fieldName : null,
+          direction: nextDirection,
+        };
+      }
 
-  const startHandlerSubmit = () => {
-    setPagination((prev) => ({
-      ...prev,
-      page: 0,
-    }))
+      return {
+        key: fieldName,
+        direction: 'asc',
+      };
+    });
   }
-
-  const endHandlerSubmit = () => {
-    setPagination((prev) => ({
-      ...prev,
-      page: prev.pages - 1,
-    }))
-  }
-
-  useEffect(() => {
-    handleSubmit()
-  }, [])
 
   const agentsOptions = useMemo(() => {
     return [{id: 1000, username: 'test'}].map((el) => ({
@@ -173,15 +169,20 @@ const Players = () => {
     }))
   }, [])
 
+  useEffect(() => {
+    handleSubmit(null, 0);
+  }, [quantity, sort])
+
   return (
     <>
       <Paper
         headline={t('players')}
         classes={['sm']}
-        quantity={!isSingle && pagination.quantity}
-        setQuantity={!isSingle && setPagination}
+        quantity={!isSingle && quantity}
+        setQuantity={!isSingle && setQuantity}
       >
         <p>Agent: {agent}, Shop: {shop}</p>
+        <Debug data={sort} />
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.grid}>
@@ -246,20 +247,26 @@ const Players = () => {
               <Loader type={'block'} />
             :
               <>
+                {
+                  !isSingle &&
+                  <Pagination
+                    position='bottom'
+                    pagination={data.pagination}
+                    handleSubmit={handleSubmit}
+                  />
+                }
                 <Table
-                  data={data}
+                  data={data.data}
                   config={CONFIG}
-                  handleDataChange={setData}
+                  sort={sort}
+                  handleSortChange={handleSortChange}
                 />
                 {
                   !isSingle &&
                   <Pagination
                     position='bottom'
-                    pagination={pagination}
-                    nextHandler={nextHandleSubmit}
-                    prevHandler={prevHandleSubmit}
-                    startHandlerSubmit={startHandlerSubmit}
-                    endHandlerSubmit={endHandlerSubmit}
+                    pagination={data.pagination}
+                    handleSubmit={handleSubmit}
                   />
                 }
               </>

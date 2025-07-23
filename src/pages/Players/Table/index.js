@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -10,42 +10,8 @@ import ReadMore from 'modules/ReadMore'
 
 import style from './index.module.scss'
 
-const Table = ({ data, config }) => {
+const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
-  const [sortKey, setSortKey] = useState(null)
-  const [sortOrder, setSortOrder] = useState('asc')
-
-  const handleSort = (key) => {
-    if (sortKey !== key) {
-      setSortKey(key)
-      setSortOrder('asc')
-    } else if (sortOrder === 'asc') {
-      setSortOrder('desc')
-    } else {
-      setSortKey(null)
-      setSortOrder('asc')
-    }
-  }
-
-  const sortedData = useMemo(() => {
-    if (!sortKey) return data
-
-    return [...data].sort((a, b) => {
-      const aVal = a[sortKey]
-      const bVal = b[sortKey]
-
-      if (aVal == null) return 1
-      if (bVal == null) return -1
-
-      if (typeof aVal === 'number' && typeof bVal === 'number') {
-        return sortOrder === 'asc' ? aVal - bVal : bVal - aVal
-      }
-
-      return sortOrder === 'asc'
-        ? String(aVal).localeCompare(String(bVal))
-        : String(bVal).localeCompare(String(aVal))
-    })
-  }, [data, sortKey, sortOrder])
 
   const renderCell = (key, row) => {
     if (key.indexOf('.') !== -1) {
@@ -107,7 +73,7 @@ const Table = ({ data, config }) => {
             <div
               key={key}
               className={style.cell}
-              onClick={() => handleSort(key)}
+              onClick={() => handleSortChange(key)}
             >
               <span>{t(text)}</span>
               {
@@ -115,8 +81,8 @@ const Table = ({ data, config }) => {
                 <FontAwesomeIcon
                   className={style.sort}
                   icon={`fa-solid ${
-                    sortKey === key
-                      ? sortOrder === 'asc'
+                    sort.key === key
+                      ? sort.direction === 'asc'
                         ? 'fa-arrow-up-wide-short'
                         : 'fa-arrow-down-wide-short'
                       : 'fa-sort'
@@ -130,9 +96,9 @@ const Table = ({ data, config }) => {
       </div>
 
       {
-        sortedData.length > 0
+        data.length > 0
           ?
-            sortedData.map((row, idx) =>
+            data.map((row, idx) =>
               <div
                 key={idx}
                 className={style.row}

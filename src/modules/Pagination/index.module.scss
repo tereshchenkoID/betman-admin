@@ -21,16 +21,8 @@
   }
 }
 
-.counts {
-  @include flex(null, center);
-
-  gap: rem(4px);
-  font-size: rem(14px);
-}
-
-.actions {
-  @include make-spacer(ml, 16px);
-  @include flex(null, center);
+.text {
+  @include make-spacer(mx, 16px);
 }
 
 .action {
