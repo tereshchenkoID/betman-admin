@@ -30,6 +30,10 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
     }))
   }
 
+  const handleResetForm = () => {
+    // setFilter(initialValue)
+  }
+
   const toggle = () => setIsEnabled(prev => !prev)
 
   const handleSubmit = e => {
@@ -247,6 +251,11 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
             label={t('wager_enabled')} />
           <div className={style.actions}>
             <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleResetForm}
+            />
           </div>
         </form>
       )}

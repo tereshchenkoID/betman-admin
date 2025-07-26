@@ -102,7 +102,7 @@ const Cashiers = () => {
     }
 
     // TODO Update after api on postData
-    getData('http://localhost:3001/json/cashiers.json').then(json => {
+    getData('http://localhost:3000/json/cashiers.json').then(json => {
       if (json.code === '0') {
         setData(json)
         setLoading(false)

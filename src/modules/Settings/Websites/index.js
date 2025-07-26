@@ -39,6 +39,10 @@ const Websites = ({ data, inherit, setUpdate }) => {
     }))
   }
 
+  const handleResetForm = () => {
+    // setFilter(initialValue)
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
 
@@ -101,6 +105,11 @@ const Websites = ({ data, inherit, setUpdate }) => {
         </div>
         <div className={style.actions}>
           <Button type={'submit'} classes={'primary'} placeholder={t('save')}/>
+          <Button
+            type={'reset'}
+            placeholder={t('cancel')}
+            onChange={handleResetForm}
+          />
         </div>
       </form>
     </>

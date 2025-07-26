@@ -88,7 +88,7 @@ const Agents = () => {
     }
 
     // TODO Update after api on postData
-    getData('http://localhost:3001/json/agents.json').then(json => {
+    getData('http://localhost:3000/json/agents.json').then(json => {
       if (json.code === '0') {
         setData(json)
         setLoading(false)

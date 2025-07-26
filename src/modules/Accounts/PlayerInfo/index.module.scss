@@ -1,0 +1,17 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.info {
+  @include make-spacer(mb, 10px);
+  @include flex(space-between, center)
+}
+
+.title {
+  @include make-spacer(pt, 10px);
+  @include make-spacer(mb, 20px);
+  border-top: 1px solid var(--color-primary-05);
+}

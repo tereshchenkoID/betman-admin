@@ -38,6 +38,10 @@ const Jackpots = ({ data, inherit, setUpdate }) => {
     }))
   }
 
+  const handleResetForm = () => {
+    // setFilter(initialValue)
+  }
+
   const toggle = () => setIsEnabled(prev => !prev)
 
   const handleSubmit = e => {
@@ -144,6 +148,11 @@ const Jackpots = ({ data, inherit, setUpdate }) => {
         />
         <div className={style.actions}>
           <Button type={'submit'} classes={'primary'} placeholder={t('save')}/>
+          <Button
+            type={'reset'}
+            placeholder={t('cancel')}
+            onChange={handleResetForm}
+          />
         </div>
       </form>
     </>

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { setAside } from 'store/actions/asideAction'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { NAVIGATION, service } from 'constant/config'
@@ -13,6 +15,63 @@ import style from './index.module.scss'
 
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+
+  const handleDeposit= (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('deposit_balance'),
+          cmd: 'account-deposit',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handleWithdrawal = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('withdrawal_balance'),
+          cmd: 'account-withdrawal',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handlePlayer = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('new_player'),
+          cmd: 'account-player',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handleCashier = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('new_cashier'),
+          cmd: 'account-cashier',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
 
   const renderCell = (key, row) => {
     if (key.indexOf('.') !== -1) {
@@ -39,6 +98,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-plus"
                   alt="deposit"
+                  action={e => handleDeposit(e, service.TYPE[0])}
                 />
                 <Icon
                   classes={[
@@ -47,6 +107,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-minus"
                   alt="withdraw"
+                  action={e => handleWithdrawal(e, service.TYPE[1])}
                 />
               </div>
             </div>
@@ -65,9 +126,13 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     </>
   )
 
-  const renderLink = (label, value, url) => (
+  const renderLink = (label, value, url, handleAction, type) => (
     <>
-      <Icon icon="fa-add" alt="add" />
+      <Icon
+        icon="fa-add"
+        alt="add"
+        action={e => handleAction(e, service.TYPE[type])}
+      />
       <Link
         to={url}
         rel="noreferrer"
@@ -128,8 +193,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   )
                 }
                 <div className={style.cell}>{renderActions()}</div>
-                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.agent.id}/${row.id}`)}</div>
-                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.agent.id}/${row.id}`)}</div>
+                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.agent.id}/${row.id}`, handleCashier, 4)}</div>
+                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.agent.id}/${row.id}`, handlePlayer, 3)}</div>
               </div>
             )
           :

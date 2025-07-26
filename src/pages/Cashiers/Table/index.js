@@ -1,5 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from "react-redux";
+import { setAside } from 'store/actions/asideAction'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { service } from 'constant/config'
@@ -12,6 +14,35 @@ import style from './index.module.scss'
 
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+
+  const handleDeposit= (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('deposit_balance'),
+          cmd: 'account-deposit',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
+
+  const handleWithdrawal = (e, type) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('withdrawal_balance'),
+          cmd: 'account-withdrawal',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...data,
+      }),
+    )
+  }
 
   const renderCell = (key, row) => {
     if (key.indexOf('.') !== -1) {
@@ -38,6 +69,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-plus"
                   alt="deposit"
+                  action={e => handleDeposit(e, service.TYPE[0])}
                 />
                 <Icon
                   classes={[
@@ -46,6 +78,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-minus"
                   alt="withdraw"
+                  action={e => handleWithdrawal(e, service.TYPE[1])}
                 />
               </div>
             </div>

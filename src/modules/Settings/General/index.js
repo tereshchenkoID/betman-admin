@@ -31,6 +31,10 @@ const General = ({ data, inherit, setUpdate }) => {
     }))
   }
 
+  const handleResetForm = () => {
+    // setFilter(initialValue)
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
     const formData = new FormData()
@@ -91,6 +95,11 @@ const General = ({ data, inherit, setUpdate }) => {
         <ToggleSwitch isOn={isEnabled} handleToggle={toggle} label={t('short_form')} />
         <div className={style.actions}>
           <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
+          <Button
+            type={'reset'}
+            placeholder={t('cancel')}
+            onChange={handleResetForm}
+          />
         </div>
       </form>
     </>
