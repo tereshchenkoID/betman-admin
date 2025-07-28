@@ -9,6 +9,7 @@ const Button = ({
   classes = 'default',
   placeholder,
   onChange,
+  disabled = false,
 }) => {
   return (
     <button
@@ -16,6 +17,7 @@ const Button = ({
       className={
         classNames(
           style.block,
+          disabled && style.disabled,
           style[classes]
         )
       }

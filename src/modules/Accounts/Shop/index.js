@@ -91,6 +91,13 @@ const Shop = ({ data }) => {
       <Debug data={filter} />
       <Field
         type={'text'}
+        placeholder={t('current_id')}
+        data={filter.id}
+        required={true}
+        disabled={true}
+      />
+      <Field
+        type={'text'}
         placeholder={t('name')}
         data={filter.name}
         onChange={value => handlePropsChange('name', value)}

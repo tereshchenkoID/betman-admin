@@ -27,6 +27,7 @@ const Field = ({
         classNames(
           style.block,
           style[type],
+          disabled && style.disabled,
           classes && classes.map(el => style[el] || el),
         )
       }
@@ -40,7 +41,6 @@ const Field = ({
           onChange(e.currentTarget.value)
         }}
         required={required}
-        disabled={disabled}
         min={min}
         max={max}
       />

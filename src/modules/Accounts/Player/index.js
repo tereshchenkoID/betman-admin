@@ -86,6 +86,13 @@ const Player = ({ data }) => {
       <Debug data={filter} />
       <Field
         type={'text'}
+        placeholder={t('current_id')}
+        data={filter.id}
+        required={true}
+        disabled={true}
+      />
+      <Field
+        type={'text'}
         placeholder={t('username')}
         data={filter.username}
         onChange={value => handlePropsChange('username', value)}

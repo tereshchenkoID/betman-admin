@@ -16,7 +16,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const handleDeposit= (e, type) => {
+  const handleDeposit = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
@@ -25,12 +25,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
   }
 
-  const handleWithdrawal = (e, type) => {
+  const handleWithdrawal = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
@@ -39,7 +39,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
   }
@@ -69,7 +69,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-plus"
                   alt="deposit"
-                  action={e => handleDeposit(e, service.TYPE[0])}
+                  action={e => handleDeposit(e, service.TYPE[0], row)}
                 />
                 <Icon
                   classes={[
@@ -78,7 +78,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-minus"
                   alt="withdraw"
-                  action={e => handleWithdrawal(e, service.TYPE[1])}
+                  action={e => handleWithdrawal(e, service.TYPE[1], row)}
                 />
               </div>
             </div>
@@ -89,11 +89,41 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     }
   }
 
+  const handleConfirmed = (e, type, onChange, title) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t(title),
+          cmd: 'confirmed',
+          buttonRef: e.target,
+        },
+        type: type,
+        action: (result) => onChange(result),
+      }),
+    )
+  }
+
+  const handleLocked = (e) => {
+    alert(`Locked ${e}`)
+  }
+
+  const handleDelete = (e) => {
+    alert(`Delete ${e}`)
+  }
+
   const renderActions = () => (
     <>
       <Icon icon="fa-pencil" alt="edit" />
-      <Icon icon="fa-lock" alt="locked" />
-      <Icon icon="fa-trash" alt="delete" />
+      <Icon
+        icon="fa-lock"
+        alt="locked"
+        action={e => handleConfirmed(e, service.TYPE[1], handleLocked, 'locked_confirmed')}
+      />
+      <Icon
+        icon="fa-trash"
+        alt="delete"
+        action={e => handleConfirmed(e, service.TYPE[1], handleDelete, 'delete_confirmed')}
+      />
     </>
   )
 

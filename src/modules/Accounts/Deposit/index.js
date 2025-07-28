@@ -82,9 +82,8 @@ const Deposit = ({ data }) => {
       <Debug data={filter} />
       <Field
         type={'text'}
-        placeholder={t('player')}
+        placeholder={t('current_id')}
         data={filter.id}
-        onChange={value => handlePropsChange('player', value)}
         required={true}
         disabled={true}
       />
@@ -102,7 +101,11 @@ const Deposit = ({ data }) => {
         onChange={value => handlePropsChange('bonus', value)}
       />
       <div className={style.actions}>
-        <Button type={'submit'} classes={'primary'} placeholder={t('deposit')} />
+        <Button
+          type={'submit'}
+          classes={'primary'}
+          placeholder={t('deposit')}
+        />
         <Button
           type={'reset'}
           placeholder={t('cancel')}

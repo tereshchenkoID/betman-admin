@@ -70,9 +70,8 @@ const Withdrawal = ({ data }) => {
       <Debug data={filter} />
       <Field
         type={'text'}
-        placeholder={t('player')}
+        placeholder={t('current_id')}
         data={filter.id}
-        onChange={value => handlePropsChange('player', value)}
         required={true}
         disabled={true}
       />
@@ -84,7 +83,11 @@ const Withdrawal = ({ data }) => {
         required={true}
       />
       <div className={style.actions}>
-        <Button type={'submit'} classes={'primary'} placeholder={t('withdraw')} />
+        <Button
+          type={'submit'}
+          classes={'primary'}
+          placeholder={t('withdraw')}
+        />
         <Button
           type={'reset'}
           placeholder={t('cancel')}

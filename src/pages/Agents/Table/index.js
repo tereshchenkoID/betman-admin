@@ -17,7 +17,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const handleDeposit= (e, type, row) => {
+  const handleDeposit = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
@@ -45,7 +45,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handleShop = (e, type) => {
+  const handleShop = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
@@ -54,12 +54,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
   }
 
-  const handlePlayer = (e, type) => {
+  const handlePlayer = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
@@ -68,12 +68,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
   }
 
-  const handleCashier = (e, type) => {
+  const handleCashier = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
@@ -82,9 +82,31 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
+  }
+
+  const handleConfirmed = (e, type, onChange, title) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t(title),
+          cmd: 'confirmed',
+          buttonRef: e.target,
+        },
+        type: type,
+        action: (result) => onChange(result),
+      }),
+    )
+  }
+
+  const handleLocked = (e) => {
+    alert(`Locked ${e}`)
+  }
+
+  const handleDelete = (e) => {
+    alert(`Delete ${e}`)
   }
 
   const renderCell = (key, row) => {
@@ -130,17 +152,25 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const renderActions = () => (
     <>
       <Icon icon="fa-pencil" alt="edit" />
-      <Icon icon="fa-lock" alt="locked" />
-      <Icon icon="fa-trash" alt="delete" />
+      <Icon
+        icon="fa-lock"
+        alt="locked"
+        action={e => handleConfirmed(e, service.TYPE[1], handleLocked, 'locked_confirmed')}
+      />
+      <Icon
+        icon="fa-trash"
+        alt="delete"
+        action={e => handleConfirmed(e, service.TYPE[1], handleDelete, 'delete_confirmed')}
+      />
     </>
   )
 
-  const renderLink = (label, value, url, handleAction, type) => (
+  const renderLink = (label, value, url, handleAction, type, row) => (
     <>
       <Icon
         icon="fa-add"
         alt="add"
-        action={e => handleAction(e, service.TYPE[type])}
+        action={e => handleAction(e, service.TYPE[type], row)}
       />
       <Link
         to={url}
@@ -200,9 +230,9 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   )
                 }
                 <div className={style.cell}>{renderActions()}</div>
-                <div className={style.cell}>{renderLink('shops', row.shops, `${NAVIGATION.shops.link}/${row.id}`, handleShop, 2)}</div>
-                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.id}`, handleCashier, 4)}</div>
-                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.id}`, handlePlayer, 3)}</div>
+                <div className={style.cell}>{renderLink('shops', row.shops, `${NAVIGATION.shops.link}/${row.id}`, handleShop, 2, row)}</div>
+                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.id}`, handleCashier, 4, row)}</div>
+                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.id}`, handlePlayer, 3, row)}</div>
               </div>
             )
           :
