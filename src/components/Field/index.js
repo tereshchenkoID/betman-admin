@@ -23,11 +23,13 @@ const Field = ({
 
   return (
     <div
-      className={classNames(
-        style.block,
-        style[type],
-        classes && classes.map(el => style[el] || el),
-      )}
+      className={
+        classNames(
+          style.block,
+          style[type],
+          classes && classes.map(el => style[el] || el),
+        )
+      }
     >
       <input
         ref={inputRef}

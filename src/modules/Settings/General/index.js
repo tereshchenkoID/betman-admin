@@ -7,7 +7,7 @@ import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'
 import Select from 'components/Select'
-import ToggleSwitch from 'components/ToggleSwitch'
+import ToggleSwitch from 'components/Toggle'
 import GeneratePassword from 'modules/GeneratePassword'
 import Debug from 'modules/Debug'
 

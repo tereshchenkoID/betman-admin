@@ -2,21 +2,39 @@ import React from 'react'
 
 import classNames from 'classnames'
 
-import styles from './index.module.scss'
+import style from './index.module.scss'
 
-const Toggle = ({ active, action }) => {
+const Toggle = ({
+  data,
+  placeholder,
+  onChange,
+  classes = null,
+  required = false,
+}) => {
   return (
-    <button
-      className={classNames(styles.block, active && styles.active)}
-      type={'button'}
-      onClick={() => action(!active)}
-      aria-label={'Toggle'}
-      title={'Toggle'}
+    <label
+      className={
+        classNames(
+          style.block,
+          classes && classes.map(el => style[el]),
+        )
+      }
     >
-      <div className={styles.line} />
-      <div className={styles.line} />
-      <div className={styles.line} />
-    </button>
+      <input
+        type={'checkbox'}
+        className={style.input}
+        checked={data === '1'}
+        onChange={() => onChange(data === '1' ? '0' : '1')}
+      />
+      <span className={style.item} />
+      {
+        placeholder &&
+        <span>
+          {placeholder}
+          {required && <span className={style.label}>*</span>}
+        </span>
+      }
+    </label>
   )
 }
 

@@ -13,7 +13,12 @@ const Button = ({
   return (
     <button
       type={type}
-      className={classNames(style.block, style[classes])}
+      className={
+        classNames(
+          style.block,
+          style[classes]
+        )
+      }
       onClick={onChange}
       aria-label={placeholder}
       title={placeholder}

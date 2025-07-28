@@ -11,7 +11,6 @@ import classNames from 'classnames'
 
 import { setAside } from 'store/actions/asideAction'
 
-import Toggle from 'components/Toggle'
 import Icon from "components/Icon"
 
 import style from './index.module.scss'
@@ -184,13 +183,26 @@ const Nav = () => {
         </div>
         <hr/>
         <div
-          ref={buttonRef}
+
           className={style.action}
         >
-          <Toggle
-            active={show}
-            action={setShow}
-          />
+          <button
+            ref={buttonRef}
+            className={
+              classNames(
+                style.toggle,
+                show && style.active
+              )
+            }
+            type={'button'}
+            onClick={() => setShow(!show)}
+            aria-label={'Toggle'}
+            title={'Toggle'}
+          >
+            <div className={style.line} />
+            <div className={style.line} />
+            <div className={style.line} />
+          </button>
         </div>
       </div>
     </nav>

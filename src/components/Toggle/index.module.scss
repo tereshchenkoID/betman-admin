@@ -1,33 +1,64 @@
 @use 'scss/config' as *;
 
 .block {
-  @include size(rem(40px));
-  @include flex(center, center, column);
+  @include flex($align-items: center);
 
-  &.active {
+  position: relative;
+  cursor: pointer;
+  gap: rem(8px);
 
-    .line {
+  &:hover {
 
-      &:nth-child(1) {
-        transform: translateY(6px) rotateZ(45deg);
-      }
+    .item {
+      border-color: var(--color-primary);
+    }
+  }
 
-      &:nth-child(2) {
-        transform: translateX(100%);
-        opacity: 0;
-      }
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
 
-      &:nth-child(3) {
-        transform: translateY(-6px) rotateZ(-45deg);
-      }
+.input {
+  @include size(0);
+
+  position: absolute;
+  opacity: 0;
+
+  &:checked ~ .item {
+    background-color: var(--color-primary);
+
+    &::after {
+      transform: translateX(22px);
     }
   }
 }
 
-.line {
-  @include transition;
-  @include make-spacer(my, 2px);
-  @include size(70%, 2px);
+.item {
+  @include size(rem(50px), rem(28px));
+  @include transition(background-color);
 
-  background-color: var(--color-text);
+  border-radius: rem(50px);
+  background-color: var(--color-border);
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+    @include transition(transform);
+    @include size(rem(24px));
+
+    position: absolute;
+    top: rem(2px);
+    left: rem(2px);
+    border-radius: 50%;
+    background: var(--color-white);
+    content: '';
+  }
+}
+
+.label {
+  @include make-spacer(ml, 3px);
+
+  color: var(--color-warning);
 }

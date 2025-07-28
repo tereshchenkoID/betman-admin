@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { postData } from 'hooks/useRequest'
 import { setToastify } from 'store/actions/toastifyAction'
@@ -8,7 +8,7 @@ import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
-import ToggleSwitch from 'components/ToggleSwitch'
+import Toggle from 'components/Toggle'
 import GeneratePassword from 'modules/GeneratePassword'
 import Debug from 'modules/Debug'
 
@@ -17,20 +17,15 @@ import style from './index.module.scss'
 const Cashier = ({ data }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const [isShiftMode, setIsShiftMode] = useState(false)
-  const { cashier } = useSelector(state => state.cashier)
   const initialValue = {
-    parent_id: data.id,
-    parent_username: data.username,
+    id: data.id,
     name: '',
-    login: '',
+    username: '',
     password: '',
+    confirm_password: '',
+    shift_mode: '0'
   }
   const [filter, setFilter] = useState(initialValue)
-  const [inherit, setInherit] = useState(null)
-  const list = cashier
-
-  const shiftmode = () => setIsShiftMode(prev => !prev)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -43,6 +38,7 @@ const Cashier = ({ data }) => {
     setFilter(initialValue)
   }
 
+  // TODO change url
   const handleSubmit = e => {
     e.preventDefault()
 
@@ -52,7 +48,7 @@ const Cashier = ({ data }) => {
       return true
     })
 
-    postData(`new/${data.type.toLowerCase()}/`, formData).then(json => {
+    postData(`new-cashier`, formData).then(json => {
       if (json.status === 'OK') {
         dispatch(
           setToastify({
@@ -75,32 +71,6 @@ const Cashier = ({ data }) => {
     })
   }
 
-  const handleInherit = () => {
-    const formData = new FormData()
-    formData.append('id', data.id)
-    formData.append('type', data.type.toLowerCase())
-
-    postData(`inherit/`, formData).then(json => {
-      if (json.status === 'OK') {
-        setInherit(json.data)
-
-        initialValue.country = json.data.country
-        initialValue.currency = json.data.currency
-        initialValue.web_players_allowed = json.data.web_players_allowed
-        initialValue.children_creation_allowed =
-          json.data.children_creation_allowed
-
-        setFilter(() => initialValue)
-      }
-    })
-  }
-
-  useEffect(() => {
-    handleInherit()
-  }, [])
-
-  if (!inherit) return
-
   return (
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
@@ -113,21 +83,30 @@ const Cashier = ({ data }) => {
       />
       <Field
         type={'text'}
-        placeholder={t('login')}
+        placeholder={t('username')}
         data={filter.login}
-        onChange={value => handlePropsChange('login', value)}
+        onChange={value => handlePropsChange('username', value)}
         required={true}
       />
       <GeneratePassword
-        list={['password']}
+        list={['password', 'confirm_password']}
         data={filter}
         action={setFilter}
         filter={filter}
         handlePropsChange={handlePropsChange}
       />
-      <ToggleSwitch isOn={isShiftMode} handleToggle={shiftmode} label={t('shift_mode')} />
+      <Toggle
+        placeholder={t('shift_mode')}
+        data={filter.shift_mode}
+        onChange={value => handlePropsChange('shift_mode', value)}
+        required={true}
+      />
       <div className={style.actions}>
-        <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
+        <Button
+          type={'submit'}
+          classes={'primary'}
+          placeholder={t('create')}
+        />
         <Button
           type={'reset'}
           placeholder={t('cancel')}

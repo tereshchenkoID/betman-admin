@@ -17,30 +17,30 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const handleDeposit= (e, type) => {
+  const handleDeposit= (e, type, row) => {
     dispatch(
       setAside({
         meta: {
-          title: t('deposit_balance'),
+          title: t('deposit'),
           cmd: 'account-deposit',
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
   }
 
-  const handleWithdrawal = (e, type) => {
+  const handleWithdrawal = (e, type, row) => {
     dispatch(
       setAside({
         meta: {
-          title: t('withdrawal_balance'),
+          title: t('withdrawal'),
           cmd: 'account-withdrawal',
           buttonRef: e.target,
         },
         type: type,
-        ...data,
+        ...row,
       }),
     )
   }
@@ -63,7 +63,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     dispatch(
       setAside({
         meta: {
-          title: t('new_player'),
+          title: t('player'),
           cmd: 'account-player',
           buttonRef: e.target,
         },
@@ -107,7 +107,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                 ]}
                 icon="fa-plus"
                 alt="deposit"
-                action={e => handleDeposit(e, service.TYPE[0])}
+                action={e => handleDeposit(e, service.TYPE[0], row)}
               />
               <Icon
                 classes={[
@@ -116,7 +116,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                 ]}
                 icon="fa-minus"
                 alt="withdraw"
-                action={e => handleWithdrawal(e, service.TYPE[1])}
+                action={e => handleWithdrawal(e, service.TYPE[1], row)}
               />
             </div>
           </div>

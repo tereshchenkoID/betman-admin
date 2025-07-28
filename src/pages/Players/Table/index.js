@@ -20,7 +20,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     dispatch(
       setAside({
         meta: {
-          title: t('deposit_balance'),
+          title: t('deposit'),
           cmd: 'account-deposit',
           buttonRef: e.target,
         },
@@ -34,7 +34,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     dispatch(
       setAside({
         meta: {
-          title: t('withdrawal_balance'),
+          title: t('withdrawal'),
           cmd: 'account-withdrawal',
           buttonRef: e.target,
         },

@@ -4,13 +4,21 @@ import classNames from 'classnames'
 
 import style from './index.module.scss'
 
-const Checkbox = ({ data, placeholder, onChange, classes = null }) => {
+const Checkbox = ({
+  data,
+  placeholder,
+  onChange,
+  classes = null,
+  required = false,
+}) => {
   return (
     <label
-      className={classNames(
-        style.block,
-        classes && classes.map(el => style[el]),
-      )}
+      className={
+        classNames(
+          style.block,
+          classes && classes.map(el => style[el]),
+        )
+      }
     >
       <input
         type={'checkbox'}
@@ -21,7 +29,13 @@ const Checkbox = ({ data, placeholder, onChange, classes = null }) => {
         }}
       />
       <span className={style.item} />
-      <span>{placeholder}</span>
+      {
+        placeholder &&
+        <span>
+          {placeholder}
+          {required && <span className={style.label}>*</span>}
+        </span>
+      }
     </label>
   )
 }

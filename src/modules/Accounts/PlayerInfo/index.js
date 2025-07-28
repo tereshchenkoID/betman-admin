@@ -1,50 +1,60 @@
 import React from 'react'
+import { useTranslation } from "react-i18next"
 
 import style from './index.module.scss'
 
 const DATA = {
   general: [
-    { label: 'ID', value: '368643' },
-    { label: 'Balance', value: '499.10' },
-    { label: 'Login', value: 'player_1' },
-    { label: 'Shop', value: 'test_m2' },
+    { label: 'id', value: '368643' },
+    { label: 'balance', value: '499.10' },
+    { label: 'login', value: 'player_1' },
+    { label: 'shop', value: 'test_m2' },
   ],
   financial: [
-    { label: 'Last deposit at', value: '11.05.2025, 16:41:36' },
-    { label: 'Last withdraw at', value: '—' },
-    { label: 'Deposit amount', value: '500.00' },
-    { label: 'Withdraw amount', value: '—' },
+    { label: 'last_deposit', value: '11.05.2025, 16:41:36' },
+    { label: 'last_withdraw', value: '—' },
+    { label: 'deposit_amount', value: '500.00' },
+    { label: 'withdraw_amount', value: '—' },
   ],
   other: [
-    { label: 'Registered at', value: '10.05.2025, 13:14:44' },
-    { label: 'Last login at', value: '22.06.2025, 21:59:57' },
-    { label: 'Last game', value: 'Fishing God' },
-    { label: 'Games in favorites', value: '0' },
-    { label: 'Registered by', value: '—' },
-    { label: 'Last spin at', value: '—' },
-    { label: 'Last login IP', value: '212.178.19.16' },
+    { label: 'registered', value: '10.05.2025, 13:14:44' },
+    { label: 'last_login', value: '22.06.2025, 21:59:57' },
+    { label: 'last_game', value: 'Fishing God' },
+    { label: 'favorites_games_in', value: '0' },
+    { label: 'last_spin', value: '—' },
+    { label: 'last_login', value: '212.178.19.16' },
   ],
   kyc: [
-    { label: 'KYC Confirmed', value: 'No' },
-    { label: 'Reason', value: '—' },
-    { label: 'Updated at', value: '—' },
+    { label: 'kys_confirmed', value: 'No' },
+    { label: 'reason', value: '—' },
+    { label: 'updated', value: '—' },
   ],
 }
 
 const PlayerInfo = () => {
+  const { t } = useTranslation()
+
   return (
     <div className={style.block}>
-      {Object.entries(DATA).map(([section, items]) => (
+      {
+        Object.entries(DATA).map(([section, items]) =>
         <div key={section}>
-          {section !== 'general' && <h3 className={style.title}>{section.charAt(0).toUpperCase() + section.slice(1)}</h3>}
-          {items.map((item, idx) => (
-            <div key={idx} className={style.info}>
-              <span>{item.label}:</span>
+          {
+            section !== 'general' &&
+            <h3 className={style.title}>{section.charAt(0).toUpperCase() + section.slice(1)}</h3>
+          }
+          {
+            items.map((item, idx) =>
+            <div
+              key={idx}
+              className={style.info}
+            >
+              <span>{t(item.label)}:</span>
               <span>{item.value}</span>
             </div>
-          ))}
+          )}
         </div>
-      ))}
+        )}
     </div>
   )
 }

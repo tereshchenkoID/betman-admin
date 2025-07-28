@@ -126,3 +126,35 @@
     @include make-spacer(pl, 32px);
   }
 }
+
+.toggle {
+  @include size(rem(40px));
+  @include flex(center, center, column);
+
+  &.active {
+
+    .line {
+
+      &:nth-child(1) {
+        transform: translateY(6px) rotateZ(45deg);
+      }
+
+      &:nth-child(2) {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: translateY(-6px) rotateZ(-45deg);
+      }
+    }
+  }
+}
+
+.line {
+  @include transition;
+  @include make-spacer(my, 2px);
+  @include size(70%, 2px);
+
+  background-color: var(--color-text);
+}

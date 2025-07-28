@@ -43,3 +43,9 @@
   border-radius: var(--default-border-radius);
   background-color: var(--color-border);
 }
+
+.label {
+  @include make-spacer(ml, 3px);
+
+  color: var(--color-warning);
+}
