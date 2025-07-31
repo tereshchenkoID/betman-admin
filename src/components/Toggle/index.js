@@ -20,13 +20,6 @@ const Toggle = ({
         )
       }
     >
-      <input
-        type={'checkbox'}
-        className={style.input}
-        checked={data === '1'}
-        onChange={() => onChange(data === '1' ? '0' : '1')}
-      />
-      <span className={style.item} />
       {
         placeholder &&
         <span>
@@ -34,6 +27,13 @@ const Toggle = ({
           {required && <span className={style.label}>*</span>}
         </span>
       }
+      <input
+        type={'checkbox'}
+        className={style.input}
+        checked={data === '1'}
+        onChange={() => onChange(data === '1' ? '0' : '1')}
+      />
+      <span className={style.item} />
     </label>
   )
 }

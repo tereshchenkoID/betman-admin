@@ -58,6 +58,20 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
+  const handlePlayerEdit = (e, type, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('player_edit'),
+          cmd: 'account-player-edit',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...row,
+      }),
+    )
+  }
+
   const handleConfirmed = (e, type, onChange, title) => {
     dispatch(
       setAside({
@@ -132,7 +146,11 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         alt="info"
         action={e => handlePlayerInfo(e, service.TYPE[5])}
       />
-      <Icon icon="fa-pencil" alt="edit" />
+      <Icon
+        icon="fa-pencil"
+        alt="edit"
+        action={e => handlePlayerEdit(e, service.TYPE[6])}
+      />
       <Icon
         icon="fa-lock"
         alt="locked"

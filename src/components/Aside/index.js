@@ -11,6 +11,9 @@ import Shop from 'modules/Accounts/Shop'
 import Player from 'modules/Accounts/Player'
 import Cashier from 'modules/Accounts/Cashier'
 import PlayerInfo from 'modules/Accounts/PlayerInfo'
+import PlayerEdit from 'modules/Accounts/PlayerEdit'
+import CashierEdit from 'modules/Accounts/CashierEdit'
+import ShopEdit from 'modules/Accounts/ShopEdit'
 import Confirmed from 'modules/Confirmed'
 
 import style from './index.module.scss'
@@ -31,6 +34,12 @@ const checkCmd = data => {
       return <Cashier data={data} />
     case 'account-player-info':
       return <PlayerInfo data={data} />
+    case 'account-player-edit':
+      return <PlayerEdit data={data} />
+    case 'account-cashier-edit':
+      return <CashierEdit data={data} />
+    case 'account-shop-edit':
+      return <ShopEdit data={data} />
     case 'confirmed':
       return <Confirmed data={data} />
     default:

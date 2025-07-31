@@ -44,6 +44,20 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
+  const handleCashierEdit = (e, type, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('cashier_edit'),
+          cmd: 'account-cashier-edit',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...row,
+      }),
+    )
+  }
+
   const renderCell = (key, row) => {
     if (key.indexOf('.') !== -1) {
       const keys = key.split('.');
@@ -113,7 +127,11 @@ const Table = ({ data, config, sort, handleSortChange }) => {
 
   const renderActions = () => (
     <>
-      <Icon icon="fa-pencil" alt="edit" />
+      <Icon
+        icon="fa-pencil"
+        alt="edit"
+        action={e => handleCashierEdit(e, service.TYPE[7])}
+      />
       <Icon
         icon="fa-lock"
         alt="locked"

@@ -71,6 +71,9 @@ export const service = {
     3: 'PLAYER',
     4: 'CASHIER',
     5: 'PLAYER_INFO',
+    6: 'PLAYER_EDIT',
+    7: 'CASHIER_EDIT',
+    8: 'SHOP_EDIT',
   },
 
   LANGUAGES: {

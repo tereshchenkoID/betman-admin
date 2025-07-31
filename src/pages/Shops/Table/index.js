@@ -73,6 +73,20 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
+  const handleShopEdit = (e, type, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('shop_edit'),
+          cmd: 'account-shop-edit',
+          buttonRef: e.target,
+        },
+        type: type,
+        ...row,
+      }),
+    )
+  }
+
   const handleConfirmed = (e, type, onChange, title) => {
     dispatch(
       setAside({
@@ -142,7 +156,11 @@ const Table = ({ data, config, sort, handleSortChange }) => {
 
   const renderActions = () => (
     <>
-      <Icon icon="fa-pencil" alt="edit" />
+      <Icon
+        icon="fa-pencil"
+        alt="edit"
+        action={e => handleShopEdit(e, service.TYPE[8])}
+      />
       <Icon
         icon="fa-lock"
         alt="locked"
