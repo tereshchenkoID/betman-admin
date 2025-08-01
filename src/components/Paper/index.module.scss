@@ -44,6 +44,8 @@
 }
 
 .body {
+  position: relative;
   flex-grow: 1;
   overflow: hidden;
+  min-height: rem(120px);
 }

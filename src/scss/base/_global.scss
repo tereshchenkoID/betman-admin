@@ -9,11 +9,28 @@
 body {
   @include smooth-font;
 
+  background-color: #fafafa;
+  min-width: rem(1366px);
+  height: 100vh;
   overflow-y: auto;
+  line-height: var(--line-height);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--typography-thin);
 }
 
 button {
   @include reset-button;
+}
+
+button,
+a,
+input {
+
+  &:focus {
+    outline: none;
+  }
 }
 
 button,
@@ -44,14 +61,14 @@ ol {
   @include reset-list;
 }
 
-//.picture,
-//.img {
-//  @include size(100%);
-//
-//  display: block;
-//  object-fit: contain;
-//  object-position: center;
-//}
+picture,
+img {
+  @include size(100%);
+
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
 
 hr {
   @include make-spacer(my, 0);

@@ -16,7 +16,7 @@ const Checkbox = ({
       className={
         classNames(
           style.block,
-          classes && classes.map(el => style[el]),
+          classes && classes.map(el => style[el] || el),
         )
       }
     >

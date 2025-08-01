@@ -99,7 +99,7 @@ const Shops = () => {
     }
 
     // TODO Update after api on postData
-    getData('http://localhost:3001/json/shops.json').then(json => {
+    getData(`${window.location.origin}/json/shops.json`).then(json => {
       if (json.code === '0') {
         setData(json)
         setLoading(false)

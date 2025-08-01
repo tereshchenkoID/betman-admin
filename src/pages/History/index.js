@@ -46,7 +46,6 @@ const History = () => {
   const [data, setData] = useState(null)
   const [filter, setFilter] = useState({
     player: '',
-    kiosk: '',
     provider: '',
     game: '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
@@ -56,11 +55,6 @@ const History = () => {
   const pleyerOptions = [
     { label: 'Agent X', value: 'Agent X' },
     { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const providerOptions = [
-    { label: 'Provider 1', value: 'Provider 1' },
-    { label: 'Provider 2', value: 'Provider 2' },
   ]
 
   const gameOptions = [
@@ -119,7 +113,7 @@ const History = () => {
                 placeholder={t('select_player')}
                 options={pleyerOptions}
                 data={filter.player}
-                onChange={value => handleFilterChange('provider', value)}
+                onChange={value => handleFilterChange('player', value)}
               />
             </div>
             <div>

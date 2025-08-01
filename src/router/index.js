@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
-import { NAVIGATION } from "../constant/config"
+import { NAVIGATION } from '../constant/config'
 
 import App from 'App'
 import Loader from 'components/Loader'
+import ProtectedRoute from './ProtectedRoute'
 
 const Agents = lazy(() => import('pages/Agents'))
 const Shops = lazy(() => import('pages/Shops'))
@@ -14,7 +14,7 @@ const Cashiers = lazy(() => import('pages/Cashiers'))
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
 const Settings = lazy(() => import('pages/Settings'))
-const Reports = lazy(() => import('pages/Reports'))
+const Summary = lazy(() => import('pages/Summary'))
 const History = lazy(() => import('pages/History'))
 const Financial = lazy(() => import('pages/Financial'))
 
@@ -30,15 +30,58 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: withSuspense(Dashboard) },
-      { path: NAVIGATION.agents.link, element: withSuspense(Agents) },
-      { path: `${NAVIGATION.shops.link}/:agent?`, element: withSuspense(Shops) },
-      { path: `${NAVIGATION.players.link}/:agent?/:shop?`, element: withSuspense(Players) },
-      { path: `${NAVIGATION.cashiers.link}/:agent?/:shop?`, element: withSuspense(Cashiers) },
-      { path: NAVIGATION.login.link, element: withSuspense(Login) },
-      { path: NAVIGATION.reports.link, element: withSuspense(Reports) },
-      { path: NAVIGATION.history.link, element: withSuspense(History) },
-      { path: NAVIGATION.financial.link, element: withSuspense(Financial) },
-      { path: NAVIGATION.settings.link, element: withSuspense(Settings) },
+      {
+        path: NAVIGATION.agents.link,
+        element: (
+          <ProtectedRoute allowedRoles={['0', '1']}>
+            {withSuspense(Agents)}
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: `${NAVIGATION.shops.link}/:agent?`,
+        element: (
+          <ProtectedRoute allowedRoles={['0', '1']}>
+            {withSuspense(Shops)}
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: `${NAVIGATION.players.link}/:agent?/:shop?`,
+        element: (
+          <ProtectedRoute allowedRoles={['0', '1', '2']}>
+            {withSuspense(Players)}
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: `${NAVIGATION.cashiers.link}/:agent?/:shop?`,
+        element: (
+          <ProtectedRoute allowedRoles={['0', '1', '2']}>
+            {withSuspense(Cashiers)}
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: NAVIGATION.summary.link,
+        element: withSuspense(Summary),
+      },
+      {
+        path: NAVIGATION.history.link,
+        element: withSuspense(History),
+      },
+      {
+        path: NAVIGATION.financial.link,
+        element: withSuspense(Financial),
+      },
+      {
+        path: NAVIGATION.settings.link,
+        element: withSuspense(Settings),
+      },
+      {
+        path: NAVIGATION.login.link,
+        element: withSuspense(Login),
+      },
     ],
   },
 ])

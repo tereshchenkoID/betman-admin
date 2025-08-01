@@ -47,7 +47,6 @@ const Financial = () => {
   const [data, setData] = useState(null)
   const [filter, setFilter] = useState({
     player: '',
-    kiosk: '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
   })
@@ -108,7 +107,7 @@ const Financial = () => {
                 placeholder={t('select_player')}
                 options={playerOptions}
                 data={filter.provider}
-                onChange={value => handleFilterChange('provider', value)}
+                onChange={value => handleFilterChange('player', value)}
               />
             </div>
             <div>

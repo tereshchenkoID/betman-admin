@@ -23,9 +23,9 @@ export const NAVIGATION = {
     icon: 'fa-solid fa-users',
     link: '/players',
   },
-  reports: {
-    text: 'reports',
-    link: '/reports',
+  summary: {
+    text: 'summary',
+    link: '/summary',
   },
   history: {
     text: 'history',
@@ -46,11 +46,11 @@ export const NAVIGATION = {
 }
 
 export const ACCOUNT_TYPE = {
-  'AGENT': 0,
-  'SUBAGENT': 1,
-  'SHOP': 2,
-  'CASHIER': 3,
-  'PLAYER': 4
+  'AGENT': '0',
+  'SUBAGENT': '1',
+  'SHOP': '2',
+  'CASHIER': '3',
+  'PLAYER': '4'
 }
 
 export const service = {

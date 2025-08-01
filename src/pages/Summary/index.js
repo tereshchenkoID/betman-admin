@@ -7,8 +7,8 @@ import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
-import CustomSelect from "components/Select"
-import SummaryTable from "./SummaryTable"
+import CustomSelect from 'components/Select'
+import SummaryTable from './SummaryTable'
 
 import style from './index.module.scss'
 
@@ -39,7 +39,7 @@ const DATA = [
   },
 ];
 
-const Reports = () => {
+const Summary = () => {
   const { t } = useTranslation()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
@@ -96,7 +96,7 @@ const Reports = () => {
 
   return (
     <div className={style.block}>
-      <Paper headline={t('summery_report')} classes={['sm']}>
+      <Paper headline={t('summary_report')} classes={['sm']}>
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
@@ -110,7 +110,7 @@ const Reports = () => {
             </div>
             <div>
               <Field
-                type="datetime-local"
+                type='datetime-local'
                 placeholder={t('date_from')}
                 data={filter['date-from']}
                 onChange={value => handlePropsChange('date-from', value)}
@@ -118,7 +118,7 @@ const Reports = () => {
             </div>
             <div>
               <Field
-                type="datetime-local"
+                type='datetime-local'
                 placeholder={t('date_to')}
                 data={filter['date-to']}
                 onChange={value => handlePropsChange('date-to', value)}
@@ -139,4 +139,4 @@ const Reports = () => {
   )
 }
 
-export default Reports
+export default Summary

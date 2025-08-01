@@ -1,12 +1,11 @@
 @use 'scss/config' as *;
 
 .block {
-  @include flex($align-items: center);
-  @include make-spacer(pl, 30px);
+  @include flex;
 
   position: relative;
   cursor: pointer;
-  height: rem(20px);
+  gap: rem(8px);
 
   &:hover {
 
@@ -36,9 +35,6 @@
   @include transition(all);
   @include size(rem(20px));
 
-  position: absolute;
-  top: 0;
-  left: 0;
   border: rem(1px) solid var(--color-border);
   border-radius: var(--default-border-radius);
   background-color: var(--color-border);

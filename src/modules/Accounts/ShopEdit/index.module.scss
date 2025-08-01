@@ -43,9 +43,8 @@
     @include size(0, rem(2px));
 
     position: absolute;
-    right: 0;
+    inset-inline: 0;
     bottom: rem(-1px);
-    left: 0;
     background-color: var(--color-primary);
     content: '';
   }
@@ -69,4 +68,6 @@
 
   display: grid;
   grid-gap: rem(16px);
+  min-height: rem(150px);
+  position: relative;
 }

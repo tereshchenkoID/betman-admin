@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { service } from "constant/config"
+import { service } from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
 import { getData } from 'hooks/useRequest'
-import { convertOptions } from "helpers/convertOptions"
+import { convertOptions } from 'helpers/convertOptions'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -111,7 +111,7 @@ const Players = () => {
     }
 
     // TODO Update after api on postData
-    getData('http://localhost:3001/json/players.json').then(json => {
+    getData(`${window.location.origin}/json/players.json`).then(json => {
       if (json.code === '0') {
         setData(json)
         setLoading(false)

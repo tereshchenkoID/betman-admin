@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
-
 import classNames from 'classnames'
 
-import General from './General'
-import Websites from './Websites'
-import Lobby from './Lobby'
-import Bonuses from './Bonuses'
-import Jackpots from './Jackpots'
+import Loader from 'components/Loader'
 
 import style from './index.module.scss'
+
+const General = lazy(() => import('./General'))
+const Websites = lazy(() => import('./Websites'))
+const Lobby = lazy(() => import('./Lobby'))
+const Bonuses = lazy(() => import('./Bonuses'))
+const Jackpots = lazy(() => import('./Jackpots'))
+const Game = lazy(() => import('./Game'))
 
 const TABS = [
   { key: 'general', component: General },
   { key: 'lobby', component: Lobby },
   { key: 'websites', component: Websites },
+  { key: 'game', component: Game },
   { key: 'bonuses', component: Bonuses },
   { key: 'jackpots', component: Jackpots }
 ]
@@ -45,8 +48,11 @@ const ShopEdit = ({ data }) => {
           )
         }
       </div>
+
       <div className={style.body}>
-        <ActiveComponent data={{ type: data.type }} />
+        <Suspense fallback={<Loader />}>
+          <ActiveComponent data={{ type: data.type }} />
+        </Suspense>
       </div>
     </div>
   )
