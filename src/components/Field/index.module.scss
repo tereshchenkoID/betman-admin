@@ -1,13 +1,31 @@
 @use 'scss/config' as *;
 
 .block {
-  @include size(100%, rem(56px));
+  --input-height: 56px;
+
+  @include size(100%, var(--input-height));
 
   position: relative;
 
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+
+  &.sm {
+    --input-height: 46px;
+
+    .input {
+      @include make-spacer(px, 8px);
+    }
+  }
+
+  &.md {
+    --input-height: 52px;
+
+    .input {
+      @include make-spacer(px, 12px);
+    }
   }
 
   &:hover {
@@ -77,6 +95,26 @@
 
     &::-webkit-calendar-picker-indicator {
       opacity: 0;
+    }
+  }
+
+  &[type='number'] {
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      appearance: none;
+      margin: 0;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+
+    &::-moz-number-spin-box,
+    &::-moz-number-spin-up,
+    &::-moz-number-spin-down {
+      display: none;
     }
   }
 

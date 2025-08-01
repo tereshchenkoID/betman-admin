@@ -1,0 +1,12 @@
+@use 'scss/config' as *;
+
+.block {
+  @include make-spacer(mx, 4px);
+
+  gap: rem(8px);
+}
+
+.icon {
+  cursor: help;
+  opacity: 0.8;
+}

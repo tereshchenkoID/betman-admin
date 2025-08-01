@@ -6,43 +6,214 @@ import { postData } from 'hooks/useRequest'
 import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'
-import Toggle from "components/Toggle";
+import Toggle from 'components/Toggle'
 import Field from 'components/Field'
+import Select from "components/Select"
+import Info from "modules/Info"
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const DATA = [
-  {label: 'current_value', type: 'field', name: 'current_value'},
-  {label: 'min_value', type: 'field', name: 'min_value'},
-  {label: 'max_value', type: 'field', name: 'max_value'},
-  {label: 'reset_value', type: 'field', name: 'reset_value'},
-  {label: 'community_jackpots', type: 'toggle', name: 'community_jackpot'},
-  {label: 'community_cooldown', type: 'field', name: 'community_cooldown'},
-  {label: 'expected_number_pieces', type: 'field', name: 'expected_monthly_pieces'},
-  {label: 'total_wins', type: 'field', name: 'total_wins'},
-];
+const DATA = {
+  '0': {
+    on: '0',
+    payout_on: '0',
+    expected_bet_value: '0',
+    total_win: 0,
+    average_percentage: '2.56',
+    total_wins: '224000',
+    slots: [
+      {
+        name: 'slot 1 (mini)',
+        current_value: '0',
+        min_value: '1',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '0',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '12353250'
+      },
+      {
+        name: 'slot 2 (major)',
+        current_value: '11',
+        min_value: '10',
+        max_value: '11',
+        default_value: '0',
+        jackpot: '1',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '2233250'
+      },
+      {
+        name: 'slot 3 (grand)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '2',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '250'
+      },
+      {
+        name: 'slot 4 (ultimate)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '0',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '53250'
+      }
+    ]
+  },
+  '1': {
+    on: '0',
+    payout_on: '0',
+    expected_bet_value: '0',
+    total_win: 0,
+    average_percentage: '2.56',
+    total_wins: '224000',
+    slots: [
+      {
+        name: 'slot 1 (mini)',
+        current_value: '0',
+        min_value: '1',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '0',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '53250'
+      },
+      {
+        name: 'slot 2 (major)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '1',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '23250'
+      },
+      {
+        name: 'slot 3 (grand)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '2',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '250'
+      },
+      {
+        name: 'slot 4 (ultimate)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '0',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '53250'
+      }
+    ]
+  },
+  '2': {
+    on: '0',
+    payout_on: '0',
+    expected_bet_value: '0',
+    total_win: 0,
+    average_percentage: '2.56',
+    total_wins: '224000',
+    slots: [
+      {
+        name: 'slot 1 (mini)',
+        current_value: '0',
+        min_value: '1',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '0',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '53250'
+      },
+      {
+        name: 'slot 2 (major)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '1',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '23250'
+      },
+      {
+        name: 'slot 3 (grand)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '2',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '250'
+      },
+      {
+        name: 'slot 4 (ultimate)',
+        current_value: '0',
+        min_value: '0',
+        max_value: '0',
+        default_value: '0',
+        jackpot: '0',
+        cooldown: '0',
+        expected_number_pieces: '0',
+        total_wins: '53250'
+      }
+    ]
+  }
+}
 
-const Jackpots = ({ data, inherit, setUpdate }) => {
+const Jackpots = ({ data }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const [filter, setFilter] = useState([])
-  const isDisabled = inherit === '1'
-  const [isEnabled, setIsEnabled] = useState(false)
-  const [isPayoutEnabled, setIsPayoutEnabled] = useState(false)
+  const initialValue = {
+    enabled: '0',
+    jackpot_template: '',
+  }
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
+  const [filter, setFilter] = useState(initialValue)
+  const [loading, setLoading] = useState(true)
+
+  const handlePropsChange = (fieldName, fieldValue, slotIndex = null) => {
+    setFilter(prev => {
+      if (slotIndex !== null) {
+        const updatedSlots = [...prev.slots]
+        updatedSlots[slotIndex] = {
+          ...updatedSlots[slotIndex],
+          [fieldName]: fieldValue,
+        }
+        return {
+          ...prev,
+          slots: updatedSlots,
+        }
+      }
+
+      return {
+        ...prev,
+        [fieldName]: fieldValue,
+      }
+    })
   }
 
   const handleResetForm = () => {
-    // setFilter(initialValue)
+    setFilter(initialValue)
   }
-
-  const toggle = () => setIsEnabled(prev => !prev)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -50,7 +221,6 @@ const Jackpots = ({ data, inherit, setUpdate }) => {
     const formData = new FormData()
     formData.append('id', data.id)
     formData.append('username', data.username)
-    formData.append('inherit', inherit)
 
     Object.entries(filter).map(([key, value]) => {
       if(typeof value === 'object') {
@@ -59,7 +229,7 @@ const Jackpots = ({ data, inherit, setUpdate }) => {
       return true
     })
 
-    postData('accounts/edit/logo/', formData).then(json => {
+    postData('bonus', formData).then(json => {
       if (json.code === '0') {
         dispatch(
           setToastify({
@@ -67,7 +237,6 @@ const Jackpots = ({ data, inherit, setUpdate }) => {
             text: json.message,
           }),
         )
-        setUpdate(true)
       } else {
         dispatch(
           setToastify({
@@ -79,86 +248,217 @@ const Jackpots = ({ data, inherit, setUpdate }) => {
     })
   }
 
+  const handleTemplate = (value) => {
+    setFilter(prev => ({
+      ...prev,
+      jackpot_template: value,
+      ...DATA[value]
+    }))
+    setLoading(false)
+  }
+
   return (
     <>
-      <Debug data={filter}/>
+      <Debug data={filter} />
       <form className={style.block} onSubmit={handleSubmit}>
-        <Toggle
-          placeholder={t('enabled')}
-          data={filter.enabled}
-          onChange={(e) => handlePropsChange('enabled', e)}
-        />
-        <Toggle
-          placeholder={t('payout_enabled')}
-          data={filter.payout_enabled}
-          onChange={(e) => handlePropsChange('payout_enabled', e)}
-        />
-        <Field
-          type={'number'}
-          placeholder={t('expected_bet_value')}
-          data={filter.expected_bet_value}
-          onChange={value => handlePropsChange('expected_bet_value', value)}
-          required={true}
-        />
-        <div className={style.table}>
-          <div className={style.header}>
-            <div/>
-            <div>{t('slot_1')}</div>
-            <div>{t('slot_2')}</div>
-            <div>{t('slot_3')}</div>
-            <div>{t('slot_4')}</div>
+        <div className={style.row}>
+          <div className={style.label}>
+            {t('enabled')}:
+            <Info
+              tooltip={'Test tooltip'}
+              place={'bottom'}
+            />
           </div>
-
-          {DATA.map((row, rowIndex) => (
-            <div className={style.row} key={rowIndex}>
-              <div className={style.label}>
-                {t(row.label)}
-              </div>
-              {[0, 1, 2, 3].map(slotIndex => {
-                const fieldName = `${row.name}_${slotIndex}`;
-                return (
-                  <div key={slotIndex}>
-                    {row.type === 'field' ? (
-                      <Field
-                        type='number'
-                        disabled={isDisabled}
-                        value={filter[fieldName] || ''}
-                        onChange={value => handlePropsChange(fieldName, value)}
-                      />
-                    ) : (
-                      <Toggle
-                        data={filter[fieldName] || '0'}
-                        onChange={() => handlePropsChange(fieldName, filter[fieldName] === '1' ? '0' : '1')}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-        <Field
-          type={'number'}
-          placeholder={t('total_win')}
-          data={filter.total_win}
-          onChange={value => handlePropsChange('total_win', value)}
-          required={true}
-        />
-        <Field
-          type={'number'}
-          placeholder={t('avarage_percentage')}
-          data={filter.avarage_percentage}
-          onChange={value => handlePropsChange('avarage_percentage', value)}
-          required={true}
-        />
-        <div className={style.actions}>
-          <Button type={'submit'} classes={'primary'} placeholder={t('save')}/>
-          <Button
-            type={'reset'}
-            placeholder={t('cancel')}
-            onChange={handleResetForm}
+          <Toggle
+            data={filter.enabled}
+            onChange={(e) => handlePropsChange('enabled', e)}
           />
         </div>
+        {
+          filter.enabled === '1' &&
+          <>
+            <Select
+              placeholder={t('jackpot_template')}
+              options={[
+                { value: '0', label: 'Template 1' },
+                { value: '1', label: 'Template 2' },
+                { value: '2', label: 'Template 3' },
+              ]}
+              data={filter.jackpot_template}
+              onChange={value => {
+                handleTemplate(value)
+              }}
+            />
+            {
+              !loading &&
+              <>
+                <div className={style.row}>
+                  <div className={style.label}>
+                    {t('on')}:
+                    <Info
+                      tooltip={'Test tooltip'}
+                      place={'bottom'}
+                    />
+                  </div>
+                  <Toggle
+                    data={filter.on}
+                    onChange={(e) => handlePropsChange('on', e)}
+                  />
+                </div>
+                <div className={style.row}>
+                  <div className={style.label}>
+                    {t('payout_on')}:
+                    <Info
+                      tooltip={'Test tooltip'}
+                      place={'bottom'}
+                    />
+                  </div>
+                  <Toggle
+                    data={filter.payout_on}
+                    onChange={(e) => handlePropsChange('payout_on', e)}
+                  />
+                </div>
+                <Field
+                  type={'number'}
+                  placeholder={t('expected_bet_value')}
+                  data={filter.expected_bet_value}
+                  onChange={value => handlePropsChange('expected_bet_value', value)}
+                />
+                <div className={style.table}>
+                  <div className={style.header}>
+                    <div />
+                    {
+                      filter.slots?.map((el, idx) =>
+                        <div key={idx}>{t(el.name)}</div>
+                      )
+                    }
+                  </div>
+                  <div className={style.row}>
+                    <div className={style.column}>
+                      <div className={style.label}>
+                        {t('current_value')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>
+                        {t('min_value')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>
+                        {t('max_value')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>
+                        {t('default_value')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>
+                        {t('jackpot')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>
+                        {t('cooldown')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>
+                        {t('expected_number_pieces')}:
+                        <Info
+                          tooltip={'Test tooltip'}
+                          place={'bottom'}
+                        />
+                      </div>
+                      <div className={style.label}>{t('total_wins')}:</div>
+                    </div>
+                    {
+                      filter.slots?.map((el, idx) =>
+                        <div
+                          key={idx}
+                          className={style.column}
+                        >
+                          <div className={style.value}>{el.current_value}</div>
+                            <Field
+                              type='number'
+                              data={el.min_value}
+                              classes={['sm']}
+                              onChange={value => handlePropsChange('min_value', value, idx)}
+                            />
+                            <Field
+                              type='number'
+                              data={el.max_value}
+                              classes={['sm']}
+                              onChange={value => handlePropsChange('max_value', value, idx)}
+                            />
+                            <Field
+                              type='number'
+                              data={el.default_value}
+                              classes={['sm']}
+                              onChange={value => handlePropsChange('default_value', value, idx)}
+                            />
+                            <div className={style.value}>
+                              <Toggle
+                                data={el.jackpot}
+                                onChange={value => handlePropsChange('jackpot', value, idx)}
+                              />
+                            </div>
+                            <Field
+                              type='number'
+                              data={el.cooldown}
+                              classes={['sm']}
+                              onChange={value => handlePropsChange('cooldown', value, idx)}
+                            />
+                            <Field
+                              type='number'
+                              data={el.expected_number_pieces}
+                              classes={['sm']}
+                              onChange={value => handlePropsChange('expected_number_pieces', value, idx)}
+                            />
+                          <div className={style.value}>{el.total_wins}</div>
+                        </div>
+                      )
+                    }
+                    <div className={style.column}>
+                      <div className={style.label}>{t('total_wins')} Σ:</div>
+                      <div className={style.label}>{t('average_percentage')}:</div>
+                    </div>
+                    <div className={style.column}>
+                      <div className={style.value}>{filter.total_wins}</div>
+                      <div className={style.value}>{filter.average_percentage}%</div>
+                    </div>
+                  </div>
+                </div>
+                <div className={style.actions}>
+                  <Button
+                    type={'submit'}
+                    classes={'primary'}
+                    placeholder={t('save')}
+                  />
+                  <Button
+                    type={'reset'}
+                    placeholder={t('cancel')}
+                    onChange={handleResetForm}
+                  />
+                </div>
+              </>
+            }
+          </>
+        }
       </form>
     </>
   )

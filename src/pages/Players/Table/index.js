@@ -16,7 +16,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const handleDeposit = (e, type, row) => {
+  const handleDeposit = (e, row) => {
     dispatch(
       setAside({
         meta: {
@@ -24,13 +24,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-deposit',
           buttonRef: e.target,
         },
-        type: type,
         ...row,
       }),
     )
   }
 
-  const handleWithdrawal = (e, type, row) => {
+  const handleWithdrawal = (e, row) => {
     dispatch(
       setAside({
         meta: {
@@ -38,13 +37,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-withdrawal',
           buttonRef: e.target,
         },
-        type: type,
         ...row,
       }),
     )
   }
 
-  const handlePlayerInfo = (e, type, row) => {
+  const handlePlayerInfo = (e, row) => {
     dispatch(
       setAside({
         meta: {
@@ -52,13 +50,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-player-info',
           buttonRef: e.target,
         },
-        type: type,
         ...row,
       }),
     )
   }
 
-  const handlePlayerEdit = (e, type, row) => {
+  const handlePlayerEdit = (e, row) => {
     dispatch(
       setAside({
         meta: {
@@ -66,13 +63,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-player-edit',
           buttonRef: e.target,
         },
-        type: type,
         ...row,
       }),
     )
   }
 
-  const handleConfirmed = (e, type, onChange, title) => {
+  const handleConfirmed = (e, onChange, title) => {
     dispatch(
       setAside({
         meta: {
@@ -80,7 +76,6 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'confirmed',
           buttonRef: e.target,
         },
-        type: type,
         action: (result) => onChange(result),
       }),
     )
@@ -119,7 +114,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-plus"
                   alt="deposit"
-                  action={e => handleDeposit(e, service.TYPE[0], row)}
+                  action={e => handleDeposit(e, row)}
                 />
                 <Icon
                   classes={[
@@ -128,7 +123,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   ]}
                   icon="fa-minus"
                   alt="withdraw"
-                  action={e => handleWithdrawal(e, service.TYPE[1], row)}
+                  action={e => handleWithdrawal(e, row)}
                 />
               </div>
             </div>
@@ -144,22 +139,22 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       <Icon
         icon="fa-info-circle"
         alt="info"
-        action={e => handlePlayerInfo(e, service.TYPE[5])}
+        action={e => handlePlayerInfo(e)}
       />
       <Icon
         icon="fa-pencil"
         alt="edit"
-        action={e => handlePlayerEdit(e, service.TYPE[6])}
+        action={e => handlePlayerEdit(e)}
       />
       <Icon
         icon="fa-lock"
         alt="locked"
-        action={e => handleConfirmed(e, service.TYPE[1], handleLocked, 'locked_confirmed')}
+        action={e => handleConfirmed(e, handleLocked, 'locked_confirmed')}
       />
       <Icon
         icon="fa-trash"
         alt="delete"
-        action={e => handleConfirmed(e, service.TYPE[1], handleDelete, 'delete_confirmed')}
+        action={e => handleConfirmed(e, handleDelete, 'delete_confirmed')}
       />
     </>
   )

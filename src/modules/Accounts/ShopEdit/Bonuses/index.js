@@ -9,25 +9,30 @@ import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'
 import Select from 'components/Select'
-import Toggle from "components/Toggle";
+import Toggle from 'components/Toggle'
 import Field from 'components/Field'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const Bonuses = ({ data, inherit, setUpdate }) => {
+const TABS = [
+  'common',
+  'auto_issue',
+  'cashback',
+  'bounceback',
+]
+
+const Bonuses = ({ data }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const initialValue = {
     completion_bonus_wager_low_balance: '0',
     min_withdraw: '',
     wager: '',
-
     auto_issue_bonus_kiosks: '0',
     auto_issue_bonus_strategy: '',
     auto_issue_bonus_psp: '0',
     auto_issue_bonus_strategy_strategy: '',
-
     has_access: '0',
     template: '',
     enabled: '0',
@@ -41,10 +46,8 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
     wager_enabled: '0',
   }
 
-  const [filter, setFilter] = useState([])
-  const [active, setActive] = useState(2)
-  const [isEnabled, setIsEnabled] = useState(false)
-  const [isWagerEnabled, setIsWagerEnabled] = useState(false)
+  const [filter, setFilter] = useState(initialValue)
+  const [active, setActive] = useState(0)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -54,10 +57,8 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
   }
 
   const handleResetForm = () => {
-    // setFilter(initialValue)
+    setFilter(initialValue)
   }
-
-  const toggle = () => setIsEnabled(prev => !prev)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -65,7 +66,6 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
     const formData = new FormData()
     formData.append('id', data.id)
     formData.append('username', data.username)
-    formData.append('inherit', inherit)
 
     Object.entries(filter).map(([key, value]) => {
       if(typeof value === 'object') {
@@ -74,7 +74,7 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
       return true
     })
 
-    postData('accounts/edit/logo/', formData).then(json => {
+    postData('bonus', formData).then(json => {
       if (json.code === '0') {
         dispatch(
           setToastify({
@@ -82,7 +82,6 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
             text: json.message,
           }),
         )
-        setUpdate(true)
       } else {
         dispatch(
           setToastify({
@@ -98,33 +97,27 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
     <>
       <Debug data={filter}/>
       <div className={style.header}>
-        <button
-          className={classNames(style.link, active === 0 && style.active)}
-          onClick={() => setActive(0)}
-        >
-          {t('common')}
-        </button>
-        <button
-          className={classNames(style.link, active === 1 && style.active)}
-          onClick={() => setActive(1)}
-        >
-          {t('auto_issue')}
-        </button>
-        <button
-          className={classNames(style.link, active === 2 && style.active)}
-          onClick={() => setActive(2)}
-        >
-          {t('cashback')}
-        </button>
-        <button
-          className={classNames(style.link, active === 3 && style.active)}
-          onClick={() => setActive(3)}
-        >
-          {t('bounceback')}
-        </button>
+        {
+          TABS.map((el, idx) =>
+            <button
+              key={idx}
+              className={
+                classNames(
+                  style.link,
+                  active === idx && style.active
+                )
+              }
+              onClick={() => setActive(idx)}
+            >
+              {t(el)}
+            </button>
+          )
+        }
       </div>
-      {active === 0 && (
-        <form className={style.block} onSubmit={handleSubmit}>
+      <form className={style.block} onSubmit={handleSubmit}>
+      {
+        active === 0 &&
+        <>
           <Toggle
             placeholder={t('completion_bonus_wager_low_balance')}
             data={filter.completion_bonus_wager_low_balance}
@@ -142,19 +135,11 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
             data={filter.wager}
             onChange={value => handlePropsChange('wager', value)}
           />
-          <div className={style.actions}>
-            <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
-            <Button
-              type={'reset'}
-              placeholder={t('cancel')}
-              onChange={handleResetForm}
-            />
-          </div>
-        </form>
-      )}
-
-      {active === 1 && (
-        <form className={style.block} onSubmit={handleSubmit}>
+        </>
+      }
+      {
+        active === 1 &&
+        <>
           <Toggle
             placeholder={t('auto_issue_bonus_kiosks')}
             data={filter.auto_issue_bonus_kiosks}
@@ -185,19 +170,11 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
             data={filter.auto_issue_bonus_psp_strategy}
             onChange={value => handlePropsChange('auto_issue_bonus_psp_strategy', value)}
           />
-          <div className={style.actions}>
-            <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
-            <Button
-              type={'reset'}
-              placeholder={t('cancel')}
-              onChange={handleResetForm}
-            />
-          </div>
-        </form>
-      )}
-
-      {active === 2 && (
-        <form className={style.block} onSubmit={handleSubmit}>
+        </>
+      }
+      {
+        active === 2 &&
+        <>
           <Toggle
             placeholder={t('has_access')}
             data={filter.has_access}
@@ -271,19 +248,11 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
             data={filter.wager_enabled}
             onChange={(e) => handlePropsChange('wager_enabled', e)}
           />
-          <div className={style.actions}>
-            <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
-            <Button
-              type={'reset'}
-              placeholder={t('cancel')}
-              onChange={handleResetForm}
-            />
-          </div>
-        </form>
-      )}
-
-      {active === 3 && (
-        <form className={style.block} onSubmit={handleSubmit}>
+        </>
+      }
+      {
+        active === 3 &&
+        <>
           <Toggle
             placeholder={t('has_access')}
             data={filter.has_access}
@@ -350,16 +319,21 @@ const Bonuses = ({ data, inherit, setUpdate }) => {
             data={filter.wager_enabled}
             onChange={(e) => handlePropsChange('wager_enabled', e)}
           />
-          <div className={style.actions}>
-            <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
-            <Button
-              type={'reset'}
-              placeholder={t('cancel')}
-              onChange={handleResetForm}
-            />
-          </div>
-        </form>
-      )}
+        </>
+      }
+      <div className={style.actions}>
+        <Button
+          type={'submit'}
+          classes={'primary'}
+          placeholder={t('save')}
+        />
+        <Button
+          type={'reset'}
+          placeholder={t('cancel')}
+          onChange={handleResetForm}
+        />
+      </div>
+      </form>
     </>
   )
 }

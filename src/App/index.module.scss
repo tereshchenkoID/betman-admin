@@ -176,3 +176,12 @@ hr {
     }
   }
 }
+
+.tooltip {
+  background-color: var(--color-white)!important;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 rem(3px) rem(10px);
+  max-width: rem(320px);
+  color: var(--color-text)!important;
+  font-size: rem(12px)!important;
+  z-index: $z-index-10;
+}

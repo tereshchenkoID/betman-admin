@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
@@ -8,13 +8,13 @@ import { setToastify } from 'store/actions/toastifyAction'
 import Button from 'components/Button'
 import Select from 'components/Select'
 import Toggle from 'components/Toggle'
-import Field from "components/Field";
+import Field from 'components/Field'
 import GeneratePassword from 'modules/GeneratePassword'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const General = ({ data, inherit, setUpdate }) => {
+const General = ({ data }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const initialValue = {
@@ -28,12 +28,11 @@ const General = ({ data, inherit, setUpdate }) => {
     kyc_type: '',
     shop_games_for_player: '',
     instant_messages: '0',
+    new_password: '',
+    current_password: ''
   }
 
-  const [filter, setFilter] = useState({
-    inherit: inherit,
-    ...data.general
-  })
+  const [filter, setFilter] = useState(initialValue)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -43,9 +42,10 @@ const General = ({ data, inherit, setUpdate }) => {
   }
 
   const handleResetForm = () => {
-    // setFilter(initialValue)
+    setFilter(initialValue)
   }
 
+  // TODO change url
   const handleSubmit = e => {
     e.preventDefault()
     const formData = new FormData()
@@ -57,7 +57,7 @@ const General = ({ data, inherit, setUpdate }) => {
       return true
     })
 
-    postData('accounts/edit/general/', formData).then(json => {
+    postData('general', formData).then(json => {
       if (json.code === '0') {
         dispatch(
           setToastify({
@@ -65,7 +65,6 @@ const General = ({ data, inherit, setUpdate }) => {
             text: json.message,
           }),
         )
-        setUpdate(true)
       } else {
         dispatch(
           setToastify({
@@ -77,16 +76,12 @@ const General = ({ data, inherit, setUpdate }) => {
     })
   }
 
-  useEffect(() => {
-    handlePropsChange('inherit', inherit)
-  }, [inherit])
-
   return (
     <>
       <Debug data={filter} />
       <form className={style.block} onSubmit={handleSubmit}>
         <GeneratePassword
-          list={['new_password']}
+          list={['new_password', 'current_password']}
           data={filter}
           action={setFilter}
           filter={filter}
@@ -154,7 +149,11 @@ const General = ({ data, inherit, setUpdate }) => {
           onChange={(e) => handlePropsChange('instant_messages', e)}
         />
         <div className={style.actions}>
-          <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
+          <Button
+            type={'submit'}
+            classes={'primary'}
+            placeholder={t('save')}
+          />
           <Button
             type={'reset'}
             placeholder={t('cancel')}

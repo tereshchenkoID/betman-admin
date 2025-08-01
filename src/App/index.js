@@ -6,6 +6,10 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 
+import { Tooltip } from 'react-tooltip'
+
+import 'react-tooltip/dist/react-tooltip.css'
+
 import Login from 'pages/Login'
 import Home from 'pages/Home'
 import Toastify from 'components/Toastify'
@@ -27,6 +31,13 @@ const App = () => {
     <div className={style.root}>
       <Toastify />
       {auth && sessionStorage.getItem('authToken') ? <Home /> : <Login />}
+
+      <Tooltip
+        id={'tooltip'}
+        place={'left'}
+        className={style.tooltip}
+        classNameArrow={style.arrow}
+      />
     </div>
   )
 }

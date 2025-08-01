@@ -64,18 +64,6 @@ export const service = {
     1: 'DISABLE',
   },
 
-  TYPE: {
-    0: 'DEPOSIT',
-    1: 'WITHDRAWAL',
-    2: 'SHOP',
-    3: 'PLAYER',
-    4: 'CASHIER',
-    5: 'PLAYER_INFO',
-    6: 'PLAYER_EDIT',
-    7: 'CASHIER_EDIT',
-    8: 'SHOP_EDIT',
-  },
-
   LANGUAGES: {
     AA: 'Afar',
     AB: 'Abkhazian',

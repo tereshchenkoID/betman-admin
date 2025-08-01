@@ -111,7 +111,7 @@ const Players = () => {
     }
 
     // TODO Update after api on postData
-    getData('http://localhost:3000/json/players.json').then(json => {
+    getData('http://localhost:3001/json/players.json').then(json => {
       if (json.code === '0') {
         setData(json)
         setLoading(false)

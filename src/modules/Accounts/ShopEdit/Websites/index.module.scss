@@ -1,4 +1,4 @@
-@use '../../../../scss/config' as *;
+@use 'scss/config' as *;
 
 .block {
   display: grid;
@@ -15,8 +15,8 @@
 }
 
 .cell {
-  @include make-spacer(px, rem(8px));
-  @include make-spacer(py, rem(4px));
+  @include make-spacer(px, 8px);
+  @include make-spacer(py, 4px);
 
   display: table-cell;
   vertical-align: middle;

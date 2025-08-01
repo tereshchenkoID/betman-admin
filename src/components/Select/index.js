@@ -21,10 +21,12 @@ const CustomSelect = ({ placeholder, options, data, onChange, classes }) => {
 
   return (
     <div
-      className={classNames(
-        style.block,
-        classes && classes.map(el => style[el]),
-      )}
+      className={
+        classNames(
+          style.block,
+          classes && classes.map(el => style[el] || el),
+        )
+      }
     >
       <Select
         ref={selectRef}

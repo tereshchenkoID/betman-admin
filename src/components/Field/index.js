@@ -26,7 +26,6 @@ const Field = ({
       className={
         classNames(
           style.block,
-          style[type],
           disabled && style.disabled,
           classes && classes.map(el => style[el] || el),
         )

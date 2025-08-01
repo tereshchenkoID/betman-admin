@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
@@ -7,12 +7,12 @@ import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'
 import Toggle from 'components/Toggle'
-import Field from "components/Field";
+import Field from 'components/Field'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const Loby = ({ data, inherit, setUpdate }) => {
+const Lobby = ({ data }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const initialValue = {
@@ -21,10 +21,7 @@ const Loby = ({ data, inherit, setUpdate }) => {
     jackpot_token: '',
   }
 
-  const [filter, setFilter] = useState({
-    inherit: inherit,
-    ...data.general
-  })
+  const [filter, setFilter] = useState(initialValue)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -34,9 +31,10 @@ const Loby = ({ data, inherit, setUpdate }) => {
   }
 
   const handleResetForm = () => {
-    // setFilter(initialValue)
+    setFilter(initialValue)
   }
 
+  // TODO change url
   const handleSubmit = e => {
     e.preventDefault()
     const formData = new FormData()
@@ -48,7 +46,7 @@ const Loby = ({ data, inherit, setUpdate }) => {
       return true
     })
 
-    postData('accounts/edit/general/', formData).then(json => {
+    postData('lobby', formData).then(json => {
       if (json.code === '0') {
         dispatch(
           setToastify({
@@ -56,7 +54,6 @@ const Loby = ({ data, inherit, setUpdate }) => {
             text: json.message,
           }),
         )
-        setUpdate(true)
       } else {
         dispatch(
           setToastify({
@@ -67,10 +64,6 @@ const Loby = ({ data, inherit, setUpdate }) => {
       }
     })
   }
-
-  useEffect(() => {
-    handlePropsChange('inherit', inherit)
-  }, [inherit])
 
   return (
     <>
@@ -93,7 +86,11 @@ const Loby = ({ data, inherit, setUpdate }) => {
           onChange={value => handlePropsChange('jackpot_token', value)}
         />
         <div className={style.actions}>
-          <Button type={'submit'} classes={'primary'} placeholder={t('save')} />
+          <Button
+            type={'submit'}
+            classes={'primary'}
+            placeholder={t('save')}
+          />
           <Button
             type={'reset'}
             placeholder={t('cancel')}
@@ -105,4 +102,4 @@ const Loby = ({ data, inherit, setUpdate }) => {
   )
 }
 
-export default Loby
+export default Lobby
