@@ -2,61 +2,41 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getDate } from 'helpers/getDate'
+import { getData } from 'hooks/useRequest'
 
-import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
 import CustomSelect from 'components/Select'
-import SummaryTable from './SummaryTable'
+import CustomTable from 'modules/CustomTable'
+import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const DATA = [
-  {
-    currency: 'UAH',
-    provider: 'Agent X',
-    profit: '111',
-    balanceProfit: '123.4',
-    bonusProfit: '55',
-    cashProfit: '222',
-    profitPSP: '11.334',
-    jackpot: '88',
-    spin: '56',
-    netProfit: '34',
-  },
-  {
-    currency: 'EUR',
-    provider: 'Agent Y',
-    profit: '2222',
-    balanceProfit: '289.6',
-    bonusProfit: '111',
-    cashProfit: '123.22',
-    profitPSP: '111',
-    jackpot: '23.11',
-    spin: '111',
-    netProfit: '1.11',
-  },
-];
+const CONFIG = [
+  { key: 'currency', text: 'currency' },
+  { key: 'provider', text: 'provider' },
+  { key: 'profit', text: 'profit', sorted: true },
+  { key: 'balance_profit', text: 'balance_profit', sorted: true },
+  { key: 'bonus_profit', text: 'bonus_profit', sorted: true },
+  { key: 'cash_profit', text: 'cash_profit', sorted: true },
+  { key: 'profit_psp', text: 'profit_psp', sorted: true },
+  { key: 'jackpot', text: 'jackpot', sorted: true },
+  { key: 'spin', text: 'spin', sorted: true },
+  { key: 'net_profit', text: 'net_profit', sorted: true },
+]
 
 const Summary = () => {
   const { t } = useTranslation()
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState(null)
-  const [filter, setFilter] = useState({
-    provider: '',
+  const initialValue = {
+    'provider': '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
-  })
-
-  const providerOptions = [
-    { label: 'Agent X', value: 'Agent X' },
-    { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const handleFilterChange = (key, value) => {
-    setFilter(prev => ({ ...prev, [key]: value }))
   }
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState({})
+  const [quantity, setQuantity] = useState(20)
+  const [filter, setFilter] = useState(initialValue)
 
   const handlePropsChange = (field, value) => {
     setFilter(prev => ({
@@ -65,47 +45,54 @@ const Summary = () => {
     }))
   }
 
+  const handleResetForm = () => {
+    setFilter(initialValue)
+  }
+
   const handleSubmit = event => {
     event && event.preventDefault()
-    // const formData = new FormData()
-    //
-    // formData.append('playerID', filter.playerID)
-    //
-    // postData('dashboard/', formData).then(json => {
-    //   if (json.status === 'OK') {
-    //     setData(json.data)
-    //     loading && setLoading(false)
-    //   }
-    // })
+
+    const formData = new FormData()
+    Object.entries(filter).map(([key, value]) => {
+      formData.append(key, value)
+      return true
+    })
+
+    // TODO Update after api on postData
+    getData(`${window.location.origin}/json/summary.json`).then(json => {
+      if (json.code === '0') {
+        setData(json)
+        setLoading(false)
+      } else {
+        console.error('Failed to load data:', data.message)
+      }
+    })
   }
 
   useEffect(() => {
-    setData(DATA)
-    setLoading(false)
-    // getData('/json/players.json').then(data => {
-    //   if (!data.error) {
-    //     setPlayers(data)
-    //   } else {
-    //     console.error('Failed to load players:', data.message)
-    //   }
-    // })
-  }, [])
-
-
-  if (loading) return
+    handleSubmit(null, 0);
+  }, [quantity])
 
   return (
     <div className={style.block}>
-      <Paper headline={t('summary_report')} classes={['sm']}>
+      <Paper
+        headline={t('summary_report')}
+        classes={['sm']}
+        quantity={quantity}
+        setQuantity={setQuantity}
+      >
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
             <div>
               <CustomSelect
-                placeholder={t('select_player')}
-                options={providerOptions}
+                placeholder={t('provider')}
+                options={[
+                  { label: 'Agent X', value: 'Agent X' },
+                  { label: 'Agent Y', value: 'Agent Y' },
+                ]}
                 data={filter.provider}
-                onChange={value => handleFilterChange('provider', value)}
+                onChange={value => handlePropsChange('provider', value)}
               />
             </div>
             <div>
@@ -129,12 +116,22 @@ const Summary = () => {
             <Button
               type={'submit'}
               classes={'primary'}
-              placeholder={t('apply')}
+              placeholder={t('search')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleResetForm}
             />
           </div>
         </form>
       </Paper>
-      <SummaryTable data={data}/>
+      <CustomTable
+        data={data}
+        config={CONFIG}
+        loading={loading}
+        handleSubmit={handleSubmit}
+      />
     </div>
   )
 }

@@ -1,0 +1,34 @@
+{
+  "code": "0",
+  "pagination": {
+    "page": "0",
+    "pages": "4",
+    "quantity": "20"
+  },
+  "data": [
+    {
+      "id": 1,
+      "player": "Agent X",
+      "provider": "casino",
+      "game": "game 1",
+      "start_date": "1752608279798",
+      "bet": "11.2",
+      "win": "67.3",
+      "profit": "345.78",
+      "currency": "UAH",
+      "action": "action"
+    },
+    {
+      "id": 2,
+      "player": "Agent Y",
+      "provider": "casino 2",
+      "game": "game 2",
+      "start_date": "1752608279798",
+      "bet": "234.55",
+      "win": "233",
+      "profit": "11905.33",
+      "currency": "EUR",
+      "action": "action"
+    }
+  ]
+}

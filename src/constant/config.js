@@ -29,7 +29,7 @@ export const NAVIGATION = {
   },
   history: {
     text: 'history',
-    link: '/history',
+    link: '/history.json',
   },
   financial: {
     text: 'financial',

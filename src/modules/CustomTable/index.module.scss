@@ -1,49 +1,34 @@
 @use 'scss/config' as *;
 
 .block {
-  @include make-spacer(mb, 16px);
   @include make-spacer(p, 16px);
   @include flex($direction: column);
 
+  position: relative;
   border-radius: var(--default-border-radius);
   box-shadow: var(--default-box-shadow);
+  overflow: hidden;
   background-color: var(--color-white);
-  height: 100%;
-
-  &:last-child {
-    @include make-spacer(mb, 0);
-  }
-}
-
-.grid {
-  @include make-spacer(mb, rem(16px));
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: rem(16px);
-}
-
-.actions {
-  @include flex(flex-end, center);
-
-  gap: rem(16px);
+  min-height: rem(120px);
 }
 
 .row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(rem(50px), 1fr));
   border-bottom: rem(1px) solid var(--color-border);
   font-size: rem(12px);
-  font-weight: var(--typography-medium);
 
   &:last-child {
     border-bottom: 0;
   }
 
   &:first-child {
+
     .cell {
+      gap: rem(4px);
       flex-wrap: nowrap;
       white-space: nowrap;
+      font-weight: var(--typography-medium);
     }
   }
 }
@@ -51,14 +36,14 @@
 .cell {
   @include flex($align-items: center, $wrap: wrap);
   @include make-spacer(p, 8px);
+
+  &.pointer {
+    cursor: pointer;
+  }
 }
 
 .empty {
   @include make-spacer(p, 12px);
 
   text-align: center;
-}
-
-.sort {
-  @include make-spacer(ml, 4px);
 }

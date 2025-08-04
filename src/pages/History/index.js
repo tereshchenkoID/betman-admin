@@ -1,70 +1,44 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-
 import { getDate } from 'helpers/getDate'
+import { getData } from "hooks/useRequest"
 
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
 import CustomSelect from "components/Select"
-import HistoryTable from "./HistoryTable"
+import CustomTable from "modules/CustomTable"
 
 import style from './index.module.scss'
 
-const DATA = [
-  {
-    id: 1,
-    player: 'Agent X',
-    provider: 'casino',
-    game: 'game 1',
-    startDate: '17.06.2025, 17:51:02',
-    bet: '11.2',
-    toWin: '67.3',
-    profit: '345.78',
-    currency: 'UAH',
-    action: 'action',
-  },
-  {
-    id: 2,
-    player: 'Agent Y',
-    provider: 'casino 2',
-    game: 'game 2',
-    startDate: '17.06.2025, 16:39:31',
-    bet: '234.55',
-    toWin: '233',
-    profit: '11905.33',
-    currency: 'EUR',
-    action: 'action',
-  },
-];
+const CONFIG = [
+  { key: 'id', text: 'id' },
+  { key: 'player', text: 'players' },
+  { key: 'provider', text: 'provider' },
+  { key: 'game', text: 'game' },
+  { key: 'start_date', text: 'start_date', data: 'datetime' },
+  { key: 'bet', text: 'bet', sorted: true },
+  { key: 'win', text: 'win', sorted: true },
+  { key: 'profit', text: 'profit', sorted: true },
+  { key: 'currency', text: 'currency' },
+  { key: 'action', text: 'action' },
+]
 
 const History = () => {
   const { t } = useTranslation()
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState(null)
-  const [filter, setFilter] = useState({
-    player: '',
-    provider: '',
-    game: '',
+  const initialValue = {
+    'player': '',
+    'provider': '',
+    'game': '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
-  })
-
-  const pleyerOptions = [
-    { label: 'Agent X', value: 'Agent X' },
-    { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const gameOptions = [
-    { label: 'Game 1', value: 'Game 1' },
-    { label: 'Game 2', value: 'Game 2' },
-  ]
-
-  const handleFilterChange = (key, value) => {
-    setFilter(prev => ({ ...prev, [key]: value }))
   }
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState({})
+  const [quantity, setQuantity] = useState(20)
+  const [filter, setFilter] = useState(initialValue)
 
   const handlePropsChange = (field, value) => {
     setFilter(prev => ({
@@ -73,63 +47,76 @@ const History = () => {
     }))
   }
 
+  const handleResetForm = () => {
+    setFilter(initialValue)
+  }
+
   const handleSubmit = event => {
     event && event.preventDefault()
-    // const formData = new FormData()
-    //
-    // formData.append('playerID', filter.playerID)
-    //
-    // postData('dashboard/', formData).then(json => {
-    //   if (json.status === 'OK') {
-    //     setData(json.data)
-    //     loading && setLoading(false)
-    //   }
-    // })
+
+    const formData = new FormData()
+    Object.entries(filter).map(([key, value]) => {
+      formData.append(key, value)
+      return true
+    })
+
+    // TODO Update after api on postData
+    getData(`${window.location.origin}/json/history.json`).then(json => {
+      if (json.code === '0') {
+        setData(json)
+        setLoading(false)
+      } else {
+        console.error('Failed to load data:', data.message)
+      }
+    })
   }
 
   useEffect(() => {
-    setData(DATA)
-    setLoading(false)
-    // getData('/json/players.json').then(data => {
-    //   if (!data.error) {
-    //     setPlayers(data)
-    //   } else {
-    //     console.error('Failed to load players:', data.message)
-    //   }
-    // })
-  }, [])
-
-
-  if (loading) return
+    handleSubmit(null, 0);
+  }, [quantity])
 
   return (
     <div className={style.block}>
-      <Paper headline={t('history_report')} classes={['sm']}>
+      <Paper
+        headline={t('history_report')}
+        classes={['sm']}
+        quantity={quantity}
+        setQuantity={setQuantity}
+      >
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
             <div>
               <CustomSelect
-                placeholder={t('select_player')}
-                options={pleyerOptions}
+                placeholder={t('player')}
+                options={[
+                  { label: 'Agent X', value: 'Agent X' },
+                  { label: 'Agent Y', value: 'Agent Y' },
+                ]}
                 data={filter.player}
-                onChange={value => handleFilterChange('player', value)}
+                onChange={value => handlePropsChange('player', value)}
               />
             </div>
             <div>
               <CustomSelect
-                placeholder={t('select_provider')}
-                options={gameOptions}
+                placeholder={t('provider')}
+                options={[
+                  { label: 'Provider 1', value: 'provider 1' },
+                  { label: 'Provider 2', value: 'provider 2' },
+                ]}
                 data={filter.provider}
-                onChange={value => handleFilterChange('provider', value)}
+                onChange={value => handlePropsChange('provider', value)}
               />
             </div>
             <div>
               <CustomSelect
-                placeholder={t('select_game')}
-                options={gameOptions}
+                placeholder={t('game')}
+                options={[
+                  { label: 'Game 1', value: 'Game 1' },
+                  { label: 'Game 2', value: 'Game 2' },
+                ]}
                 data={filter.game}
-                onChange={value => handleFilterChange('game', value)}
+                onChange={value => handlePropsChange('game', value)}
               />
             </div>
             <div>
@@ -153,12 +140,22 @@ const History = () => {
             <Button
               type={'submit'}
               classes={'primary'}
-              placeholder={t('apply')}
+              placeholder={t('search')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleResetForm}
             />
           </div>
         </form>
       </Paper>
-      <HistoryTable data={data}/>
+      <CustomTable
+        data={data}
+        config={CONFIG}
+        loading={loading}
+        handleSubmit={handleSubmit}
+      />
     </div>
   )
 }

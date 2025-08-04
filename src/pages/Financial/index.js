@@ -2,63 +2,42 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getDate } from 'helpers/getDate'
+import { getData } from 'hooks/useRequest'
 
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
-import CustomSelect from "components/Select"
-import FinancialTable from "./FinancialTable"
+import CustomSelect from 'components/Select'
+import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
 
-const DATA = [
-  {
-    id: 1,
-    datetime: '11.05.2025, 16:41:36',
-    agent: 'Test bot',
-    store: 'test_m2',
-    user: 'test_kv2',
-    player: 'player_1',
-    type: 'In (deposit)',
-    sum: '500.00',
-    currency: 'UAH',
-    balanceAfter: '500.00',
-    bonusBalanceAfter: '20.00',
-  },
-  {
-    id: 2,
-    datetime: '12.05.2025, 12:41:36',
-    agent: 'Test bot 2',
-    store: 'test_m3',
-    user: 'test_kv2',
-    player: 'player_2',
-    type: 'In (deposit)',
-    sum: '500.00',
-    currency: 'EUR',
-    balanceAfter: '200.00',
-    bonusBalanceAfter: '1.00',
-  },
-];
+const CONFIG = [
+  { key: 'id', text: 'id', sorted: true },
+  { key: 'datetime', text: 'date_hour', data: 'datetime' },
+  { key: 'agent', text: 'agent' },
+  { key: 'store', text: 'store' },
+  { key: 'user', text: 'user' },
+  { key: 'player', text: 'player' },
+  { key: 'type', text: 'type_transaction' },
+  { key: 'sum', text: 'sum' },
+  { key: 'currency', text: 'currency' },
+  { key: 'balance_after', text: 'balance_after', sorted: true },
+  { key: 'bonus_after', text: 'bonus_after', sorted: true },
+]
 
 const Financial = () => {
   const { t } = useTranslation()
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState(null)
-  const [filter, setFilter] = useState({
-    player: '',
+  const initialValue = {
+    'player': '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
-  })
-
-  const playerOptions = [
-    { label: 'Agent X', value: 'Agent X' },
-    { label: 'Agent Y', value: 'Agent Y' },
-  ]
-
-  const handleFilterChange = (key, value) => {
-    setFilter(prev => ({ ...prev, [key]: value }))
   }
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState({})
+  const [quantity, setQuantity] = useState(20)
+  const [filter, setFilter] = useState(initialValue)
 
   const handlePropsChange = (field, value) => {
     setFilter(prev => ({
@@ -67,52 +46,59 @@ const Financial = () => {
     }))
   }
 
+  const handleResetForm = () => {
+    setFilter(initialValue)
+  }
+
   const handleSubmit = event => {
     event && event.preventDefault()
-    // const formData = new FormData()
-    //
-    // formData.append('playerID', filter.playerID)
-    //
-    // postData('dashboard/', formData).then(json => {
-    //   if (json.status === 'OK') {
-    //     setData(json.data)
-    //     loading && setLoading(false)
-    //   }
-    // })
+
+    const formData = new FormData()
+    Object.entries(filter).map(([key, value]) => {
+      formData.append(key, value)
+      return true
+    })
+
+    // TODO Update after api on postData
+    getData(`${window.location.origin}/json/financial.json`).then(json => {
+      if (json.code === '0') {
+        setData(json)
+        setLoading(false)
+      } else {
+        console.error('Failed to load data:', data.message)
+      }
+    })
   }
 
   useEffect(() => {
-    setData(DATA)
-    setLoading(false)
-    // getData('/json/players.json').then(data => {
-    //   if (!data.error) {
-    //     setPlayers(data)
-    //   } else {
-    //     console.error('Failed to load players:', data.message)
-    //   }
-    // })
-  }, [])
-
-
-  if (loading) return
+    handleSubmit(null, 0);
+  }, [quantity])
 
   return (
     <div className={style.block}>
-      <Paper headline={t('financial_report')} classes={['sm']}>
+      <Paper
+        headline={t('financial_report')}
+        classes={['sm']}
+        quantity={quantity}
+        setQuantity={setQuantity}
+      >
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
             <div>
               <CustomSelect
-                placeholder={t('select_player')}
-                options={playerOptions}
+                placeholder={t('player')}
+                options={[
+                  { label: 'Agent X', value: 'Agent X' },
+                  { label: 'Agent Y', value: 'Agent Y' },
+                ]}
                 data={filter.provider}
-                onChange={value => handleFilterChange('player', value)}
+                onChange={value => handlePropsChange('player', value)}
               />
             </div>
             <div>
               <Field
-                type="datetime-local"
+                type='datetime-local'
                 placeholder={t('date_from')}
                 data={filter['date-from']}
                 onChange={value => handlePropsChange('date-from', value)}
@@ -120,7 +106,7 @@ const Financial = () => {
             </div>
             <div>
               <Field
-                type="datetime-local"
+                type='datetime-local'
                 placeholder={t('date_to')}
                 data={filter['date-to']}
                 onChange={value => handlePropsChange('date-to', value)}
@@ -131,12 +117,22 @@ const Financial = () => {
             <Button
               type={'submit'}
               classes={'primary'}
-              placeholder={t('apply')}
+              placeholder={t('search')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleResetForm}
             />
           </div>
         </form>
       </Paper>
-      <FinancialTable data={data}/>
+      <CustomTable
+        data={data}
+        config={CONFIG}
+        loading={loading}
+        handleSubmit={handleSubmit}
+      />
     </div>
   )
 }
