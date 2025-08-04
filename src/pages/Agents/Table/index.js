@@ -218,7 +218,10 @@ const Table = ({ data, config, sort, handleSortChange }) => {
               >
                 {
                   config.map(({ key }) =>
-                    <div key={key} className={style.cell}>
+                    <div
+                      key={key}
+                      className={style.cell}
+                    >
                       {renderCell(key, row)}
                     </div>
                   )

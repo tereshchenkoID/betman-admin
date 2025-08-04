@@ -230,10 +230,7 @@ const Nav = () => {
           />
         </div>
         <hr/>
-        <div
-
-          className={style.action}
-        >
+        <div className={style.action}>
           <button
             ref={buttonRef}
             className={

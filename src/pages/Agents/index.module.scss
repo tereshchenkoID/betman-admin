@@ -12,6 +12,10 @@
   @include flex(flex-end, center);
 
   gap: rem(16px);
+
+  &:not(:last-child) {
+    @include make-spacer(mb, 16px);
+  }
 }
 
 .paper {

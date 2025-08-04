@@ -23,9 +23,11 @@ const components = {
   'account-deposit': Deposit,
   'account-withdrawal': Withdrawal,
   'account-shop': Shop,
+  'account-agent': null, // TODO add form for agent
   'account-player': Player,
   'account-cashier': Cashier,
   'account-player-info': PlayerInfo,
+  'account-agent-edit': null, // TODO add form for agent edit
   'account-shop-edit': ShopEdit,
   'account-cashier-edit': CashierEdit,
   'account-player-edit': PlayerEdit,

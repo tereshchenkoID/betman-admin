@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 
 import { service } from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
 import { getData } from 'hooks/useRequest'
 import { convertOptions } from 'helpers/convertOptions'
+import { setAside } from 'store/actions/asideAction'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -55,6 +57,7 @@ const CONFIG = [
 
 const Agents = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const initialValue = {
     'q': '',
     'locked': '',
@@ -183,6 +186,23 @@ const Agents = () => {
               type={'reset'}
               placeholder={t('cancel')}
               onChange={handleResetForm}
+            />
+          </div>
+          <div className={style.actions}>
+            <Button
+              classes={'primary'}
+              placeholder={t('add_agent')}
+              onChange={(e) => {
+                dispatch(
+                  setAside({
+                    meta: {
+                      title: t('add_agent'),
+                      cmd: 'account-agent',
+                      buttonRef: e.target,
+                    }
+                  }),
+                )
+              }}
             />
           </div>
         </form>
