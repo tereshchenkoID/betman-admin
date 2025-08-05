@@ -1,0 +1,31 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.table {
+  display: table;
+  width: 100%;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  @include make-spacer(px, 8px);
+  @include make-spacer(py, 4px);
+
+  display: table-cell;
+  vertical-align: middle;
+  border-bottom: rem(1px) solid var(--color-border);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+  position: relative;
+}

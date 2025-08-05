@@ -8,6 +8,8 @@ import Loader from "components/Loader"
 
 import style from './index.module.scss'
 
+const Agent = lazy(() => import('modules/Accounts/Agent'))
+const AgentEdit = lazy(() => import('modules/Accounts/AgentEdit'))
 const Deposit = lazy(() => import('modules/Accounts/Deposit'))
 const Withdrawal = lazy(() => import('modules/Accounts/Withdrawal'))
 const Shop = lazy(() => import('modules/Accounts/Shop'))
@@ -23,11 +25,11 @@ const components = {
   'account-deposit': Deposit,
   'account-withdrawal': Withdrawal,
   'account-shop': Shop,
-  'account-agent': null, // TODO add form for agent
+  'account-agent': Agent,
   'account-player': Player,
   'account-cashier': Cashier,
   'account-player-info': PlayerInfo,
-  'account-agent-edit': null, // TODO add form for agent edit
+  'account-agent-edit': AgentEdit, // TODO add form for agent edit
   'account-shop-edit': ShopEdit,
   'account-cashier-edit': CashierEdit,
   'account-player-edit': PlayerEdit,

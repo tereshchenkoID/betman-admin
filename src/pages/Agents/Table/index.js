@@ -17,6 +17,19 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const handleEditAgent = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('edit_agent'),
+          cmd: 'account-agent-edit',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
+
   const handleDeposit = (e, row) => {
     dispatch(
       setAside({
@@ -145,7 +158,11 @@ const Table = ({ data, config, sort, handleSortChange }) => {
 
   const renderActions = () => (
     <>
-      <Icon icon="fa-pencil" alt="edit" />
+      <Icon
+        icon="fa-pencil"
+        alt="edit"
+        action={e => handleEditAgent(e, 'edit_agent')}
+      />
       <Icon
         icon="fa-lock"
         alt="locked"
