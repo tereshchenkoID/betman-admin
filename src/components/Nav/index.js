@@ -48,17 +48,7 @@ const MENU = [
         ...NAVIGATION.financial,
       }
     ],
-  },
-  {
-    text: 'account',
-    icon: 'fa-solid fa-user',
-    submenu: [
-      {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        ...NAVIGATION.settings,
-      }
-    ],
-  },
+  }
 ]
 
 const Nav = () => {

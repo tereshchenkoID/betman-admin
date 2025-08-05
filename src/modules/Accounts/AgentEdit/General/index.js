@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { postData } from 'hooks/useRequest'
 import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'
-import Select from 'components/Select'
 import Toggle from 'components/Toggle'
+import Password from 'components/Password'
 import Field from 'components/Field'
 import GeneratePassword from 'modules/GeneratePassword'
 import Debug from 'modules/Debug'
@@ -17,8 +17,14 @@ import style from './index.module.scss'
 const General = ({ data }) => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const { auth } = useSelector(state => state.auth)
+
   const initialValue = {
+    id: auth.id,
+    username: auth.username,
+    old_password: '',
     new_password: '',
+    confirm_password: '',
     short_form: '1'
   }
 
@@ -39,8 +45,6 @@ const General = ({ data }) => {
   const handleSubmit = e => {
     e.preventDefault()
     const formData = new FormData()
-    formData.append('id', data.id)
-    formData.append('username', data.username)
 
     Object.entries(filter).map(([key, value]) => {
       formData.append(key, value)
@@ -70,8 +74,21 @@ const General = ({ data }) => {
     <>
       <Debug data={filter} />
       <form className={style.block} onSubmit={handleSubmit}>
+        <Field
+          type={'text'}
+          placeholder={t('username')}
+          data={filter.username}
+          classes={['disabled']}
+          required={true}
+        />
+        <Password
+          placeholder={t('old_password')}
+          data={filter.old_password}
+          onChange={value => handlePropsChange('old_password', value)}
+          required={true}
+        />
         <GeneratePassword
-          list={['new_password']}
+          list={['new_password', 'confirm_password']}
           data={filter}
           action={setFilter}
           filter={filter}

@@ -1,4 +1,5 @@
-export const NAVIGATION = {
+export let NAVIGATION;
+NAVIGATION = {
   home: {
     text: 'home',
     link: '/',
@@ -35,15 +36,11 @@ export const NAVIGATION = {
     text: 'financial',
     link: '/financial',
   },
-  settings: {
-    text: 'settings',
-    link: '/settings'
-  },
   login: {
     text: 'login',
     link: '/login'
   }
-}
+};
 
 export const ACCOUNT_TYPE = {
   'AGENT': '0',

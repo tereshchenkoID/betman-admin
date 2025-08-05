@@ -13,7 +13,6 @@ const Cashiers = lazy(() => import('pages/Cashiers'))
 
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
-const Settings = lazy(() => import('pages/Settings'))
 const Summary = lazy(() => import('pages/Summary'))
 const History = lazy(() => import('pages/History'))
 const Financial = lazy(() => import('pages/Financial'))
@@ -73,10 +72,6 @@ export const router = createBrowserRouter([
       {
         path: NAVIGATION.financial.link,
         element: withSuspense(Financial),
-      },
-      {
-        path: NAVIGATION.settings.link,
-        element: withSuspense(Settings),
       },
       {
         path: NAVIGATION.login.link,
