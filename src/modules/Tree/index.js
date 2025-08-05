@@ -24,21 +24,22 @@ const Tree = ({ data }) => {
   if (!data) return null
 
   return (
-    <div className={style.block}>
+    <div
+      ref={blockRef}
+      className={style.block}
+    >
       <button
         type={'button'}
         className={style.toggle}
         onClick={() => setToggle(!toggle)}
+        aria-label={'Toggle'}
         ref={buttonRef}
       >
         <FontAwesomeIcon icon="fa-solid fa-folder-tree" />
       </button>
       {
         toggle &&
-        <div
-          className={style.dropdown}
-          ref={blockRef}
-        >
+        <div className={style.dropdown}>
           <Node node={data.tree} />
         </div>
       }
