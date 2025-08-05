@@ -21,6 +21,18 @@
         "id": "1000",
         "username": "austin"
       },
+      "tree": {
+        "id": "1000",
+        "username": "austin",
+        "child": {
+          "id": "10001",
+          "username": "austin 2",
+          "child": {
+            "id": "10003",
+            "username": "austin 3"
+          }
+        }
+      },
       "cashiers": "10",
       "players": "1"
     },
@@ -28,6 +40,39 @@
       "id": "2",
       "username": "test",
       "full_name": "Austin Shop",
+      "locked": "0",
+      "currency": "USD",
+      "date_created": "1752508279798",
+      "credits": {
+        "ETB": "999827582.68"
+      },
+      "agent": {
+        "id": "1000",
+        "username": "austin"
+      },
+      "tree": {
+        "id": "1000",
+        "username": "austin",
+        "child": {
+          "id": "10001",
+          "username": "austin 2",
+          "child": {
+            "id": "10003",
+            "username": "austin 3",
+            "child": {
+              "id": "10004",
+              "username": "shop"
+            }
+          }
+        }
+      },
+      "cashiers": "20",
+      "players": "100"
+    },
+    {
+      "id": "3",
+      "username": "test 3",
+      "full_name": "Test shop",
       "locked": "0",
       "currency": "USD",
       "date_created": "1752508279798",

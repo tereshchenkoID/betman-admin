@@ -1,0 +1,29 @@
+@use '../../../scss/config' as *;
+
+.block {
+  @include make-spacer(pl, 8px);
+
+  gap: rem(8px);
+  font-size: rem(14px);
+  white-space: nowrap;
+}
+
+.link {
+  color: var(--color-primary);
+}
+
+.wrapper {
+  @include make-spacer(pt, 8px);
+  @include make-spacer(pl, 2px);
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}
+
+.arrow {
+  @include size(rem(14px), rem(12px));
+
+  border-left: rem(1px) solid var(--color-border);
+  border-bottom: rem(1px) solid var(--color-border);
+}

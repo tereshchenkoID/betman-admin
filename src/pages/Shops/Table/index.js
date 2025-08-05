@@ -10,6 +10,7 @@ import { getDate } from 'helpers/getDate'
 
 import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
+import Tree from 'modules/Tree'
 
 import style from './index.module.scss'
 
@@ -106,7 +107,14 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const renderCell = (key, row) => {
     if (key.indexOf('.') !== -1) {
       const keys = key.split('.');
-      return keys.reduce((acc, k) => acc?.[k], row)
+
+      return <div className={style.wrapper}>
+                {
+                  row.tree &&
+                 <Tree data={row} />
+                }
+                <p>{keys.reduce((acc, k) => acc?.[k], row)}</p>
+             </div>
     }
 
     const value = row[key]

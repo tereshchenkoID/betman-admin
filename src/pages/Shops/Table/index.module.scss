@@ -2,7 +2,6 @@
 
 .block {
   width: 100%;
-  overflow: hidden;
   font-size: rem(14px);
   font-weight: var(--typography-thin);
 }
@@ -27,11 +26,19 @@
   }
 }
 
+.wrapper,
 .cell {
   @include flex(null, center, null, wrap);
+}
+
+.cell {
   @include make-spacer(p, 12px);
 
   gap: rem(4px);
+}
+
+.wrapper {
+  gap: rem(8px);
 }
 
 .icon {
