@@ -30,7 +30,7 @@ NAVIGATION = {
   },
   history: {
     text: 'history',
-    link: '/history.json',
+    link: '/history',
   },
   financial: {
     text: 'financial',

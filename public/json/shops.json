@@ -53,15 +53,19 @@
       "tree": {
         "id": "1000",
         "username": "austin",
+        "type": "0",
         "child": {
           "id": "10001",
           "username": "austin 2",
+          "type": "2",
           "child": {
             "id": "10003",
             "username": "austin 3",
+            "type": "3",
             "child": {
               "id": "10004",
-              "username": "shop"
+              "username": "shop",
+              "type": "4"
             }
           }
         }

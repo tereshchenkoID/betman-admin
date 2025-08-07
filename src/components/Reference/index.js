@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import classNames from 'classnames'
 
 import style from './index.module.scss'
 
-const Button = ({
-  type = 'button',
+const Reference = ({
+  to,
   classes = 'default',
   placeholder,
   onChange,
@@ -13,8 +14,8 @@ const Button = ({
   ...rest
 }) => {
   return (
-    <button
-      type={type}
+    <Link
+      to={to}
       className={
         classNames(
           style.block,
@@ -28,8 +29,8 @@ const Button = ({
       {...rest}
     >
       {placeholder}
-    </button>
+    </Link>
   )
 }
 
-export default Button
+export default Reference

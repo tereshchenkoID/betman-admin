@@ -5,6 +5,7 @@ import { NAVIGATION } from '../constant/config'
 import App from 'App'
 import Loader from 'components/Loader'
 import ProtectedRoute from './ProtectedRoute'
+import PublicRoute from './PublicRoute'
 
 const Agents = lazy(() => import('pages/Agents'))
 const Shops = lazy(() => import('pages/Shops'))
@@ -18,6 +19,7 @@ const History = lazy(() => import('pages/History'))
 const Financial = lazy(() => import('pages/Financial'))
 const Payments = lazy(() => import('pages/Payments'))
 const Bonuses = lazy(() => import('pages/Bonuses'))
+const NotFound = lazy(() => import('pages/NotFound'))
 
 const withSuspense = (Component) => (
   <Suspense fallback={<Loader />}>
@@ -85,7 +87,15 @@ export const router = createBrowserRouter([
       },
       {
         path: NAVIGATION.login.link,
-        element: withSuspense(Login),
+        element: (
+          <PublicRoute>
+            {withSuspense(Login)}
+          </PublicRoute>
+        )
+      },
+      {
+        path: '*',
+        element: withSuspense(NotFound),
       },
     ],
   },
