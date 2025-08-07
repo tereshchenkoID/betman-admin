@@ -36,6 +36,14 @@ NAVIGATION = {
     text: 'financial',
     link: '/financial',
   },
+  payments: {
+    text: 'payments',
+    link: '/payments',
+  },
+  bonuses: {
+    text: 'bonuses',
+    link: '/bonuses',
+  },
   login: {
     text: 'login',
     link: '/login'

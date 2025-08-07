@@ -16,6 +16,8 @@ const Login = lazy(() => import('pages/Login'))
 const Summary = lazy(() => import('pages/Summary'))
 const History = lazy(() => import('pages/History'))
 const Financial = lazy(() => import('pages/Financial'))
+const Payments = lazy(() => import('pages/Payments'))
+const Bonuses = lazy(() => import('pages/Bonuses'))
 
 const withSuspense = (Component) => (
   <Suspense fallback={<Loader />}>
@@ -72,6 +74,14 @@ export const router = createBrowserRouter([
       {
         path: NAVIGATION.financial.link,
         element: withSuspense(Financial),
+      },
+      {
+        path: NAVIGATION.payments.link,
+        element: withSuspense(Payments),
+      },
+      {
+        path: NAVIGATION.bonuses.link,
+        element: withSuspense(Bonuses),
       },
       {
         path: NAVIGATION.login.link,

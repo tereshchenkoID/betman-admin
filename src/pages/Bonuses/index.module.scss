@@ -1,0 +1,20 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.filter {
+  @include make-spacer(mb, 16px);
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+}
