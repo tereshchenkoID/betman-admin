@@ -4,15 +4,16 @@
   @include flex(center, center);
 
   inset: 0;
-  z-index: $z-index-13;
   background-color: var(--material);
 
   &.content {
-    position: fixed;
+    position: absolute;
+    z-index: $z-index-2;
   }
 
-  &.block {
-    position: absolute;
+  &.default {
+    position: fixed;
+    z-index: $z-index-13;
   }
 }
 

@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useLocation, Outlet } from 'react-router-dom'
+import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-import { setSettings } from 'store/actions/settingsAction'
-
-import Loader from 'components/Loader'
 import Header from 'components/Header'
 import Aside from 'components/Aside'
 import Nav from 'components/Nav'
@@ -12,31 +8,6 @@ import Nav from 'components/Nav'
 import style from './index.module.scss'
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const { pathname } = useLocation()
-  const [loading, setLoading] = useState(true)
-  const [loaded, setLoaded] = useState(false)
-
-  useEffect(() => {
-    dispatch(setSettings())
-    setLoading(false)
-    setLoaded(true)
-  }, [dispatch])
-
-  useEffect(() => {
-    if (!loaded)
-      return
-
-    setLoading(true)
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [pathname])
-
-  if (loading) return <Loader />
-
   return (
     <>
       <Header />

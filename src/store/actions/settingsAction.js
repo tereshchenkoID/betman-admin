@@ -1,4 +1,4 @@
-import { getData } from 'hooks/useRequest'
+import { getData } from 'helpers/api'
 import { types } from 'store/actionTypes'
 
 export const setSettings = () => async dispatch => {

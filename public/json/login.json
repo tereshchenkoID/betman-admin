@@ -1,7 +1,22 @@
 {
-  "code": "0",
-  "id": "101610",
+  "id": "0",
+  "username": "player1",
   "role": "0",
-  "username":"admin"
+  "token": "59c73f31477202545f9a6e70974fa6e0",
+  "credits": {
+    "ETB": "999827582.68",
+    "KES": "184306557.00",
+    "NGN": "100000000.00",
+    "SSP": "96500000.00",
+    "UGX": "90000000.00",
+    "USD": "99314641.38"
+  },
+  "currency": {
+    "code": "$",
+    "text": "UAH"
+  },
+  "language": {
+    "code": "ukr",
+    "text": "UA"
+  }
 }
-

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -10,22 +10,43 @@ import { Tooltip } from 'react-tooltip'
 
 import 'react-tooltip/dist/react-tooltip.css'
 
+import { setAuth } from 'store/actions/authAction'
+import { setSettings } from 'store/actions/settingsAction'
+
 import Login from 'pages/Login'
 import Home from 'pages/Home'
 import Toastify from 'components/Toastify'
+import Loader from 'components/Loader'
 
 import style from './index.module.scss'
 
 const App = () => {
+  const dispatch = useDispatch()
   const { auth } = useSelector(state => state.auth)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/config.json')
-      .then(response => response.json())
-      .then(config => {
+    const initApp = async () => {
+      try {
+        const response = await fetch('/json/config.json')
+        const config = await response.json()
         localStorage.setItem('config', JSON.stringify(config.hostnames))
-      })
-  }, [])
+
+        await Promise.all([
+          dispatch(setSettings()),
+          dispatch(setAuth()),
+        ])
+      } catch (err) {
+        console.error('Init error:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    initApp()
+  }, [dispatch])
+
+  if (loading) return <Loader />
 
   return (
     <div className={style.root}>

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import { postData } from 'hooks/useRequest'
+import { postData } from 'helpers/api'
 import { setToastify } from 'store/actions/toastifyAction'
 import { setAside } from 'store/actions/asideAction'
 

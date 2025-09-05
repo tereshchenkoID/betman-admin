@@ -4,7 +4,7 @@
   display: grid;
   position: sticky;
   top: 0;
-  grid-template-columns: 1fr rem(80px) auto;
+  grid-template-columns: 1fr auto rem(80px) auto;
   align-items: center;
   column-gap: rem(15px);
   padding-inline: rem(24px);
@@ -13,4 +13,18 @@
   background-color: var(--material);
   border-bottom: rem(1px) solid var(--primary);
   min-height: rem(65px);
+}
+
+.balance {
+  @include flex($align-items: center);
+
+  gap: rem(4px);
+
+  & > * {
+    &:not(:last-child) {
+      &::after {
+        content: ',';
+      }
+    }
+  }
 }

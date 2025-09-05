@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { postData } from 'hooks/useRequest'
+import { postData } from 'helpers/api'
 import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'

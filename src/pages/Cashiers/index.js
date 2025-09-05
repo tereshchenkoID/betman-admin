@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { service } from "constant/config"
 
 import { getDate } from 'helpers/getDate'
-import { getData } from 'hooks/useRequest'
+import { getData } from 'helpers/api'
 import { convertOptions } from "helpers/convertOptions"
 
 import Paper from 'components/Paper'

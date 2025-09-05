@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import classNames from 'classnames'
 
-import { postData } from 'hooks/useRequest'
+import { postData } from 'helpers/api'
 import { setToastify } from 'store/actions/toastifyAction'
 
 import Button from 'components/Button'

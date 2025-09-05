@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getDate } from 'helpers/getDate'
-import { getData } from 'hooks/useRequest'
+import { getData } from 'helpers/api'
 
 import Button from 'components/Button'
 import Paper from 'components/Paper'

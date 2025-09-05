@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import i18n from 'i18next'
 
 import { setAuth } from 'store/actions/authAction'
 import { setToastify } from 'store/actions/toastifyAction'
-import { postData } from 'hooks/useRequest'
+import { postData } from 'helpers/api'
 
 import Field from 'components/Field'
 import Paper from 'components/Paper'
@@ -21,6 +23,7 @@ const Login = () => {
     password: '',
     role: '0'
   }
+  const navigate = useNavigate()
 
   const [filter, setFilter] = useState(initialValue)
 
@@ -41,20 +44,15 @@ const Login = () => {
     const formData = new FormData()
     formData.append('username', filter.username)
     formData.append('password', filter.password)
+    formData.append('role', filter.role)
 
     postData('login/', formData).then(json => {
       if (json.code === '0') {
-        // sessionStorage.setItem('authToken', JSON.stringify(json))
-        // dispatch(setAuth(json))
-
-        const test = {
-          ...json,
-          role: filter.role,
-        }
-
-        // TODO remove after it's for test
-        sessionStorage.setItem('authToken', JSON.stringify(test))
-        dispatch(setAuth(test))
+        // navigate('/')
+        dispatch(setAuth(json))
+        sessionStorage.setItem('authToken', JSON.stringify(json))
+        sessionStorage.setItem('language', JSON.stringify(json?.language))
+        i18n.changeLanguage(json?.language?.code)
         dispatch(
           setToastify({
             type: 'success',

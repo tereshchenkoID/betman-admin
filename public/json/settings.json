@@ -1,21 +1,36 @@
 {
-  "languages": [
-    {
+  "name": "netgames",
+  "short_name": "Netgames",
+  "assets": {
+    "logo": "https://scorealarm-stats.freetls.fastly.net/app-assets/sds-logos/brand-superbet-dark.svg"
+  },
+  "languages": {
+    "EN": {
       "code": "en",
-      "text": "en"
+      "text": "EN"
     },
-    {
-      "code": "de",
-      "text": "de"
+    "UA": {
+      "code": "ukr",
+      "text": "UA"
     }
-  ],
-  "currencies": [
-    "ETB",
-    "KES",
-    "NGN",
-    "SSP",
-    "UGX",
-    "USD"
-  ],
-  "logo": "https://api.oddsbit.io/img/zoro.png"
+  },
+  "currencies": {
+    "USD": {
+      "code": "$",
+      "text": "USD"
+    },
+    "EUR": {
+      "code": "€",
+      "text": "EUR"
+    },
+    "UAH": {
+      "code": "UAH",
+      "text": "UAH"
+    },
+    "RON": {
+      "code": "L",
+      "text": "RON"
+    }
+  },
+  "mode": "debug"
 }

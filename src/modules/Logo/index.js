@@ -22,7 +22,7 @@ const Logo = () => {
       }}
     >
       <img
-        src={settings.logo}
+        src={settings?.assets?.logo}
         width={42}
         height={42}
         alt="logo"

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { service } from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
-import { getData } from 'hooks/useRequest'
+import { postData } from 'helpers/api'
 import { convertOptions } from 'helpers/convertOptions'
 import { setAside } from 'store/actions/asideAction'
 
@@ -61,7 +61,7 @@ const Agents = () => {
   const initialValue = {
     'q': '',
     'locked': '',
-    'date-from': getDate(new Date().setHours(-24, 0, 0, 0), 'datetime-local'),
+    'date-from': getDate(new Date().setHours(-2200, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
   }
   const [loading, setLoading] = useState(true)
@@ -89,12 +89,10 @@ const Agents = () => {
     if (sort.direction !== null) {
       formData.append('sort_key', sort.key)
       formData.append('sort_direction', sort.direction)
-      // formData.append('sort', JSON.stringify(sort))
     }
 
-    // TODO Update after api on postData
-    getData(`${window.location.origin}/json/agents.json`).then(json => {
-      if (json.code === '0') {
+    postData(`agents/`).then(json => {
+      if (json?.code === '0') {
         setData(json)
         setLoading(false)
       } else {
@@ -213,7 +211,7 @@ const Agents = () => {
         {
           loading
             ?
-              <Loader type={'block'} />
+              <Loader type={'content'} />
             :
               <>
                 <Pagination

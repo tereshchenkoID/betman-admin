@@ -3,7 +3,7 @@ import classNames from "classnames"
 
 import style from './index.module.scss'
 
-const Loader = ({ type = 'content', }) => {
+const Loader = ({ type = 'default' }) => {
   return (
     <div
       className={

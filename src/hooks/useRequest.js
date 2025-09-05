@@ -1,37 +1,42 @@
 import axios from 'axios'
-import { getHostName } from 'helpers/getHostName'
 
-const handleUnauthorized = (response) => {
-  if (response?.data?.code === '4') {
-    sessionStorage.clear()
-    window.location = '/'
-    return -1
+import { hostname } from 'helpers/hostname'
+
+export const useRequest = (link, data, headers) => {
+  const server = axios.create({
+    baseURL: `${hostname()}/${link}`,
+    withCredentials: true,
+  })
+
+  const get = async url => {
+    try {
+      const req = await server({
+        method: 'get',
+        url,
+        headers,
+      })
+      return await req.data
+    } catch (e) {
+      return e.response
+    }
   }
-  return response.data
-}
 
-const server = axios.create({
-  baseURL: getHostName(),
-  withCredentials: true,
-  // headers: {
-  //   'Content-Type': 'application/json',
-  // },
-})
-
-export const getData = async (url) => {
-  try {
-    const response = await server.get(url)
-    return handleUnauthorized(response)
-  } catch (e) {
-    return { error: true, message: e.message }
+  const post = async url => {
+    try {
+      const req = await server({
+        method: 'post',
+        url,
+        data,
+        headers,
+      })
+      return await req.data
+    } catch (e) {
+      return e.response
+    }
   }
-}
 
-export const postData = async (url, data) => {
-  try {
-    const response = await server.post(url, data)
-    return handleUnauthorized(response)
-  } catch (e) {
-    return { error: true, message: e.message }
+  return {
+    get,
+    post,
   }
 }

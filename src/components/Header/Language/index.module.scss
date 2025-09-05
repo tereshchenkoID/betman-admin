@@ -48,8 +48,8 @@
   z-index: $z-index-11;
   border-radius: var(--border-radius-default);
   background-color: var(--material);
-  border-bottom: rem(1px) solid var(--primary);
-  min-width: rem(100px);
+  border: rem(1px) solid var(--primary);
+  min-width: rem(80px);
   max-height: rem(300px);
   overflow-y: auto;
 }
@@ -67,10 +67,6 @@
       background-color: var(--primary);
       color: var(--link);
     }
-  }
-
-  &.active {
-    color: var(--link);
   }
 }
 
