@@ -1,14 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux'
 import { setAside } from 'store/actions/asideAction'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { NAVIGATION, service } from 'constant/config'
+
 import { getDate } from 'helpers/getDate'
 
 import Icon from 'components/Icon'
+import Reference from 'components/Reference'
 import ReadMore from 'modules/ReadMore'
 
 import style from './index.module.scss'
@@ -126,31 +127,25 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       case 'credits':
         return value
           ?
-          <div>
-            <ReadMore data={value} />
-            <div className={style.actions}>
-              <Icon
-                classes={[
-                  style.icon,
-                  style.deposit
-                ]}
-                icon="fa-plus"
-                alt="deposit"
-                action={e => handleDeposit(e, row)}
-              />
-              <Icon
-                classes={[
-                  style.icon,
-                  style.withdraw
-                ]}
-                icon="fa-minus"
-                alt="withdraw"
-                action={e => handleWithdrawal(e, row)}
-              />
+            <div>
+              <ReadMore data={value} />
+              <div className={style.actions}>
+                <Icon
+                  classes={['success']}
+                  icon="fa-plus"
+                  alt="deposit"
+                  action={e => handleDeposit(e, row)}
+                />
+                <Icon
+                  classes={['warning']}
+                  icon="fa-minus"
+                  alt="withdraw"
+                  action={e => handleWithdrawal(e, row)}
+                />
+              </div>
             </div>
-          </div>
           :
-          null
+            null
       default:
         return value
     }
@@ -183,13 +178,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         alt="add"
         action={e => handleAction(e, row)}
       />
-      <Link
+      <Reference
         to={url}
-        rel="noreferrer"
-        className={style.link}
-      >
-        {value}
-      </Link>
+        classes={'outline'}
+        aria-label={value}
+        placeholder={value}
+      />
     </>
   )
 
@@ -250,7 +244,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
               </div>
             )
           :
-            <div className={style.empty}>{t('no_matching_records_found')}</div>
+            <div className={style.empty}>{t('notification.no_matching_records_found')}</div>
       }
     </div>
   )

@@ -1,3 +1,14 @@
 {
-
+  "rows": "Rows",
+  "role": "Role",
+  "username": "Username",
+  "password": "Password",
+  "cancel": "Cancel",
+  "login": "Login",
+  "logout": "Logout",
+  "more": "More",
+  "less": "Less",
+  "notification": {
+    "no_matching_records_found": "No matching records found"
+  }
 }

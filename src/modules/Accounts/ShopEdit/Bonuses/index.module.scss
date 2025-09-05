@@ -8,7 +8,7 @@
 .header {
   @include flex(null, center);
 
-  border-bottom: rem(1px) solid var(--color-border);
+  border-bottom: rem(1px) solid var(--primary);
   height: rem(40px);
   overflow-x: auto;
   overflow-y: hidden;
@@ -18,21 +18,21 @@
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(--color-alto);
+    background-color: var(--bg);
     height: rem(5px);
   }
 
   &::-webkit-scrollbar-thumb {
-    border: rem(5px) solid var(--color-alto);
-    background-color: var(--color-primary);
+    border: rem(5px) solid var(--primary);
+    background-color: var(--material);
   }
 }
 
 .link {
-  @include make-spacer(px, 10px);
   @include flex(center, center);
 
   position: relative;
+  padding-inline: rem(10px);
   flex-shrink: 0;
   min-width: rem(60px);
   height: 100%;
@@ -47,7 +47,7 @@
     right: 0;
     bottom: rem(-1px);
     left: 0;
-    background-color: var(--color-primary);
+    background-color: var(--primary);
     content: '';
   }
 
@@ -60,7 +60,7 @@
   }
 
   &.active {
-    color: var(--color-primary);
+    color: var(--link);
     pointer-events: none;
   }
 }

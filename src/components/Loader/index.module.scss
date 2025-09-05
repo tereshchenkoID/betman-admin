@@ -5,7 +5,7 @@
 
   inset: 0;
   z-index: $z-index-13;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--material);
 
   &.content {
     position: fixed;
@@ -28,7 +28,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    border: rem(10px) solid var(--color-primary);
+    border: rem(10px) solid var(--link);
     border-radius: inherit;
     animation: 1s infinite ease-in-out spin;
     content: '';

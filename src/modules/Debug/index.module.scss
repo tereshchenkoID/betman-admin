@@ -1,19 +1,19 @@
 @use 'scss/config' as *;
 
 .block {
-  @include make-spacer(mb, 24px);
-
   position: relative;
-  border: rem(1px) solid var(--color-border);
-  border-radius: var(--default-border-radius);
-  background-color: #f4f4f4;
+  background-color: var(--bg);
+  border: rem(1px) solid var(--primary-hover);
+  border-radius: var(--border-radius-10);
+  color: var(--text-for-material);
+  margin-bottom: rem(24px);
 }
 
 .button {
   @include flex(space-between, center);
-  @include make-spacer(p, 8px);
 
   gap: rem(4px);
+  padding: rem(8px);
   width: 100%;
 
   &.active {
@@ -31,7 +31,5 @@
 }
 
 .pre {
-  @include make-spacer(mt, 0);
-  @include make-spacer(mx, 8px);
-  @include make-spacer(mb, 8px);
+  margin: rem(8px) rem(8px);
 }

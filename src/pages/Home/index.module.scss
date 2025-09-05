@@ -1,10 +1,9 @@
 @use 'scss/config' as *;
 
 .main {
-  @include make-spacer(p, 24px);
-  @include make-spacer(ml, 56px);
-
   position: relative;
   min-height: calc(100vh - rem(64px));
+  padding: rem(24px);
+  margin-left: rem(56px);
   overflow-x: auto;
 }

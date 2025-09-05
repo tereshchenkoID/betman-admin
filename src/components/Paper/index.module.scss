@@ -1,19 +1,18 @@
 @use 'scss/config' as *;
 
 .block {
-  @include make-spacer(mb, 16px);
-  @include make-spacer(p, 16px);
   @include flex($direction: column);
 
   position: relative;
-  border-radius: var(--default-border-radius);
-  box-shadow: var(--default-box-shadow);
-  background-color: var(--color-white);
+  border-radius: var(--border-radius-default);
+  background-color: var(--material);
+  padding: rem(16px);
   height: 100%;
 
-  &:last-child {
-    @include make-spacer(mb, 0);
+  &:not(:last-child) {
+    margin-bottom: rem(16px);
   }
+
 
   &.transparent {
     border-radius: unset;
@@ -40,12 +39,11 @@
 }
 
 .hr {
-  @include make-spacer(my, 24px);
+  margin-block: rem(24px);
 }
 
 .body {
   position: relative;
   flex-grow: 1;
-  //overflow: hidden;
   min-height: rem(120px);
 }

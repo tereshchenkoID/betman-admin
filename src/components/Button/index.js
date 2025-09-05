@@ -6,7 +6,7 @@ import style from './index.module.scss'
 
 const Button = ({
   type = 'button',
-  classes = 'default',
+  classes = 'secondary',
   placeholder,
   onChange,
   disabled = false,

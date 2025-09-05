@@ -10,20 +10,20 @@
     .react-select {
 
       &__control {
-        @include make-spacer(pl, 16px);
-
-        height: 100%;
-        border-radius: var(--default-border-radius);
+        padding-left: rem(16px);
+        border-radius: var(--border-radius-default);
         box-shadow: none;
         cursor: pointer;
-        border: rem(1px) solid var(--color-border);
+        border: rem(1px) solid var(--border);
+        background-color: var(--primary);
+        height: 100%;
 
         &:hover {
-          border-color: var(--color-primary);
+          border-color: var(--link);
         }
 
         &--is-focused {
-          border-color: var(--color-primary);
+          border-color: var(--link);
         }
 
         &--menu-is-open {
@@ -38,16 +38,15 @@
       }
 
       &__placeholder {
-        color: var(--color-text);
+        color: var(--text-for-material);
       }
 
       &__value-container {
-        @include make-spacer(p, 0);
+        padding: 0;
       }
 
       &__input-container {
-        @include make-spacer(m, 0);
-
+        margin: 0;
         flex-grow: 1;
       }
 
@@ -55,12 +54,16 @@
         display: none;
       }
 
+      &__single-value {
+        color: var(--text-for-material);
+      }
+
       &__indicator {
         @include transition;
         @include flex(center, center);
         @include size(var(--select-height), 100%);
 
-        color: var(--color-text)!important;
+        color: var(--text-for-material)!important;
       }
 
       &__clear-indicator {
@@ -68,38 +71,38 @@
       }
 
       &__menu {
-        @include make-spacer(my, 0);
-
+        margin-block: 0;
         overflow: hidden;
-        border-radius: 0 0 var(--default-border-radius) var(--default-border-radius);
-        border: rem(1px) solid var(--color-border);
+        border-radius: 0 0 var(--border-radius-default) var(--border-radius-default);
+        border: rem(1px) solid var(--border);
         box-shadow: unset;
+        background-color: var(--material-hover);
         z-index: $z-index-2;
       }
 
       &__menu-list {
-        @include make-spacer(py, 0);
+        padding: 0;
       }
 
       &__option {
-        @include make-spacer(py, 6px);
-        @include make-spacer(pl, 16px);
         @include transition;
 
+        padding-block: rem(6px);
+        padding-left: rem(16px);
         cursor: pointer;
 
         &:hover {
-          background-color: var(--color-primary);
-          color: var(--color-white);
+          background-color: var(--primary-hover);
+          color: var(--text-for-material);
         }
 
         &--is-focused {
-          background-color: var(--color-alto-02);
+          background-color: var(--primary-hover);
         }
 
         &--is-selected {
-          background-color: var(--color-border);
-          color: var(--color-text);
+          background-color: var(--primary-disabled);
+          color: var(--text-for-material);
         }
       }
     }
@@ -107,10 +110,9 @@
 }
 
 .tooltip {
-  background-color: var(--color-white)!important;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 rem(3px) rem(10px);
+  background-color: var(--material-hover)!important;
   max-width: rem(320px);
-  color: var(--color-text)!important;
+  color: var(--text-for-material)!important;
   font-size: rem(12px)!important;
   z-index: $z-index-10;
 }

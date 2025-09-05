@@ -1,10 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useDispatch } from 'react-redux'
 import { setAside } from 'store/actions/asideAction'
 
 import { service } from 'constant/config'
+
 import { getDate } from 'helpers/getDate'
 
 import Icon from 'components/Icon'
@@ -108,19 +109,13 @@ const Table = ({ data, config, sort, handleSortChange }) => {
               <ReadMore data={value} />
               <div className={style.actions}>
                 <Icon
-                  classes={[
-                    style.icon,
-                    style.deposit
-                  ]}
+                  classes={['success']}
                   icon="fa-plus"
                   alt="deposit"
                   action={e => handleDeposit(e, row)}
                 />
                 <Icon
-                  classes={[
-                    style.icon,
-                    style.withdraw
-                  ]}
+                  classes={['warning']}
                   icon="fa-minus"
                   alt="withdraw"
                   action={e => handleWithdrawal(e, row)}
@@ -211,7 +206,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
               </div>
             )
           :
-            <div className={style.empty}>{t('no_matching_records_found')}</div>
+            <div className={style.empty}>{t('notification.no_matching_records_found')}</div>
       }
     </div>
   )

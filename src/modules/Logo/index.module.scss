@@ -1,0 +1,8 @@
+@use 'scss/config' as *;
+
+.block {
+  @include size(auto, rem(64px));
+  @include flex(null, center);
+
+  flex-shrink: 0;
+}

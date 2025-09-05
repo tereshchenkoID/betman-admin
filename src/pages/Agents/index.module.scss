@@ -1,11 +1,10 @@
 @use 'scss/config' as *;
 
 .grid {
-  @include make-spacer(mb, 16px);
-
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: rem(16px);
+  margin-bottom: rem(16px);
 }
 
 .actions {
@@ -14,7 +13,7 @@
   gap: rem(16px);
 
   &:not(:last-child) {
-    @include make-spacer(mb, 16px);
+    margin-bottom: rem(16px);
   }
 }
 

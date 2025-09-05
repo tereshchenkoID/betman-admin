@@ -91,7 +91,9 @@ const Shops = () => {
     formData.append('date-to', filter['date-to'])
 
     if (sort.direction !== null) {
-      formData.append('sort', JSON.stringify(sort))
+      formData.append('sort_key', sort.key)
+      formData.append('sort_direction', sort.direction)
+      // formData.append('sort', JSON.stringify(sort))
     }
 
     if (isSingle) {
@@ -222,7 +224,7 @@ const Shops = () => {
                 {
                   !isSingle &&
                   <Pagination
-                    position='bottom'
+                    position='top'
                     pagination={data.pagination}
                     handleSubmit={handleSubmit}
                   />

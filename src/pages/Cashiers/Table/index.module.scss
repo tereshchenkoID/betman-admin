@@ -12,7 +12,7 @@
   grid-template-columns: rem(80px) repeat(4, 1fr) repeat(2, rem(80px)) repeat(2, 1fr);
 
   &:not(:last-child) {
-    border-bottom: rem(1px) solid var(--color-border);
+    border-bottom: rem(1px) solid var(--primary);
   }
 
   &:first-child {
@@ -29,46 +29,20 @@
 
 .cell {
   @include flex(null, center, null, wrap);
-  @include make-spacer(p, 12px);
 
   gap: rem(4px);
-}
-
-.icon {
-  @include make-spacer(mr, 8px);
-
-  color: var(--color-primary);
+  padding: rem(12px);
 }
 
 .empty {
-  @include make-spacer(pt, 12px);
-  @include make-spacer(px, 12px);
-
+  padding-top: rem(12px);
+  padding-inline: rem(12px);
   text-align: center;
 }
 
-.link {
-  color: var(--color-primary);
-  text-decoration: underline;
-}
-
 .actions {
-  @include make-spacer(mt, 4px);
-}
+  @include flex($align-items: center);
 
-.icon {
-  color: var(--color-white);
-  border-radius: var(--default-border-radius);
-
-  &.deposit {
-    background-color: var(--color-primary);
-  }
-
-  &.withdraw {
-    background-color: var(--color-warning);
-  }
-
-  &:hover {
-    color: var(--color-white);
-  }
+  gap: rem(6px);
+  margin-top: rem(4px);
 }

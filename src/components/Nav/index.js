@@ -10,25 +10,26 @@ import { ACCOUNT_TYPE, NAVIGATION } from 'constant/config'
 
 import { setAside } from 'store/actions/asideAction'
 
-import Icon from "components/Icon"
+import Icon from 'components/Icon'
+import Logo from 'modules/Logo'
 
 import style from './index.module.scss'
 
 const MENU = [
   {
-    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT],
+    type: [ACCOUNT_TYPE.AGENT],
     ...NAVIGATION.agents,
   },
   {
-    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT],
+    type: [ACCOUNT_TYPE.AGENT],
     ...NAVIGATION.shops,
   },
   {
-    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP],
+    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP],
     ...NAVIGATION.cashiers,
   },
   {
-    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP],
+    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.CASHIER],
     ...NAVIGATION.players,
   },
   {
@@ -36,23 +37,23 @@ const MENU = [
     icon: 'fa-solid fa-file',
     submenu: [
       {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
         ...NAVIGATION.summary,
       },
       {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
         ...NAVIGATION.history,
       },
       {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
         ...NAVIGATION.financial,
       },
       {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
         ...NAVIGATION.payments,
       },
       {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SUBAGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
         ...NAVIGATION.bonuses,
       }
     ],
@@ -63,7 +64,6 @@ const Nav = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
-  const { settings } = useSelector(state => state.settings)
   const { auth } = useSelector(state => state.auth)
   const role = auth ? auth.role : null
 
@@ -117,23 +117,14 @@ const Nav = () => {
       }
     >
       <div className={style.wrapper}>
-        <div className={style.logo}>
-          <Link
-            to={NAVIGATION.home.link}
-            rel="noreferrer"
-            onClick={() => {
-              setShow(false)
-              dispatch(setAside(null))
-              // setActive(false)
-            }}
-          >
-            <img
-              src={settings.logo}
-              width={42}
-              height={42}
-              alt="logo"
-            />
-          </Link>
+        <div
+          className={style.logo}
+          onClick={() => {
+            setShow(false)
+            setActive(false)
+          }}
+        >
+          <Logo />
         </div>
         <hr/>
         <ul className={style.list}>

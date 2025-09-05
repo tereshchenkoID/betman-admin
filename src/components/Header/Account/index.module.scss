@@ -6,11 +6,10 @@
 
 .text,
 .link {
-  @include make-spacer(px, 15px);
+  padding-inline: rem(15px);
 }
 
 .icon {
-  color: var(--color-white);
   font-size: rem(18px);
 }
 
@@ -23,22 +22,20 @@
 }
 
 .wrapper {
-  @include make-spacer(py, 10px);
-
   position: absolute;
   top: calc(100% + rem(12px));
   right: 0;
+  padding-block: rem(10px);
   z-index: $z-index-11;
-  border-radius: var(--default-border-radius);
-  box-shadow: var(--default-box-shadow);
-  background-color: var(--color-white);
+  border-radius: var(--border-radius-default);
+  background-color: var(--material);
+  border: rem(1px) solid var(--border);
   width: rem(250px);
 }
 
 .text {
-  @include make-spacer(mb, 5px);
-
   opacity: 0.7;
+  margin-bottom: rem(5px);
   font-size: rem(14px);
 
   span {
@@ -47,22 +44,24 @@
 }
 
 .ul {
-  @include make-spacer(mt, 5px);
+  margin-top: rem(5px);
 }
 
 .link {
   @include flex(null, center);
-  @include make-spacer(py, 8px);
 
+  padding-block: rem(8px);
   width: 100%;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    color: var(--color-primary);
+  @include hover {
+    &:hover {
+      background-color: var(--primary);
+      color: var(--link);
+    }
   }
 
   &.active {
-    color: var(--color-primary);
+    color: var(--link);
     pointer-events: none;
   }
 }

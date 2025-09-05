@@ -7,7 +7,7 @@ import style from './index.module.scss'
 
 const Reference = ({
   to,
-  classes = 'default',
+  classes = 'secondary',
   placeholder,
   onChange,
   disabled = false,

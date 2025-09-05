@@ -17,6 +17,7 @@ const Debug = ({ data }) => {
   return (
     <div className={style.block}>
       <button
+        type="button"
         className={classNames(style.button, active && style.active)}
         onClick={() => setActive(!active)}
       >

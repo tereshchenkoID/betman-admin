@@ -7,9 +7,7 @@
   &.sm {
 
     .input {
-      @include make-spacer(py, 8px);
-      @include make-spacer(px, 8px);
-
+      padding: rem(8px);
       height: rem(46px);
       min-height: rem(46px);
     }
@@ -30,39 +28,42 @@
 }
 
 .label {
-  @include make-spacer(px, 4px);
   @include transition;
 
   position: absolute;
-  top: rem(16px);
+  top: rem(18px);
   left: rem(16px);
+  padding-inline: rem(4px);
   transform: translateY(rem(-23px));
-  background-color: var(--color-white);
-  color: rgba(0, 0, 0, 0.8);
-  font-size: rem(12px);
+  border-radius: var(--border-radius-4);
+  background-color: var(--material-disabled);
+  border: rem(1px) solid var(--border);
+  font-size: rem(10px);
   pointer-events: none;
 }
 
 .input {
-  @include make-spacer(pt, 16px);
-  @include make-spacer(px, 16px);
   @include size(100%, rem(56px));
   @include transition(border-color);
 
   display: block;
-  border: rem(1px) solid var(--color-border);
-  border-radius: var(--default-border-radius);
+  padding-top: rem(16px);
+  padding-inline: rem(16px);
+  border: rem(1px) solid var(--border);
+  border-radius: var(--border-radius-default);
+  background-color: var(--primary);
+  border-radius: var(--border-radius-default);
   min-height: rem(56px);
   overflow: hidden;
   resize: vertical;
   font-weight: var(--typography-thin);
+  outline: 0;
 
   &:read-only {
     opacity: 0.6;
   }
 
   &:focus {
-    outline: 0;
-    border-color: var(--color-primary);
+    border-color: var(--link);
   }
 }

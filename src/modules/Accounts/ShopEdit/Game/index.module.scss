@@ -15,24 +15,22 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: rem(1px) solid var(--color-border);
+  border: rem(1px) solid var(--border);
   font-size: rem(14px);
 }
 
 .head {
-  @include make-spacer(py, 12px);
-  @include make-spacer(px, 4px);
   @include flex($direction: column);
 
   gap: rem(16px);
+  padding: rem(12px) rem(4px);
 }
 
 .body {
-  @include make-spacer(py, 8px);
-  @include make-spacer(px, 4px);
   @include flex($direction: column);
 
   row-gap: rem(6px);
-  border-top: rem(1px) solid var(--color-border);
+  border-top: rem(1px) solid var(--primary);
+  padding: rem(8px) rem(4px);
   height: 100%;
 }

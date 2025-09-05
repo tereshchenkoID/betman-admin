@@ -4,17 +4,12 @@
   position: relative;
   min-width: rem(80px);
   text-transform: uppercase;
-  color: var(--color-white);
   font-size: rem(14px);
 
   &.active {
 
     .arrow {
       transform: rotateZ(180deg);
-    }
-
-    .selected {
-      color: var(--color-white);
     }
   }
 
@@ -25,18 +20,25 @@
 }
 
 .selected {
+  @include transition;
   @include flex(space-between, center);
   @include size(100%, rem(40px));
-  @include make-spacer(pl, 16px);
-  @include make-spacer(pr, 8px);
 
   position: relative;
-  border: rem(1px) solid var(--color-white);
-  border-radius: var(--default-border-radius);
+  padding-inline: rem(16px) rem(8px);
+  border: rem(1px) solid var(--border);
+  background-color: var(--primary);
+  border-radius: var(--border-radius-default);
   cursor: pointer;
   min-width: rem(60px);
   overflow: hidden;
   gap: rem(5px);
+
+  @include hover {
+    &:hover {
+      border-color: var(--link);
+    }
+  }
 }
 
 .dropdown {
@@ -44,9 +46,9 @@
   top: calc(100% + rem(12px));
   right: 0;
   z-index: $z-index-11;
-  border-radius: var(--default-border-radius);
-  box-shadow: var(--default-box-shadow);
-  background-color: var(--color-white);
+  border-radius: var(--border-radius-default);
+  background-color: var(--material);
+  border-bottom: rem(1px) solid var(--primary);
   min-width: rem(100px);
   max-height: rem(300px);
   overflow-y: auto;
@@ -54,20 +56,21 @@
 
 .link {
   @include flex(null, center);
-  @include make-spacer(px, 16px);
-  @include make-spacer(py, 5px);
   @include size(100%, 36px);
 
+  padding: rem(5px) rem(16px);
   text-transform: uppercase;
   gap: rem(12px);
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    color: var(--color-primary);
+  @include hover {
+    &:hover {
+      background-color: var(--primary);
+      color: var(--link);
+    }
   }
 
   &.active {
-    color: var(--color-primary);
+    color: var(--link);
   }
 }
 
@@ -79,5 +82,5 @@
 .icon {
   @include size(20px, auto);
 
-  border-radius: rem(2px);
+  border-radius: var(--border-radius-2);
 }

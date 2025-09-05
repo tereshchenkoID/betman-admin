@@ -1,9 +1,8 @@
 @use 'scss/config' as *;
 
 .block {
-  @include make-spacer(mx, 4px);
-
   gap: rem(8px);
+  margin-inline: rem(4px);
 }
 
 .icon {

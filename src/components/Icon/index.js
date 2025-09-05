@@ -5,7 +5,13 @@ import classNames from 'classnames'
 
 import style from './index.module.scss'
 
-const Icon = ({ icon, action, disabled = false, alt, classes = null }) => {
+const Icon = ({
+  icon,
+  action,
+  disabled = false,
+  classes = [],
+  alt
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -13,13 +19,14 @@ const Icon = ({ icon, action, disabled = false, alt, classes = null }) => {
       type={'button'}
       className={
         classNames(
-          style.block, 
+          style.block,
           disabled && style.disabled,
           classes && classes.map(el => style[el] || el),
         )
       }
       onClick={action}
       title={t(alt || 'add')}
+      aria-label={t(alt || 'add')}
     >
       <FontAwesomeIcon icon={`fa-solid ${icon}`} className={style.icon} />
     </button>

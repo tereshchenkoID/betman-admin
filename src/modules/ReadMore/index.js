@@ -10,7 +10,14 @@ const ReadMore = ({ data }) => {
   const [active, setActive] = useState(false)
 
   return (
-    <div className={classNames(style.block, active && style.active)}>
+    <div
+      className={
+        classNames(
+          style.block,
+          active && style.active
+        )
+      }
+    >
       <ul className={style.list}>
         {
           Object.entries(data).map(([key, value]) =>
@@ -22,11 +29,12 @@ const ReadMore = ({ data }) => {
       {
         Object.entries(data).length > 2 &&
         <button
-          className={style.button}
           type={'button'}
+          className={style.button}
           onClick={() => setActive(!active)}
+          aria-label={t(active ? 'less' : 'more')}
         >
-          {active ? t('less_more') : t('read_more')}
+          {t(active ? 'less' : 'more')}
         </button>
       }
     </div>

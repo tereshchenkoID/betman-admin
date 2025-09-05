@@ -241,7 +241,7 @@ const Cashiers = () => {
                 {
                   !isSingle &&
                   <Pagination
-                    position='bottom'
+                    position='top'
                     pagination={data.pagination}
                     handleSubmit={handleSubmit}
                   />

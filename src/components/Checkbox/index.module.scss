@@ -7,16 +7,17 @@
   cursor: pointer;
   gap: rem(8px);
 
-  &:hover {
-
-    .item {
-      border-color: var(--color-primary);
-    }
-  }
-
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+
+  @include hover{
+    &:hover {
+      .item {
+        border-color: var(--link);
+      }
+    }
   }
 }
 
@@ -27,7 +28,7 @@
   opacity: 0;
 
   &:checked ~ .item {
-    background-color: var(--color-primary);
+    background-color: var(--link);
   }
 }
 
@@ -35,13 +36,12 @@
   @include transition(all);
   @include size(rem(20px));
 
-  border: rem(1px) solid var(--color-border);
-  border-radius: var(--default-border-radius);
-  background-color: var(--color-border);
+  border: rem(1px) solid var(--brand);
+  border-radius: var(--border-radius-default);
+  background-color: var(--primary);
 }
 
 .label {
-  @include make-spacer(ml, 3px);
-
-  color: var(--color-warning);
+  margin-left: rem(3px);
+  color: var(--red);
 }

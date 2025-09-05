@@ -2,13 +2,13 @@
 
 .block {
   @include size(fit-content, rem(38px));
-  @include make-spacer(px, 20px);
 
   display: inline-flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  border-radius: var(--default-border-radius);
+  border-radius: var(--border-radius-default);
+  padding-inline: rem(20px);
   min-width: rem(100px);
   overflow: hidden;
   text-align: center;
@@ -22,31 +22,65 @@
     pointer-events: none;
   }
 
-  &.default {
-    border: rem(1px) solid var(--color-border);
-
-    &:hover {
-      background-color: var(--color-border);
-    }
-  }
-
   &.primary {
-    border: rem(1px) solid var(--color-primary);
-    background-color: var(--color-primary);
-    color: var(--color-white);
+    color: var(--text-for-brand);
+    background: var(--brand);
 
-    &:hover {
-      background-color: var(--color-primary-hover);
+    &:disabled,
+    &.disabled {
+      color: var(--text-for-brand-disabled);
+      background: var(--brand-disabled);
+    }
+
+    &:active,
+    &.active {
+      background: var(--brand-hover);
+    }
+
+    @include hover {
+
+      &:hover {
+        background: var(--brand-hover);
+      }
     }
   }
 
-  &.warning {
-    border: rem(1px) solid var(--color-warning);
-    background-color: var(--color-warning);
-    color: var(--color-white);
+  &.secondary {
+    background-color: var(--primary);
+    color: var(--text-for-primary);
 
-    &:hover {
-      background-color: var(--color-warning-hover);
+    &:active,
+    &.active {
+      background-color: var(--primary-hover);
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: var(--primary-disabled);
+      color: var(--text-for-primary-disabled);
+    }
+
+    @include hover {
+
+      &:hover {
+        background-color: var(--primary-hover);
+      }
+    }
+  }
+
+  &.tertiary {
+    border: rem(1px) solid var(--tertiary);
+
+    &:disabled,
+    &.disabled {
+      background-color: var(--tertiary-disabled);
+    }
+
+    @include hover {
+
+      &:hover {
+        background-color: var(--tertiary-hover);
+      }
     }
   }
 }

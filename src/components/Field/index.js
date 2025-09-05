@@ -43,10 +43,13 @@ const Field = ({
         min={min}
         max={max}
       />
-      <label className={style.label} onClick={onFocus}>
-        {placeholder}
-        {required && <span>*</span>}
-      </label>
+      {
+        placeholder &&
+        <label className={style.label} onClick={onFocus}>
+          {placeholder}
+          {required && <span>*</span>}
+        </label>
+      }
     </div>
   )
 }

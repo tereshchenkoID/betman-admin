@@ -1,21 +1,20 @@
 @use 'scss/config' as *;
 
 .block {
-  @include make-spacer(p, 16px);
   @include flex($direction: column);
 
   position: relative;
-  border-radius: var(--default-border-radius);
-  box-shadow: var(--default-box-shadow);
+  border-radius: var(--border-radius-default);
   overflow: hidden;
-  background-color: var(--color-white);
+  background-color: var(--material);
+  padding: rem(16px);
   min-height: rem(120px);
 }
 
 .row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(rem(50px), 1fr));
-  border-bottom: rem(1px) solid var(--color-border);
+  border-bottom: rem(1px) solid var(--primary);
   font-size: rem(12px);
 
   &:last-child {
@@ -35,7 +34,8 @@
 
 .cell {
   @include flex($align-items: center, $wrap: wrap);
-  @include make-spacer(p, 8px);
+
+  padding: rem(8px);
 
   &.pointer {
     cursor: pointer;
@@ -43,7 +43,6 @@
 }
 
 .empty {
-  @include make-spacer(p, 12px);
-
+  padding: rem(12px);
   text-align: center;
 }

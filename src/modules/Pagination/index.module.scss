@@ -7,40 +7,46 @@
   z-index: 1;
 
   &.top {
-    @include make-spacer(mb, 8px);
-    @include make-spacer(pb, 8px);
-
-    border-bottom: rem(1px) solid var(--color-border);
+    margin-bottom: rem(8px);
+    padding-bottom: rem(8px);
+    border-bottom: rem(1px) solid var(--primary);
   }
 
   &.bottom {
-    @include make-spacer(mt, 8px);
-    @include make-spacer(pt, 8px);
-
-    border-top: rem(1px) solid var(--color-border);
+    margin-top: rem(8px);
+    padding-top: rem(8px);
+    border-top: rem(1px) solid var(--primary);
   }
 }
 
 .text {
-  @include make-spacer(mx, 16px);
+  margin-inline: rem(16px);
 }
 
 .action {
-  @include size(rem(48px));
+  @include size(rem(42px));
 
-  border-radius: var(--default-border-radius);
+  border-radius: var(--border-radius-default);
   font-size: rem(14px);
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+  @include hover {
+    &:hover {
+      background-color: var(--primary);
+
+      .icon {
+        color: var(--text-for-primary);
+      }
+    }
   }
 
   &.disabled {
-    opacity: 0.3;
+    color: var(--primary-disabled);
     pointer-events: none;
   }
 }
 
 .icon {
-  color: rgba(0, 0, 0, 0.4);
+  @include transition;
+
+  color: var(--primary-hover);
 }

@@ -6,8 +6,8 @@
   bottom: 0;
   transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
   z-index: $z-index-10;
-  border-right: rem(1px) solid var(--color-border);
-  background-color: var(--color-white);
+  border-right: rem(1px) solid var(--primary-hover);
+  background-color: var(--material);
   width: rem(56px);
   height: 100%;
   overflow: hidden;
@@ -15,11 +15,6 @@
   &.active {
     width: rem(320px);
   }
-}
-
-.icon,
-.arrow {
-  opacity: 0.7;
 }
 
 .wrapper {
@@ -31,9 +26,9 @@
 .action,
 .setting {
   @include size(100%, rem(64px));
-  @include make-spacer(pl, rem(7px));
   @include flex(null, center);
 
+  padding-left: rem(7px);
   flex-shrink: 0;
 }
 
@@ -77,13 +72,12 @@
 
 .link {
   @include transition;
-  @include make-spacer(pl, 16px);
-  @include make-spacer(pr, 24px);
 
   display: grid;
   grid-template-columns: rem(26px) 1fr rem(10px);
   align-items: center;
   column-gap: rem(16px);
+  padding-inline: rem(16px) rem(24px);
   height: rem(48px);
   text-transform: uppercase;
   font-size: rem(13px);
@@ -92,17 +86,18 @@
     @include transition;
   }
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
-    color: var(--color-primary);
+  @include hover {
+    &:hover {
+      background-color: var(--material-hover);
 
-    span {
-      transform: translateX(rem(5px));
+      span {
+        transform: translateX(rem(5px));
+      }
     }
   }
 
   &.active {
-    color: var(--color-primary);
+    color: var(--link);
     pointer-events: none;
   }
 }
@@ -114,7 +109,7 @@
 }
 
 .arrow {
-  @include transition(transform, 0.3s);
+  @include transition;
 
   text-align: right;
 }
@@ -123,7 +118,7 @@
   display: none;
 
   .link {
-    @include make-spacer(pl, 32px);
+    padding-left: rem(32px);
   }
 }
 
@@ -153,8 +148,8 @@
 
 .line {
   @include transition;
-  @include make-spacer(my, 2px);
-  @include size(70%, 2px);
+  @include size(70%, rem(2px));
 
-  background-color: var(--color-text);
+  background-color: var(--text-for-material);
+  margin-block: rem(2px);
 }

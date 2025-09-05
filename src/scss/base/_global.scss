@@ -9,12 +9,12 @@
 body {
   @include smooth-font;
 
-  background-color: #fafafa;
+  background-image: linear-gradient(180deg, var(--material) 0%, var(--bg) 30%);
   min-width: rem(1366px);
-  height: 100vh;
+  min-height: 100dvh;
   overflow-y: auto;
   line-height: var(--line-height);
-  color: var(--color-text);
+  color: var(--text-for-material);
   font-family: var(--font-family);
   font-size: var(--font-size);
   font-weight: var(--typography-thin);
@@ -27,6 +27,7 @@ button {
 button,
 a,
 input {
+  color: var(--text-for-primary);
 
   &:focus {
     outline: none;
@@ -47,13 +48,13 @@ a {
 
   &:active,
   &:hover {
-    color: var(--color-primary);
+    color: var(--link);
   }
 }
 
 p {
-  @include make-spacer(p, 0);
-  @include make-spacer(m, 0);
+  padding: 0;
+  margin: 0;
 }
 
 ul,
@@ -71,19 +72,10 @@ img {
 }
 
 hr {
-  @include make-spacer(my, 0);
   @include size(100%, rem(1px));
 
   display: block;
   border: 0;
-  background-color: var(--color-border);
+  margin-block: 0;
+  background-color: var(--border);
 }
-
-//.main {
-//  @include make-spacer(p, 24px);
-//  @include make-spacer(ml, 56px);
-//
-//  position: relative;
-//  min-height: calc(100vh - rem(64px));
-//  overflow-x: auto;
-//}

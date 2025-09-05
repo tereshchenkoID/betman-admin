@@ -30,7 +30,7 @@ const Language = () => {
     () => settings?.languages?.find(lang => lang.code === i18n.language) || 'en',
     [settings.languages]
   )
-  
+
   return (
     <div
       ref={blockRef}
@@ -49,18 +49,18 @@ const Language = () => {
         <span>{currentLanguage?.text}</span>
         <img
           className={style.icon}
-          src={`/images/countries/${currentLanguage?.text}.svg`} 
+          src={`/images/countries/${currentLanguage?.text}.svg`}
           alt={currentLanguage?.text}
           width={20}
           height={15}
         />
       </div>
       {
-        active && 
+        active &&
         <div className={style.dropdown}>
-          {settings.languages.map(
-            (el, idx) =>
-              i18n.language !== el.code && (
+          {
+            settings.languages.map((el, idx) =>
+              i18n.language !== el.code &&
                 <button
                   key={idx}
                   aria-label={el.text}
@@ -72,13 +72,13 @@ const Language = () => {
                 >
                   <img
                     className={style.icon}
-                    src={`/images/countries/${el.code}.svg`} 
+                    src={`/images/countries/${el.code}.svg`}
                     alt={el.code}
                   />
                   {el.text}
                 </button>
-              ),
-          )}
+            )
+          }
         </div>
       }
     </div>

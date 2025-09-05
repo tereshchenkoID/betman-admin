@@ -29,7 +29,7 @@ const components = {
   'account-player': Player,
   'account-cashier': Cashier,
   'account-player-info': PlayerInfo,
-  'account-agent-edit': AgentEdit, // TODO add form for agent edit
+  'account-agent-edit': AgentEdit,
   'account-shop-edit': ShopEdit,
   'account-cashier-edit': CashierEdit,
   'account-player-edit': PlayerEdit,

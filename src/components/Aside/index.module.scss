@@ -2,13 +2,13 @@
 
 .block {
   position: fixed;
-  top: rem(64px);
+  top: rem(65px);
   right: 0;
   bottom: 0;
   transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
   z-index: $z-index-10;
-  border-left: rem(1px) solid var(--color-border);
-  background-color: var(--color-white);
+  border-left: rem(1px) solid var(--primary-hover);
+  background-color: var(--material);
   width: 0;
   overflow: hidden;
 

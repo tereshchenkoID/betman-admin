@@ -35,9 +35,9 @@ const Home = () => {
     return () => clearTimeout(timer)
   }, [pathname])
 
-  return loading ? (
-    <Loader />
-  ) : (
+  if (loading) return <Loader />
+
+  return (
     <>
       <Header />
       <Nav />

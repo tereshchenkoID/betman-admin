@@ -1,6 +1,38 @@
 @use 'scss/config' as *;
-@use 'scss/mixin/components/icon' as *;
 
 .block {
-  @include icon;
+  @include size(rem(32px));
+
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-inline: rem(1px);
+  border-radius: var(--border-radius-4);
+  color: var(--text-for-primary);
+  font-size: rem(20px);
+
+  @include hover {
+    &:hover {
+      background-color: var(--primary-hover);
+      color: var(--link);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &.primary {
+    background-color: var(--primary);
+  }
+
+  &.warning {
+    background-color: var(--amber);
+  }
+
+  &.success {
+    background-color: var(--green);
+  }
 }

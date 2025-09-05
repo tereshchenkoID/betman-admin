@@ -7,13 +7,6 @@
   cursor: pointer;
   gap: rem(8px);
 
-  &:hover {
-
-    .item {
-      border-color: var(--color-primary);
-    }
-  }
-
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
@@ -27,7 +20,7 @@
   opacity: 0;
 
   &:checked ~ .item {
-    background-color: var(--color-primary);
+    background-color: var(--primary-disabled);
 
     &::after {
       transform: translateX(22px);
@@ -40,7 +33,7 @@
   @include transition(background-color);
 
   border-radius: rem(50px);
-  background-color: var(--color-border);
+  background-color: var(--primary);
   position: relative;
   cursor: pointer;
 
@@ -52,13 +45,12 @@
     top: rem(2px);
     left: rem(2px);
     border-radius: 50%;
-    background: var(--color-white);
+    background: var(--link);
     content: '';
   }
 }
 
 .label {
-  @include make-spacer(ml, 3px);
-
-  color: var(--color-warning);
+  margin-left: rem(3px);
+  color: var(--red);
 }

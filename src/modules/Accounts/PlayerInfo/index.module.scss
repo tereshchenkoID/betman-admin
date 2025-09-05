@@ -6,13 +6,13 @@
 }
 
 .info {
-  @include make-spacer(mb, 8px);
-  @include flex(space-between, center)
+  @include flex(space-between, center);
+
+  margin-bottom: rem(8px);
 }
 
 .title {
-  @include make-spacer(pt, 8px);
-  @include make-spacer(mb, 16px);
-
-  border-top: rem(1px) solid var(--color-border);
+  border-top: rem(1px) solid var(--primary);
+  margin-bottom: rem(16px);
+  padding-top: rem(8px);
 }

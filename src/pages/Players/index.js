@@ -250,7 +250,7 @@ const Players = () => {
                 {
                   !isSingle &&
                   <Pagination
-                    position='bottom'
+                    position='top'
                     pagination={data.pagination}
                     handleSubmit={handleSubmit}
                   />

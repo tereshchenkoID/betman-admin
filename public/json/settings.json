@@ -1,0 +1,21 @@
+{
+  "languages": [
+    {
+      "code": "en",
+      "text": "en"
+    },
+    {
+      "code": "de",
+      "text": "de"
+    }
+  ],
+  "currencies": [
+    "ETB",
+    "KES",
+    "NGN",
+    "SSP",
+    "UGX",
+    "USD"
+  ],
+  "logo": "https://api.oddsbit.io/img/zoro.png"
+}

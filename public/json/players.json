@@ -3,8 +3,7 @@
   "pagination": {
     "page": "0",
     "pages": "1",
-    "quantity": "20",
-    "results": "2"
+    "quantity": "20"
   },
   "data": [
     {
@@ -19,6 +18,18 @@
       "agent": {
         "id": "1000",
         "username": "austin"
+      },
+      "tree": {
+        "id": "1000",
+        "username": "austin",
+        "child": {
+          "id": "10001",
+          "username": "austin 2",
+          "child": {
+            "id": "10003",
+            "username": "austin 3"
+          }
+        }
       },
       "credits": {
         "ETB": "999827582.68"
@@ -36,6 +47,18 @@
       "agent": {
         "id": "1000",
         "username": "austin"
+      },
+      "tree": {
+        "id": "1000",
+        "username": "austin",
+        "child": {
+          "id": "10001",
+          "username": "austin 2",
+          "child": {
+            "id": "10003",
+            "username": "austin 3"
+          }
+        }
       },
       "credits": {
         "ETB": "999827582.68"

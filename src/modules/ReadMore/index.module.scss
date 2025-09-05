@@ -15,13 +15,14 @@
 }
 
 .button {
-  @include make-spacer(mt, 5px);
-
+  margin-top: rem(5px);
   text-align: right;
-  color: var(--color-primary);
+  color: var(--link);
   font-weight: var(--typography-medium);
 
-  &:hover {
-    color: var(--color-primary-hover);
+  @include hover {
+    &:hover {
+      color: var(--link-hover);
+    }
   }
 }

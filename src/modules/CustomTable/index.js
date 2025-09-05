@@ -96,7 +96,7 @@ const CustomTable = ({ data, config, loading, handleSubmit }) => {
                           className={style.empty}
                           style={{ gridColumn: `span ${config.length}` }}
                         >
-                          {t('no_matching_records_found')}
+                          {t('notification.no_matching_records_found')}
                         </div>
                       </div>
                     :

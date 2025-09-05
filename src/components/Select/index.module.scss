@@ -22,16 +22,18 @@
 }
 
 .label {
-  @include make-spacer(px, 4px);
   @include transition;
 
   position: absolute;
-  top: rem(16px);
+  top: rem(18px);
   left: rem(16px);
+  padding-inline: rem(4px);
+  border-radius: var(--border-radius-4);
+  background-color: var(--material-disabled);
+  border: rem(1px) solid var(--border);
   transform: translateY(rem(-23px));
-  background-color: var(--color-white);
-  color: rgba(0, 0, 0, 0.8);
-  font-size: rem(12px);
+  color: var(--text-for-material);
+  font-size: rem(10px);
   pointer-events: none;
 }
 

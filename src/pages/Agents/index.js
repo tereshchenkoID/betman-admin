@@ -87,7 +87,9 @@ const Agents = () => {
     formData.append('date-to', filter['date-to'])
 
     if (sort.direction !== null) {
-      formData.append('sort', JSON.stringify(sort))
+      formData.append('sort_key', sort.key)
+      formData.append('sort_direction', sort.direction)
+      // formData.append('sort', JSON.stringify(sort))
     }
 
     // TODO Update after api on postData

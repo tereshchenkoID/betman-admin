@@ -3,8 +3,7 @@
   "pagination": {
     "page": "0",
     "pages": "1",
-    "quantity": "20",
-    "results": "20"
+    "quantity": "20"
   },
   "data": [
     {
