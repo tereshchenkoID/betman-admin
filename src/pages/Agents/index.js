@@ -20,49 +20,22 @@ import Table from './Table'
 import style from './index.module.scss'
 
 const CONFIG = [
-  {
-    key: 'id',
-    text: 'id',
-    sorted: true,
-  },
-  {
-    key: 'username',
-    text: 'username',
-    sorted: true,
-  },
-  {
-    key: 'full_name',
-    text: 'full_name',
-    sorted: true,
-  },
-  {
-    key: 'credits',
-    text: 'credits',
-  },
-  {
-    key: 'currency',
-    text: 'currency',
-  },
-  {
-    key: 'locked',
-    text: 'locked',
-  },
-  {
-    key: 'date_created',
-    text: 'date_created',
-    sorted: true,
-  }
+  { key: 'id', text: 'id', sorted: true },
+  { key: 'username', text: 'username', sorted: true },
+  { key: 'full_name', text: 'full_name', sorted: true },
+  { key: 'credits', text: 'credits' },
+  { key: 'currency', text: 'currency' },
+  { key: 'locked', text: 'locked' },
+  { key: 'date_created', text: 'date_created', sorted: true }
 ]
+
+const INITIAL_FILTER = { q: '', locked: -1 }
 
 const Agents = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const initialValue = {
-    'q': '',
-    'locked': '',
-  }
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState(initialValue)
+  const [filter, setFilter] = useState(INITIAL_FILTER)
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(20)
   const [sort, setSort] = useState({
@@ -70,35 +43,35 @@ const Agents = () => {
     direction: null,
   })
 
-  const handleSubmit = (e, page)  => {
+  const handleSubmit = async (e, page = 0) => {
     e && e.preventDefault()
-
     setLoading(true)
 
     const formData = new FormData()
     formData.append('page', page)
     formData.append('quantity', quantity)
-    formData.append('q', filter['q'])
-    formData.append('locked', filter['locked'])
+    formData.append('q', filter.q)
+    formData.append('locked', filter.locked)
 
-    if (sort.direction !== null) {
+    if (sort.direction) {
       formData.append('sort_key', sort.key)
       formData.append('sort_direction', sort.direction)
     }
 
-    postData('agents/', formData).then(json => {
+    try {
+      const json = await postData('agents/', formData)
       if (json?.code === '0') {
         setData(json)
-        setLoading(false)
       } else {
-        console.error('Failed to load players:', data.message)
+        console.error('Failed to load players:', json?.message)
       }
-    })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleResetForm = () => {
-    setFilter(initialValue)
-    handleSubmit(null, 0)
+    setFilter(INITIAL_FILTER)
   }
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -114,9 +87,7 @@ const Agents = () => {
         const nextDirection =
           prev.direction === null
             ? 'asc'
-            : prev.direction === 'asc'
-              ? 'desc'
-              : null;
+            : prev.direction === 'asc' ? 'desc' : null;
 
         return {
           key: nextDirection ? fieldName : null,
@@ -155,7 +126,10 @@ const Agents = () => {
             />
             <CustomSelect
               placeholder={t('locked')}
-              options={convertOptions(service.YES_NO)}
+              options={[
+                { value: -1, label: t('all') },
+                ...convertOptions(service.YES_NO)
+              ]}
               data={filter['locked']}
               onChange={value => handlePropsChange('locked', value)}
             />

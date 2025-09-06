@@ -30,7 +30,6 @@
   background-color: var(--material-disabled);
   border: rem(1px) solid var(--border);
   transform: translateY(rem(-23px));
-  transform: translateY(rem(-23px));
   color: var(--text-for-material);
   font-size: rem(10px);
   pointer-events: none;
@@ -61,9 +60,10 @@
   border: rem(1px) solid var(--border);
   border-radius: var(--border-radius-default);
   background-color: var(--primary);
-  padding-inline: rem(16px);
+  padding-inline: rem(16px) rem(56px);
   color: var(--text-for-material);
   overflow: hidden;
+  caret-color: currentColor;
   font-weight: var(--typography-thin);
   text-align: left;
 

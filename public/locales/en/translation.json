@@ -26,6 +26,11 @@
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "select_value": "Select value",
+  "yes": "Yes",
+  "no": "No",
+  "all": "All",
+  "enable": "Enable",
+  "disable": "Disable",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back"

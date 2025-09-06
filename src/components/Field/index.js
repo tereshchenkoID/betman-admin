@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import classNames from 'classnames'
 
@@ -49,6 +50,23 @@ const Field = ({
           {placeholder}
           {required && <span>*</span>}
         </label>
+      }
+
+      {
+        data &&
+        <button
+          type="button"
+          className={style.remove}
+          aria-label={'remove'}
+          onClick={() => {
+            onChange('')
+          }}
+        >
+          <FontAwesomeIcon
+            className={style.icon}
+            icon={'fa-solid fa-xmark'}
+          />
+        </button>
       }
     </div>
   )

@@ -58,13 +58,13 @@ export const ACCOUNT_TYPE = {
 
 export const service = {
   YES_NO: {
-    0: 'NO',
-    1: 'YES',
+    0: 'no',
+    1: 'yes',
   },
 
   ENABLE_DISABLE: {
-    0: 'ENABLE',
-    1: 'DISABLE',
+    0: 'enable',
+    1: 'disable',
   },
 
   LANGUAGES: {

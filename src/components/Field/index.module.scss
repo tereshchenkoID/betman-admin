@@ -65,7 +65,7 @@
   border: rem(1px) solid var(--border);
   border-radius: var(--border-radius-default);
   background-color: var(--primary);
-  padding-inline: rem(16px);
+  padding-inline: rem(16px) rem(56px);
   color: var(--text-for-material);
   overflow: hidden;
   caret-color: currentColor;
@@ -121,5 +121,19 @@
     -webkit-box-shadow: 0 0 0 30px var(--primary) inset !important;
     -webkit-text-fill-color: var(--text-for-material);
     -webkit-background-clip: text;
+  }
+}
+
+.remove {
+  @include absolute-center-right(0);
+  @include size(rem(56px), 100%);
+
+  opacity: 0.5;
+  font-size: rem(18px);
+
+  @include hover {
+    &:hover {
+      opacity: 1;
+    }
   }
 }
