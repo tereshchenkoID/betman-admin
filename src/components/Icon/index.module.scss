@@ -30,9 +30,23 @@
 
   &.warning {
     background-color: var(--amber);
+
+    @include hover {
+      &:hover {
+        background-color: var(--amber-hover);
+        color: var(--text-for-primary);
+      }
+    }
   }
 
   &.success {
     background-color: var(--green);
+
+    @include hover {
+      &:hover {
+        background-color: var(--green-hover);
+        color: var(--text-for-primary);
+      }
+    }
   }
 }

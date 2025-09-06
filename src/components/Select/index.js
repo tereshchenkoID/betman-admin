@@ -30,7 +30,7 @@ const CustomSelect = ({ placeholder, options, data, onChange, classes }) => {
     >
       <Select
         ref={selectRef}
-        placeholder={t('select_values')}
+        placeholder={t('select_value')}
         value={options.find(option => option.value === data) || null}
         options={options}
         onChange={handleSelectChange}

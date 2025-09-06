@@ -1,6 +1,7 @@
 @use 'scss/config' as *;
 
 .block {
+  @include transition;
   @include flex($direction: column);
 
   position: relative;
@@ -8,11 +9,17 @@
   background-color: var(--material);
   padding: rem(16px);
   height: 100%;
+  border-bottom: rem(2px) solid var(--border);
+
+  @include hover {
+    &:hover {
+      border-bottom-color: var(--link);
+    }
+  }
 
   &:not(:last-child) {
     margin-bottom: rem(16px);
   }
-
 
   &.transparent {
     border-radius: unset;

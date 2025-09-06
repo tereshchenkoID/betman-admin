@@ -11,9 +11,7 @@ const Pagination = ({
   handleSubmit
 }) => {
 
-  const handleClick = (page) => {
-    handleSubmit(null, page)
-  }
+  if(pagination.pages === '0') return
 
   return (
     <div
@@ -33,7 +31,7 @@ const Pagination = ({
             pagination.page === '0' && style.disabled,
           )
         }
-        onClick={() => handleClick(0)}
+        onClick={() => handleSubmit(null, 0)}
       >
         <FontAwesomeIcon
           icon="fa-solid fa-angle-double-left"
@@ -49,7 +47,7 @@ const Pagination = ({
             pagination.page === '0' && style.disabled,
           )
         }
-        onClick={() => handleClick(Number(pagination.page) - 1)}
+        onClick={() => handleSubmit(null, Number(pagination.page) - 1)}
       >
         <FontAwesomeIcon
           icon="fa-solid fa-angle-left"
@@ -66,7 +64,7 @@ const Pagination = ({
             pagination.page === pagination.pages && style.disabled
           )
         }
-        onClick={() => handleClick(Number(pagination.page) + 1)}
+        onClick={() => handleSubmit(null, Number(pagination.page) + 1)}
       >
         <FontAwesomeIcon
           icon="fa-solid fa-angle-right"
@@ -82,7 +80,7 @@ const Pagination = ({
             pagination.page === pagination.pages && style.disabled
           )
         }
-        onClick={() => handleClick(Number(pagination.pages) - 1)}
+        onClick={() => handleSubmit(null, Number(pagination.pages))}
       >
         <FontAwesomeIcon
           icon="fa-solid fa-angle-double-right"
