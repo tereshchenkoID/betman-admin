@@ -20,11 +20,15 @@
 
   gap: rem(4px);
 
-  & > * {
+  p {
     &:not(:last-child) {
       &::after {
         content: ',';
       }
     }
+  }
+
+  span {
+    font-size: rem(12px);
   }
 }

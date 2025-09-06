@@ -103,7 +103,7 @@ const Cashiers = () => {
 
     // TODO Update after api on postData
     getData(`${window.location.origin}/json/cashiers.json`).then(json => {
-      if (json.code === '0') {
+      if (json?.code === '0') {
         setData(json)
         setLoading(false)
       } else {
@@ -235,7 +235,7 @@ const Cashiers = () => {
         {
           loading
             ?
-              <Loader type={'block'} />
+              <Loader type={'content'} />
             :
               <>
                 {

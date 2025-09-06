@@ -207,7 +207,7 @@ const Agents = () => {
           </div>
         </form>
       </Paper>
-      <Paper classes={[style.paper]}>
+      <Paper>
         {
           loading
             ?

@@ -1,6 +1,6 @@
 {
-  "short_name": "Admin",
-  "name": "Admin",
+  "short_name": "winup",
+  "name": "WinUp Games",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +10,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#2a121c",
+  "background_color": "#0d0509"
 }

@@ -112,7 +112,7 @@ const Players = () => {
 
     // TODO Update after api on postData
     getData(`${window.location.origin}/json/players.json`).then(json => {
-      if (json.code === '0') {
+      if (json?.code === '0') {
         setData(json)
         setLoading(false)
       } else {
@@ -244,7 +244,7 @@ const Players = () => {
         {
           loading
             ?
-              <Loader type={'block'} />
+              <Loader type={'content'} />
             :
               <>
                 {

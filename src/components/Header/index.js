@@ -18,7 +18,7 @@ const Header = () => {
         {
           Object.entries(auth?.credits).map(([key, value]) =>
             <p key={key}>
-              <strong>{value}</strong> {key}
+              <strong>{value}</strong> <span>{key}</span>
             </p>
           )
         }

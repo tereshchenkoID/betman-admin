@@ -54,9 +54,9 @@ const App = () => {
   return (
     <WebSocketProvider>
       <div className={style.root}>
-        <Toastify />
         {isAuth ? <Home /> : <Login />}
 
+        <Toastify />
         <Tooltip
           id={'tooltip'}
           place={'left'}

@@ -102,7 +102,7 @@ const Shops = () => {
 
     // TODO Update after api on postData
     getData(`${window.location.origin}/json/shops.json`).then(json => {
-      if (json.code === '0') {
+      if (json?.code === '0') {
         setData(json)
         setLoading(false)
       } else {
@@ -218,7 +218,7 @@ const Shops = () => {
         {
           loading
             ?
-              <Loader type={'block'} />
+              <Loader type={'content'} />
             :
               <>
                 {
