@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import i18n from 'i18next'
 
-import { setAuth } from 'store/actions/authAction'
+import { NAVIGATION } from 'constant/config'
+
 import { setToastify } from 'store/actions/toastifyAction'
 import { postData } from 'helpers/api'
+import { useAuth } from 'hooks/useAuth'
 
 import Field from 'components/Field'
 import Paper from 'components/Paper'
@@ -18,6 +20,7 @@ import style from './index.module.scss'
 const Login = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const { initAuth } = useAuth()
   const initialValue = {
     username: '',
     password: '',
@@ -48,17 +51,17 @@ const Login = () => {
 
     postData('login/', formData).then(json => {
       if (json.code === '0') {
-        // navigate('/')
-        dispatch(setAuth(json))
+        initAuth(json)
         sessionStorage.setItem('authToken', JSON.stringify(json))
         sessionStorage.setItem('language', JSON.stringify(json?.language))
         i18n.changeLanguage(json?.language?.code)
         dispatch(
           setToastify({
             type: 'success',
-            text: t('successfully_logged'),
+            text: `${t('successfully_logged')} ${json?.username}!`
           }),
         )
+        navigate(NAVIGATION.home.link)
       } else {
         dispatch(
           setToastify({

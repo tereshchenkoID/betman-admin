@@ -1,17 +1,17 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOutsideClick } from 'hooks/useOutsideClick'
-import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { setAuth } from 'store/actions/authAction'
+import { useAuth } from 'hooks/useAuth'
+import { getData } from 'helpers/api'
+import { role } from 'helpers/role'
 
 import style from './index.module.scss'
 
 const Account = () => {
   const { t } = useTranslation()
-  const { auth } = useSelector(state => state.auth)
-  const dispatch = useDispatch()
+  const { auth, deleteAuth } = useAuth()
   const blockRef = useRef(null)
   const buttonRef = useRef(null)
   const [active, setActive] = useState(false)
@@ -28,6 +28,14 @@ const Account = () => {
     },
   )
 
+  const handleLogout = () => {
+    setActive(false)
+    getData('logout/').then(json => {
+      deleteAuth()
+      window.location.reload()
+    })
+  }
+
   return (
     <div
       className={style.block}
@@ -40,7 +48,10 @@ const Account = () => {
         onClick={() => setActive(!active)}
         aria-label={'Toggle'}
       >
-        <FontAwesomeIcon icon="fa-solid fa-user" className={style.icon} />
+        <FontAwesomeIcon
+          icon="fa-solid fa-user"
+          className={style.icon}
+        />
       </button>
       {
         active &&
@@ -52,18 +63,14 @@ const Account = () => {
             <span>{t('username')}:</span> <strong>{auth.username}</strong>
           </div>
           <div className={style.text}>
-            <span>{t('role')}:</span> <strong>{auth.role}</strong>
+            <span>{t('role')}:</span> <strong>{role(auth.role)} ({auth.role})</strong>
           </div>
           <ul className={style.ul}>
             <li>
               <button
                 type={'button'}
                 className={style.link}
-                onClick={() => {
-                  dispatch(setAuth(null))
-                  sessionStorage.clear()
-                  setActive(!active)
-                }}
+                onClick={handleLogout}
               >
                 {t('logout')}
               </button>

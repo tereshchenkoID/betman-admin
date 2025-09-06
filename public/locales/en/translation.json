@@ -13,6 +13,7 @@
   "date_to": "Date to",
   "id_username": "ID or username",
   "notification": {
-    "no_matching_records_found": "No matching records found"
+    "no_matching_records_found": "No matching records found",
+    "successfully_logged": "Welcome back"
   }
 }

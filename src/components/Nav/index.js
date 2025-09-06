@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useOutsideClick } from 'hooks/useOutsideClick'
@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import { ACCOUNT_TYPE, NAVIGATION } from 'constant/config'
 
 import { setAside } from 'store/actions/asideAction'
+import { useAuth } from 'hooks/useAuth'
 
 import Icon from 'components/Icon'
 import Logo from 'modules/Logo'
@@ -64,7 +65,7 @@ const Nav = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
-  const { auth } = useSelector(state => state.auth)
+  const { auth } = useAuth()
   const role = auth ? auth.role : null
 
   const [show, setShow] = useState(false)

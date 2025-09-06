@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -10,8 +10,11 @@ import { Tooltip } from 'react-tooltip'
 
 import 'react-tooltip/dist/react-tooltip.css'
 
+import { useAuth } from 'hooks/useAuth'
 import { setAuth } from 'store/actions/authAction'
 import { setSettings } from 'store/actions/settingsAction'
+
+import { WebSocketProvider } from 'context/WebSocketProvider'
 
 import Login from 'pages/Login'
 import Home from 'pages/Home'
@@ -22,7 +25,7 @@ import style from './index.module.scss'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { auth } = useSelector(state => state.auth)
+  const { isAuth } = useAuth()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -49,17 +52,19 @@ const App = () => {
   if (loading) return <Loader />
 
   return (
-    <div className={style.root}>
-      <Toastify />
-      {auth && sessionStorage.getItem('authToken') ? <Home /> : <Login />}
+    <WebSocketProvider>
+      <div className={style.root}>
+        <Toastify />
+        {isAuth ? <Home /> : <Login />}
 
-      <Tooltip
-        id={'tooltip'}
-        place={'left'}
-        className={style.tooltip}
-        classNameArrow={style.arrow}
-      />
-    </div>
+        <Tooltip
+          id={'tooltip'}
+          place={'left'}
+          className={style.tooltip}
+          classNameArrow={style.arrow}
+        />
+      </div>
+    </WebSocketProvider>
   )
 }
 

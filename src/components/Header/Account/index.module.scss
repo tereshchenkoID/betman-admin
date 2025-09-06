@@ -6,7 +6,7 @@
 
 .text,
 .link {
-  padding-inline: rem(15px);
+  padding-inline: rem(12px);
 }
 
 .icon {
@@ -18,14 +18,14 @@
   @include size(rem(40px));
 
   border-radius: 50%;
-  background-color: #bdbdbd;
+  background-color: var(--sub-text);
 }
 
 .wrapper {
   position: absolute;
   top: calc(100% + rem(12px));
   right: 0;
-  padding-block: rem(10px);
+  padding-top: rem(8px);
   z-index: $z-index-11;
   border-radius: var(--border-radius-default);
   background-color: var(--material);
@@ -35,7 +35,7 @@
 
 .text {
   opacity: 0.7;
-  margin-bottom: rem(5px);
+  margin-bottom: rem(4px);
   font-size: rem(14px);
 
   span {
@@ -44,7 +44,7 @@
 }
 
 .ul {
-  margin-top: rem(5px);
+  margin-top: rem(4px);
 }
 
 .link {

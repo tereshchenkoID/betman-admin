@@ -1,9 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
+import { useAuth } from 'hooks/useAuth'
+
 const PublicRoute = ({ children }) => {
-  const { auth } = useSelector(state => state.auth)
+  const { auth } = useAuth()
 
   if (auth?.role) {
     return <Navigate to="/" replace />
