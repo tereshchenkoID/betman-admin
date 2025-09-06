@@ -139,7 +139,7 @@ const History = () => {
           <div className={style.actions}>
             <Button
               type={'submit'}
-              classes={'primary'}
+              classes={['primary']}
               placeholder={t('search')}
             />
             <Button

@@ -78,22 +78,22 @@ const Cashier = ({ data }) => {
         type={'text'}
         placeholder={t('current_id')}
         data={filter.id}
-        required={true}
-        disabled={true}
+        isRequired={true}
+        isDisabled={true}
       />
       <Field
         type={'text'}
         placeholder={t('name')}
         data={filter.name}
         onChange={value => handlePropsChange('name', value)}
-        required={true}
+        isRequired={true}
       />
       <Field
         type={'text'}
         placeholder={t('username')}
         data={filter.login}
         onChange={value => handlePropsChange('username', value)}
-        required={true}
+        isRequired={true}
       />
       <GeneratePassword
         list={['password', 'confirm_password']}
@@ -106,12 +106,12 @@ const Cashier = ({ data }) => {
         placeholder={t('shift_mode')}
         data={filter.shift_mode}
         onChange={value => handlePropsChange('shift_mode', value)}
-        required={true}
+        isRequired={true}
       />
       <div className={style.actions}>
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('create')}
         />
         <Button

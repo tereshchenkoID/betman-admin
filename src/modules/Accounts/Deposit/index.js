@@ -84,15 +84,15 @@ const Deposit = ({ data }) => {
         type={'text'}
         placeholder={t('current_id')}
         data={filter.id}
-        required={true}
-        disabled={true}
+        isRequired={true}
+        isDisabled={true}
       />
       <Field
         type={'number'}
         placeholder={t('amount')}
         data={filter.amount}
         onChange={value => handlePropsChange('amount', value)}
-        required={true}
+        isRequired={true}
       />
       <CustomSelect
         placeholder={t('select_bonus')}
@@ -103,7 +103,7 @@ const Deposit = ({ data }) => {
       <div className={style.actions}>
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('deposit')}
         />
         <Button

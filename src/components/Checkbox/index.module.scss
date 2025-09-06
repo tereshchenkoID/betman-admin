@@ -8,11 +8,11 @@
   gap: rem(8px);
 
   &.disabled {
-    opacity: 0.5;
     pointer-events: none;
   }
 
-  @include hover{
+  @include hover {
+
     &:hover {
       .item {
         border-color: var(--link);
@@ -36,7 +36,7 @@
   @include transition(all);
   @include size(rem(20px));
 
-  border: rem(1px) solid var(--brand);
+  border: rem(1px) solid var(--primary);
   border-radius: var(--border-radius-default);
   background-color: var(--primary);
 }

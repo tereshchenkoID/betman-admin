@@ -88,15 +88,15 @@ const Player = ({ data }) => {
         type={'text'}
         placeholder={t('current_id')}
         data={filter.id}
-        required={true}
-        disabled={true}
+        isRequired={true}
+        isDisabled={true}
       />
       <Field
         type={'text'}
         placeholder={t('username')}
         data={filter.username}
         onChange={value => handlePropsChange('username', value)}
-        required={true}
+        isRequired={true}
       />
       <GeneratePassword
         list={['password', 'confirm_password']}
@@ -110,7 +110,7 @@ const Player = ({ data }) => {
         placeholder={t('balance')}
         data={filter.balance}
         onChange={value => handlePropsChange('balance', value)}
-        required={true}
+        isRequired={true}
       />
       <CustomSelect
         placeholder={t('select_bonus')}
@@ -121,7 +121,7 @@ const Player = ({ data }) => {
       <div className={style.actions}>
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('create')}
         />
         <Button

@@ -180,8 +180,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       />
       <Reference
         to={url}
-        classes={'outline'}
-        aria-label={value}
+        classes={['outline']}
         placeholder={value}
       />
     </>

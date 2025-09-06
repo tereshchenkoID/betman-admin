@@ -18,7 +18,6 @@
   font-size: rem(14px);
 
   &.disabled {
-    opacity: 0.5;
     pointer-events: none;
   }
 
@@ -82,5 +81,12 @@
         background-color: var(--tertiary-hover);
       }
     }
+  }
+
+  &.square {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    min-width: auto;
+    font-size: rem(18px);
   }
 }

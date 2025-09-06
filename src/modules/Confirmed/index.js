@@ -19,7 +19,7 @@ const Confirmed = ({ data }) => {
         />
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('yes')}
           onChange={() => data.action(1)}
         />

@@ -72,20 +72,20 @@ const Withdrawal = ({ data }) => {
         type={'text'}
         placeholder={t('current_id')}
         data={filter.id}
-        required={true}
-        disabled={true}
+        isRequired={true}
+        isDisabled={true}
       />
       <Field
         type={'number'}
         placeholder={t('amount')}
         data={filter.amount}
         onChange={value => handlePropsChange('amount', value)}
-        required={true}
+        isRequired={true}
       />
       <div className={style.actions}>
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('withdraw')}
         />
         <Button

@@ -6,7 +6,13 @@ import classNames from 'classnames'
 
 import style from './index.module.scss'
 
-const CustomSelect = ({ placeholder, options, data, onChange, classes }) => {
+const CustomSelect = ({
+  placeholder,
+  options,
+  data,
+  onChange,
+  classes = []
+}) => {
   const { t } = useTranslation()
   const selectRef = useRef()
 

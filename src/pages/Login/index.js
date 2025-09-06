@@ -88,18 +88,18 @@ const Login = () => {
             placeholder={t('username')}
             data={filter.username}
             onChange={value => handlePropsChange('username', value)}
-            required={true}
+            isRequired={true}
           />
           <Password
             placeholder={t('password')}
             data={filter.password}
             onChange={value => handlePropsChange('password', value)}
-            required={true}
+            isRequired={true}
           />
           <div className={style.actions}>
             <Button
               type={'submit'}
-              classes={'primary'}
+              classes={['primary']}
               placeholder={t('login')}
             />
             <Button

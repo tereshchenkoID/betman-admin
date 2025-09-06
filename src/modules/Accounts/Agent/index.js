@@ -104,14 +104,14 @@ const Agent = ({ data }) => {
         placeholder={t('name')}
         data={filter.name}
         onChange={value => handlePropsChange('name', value)}
-        required={true}
+        isRequired={true}
       />
       <Field
         type={'text'}
         placeholder={t('admin_username')}
         data={filter.login}
         onChange={value => handlePropsChange('admin_username', value)}
-        required={true}
+        isRequired={true}
       />
       <GeneratePassword
         list={['admin_password']}
@@ -124,25 +124,25 @@ const Agent = ({ data }) => {
         placeholder={t('unlimited_balance')}
         data={filter.unlimited_balance}
         onChange={value => handlePropsChange('unlimited_balance', value)}
-        required={true}
+        isRequired={true}
       />
       <Field
         type={'text'}
         placeholder={t('currency')}
         data={filter.currency}
         onChange={value => handlePropsChange('currency', value)}
-        disabled={true}
+        isDisabled={true}
       />
       <Toggle
         placeholder={t('can_create_sub_agents')}
         data={filter.can_create_sub_agents}
         onChange={value => handlePropsChange('can_create_sub_agents', value)}
-        required={true}
+        isRequired={true}
       />
       <div className={style.actions}>
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('create')}
         />
         <Button

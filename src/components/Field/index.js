@@ -10,9 +10,9 @@ const Field = ({
   data,
   placeholder,
   onChange,
-  classes = null,
-  required = false,
-  disabled = false,
+  classes = [],
+  isRequired = false,
+  isDisabled = false,
   min = null,
   max = null,
 }) => {
@@ -27,7 +27,7 @@ const Field = ({
       className={
         classNames(
           style.block,
-          disabled && style.disabled,
+          isDisabled && style.disabled,
           classes && classes.map(el => style[el] || el),
         )
       }
@@ -40,7 +40,7 @@ const Field = ({
         onChange={e => {
           onChange(e.currentTarget.value)
         }}
-        required={required}
+        required={isRequired}
         min={min}
         max={max}
       />
@@ -48,7 +48,7 @@ const Field = ({
         placeholder &&
         <label className={style.label} onClick={onFocus}>
           {placeholder}
-          {required && <span>*</span>}
+          {isRequired && <span>*</span>}
         </label>
       }
 
@@ -57,15 +57,12 @@ const Field = ({
         <button
           type="button"
           className={style.remove}
-          aria-label={'remove'}
+          aria-label={'Remove'}
           onClick={() => {
             onChange('')
           }}
         >
-          <FontAwesomeIcon
-            className={style.icon}
-            icon={'fa-solid fa-xmark'}
-          />
+          <FontAwesomeIcon icon={'fa-solid fa-xmark'} />
         </button>
       }
     </div>

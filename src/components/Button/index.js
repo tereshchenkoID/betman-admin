@@ -6,10 +6,11 @@ import style from './index.module.scss'
 
 const Button = ({
   type = 'button',
-  classes = 'secondary',
+  classes =  ['secondary'],
+  children,
   placeholder,
   onChange,
-  disabled = false,
+  isDisabled = false,
   ...rest
 }) => {
   return (
@@ -18,16 +19,17 @@ const Button = ({
       className={
         classNames(
           style.block,
-          disabled && style.disabled,
-          style[classes]
+          isDisabled && style.disabled,
+          classes && classes.map(el => style[el] || el),
         )
       }
       onClick={onChange}
-      aria-label={placeholder}
+      disabled={isDisabled}
+      aria-label={placeholder || 'Button'}
       title={placeholder}
       {...rest}
     >
-      {placeholder}
+      { children || placeholder }
     </button>
   )
 }

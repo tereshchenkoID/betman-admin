@@ -30,32 +30,30 @@ const CONFIG = [
 ]
 
 const INITIAL_FILTER = { q: '', locked: -1 }
+const INITIAL_SORT = { key: null, direction: null }
 
 const Agents = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState(INITIAL_FILTER)
+  const [sort, setSort] = useState(INITIAL_SORT)
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(20)
-  const [sort, setSort] = useState({
-    key: null,
-    direction: null,
-  })
 
-  const handleSubmit = async (e, page = 0) => {
+  const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
     setLoading(true)
 
     const formData = new FormData()
     formData.append('page', page)
     formData.append('quantity', quantity)
-    formData.append('q', filter.q)
-    formData.append('locked', filter.locked)
+    formData.append('q', nextFilter.q)
+    formData.append('locked', nextFilter.locked)
 
-    if (sort.direction) {
-      formData.append('sort_key', sort.key)
-      formData.append('sort_direction', sort.direction)
+    if (nextSort.direction) {
+      formData.append('sort_key', nextSort.key)
+      formData.append('sort_direction', nextSort.direction)
     }
 
     try {
@@ -72,6 +70,8 @@ const Agents = () => {
 
   const handleResetForm = () => {
     setFilter(INITIAL_FILTER)
+    setSort(INITIAL_SORT)
+    handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
   }
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -89,22 +89,28 @@ const Agents = () => {
             ? 'asc'
             : prev.direction === 'asc' ? 'desc' : null;
 
-        return {
+        const value = {
           key: nextDirection ? fieldName : null,
           direction: nextDirection,
-        };
+        }
+
+        handleSubmit(null, 0, filter, value)
+        return value
       }
 
-      return {
+      const value = {
         key: fieldName,
         direction: 'asc',
-      };
-    });
+      }
+
+      handleSubmit(null, 0, filter, value)
+      return value
+    })
   }
 
   useEffect(() => {
     handleSubmit(null, 0);
-  }, [quantity, sort])
+  }, [quantity])
 
   return (
     <>
@@ -137,7 +143,7 @@ const Agents = () => {
           <div className={style.actions}>
             <Button
               type={'submit'}
-              classes={'primary'}
+              classes={['primary']}
               placeholder={t('search')}
             />
             <Button
@@ -148,7 +154,7 @@ const Agents = () => {
           </div>
           <div className={style.actions}>
             <Button
-              classes={'primary'}
+              classes={['primary']}
               placeholder={t('add_agent')}
               onChange={(e) => {
                 dispatch(

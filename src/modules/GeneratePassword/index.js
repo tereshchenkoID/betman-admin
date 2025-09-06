@@ -45,13 +45,13 @@ const GeneratePassword = ({
           data={filter[el]}
           onChange={value => handlePropsChange(el, value)}
           password={password}
-          required={true}
+          isRequired={true}
         />
       ))}
       <div className={style.actions}>
         <Button
           type={'button'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('generate_password')}
           onChange={() => {
             generatePassword()

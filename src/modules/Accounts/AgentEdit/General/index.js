@@ -80,13 +80,13 @@ const General = ({ data }) => {
           placeholder={t('username')}
           data={filter.username}
           classes={['disabled']}
-          required={true}
+          isRequired={true}
         />
         <Password
           placeholder={t('old_password')}
           data={filter.old_password}
           onChange={value => handlePropsChange('old_password', value)}
-          required={true}
+          isRequired={true}
         />
         <GeneratePassword
           list={['new_password', 'confirm_password']}
@@ -103,7 +103,7 @@ const General = ({ data }) => {
         <div className={style.actions}>
           <Button
             type={'submit'}
-            classes={'primary'}
+            classes={['primary']}
             placeholder={t('save')}
           />
           <Button

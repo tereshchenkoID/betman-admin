@@ -4,7 +4,12 @@ import classNames from 'classnames'
 
 import style from './index.module.scss'
 
-const Textarea = ({ placeholder, data, onChange, classes }) => {
+const Textarea = ({
+  placeholder,
+  data,
+  onChange,
+  classes = []
+}) => {
   const inputRef = useRef(null)
 
   const onFocus = () => {
@@ -13,10 +18,12 @@ const Textarea = ({ placeholder, data, onChange, classes }) => {
 
   return (
     <div
-      className={classNames(
-        style.block,
-        classes && classes.map(el => style[el]),
-      )}
+      className={
+        classNames(
+          style.block,
+          classes && classes.map(el => style[el]),
+        )
+      }
     >
       <textarea
         ref={inputRef}
@@ -26,11 +33,12 @@ const Textarea = ({ placeholder, data, onChange, classes }) => {
           onChange(e.currentTarget.value)
         }}
       />
-      {placeholder && (
+      {
+        placeholder &&
         <label className={style.label} onClick={onFocus}>
           {placeholder}
         </label>
-      )}
+      }
     </div>
   )
 }

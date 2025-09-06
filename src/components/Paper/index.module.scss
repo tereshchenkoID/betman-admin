@@ -9,11 +9,14 @@
   background-color: var(--material);
   padding: rem(16px);
   height: 100%;
-  border-bottom: rem(2px) solid var(--border);
 
-  @include hover {
-    &:hover {
-      border-bottom-color: var(--link);
+  &:not(.transparent) {
+    border-bottom: rem(2px) solid var(--border);
+
+    @include hover {
+      &:hover {
+        border-bottom-color: var(--link);
+      }
     }
   }
 

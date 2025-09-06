@@ -199,49 +199,49 @@ const Bonuses = ({ data }) => {
             placeholder={t('percentage_deposit')}
             data={filter.percentage_deposit}
             onChange={value => handlePropsChange('percentage_deposit', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('threshold_issue')}
             data={filter.threshold_issue}
             onChange={value => handlePropsChange('threshold_issue', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('min_deposit')}
             data={filter.min_deposit}
             onChange={value => handlePropsChange('min_deposit', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('max_deposit')}
             data={filter.max_deposit}
             onChange={value => handlePropsChange('max_deposit', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('max_activations_per_player')}
             data={filter.max_activations_per_player}
             onChange={value => handlePropsChange('max_activations_per_player', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('cooldown_period')}
             data={filter.cooldown_period}
             onChange={value => handlePropsChange('cooldown_period', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('player_balance_threshold')}
             data={filter.player_balance_threshold}
             onChange={value => handlePropsChange('player_balance_threshold', value)}
-            required={true}
+            isRequired={true}
           />
           <Toggle
             placeholder={t('wager_enabled')}
@@ -277,42 +277,42 @@ const Bonuses = ({ data }) => {
             placeholder={t('percentage_deposit')}
             data={filter.percentage_deposit}
             onChange={value => handlePropsChange('percentage_deposit', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('threshold_issue')}
             data={filter.threshold_issue}
             onChange={value => handlePropsChange('threshold_issue', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('min_deposit')}
             data={filter.min_deposit}
             onChange={value => handlePropsChange('min_deposit', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('max_deposit')}
             data={filter.max_deposit}
             onChange={value => handlePropsChange('max_deposit', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('max_activations_per_player')}
             data={filter.max_activations_per_player}
             onChange={value => handlePropsChange('max_activations_per_player', value)}
-            required={true}
+            isRequired={true}
           />
           <Field
             type={'number'}
             placeholder={t('cooldown_period')}
             data={filter.cooldown_period}
             onChange={value => handlePropsChange('cooldown_period', value)}
-            required={true}
+            isRequired={true}
           />
           <Toggle
             placeholder={t('wager_enabled')}
@@ -324,7 +324,7 @@ const Bonuses = ({ data }) => {
       <div className={style.actions}>
         <Button
           type={'submit'}
-          classes={'primary'}
+          classes={['primary']}
           placeholder={t('save')}
         />
         <Button

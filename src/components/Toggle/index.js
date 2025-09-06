@@ -8,8 +8,8 @@ const Toggle = ({
   data,
   placeholder,
   onChange,
-  classes = null,
-  required = false,
+  classes = [],
+  isRequired = false,
 }) => {
   return (
     <label
@@ -24,7 +24,7 @@ const Toggle = ({
         placeholder &&
         <span>
           {placeholder}
-          {required && <span className={style.label}>*</span>}
+          {isRequired && <span className={style.label}>*</span>}
         </span>
       }
       <input

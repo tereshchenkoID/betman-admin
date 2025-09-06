@@ -21,8 +21,7 @@ const NotFound = () => {
           <p>{t('text_not_found')}</p>
           <Reference
             to={NAVIGATION.home.link}
-            classes={'primary'}
-            aria-label={t(NAVIGATION.home.text)}
+            classes={['primary']}
             placeholder={t(NAVIGATION.home.text)}
           />
         </div>

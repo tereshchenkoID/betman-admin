@@ -118,7 +118,7 @@ const Websites = ({ data}) => {
         <div className={style.actions}>
           <Button
             type={'submit'}
-            classes={'primary'}
+            classes={['primary']}
             placeholder={t('save')}
           />
           <Button

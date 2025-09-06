@@ -21,11 +21,10 @@ const Hall = () => {
           <p>Balance: 112124</p>
           <div className={style.actions}>
             <Button
-              classes={'secondary'}
               placeholder={t('login')}
             />
             <Button
-              classes={'primary'}
+              classes={['primary']}
               placeholder={t('alarm')}
             />
           </div>

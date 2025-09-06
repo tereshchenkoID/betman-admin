@@ -9,7 +9,7 @@ const Checkbox = ({
   placeholder,
   onChange,
   classes = null,
-  required = false,
+  isRequired = false,
 }) => {
   return (
     <label
@@ -33,7 +33,7 @@ const Checkbox = ({
         placeholder &&
         <span>
           {placeholder}
-          {required && <span className={style.label}>*</span>}
+          {isRequired && <span className={style.label}>*</span>}
         </span>
       }
     </label>

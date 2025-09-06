@@ -10,8 +10,8 @@ const Password = ({
   placeholder,
   data,
   onChange,
-  classes = null,
-  required = false,
+  classes = [],
+  isRequired = false,
   password = false,
 }) => {
   const [show, setShow] = useState(password)
@@ -42,11 +42,11 @@ const Password = ({
         onChange={e => {
           onChange(e.currentTarget.value)
         }}
-        required={required}
+        required={isRequired}
       />
       <label className={style.label} onClick={onFocus}>
         {placeholder}
-        {required && <span>*</span>}
+        {isRequired && <span>*</span>}
       </label>
 
       <button
