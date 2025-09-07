@@ -53,15 +53,6 @@ const DATA = {
   ]
 }
 
-// TODO @Maksym
-// host, profit (currency), rtp (%), total_balance (currency) -  показываем постоянно
-// session_started - таймер живой от session_started до текущего момента
-// status - 0 not active, 1 - active (сделайть кружок какой то зеленый или красный в зависимости от статуса)
-// добавить кнопку more detail открываеться справа модалка и показываться все данные целиком
-// логин кнопка модалка с вводом логин пароль + баланс
-// alarm просто функцию заложи с алертом
-// отдельный компонент на 1 робочее место
-
 const Dashboard = () => {
   const { t } = useTranslation()
 
