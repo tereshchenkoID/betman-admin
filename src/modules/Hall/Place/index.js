@@ -33,6 +33,19 @@ const Place = ({ info }) => {
     return () => clearInterval(interval)
   }, [isActive, info?.session_started])
 
+  const handlePlaceLogin = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('login'),
+          cmd: 'hall-place-login',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
+
   const handlePlaceInfo = (e, row) => {
     dispatch(
       setAside({
@@ -64,6 +77,7 @@ const Place = ({ info }) => {
             <div className={style.actions}>
               <Button
                 placeholder={t('login')}
+                onClick={e => handlePlaceLogin(e, info)}
               />
               <Button
                 classes={['primary']}
