@@ -25,8 +25,8 @@ const Icon = ({
         )
       }
       onClick={action}
-      title={t(alt || 'add')}
-      aria-label={t(alt || 'add')}
+      title={t(alt || 'icon')}
+      aria-label={t(alt || 'icon')}
     >
       <FontAwesomeIcon icon={`fa-solid ${icon}`} className={style.icon} />
     </button>

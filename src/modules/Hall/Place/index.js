@@ -65,50 +65,50 @@ const Place = ({ info }) => {
   }
 
   return (
-    <div className={style.place}>
-      <div className={style.left}>
-        <FontAwesomeIcon
-          icon="fa-solid fa-computer"
-          className={
-            classNames(
-              style.icon,
-              isActive && style.active
-            )
-          }
-        />
-        {
-          isActive &&
+    <div className={style.block}>
+      <strong className={style.host}>{info?.host}</strong>
+      <div className={style.wrapper}>
+        <div className={style.left}>
+          <FontAwesomeIcon
+            icon="fa-solid fa-computer"
+            className={
+              classNames(
+                style.icon,
+                isActive && style.active
+              )
+            }
+          />
           <Button
             classes={['error']}
             placeholder={t('alarm')}
             onClick={() => alert('Alarm!')}
             isDisabled={!isAlarm}
           />
-        }
-      </div>
-      <div className={style.right}>
-        <strong className={style.host}>{info?.host}</strong>
-        {
-          isActive &&
-          <>
-            <p>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit}</strong> {info?.currency}</p>
-            <p>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp}</strong> %</p>
-            <p>{t('total_balance')}: <strong>{info?.balance.total}</strong> {info?.currency}</p>
-            <p>{t('session')}: <strong>{timer}</strong></p>
-            <div className={style.actions}>
-              <Button
-                classes={['primary']}
-                placeholder={t('login')}
-                onClick={e => handlePlaceLogin(e, info)}
-              />
-              <Button
-                classes={['tertiary']}
-                placeholder={t('info')}
-                onClick={e => handlePlaceInfo(e, info)}
-              />
-            </div>
-          </>
-        }
+        </div>
+        <div className={style.right}>
+          {
+            isActive &&
+            <>
+              <p>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit}</strong> {info?.currency}</p>
+              <p>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp}</strong> %</p>
+              <p>{t('total_balance')}: <strong>{info?.balance.total}</strong> {info?.currency}</p>
+              <p>{t('session')}: <strong>{timer}</strong></p>
+            </>
+          }
+          <div className={style.actions}>
+            <Button
+              classes={['primary']}
+              placeholder={t('login')}
+              onClick={e => handlePlaceLogin(e, info)}
+            />
+            <Button
+              classes={['tertiary']}
+              placeholder={t('info')}
+              onClick={e => handlePlaceInfo(e, info)}
+              isDisabled={!isActive}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

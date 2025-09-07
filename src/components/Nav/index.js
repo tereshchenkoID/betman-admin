@@ -215,7 +215,7 @@ const Nav = () => {
         <div className={style.setting}>
           <Icon
             icon={'fa-gear'}
-            alt={'gear'}
+            alt="settings"
             action={(e) => handleOption(e)}
           />
         </div>

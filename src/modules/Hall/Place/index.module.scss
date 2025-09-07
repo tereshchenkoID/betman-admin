@@ -1,14 +1,18 @@
 @use 'scss/config' as *;
 
-.place {
-  @include size(100%, 100%);
+.block {
+  @include size(100%);
 
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: rem(24px);
   padding: rem(16px);
   background-color: var(--primary);
   border-radius: var(--border-radius-4);
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: rem(24px);
+  margin-top: rem(16px);
 }
 
 .left,
@@ -24,8 +28,9 @@
 
 .actions {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: rem(8px);
+  grid-template-columns: repeat(2, auto);
+  justify-content: flex-start;
+  gap: rem(16px);
 }
 
 .icon {
