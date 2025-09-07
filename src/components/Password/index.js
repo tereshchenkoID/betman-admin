@@ -55,11 +55,13 @@ const Password = ({
         onClick={() => setShow(!show)}
         aria-label={'Toggle field'}
       >
-        {show ? (
-          <FontAwesomeIcon icon="fa-solid fa-eye" />
-        ) : (
-          <FontAwesomeIcon icon="fa-solid fa-eye-slash" />
-        )}
+        {
+          show
+            ?
+              <FontAwesomeIcon icon="fa-solid fa-eye" />
+            :
+              <FontAwesomeIcon icon="fa-solid fa-eye-slash" />
+        }
       </button>
     </div>
   )

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
+
 import { setAside } from 'store/actions/asideAction'
 
 import Button from 'components/Button'
@@ -14,8 +15,10 @@ const Place = ({ info }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const isActive = Number(info?.status) === 1
-  const [elapsed, setElapsed] = useState('00:00:00')
+  const isActive = info?.status === '1'
+  const isAlarm = Number(info?.rtp) > 100
+  const isLose = Number(info?.profit) < 0
+  const [timer, setTimer] = useState('00:00:00')
 
   useEffect(() => {
     if (!isActive || !info?.session_started) return
@@ -25,10 +28,12 @@ const Place = ({ info }) => {
       const hours = String(Math.floor(diff / 3600000)).padStart(2, '0')
       const minutes = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0')
       const seconds = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0')
-      setElapsed(`${hours}:${minutes}:${seconds}`)
+
+      setTimer(`${hours}:${minutes}:${seconds}`)
     }
 
     updateTimer()
+
     const interval = setInterval(updateTimer, 1000)
     return () => clearInterval(interval)
   }, [isActive, info?.session_started])
@@ -61,32 +66,44 @@ const Place = ({ info }) => {
 
   return (
     <div className={style.place}>
-      <FontAwesomeIcon
-        icon={`fa-solid fa-computer`}
-        className={classNames(style.icon, {[style['icon--active']]: isActive})}
-      />
-      <div className={style.content}>
-        <p className={style.host}>Host: { info?.host }</p>
+      <div className={style.left}>
+        <FontAwesomeIcon
+          icon="fa-solid fa-computer"
+          className={
+            classNames(
+              style.icon,
+              isActive && style.active
+            )
+          }
+        />
+        {
+          isActive &&
+          <Button
+            classes={['error']}
+            placeholder={t('alarm')}
+            onClick={() => alert('Alarm!')}
+            isDisabled={!isAlarm}
+          />
+        }
+      </div>
+      <div className={style.right}>
+        <strong className={style.host}>{info?.host}</strong>
         {
           isActive &&
           <>
-            <p>Profit: {info?.profit} {info?.currency}</p>
-            <p>rtp: {info?.rtp}% </p>
-            <p>Total balance: {info?.balance.total} {info?.currency}</p>
-            <p>Session: {elapsed}</p>
+            <p>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit}</strong> {info?.currency}</p>
+            <p>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp}</strong> %</p>
+            <p>{t('total_balance')}: <strong>{info?.balance.total}</strong> {info?.currency}</p>
+            <p>{t('session')}: <strong>{timer}</strong></p>
             <div className={style.actions}>
               <Button
+                classes={['primary']}
                 placeholder={t('login')}
                 onClick={e => handlePlaceLogin(e, info)}
               />
               <Button
-                classes={['primary']}
-                placeholder={t('alarm')}
-                onClick={() => alert('Alarm!')}
-              />
-              <Button
                 classes={['tertiary']}
-                placeholder={t('more')}
+                placeholder={t('info')}
                 onClick={e => handlePlaceInfo(e, info)}
               />
             </div>

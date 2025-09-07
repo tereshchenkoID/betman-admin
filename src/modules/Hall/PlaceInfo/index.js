@@ -1,45 +1,48 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import style from './index.module.scss'
 
 const PlaceInfo = ({ data }) => {
+  const { t } = useTranslation()
+
   return (
     <div className={style.block}>
       <h2>
-        Host: { data?.host }
+        {t('host')}: { data?.host }
       </h2>
       <p>
-        Username: { data?.username }
+        {t('username')}: { data?.username }
       </p>
       <p>
-        Player ID: { data?.player_id }
+        {t('id')}: { data?.player_id }
       </p>
       <p>
-        Total balance: { data?.balance.total } { data?.currency }
+        {t('total_balance')}: { data?.balance.total } { data?.currency }
       </p>
       <p>
-        Real balance: { data?.balance.real } { data?.currency }
+        {t('real_balance')}: { data?.balance.real } { data?.currency }
       </p>
       <p>
-        Bonus balance: { data?.balance.bonus } { data?.currency }
+        {t('bonus_balance')}: { data?.balance.bonus } { data?.currency }
       </p>
       <p>
-        Profit: { data?.profit } { data?.currency }
+        {t('profit')}: { data?.profit } { data?.currency }
       </p>
       <p>
-        rtp: { data?.rtp }%
+        {t('rtp')}: { data?.rtp }%
       </p>
       <p>
-        Currency: { data?.currency }
+        {t('currency')}: { data?.currency }
       </p>
       <p>
-        Agent ID: { data?.agent_id }
+        {t('agent_id')}: { data?.agent_id }
       </p>
       <p>
-        Shop ID: { data?.shop_id }
+        {t('shop_id')}: { data?.shop_id }
       </p>
       <p>
-        Cashier ID: { data?.cashier_id }
+        {t('cashier_id')}: { data?.cashier_id }
       </p>
     </div>
   )

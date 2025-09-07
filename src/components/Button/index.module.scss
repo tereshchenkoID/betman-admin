@@ -83,6 +83,38 @@
     }
   }
 
+  &.error {
+    background-color: var(--red);
+
+    &:disabled,
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    @include hover {
+
+      &:hover {
+        background-color: var(--red-hover);
+      }
+    }
+  }
+
+  &.success {
+    background-color: var(--green);
+
+    &:disabled,
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    @include hover {
+
+      &:hover {
+        background-color: var(--green-hover);
+      }
+    }
+  }
+
   &.square {
     height: 100%;
     aspect-ratio: 1 / 1;

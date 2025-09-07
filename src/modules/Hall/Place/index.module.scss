@@ -11,14 +11,15 @@
   border-radius: var(--border-radius-4);
 }
 
-.content {
+.left,
+.right {
   display: grid;
   align-content: flex-start;
   gap: rem(8px);
 }
 
-.host {
-  font-size: rem(15px);
+.right {
+  font-size: rem(14px);
 }
 
 .actions {
@@ -29,9 +30,16 @@
 
 .icon {
   font-size: rem(60px);
-  color: green;
+  color: var(--green);
 
-  &--active {
-    color: red;
+  &.active {
+    color: var(--red);
+  }
+}
+
+.value {
+
+  &.red {
+    color: var(--red);
   }
 }

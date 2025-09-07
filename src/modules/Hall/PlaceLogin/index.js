@@ -8,7 +8,7 @@ import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
-import GeneratePassword from 'modules/GeneratePassword'
+import Password from 'components/Password'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
@@ -20,8 +20,7 @@ const PlaceLogin = ({ data }) => {
     id: data.id,
     login: '',
     password: '',
-    confirm_password: '',
-    balance: '0',
+    balance: '',
   }
   const [filter, setFilter] = useState(initialValue)
 
@@ -46,8 +45,8 @@ const PlaceLogin = ({ data }) => {
     })
 
     // TODO change url
-    postData(`new-player`, formData).then(json => {
-      if (json.status === 'OK') {
+    postData('login', formData).then(json => {
+      if (json.status === '0') {
         dispatch(
           setToastify({
             type: 'success',
@@ -79,15 +78,14 @@ const PlaceLogin = ({ data }) => {
         onChange={value => handlePropsChange('login', value)}
         isRequired={true}
       />
-      <GeneratePassword
-        list={['password', 'confirm_password']}
-        data={filter}
-        action={setFilter}
-        filter={filter}
-        handlePropsChange={handlePropsChange}
+      <Password
+        data={filter.filter}
+        placeholder={t('password')}
+        onChange={value => handlePropsChange('password', value)}
+        isRequired={true}
       />
       <Field
-        type={'balance'}
+        type={'number'}
         placeholder={t('balance')}
         data={filter.balance}
         onChange={value => handlePropsChange('balance', value)}
@@ -97,7 +95,7 @@ const PlaceLogin = ({ data }) => {
         <Button
           type={'submit'}
           classes={['primary']}
-          placeholder={t('create')}
+          placeholder={t('login')}
         />
         <Button
           type={'reset'}

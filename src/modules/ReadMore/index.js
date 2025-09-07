@@ -22,7 +22,7 @@ const ReadMore = ({ data }) => {
         {
           Object.entries(data).map(([key, value]) =>
             <li key={key}>
-              {key} {value}
+              <strong>{value}</strong> {key}
             </li>
           )}
       </ul>

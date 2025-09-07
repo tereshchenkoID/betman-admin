@@ -22,7 +22,7 @@ const DATA = {
         bonus: '1000.00'
       },
       profit: '-42234.00',
-      rtp: '88',
+      rtp: '120',
       currency: 'UAH',
       agent_id: '300',
       shop_id: '113',

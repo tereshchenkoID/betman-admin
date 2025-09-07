@@ -62,7 +62,7 @@ const Field = ({
             onChange('')
           }}
         >
-          <FontAwesomeIcon icon={'fa-solid fa-xmark'} />
+          <FontAwesomeIcon icon="fa-solid fa-xmark" />
         </button>
       }
     </div>
