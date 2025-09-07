@@ -31,7 +31,7 @@ const DATA = {
     {
       host: 'shop-113-1.winup.games',
       status: '1',
-      session_started: 1757118422000,
+      session_started: 1757118844000,
       username: 'player1',
       player_id: '1112',
       balance: {
@@ -68,7 +68,7 @@ const Dashboard = () => {
   return (
     <div className={style.block}>
       <Paper headline={t('dashboard')} classes={['sm']}>
-        <Hall />
+        <Hall data={DATA.data} />
       </Paper>
     </div>
   )

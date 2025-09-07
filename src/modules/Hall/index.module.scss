@@ -7,30 +7,3 @@
   grid-template-columns: repeat(5, 1fr);
   gap: rem(16px);
 }
-
-.place {
-  @include size(100%, rem(150px));
-
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: rem(24px);
-  padding: rem(16px);
-  background-color: var(--primary);
-  border-radius: var(--border-radius-4);
-}
-
-.content {
-  display: grid;
-  align-content: flex-start;
-  gap: rem(8px);
-}
-
-.actions {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: rem(8px);
-}
-
-.icon {
-  font-size: rem(60px);
-}
