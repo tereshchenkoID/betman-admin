@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useDispatch } from 'react-redux'
+import { setAside } from 'store/actions/asideAction'
 
 import Button from 'components/Button'
 
@@ -10,6 +12,7 @@ import classNames from 'classnames'
 
 const Place = ({ info }) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const isActive = Number(info?.status) === 1
   const [elapsed, setElapsed] = useState('00:00:00')
@@ -29,6 +32,19 @@ const Place = ({ info }) => {
     const interval = setInterval(updateTimer, 1000)
     return () => clearInterval(interval)
   }, [isActive, info?.session_started])
+
+  const handlePlaceInfo = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('info'),
+          cmd: 'hall-place-info',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
 
   return (
     <div className={style.place}>
@@ -57,6 +73,7 @@ const Place = ({ info }) => {
               <Button
                 classes={['tertiary']}
                 placeholder={t('more')}
+                onClick={e => handlePlaceInfo(e, info)}
               />
             </div>
           </>

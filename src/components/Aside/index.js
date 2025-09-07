@@ -20,6 +20,7 @@ const PlayerEdit = lazy(() => import('modules/Accounts/PlayerEdit'))
 const CashierEdit = lazy(() => import('modules/Accounts/CashierEdit'))
 const ShopEdit = lazy(() => import('modules/Accounts/ShopEdit'))
 const Confirmed = lazy(() => import('modules/Confirmed'))
+const PlaceInfo = lazy(() => import('modules/Hall/PlaceInfo'))
 
 const components = {
   'account-deposit': Deposit,
@@ -34,6 +35,7 @@ const components = {
   'account-cashier-edit': CashierEdit,
   'account-player-edit': PlayerEdit,
   'confirmed': Confirmed,
+  'hall-place-info': PlaceInfo,
 }
 
 const checkCmd = (cmd) => {
