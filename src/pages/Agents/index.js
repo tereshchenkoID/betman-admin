@@ -61,7 +61,7 @@ const Agents = () => {
       if (json?.code === '0') {
         setData(json)
       } else {
-        console.error('Failed to load players:', json?.message)
+        console.error('Failed to load agents:', json?.message)
       }
     } finally {
       setLoading(false)
@@ -81,7 +81,9 @@ const Agents = () => {
     }))
   }
 
-  const handleSortChange = (fieldName) => {
+  const handleSortChange = (fieldName, sorted) => {
+    if (!sorted) return
+
     setSort((prev) => {
       if (prev.key === fieldName) {
         const nextDirection =

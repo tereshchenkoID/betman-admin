@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 
@@ -19,11 +19,13 @@ const CustomSelect = ({
   const handleSelectChange = newValue => {
     onChange(newValue.value)
   }
-  useEffect(() => {
-    if (data === '') {
-      selectRef.current.option = null
-    }
-  }, [data])
+
+  const selectedOption = useMemo(() => {
+    if (!options || options.length === 0) return null
+    return options.find(option => option.value === data) || null
+  }, [data, options])
+
+  if (options.length === 0) return null
 
   return (
     <div
@@ -37,7 +39,7 @@ const CustomSelect = ({
       <Select
         ref={selectRef}
         placeholder={t('select_value')}
-        value={options.find(option => option.value === data) || null}
+        value={selectedOption}
         options={options}
         onChange={handleSelectChange}
         className="react-select-container"

@@ -16,7 +16,10 @@
   "full_name": "Full name",
   "credits": "Credits",
   "currency": "Currency",
+  "agent": "Agent",
+  "agents": "Agents",
   "shops": "Shops",
+  "shop": "Shop",
   "cashiers": "Cashiers",
   "players": "Players",
   "id": "ID",
@@ -31,6 +34,8 @@
   "all": "All",
   "enable": "Enable",
   "disable": "Disable",
+  "phone": "Phone",
+  "email": "Email",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back"

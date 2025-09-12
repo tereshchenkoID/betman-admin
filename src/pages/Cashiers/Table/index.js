@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { setAside } from 'store/actions/asideAction'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { service } from 'constant/config'
 
@@ -10,6 +10,7 @@ import { getDate } from 'helpers/getDate'
 
 import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
+import Tree from 'modules/Tree'
 
 import style from './index.module.scss'
 
@@ -57,15 +58,28 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   }
 
   const renderCell = (key, row) => {
+    if (key.indexOf('agent') !== -1) {
+      const keys = key.split('.');
+
+      return <div className={style.wrapper}>
+        {
+          row.tree &&
+          <Tree data={row} />
+        }
+        <p>{keys.reduce((acc, k) => acc?.[k], row)}</p>
+      </div>
+    }
+
     if (key.indexOf('.') !== -1) {
       const keys = key.split('.');
+
       return keys.reduce((acc, k) => acc?.[k], row)
     }
 
     const value = row[key]
     switch (key) {
       case 'locked':
-        return service.YES_NO[value]
+        return t(service.YES_NO[value])
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
@@ -76,14 +90,14 @@ const Table = ({ data, config, sort, handleSortChange }) => {
               <div className={style.actions}>
                 <Icon
                   classes={['success']}
-                  icon="fa-plus"
-                  alt="deposit"
+                  icon='fa-plus'
+                  alt='deposit'
                   action={e => handleDeposit(e, row)}
                 />
                 <Icon
                   classes={['warning']}
-                  icon="fa-minus"
-                  alt="withdraw"
+                  icon='fa-minus'
+                  alt='withdraw'
                   action={e => handleWithdrawal(e, row)}
                 />
               </div>
@@ -119,18 +133,18 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const renderActions = () => (
     <>
       <Icon
-        icon="fa-pencil"
-        alt="edit"
+        icon='fa-pencil'
+        alt='edit'
         action={e => handleCashierEdit(e)}
       />
       <Icon
-        icon="fa-lock"
-        alt="locked"
+        icon='fa-lock'
+        alt='locked'
         action={e => handleConfirmed(e, handleLocked, 'locked_confirmed')}
       />
       <Icon
-        icon="fa-trash"
-        alt="delete"
+        icon='fa-trash'
+        alt='delete'
         action={e => handleConfirmed(e, handleDelete, 'delete_confirmed')}
       />
     </>
@@ -144,7 +158,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             <div
               key={key}
               className={style.cell}
-              onClick={() => handleSortChange(key)}
+              onClick={() => handleSortChange(key, sorted)}
             >
               <span>{t(text)}</span>
               {

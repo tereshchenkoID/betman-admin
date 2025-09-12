@@ -23,26 +23,48 @@ export const NAVIGATION = {
     icon: 'fa-solid fa-users',
     link: '/players',
   },
-  summary: {
-    text: 'summary',
-    link: '/summary',
+
+  reports: {
+    summary: {
+      text: 'summary',
+      link: '/reports/summary',
+    },
+    history: {
+      text: 'history',
+      link: '/reports/history',
+    },
+    financial: {
+      text: 'financial',
+      link: '/reports/financial',
+    },
+    payments: {
+      text: 'payments',
+      link: '/reports/payments',
+    },
+    bonuses: {
+      text: 'bonuses',
+      link: '/reports/bonuses',
+    },
   },
-  history: {
-    text: 'history',
-    link: '/history',
+  managements: {
+    promos: {
+      text: 'promos',
+      link: '/managements/promos'
+    },
+    banners: {
+      text: 'banners',
+      link: '/managements/banners'
+    },
+    jackpots: {
+      text: 'jackpots',
+      link: '/managements/jackpots'
+    },
+    bonuses: {
+      text: 'bonuses',
+      link: '/managements/bonuses'
+    },
   },
-  financial: {
-    text: 'financial',
-    link: '/financial',
-  },
-  payments: {
-    text: 'payments',
-    link: '/payments',
-  },
-  bonuses: {
-    text: 'bonuses',
-    link: '/bonuses',
-  },
+
   login: {
     text: 'login',
     link: '/login'
@@ -50,10 +72,11 @@ export const NAVIGATION = {
 };
 
 export const ACCOUNT_TYPE = {
-  'AGENT': '0',
-  'SHOP': '1',
-  'CASHIER': '2',
-  'PLAYER': '3'
+  'ADMIN':    '-1',
+  'AGENT':    '0',
+  'SHOP':     '1',
+  'CASHIER':  '2',
+  'PLAYER':   '3'
 }
 
 export const service = {

@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { service } from 'constant/config'
+import {ACCOUNT_TYPE, service} from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
-import { getData } from 'helpers/api'
+import {getData, postData} from 'helpers/api'
 import { convertOptions } from 'helpers/convertOptions'
 
 import Paper from 'components/Paper'
@@ -18,111 +18,75 @@ import Pagination from 'modules/Pagination'
 import Table from './Table'
 
 import style from './index.module.scss'
+import {useAuth} from "../../hooks/useAuth";
+import {useOptions} from "../../hooks/useOptions";
 
 const CONFIG = [
-  {
-    key: 'id',
-    text: 'id',
-    sorted: true,
-  },
-  {
-    key: 'agent.username',
-    text: 'agent',
-  },
-  {
-    key: 'username',
-    text: 'username',
-    sorted: true,
-  },
-  {
-    key: 'full_name',
-    text: 'full_name',
-    sorted: true,
-  },
-  {
-    key: 'phone',
-    text: 'phone',
-  },
-  {
-    key: 'email',
-    text: 'email',
-  },
-  {
-    key: 'credits',
-    text: 'credits',
-  },
-  {
-    key: 'currency',
-    text: 'currency',
-  },
-  {
-    key: 'locked',
-    text: 'locked',
-  },
-  {
-    key: 'date_created',
-    text: 'date_created',
-    sorted: true,
-  }
+  { key: 'id', text: 'id', sorted: true },
+  { key: 'agent.username', text: 'agent' },
+  { key: 'username', text: 'username', sorted: true },
+  { key: 'full_name', text: 'full_name', sorted: true },
+  { key: 'phone', text: 'phone' },
+  { key: 'email', text: 'email' },
+  { key: 'credits', text: 'credits' },
+  { key: 'currency', text: 'currency' },
+  { key: 'locked', text: 'locked' },
+  { key: 'date_created', text: 'date_created', sorted: true }
 ]
 
 const Players = () => {
   const { t } = useTranslation()
+  const { auth } = useAuth()
   const { agent, shop } = useParams()
-  const initialValue = {
-    'q': '',
-    'locked': '',
-    'agent': Number(agent) || '',
-    'shop': Number(shop) || '',
-    'date-from': getDate(new Date().setHours(-24, 0, 0, 0), 'datetime-local'),
-    'date-to': getDate(new Date(), 'datetime-local'),
-  }
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '', shop: Number(shop) || '' }
+  const INITIAL_SORT = { key: null, direction: null }
+
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState(initialValue)
+  const [filter, setFilter] = useState(INITIAL_FILTER)
+  const [sort, setSort] = useState(INITIAL_SORT)
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(20)
-  const [sort, setSort] = useState({
-    key: null,
-    direction: null,
-  })
-
   const isSingle = agent || shop
 
-  const handleSubmit = (e, page) => {
+  const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
-
     setLoading(true)
 
     const formData = new FormData()
     formData.append('page', page)
     formData.append('quantity', quantity)
-    formData.append('q', filter['q'])
-    formData.append('locked', filter['locked'])
-    formData.append('date-from', filter['date-from'])
-    formData.append('date-to', filter['date-to'])
+    formData.append('q', nextFilter.q)
+    formData.append('locked', nextFilter.locked)
 
-    if (sort.direction !== null) {
-      formData.append('sort', JSON.stringify(sort))
+    if (nextSort.direction) {
+      formData.append('sort_key', nextSort.key)
+      formData.append('sort_direction', nextSort.direction)
     }
 
-    if (isSingle) {
+    if (agent) {
       formData.append('agent', agent)
+    }
+
+    if (shop) {
       formData.append('shop', shop)
     }
 
-    // TODO Update after api on postData
-    getData(`${window.location.origin}/json/players.json`).then(json => {
+    try {
+      const json = await postData('players/', formData)
       if (json?.code === '0') {
         setData(json)
-        setLoading(false)
       } else {
-        console.error('Failed to load players:', data.message)
+        console.error('Failed to load shops:', json?.message)
       }
-    })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleResetForm = () => {
-    setFilter(initialValue)
+    setFilter(INITIAL_FILTER)
+    setSort(INITIAL_SORT)
+    handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
   }
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -132,46 +96,51 @@ const Players = () => {
     }))
   }
 
-  const handleSortChange = (fieldName) => {
+  const handleSortChange = (fieldName, sorted) => {
+    if (!sorted) return
+
     setSort((prev) => {
       if (prev.key === fieldName) {
         const nextDirection =
           prev.direction === null
             ? 'asc'
-            : prev.direction === 'asc'
-              ? 'desc'
-              : null;
+            : prev.direction === 'asc' ? 'desc' : null;
 
-        return {
+        const value = {
           key: nextDirection ? fieldName : null,
           direction: nextDirection,
-        };
+        }
+
+        handleSubmit(null, 0, filter, value)
+        return value
       }
 
-      return {
+      const value = {
         key: fieldName,
         direction: 'asc',
-      };
-    });
+      }
+
+      handleSubmit(null, 0, filter, value)
+      return value
+    })
   }
 
-  const agentsOptions = useMemo(() => {
-    return [{id: 1000, username: 'test'}].map((el) => ({
-      value: el.id,
-      label: el.username,
-    }))
-  }, [])
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
 
-  const shopsOptions = useMemo(() => {
-    return [{id: 1, username: 'shop'}].map((el) => ({
-      value: el.id,
-      label: el.username,
-    }))
-  }, [])
+  const { options: shopsOptions } = useOptions(
+    `shops_tree/${filter.agent}`,
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }],
+    Boolean(filter.agent)
+  )
 
   useEffect(() => {
     handleSubmit(null, 0);
-  }, [quantity, sort])
+  }, [quantity])
 
   return (
     <>
@@ -181,7 +150,6 @@ const Players = () => {
         quantity={!isSingle && quantity}
         setQuantity={!isSingle && setQuantity}
       >
-        <p>Agent: {agent}, Shop: {shop}</p>
         <Debug data={sort} />
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
@@ -192,36 +160,32 @@ const Players = () => {
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
             />
-            <CustomSelect
-              placeholder={t('agents')}
-              options={agentsOptions}
-              data={filter.agent}
-              onChange={value => handlePropsChange('agent', value)}
-            />
             {
-              filter.agent !== '' &&
-              <CustomSelect
-                placeholder={t('shops')}
-                options={shopsOptions}
-                data={filter.shop}
-                onChange={value => handlePropsChange('shop', value)}
-              />
+              auth?.role === ACCOUNT_TYPE.AGENT &&
+              <>
+                <CustomSelect
+                  placeholder={t('agents')}
+                  options={agentsOptions}
+                  data={filter.agent}
+                  onChange={value => handlePropsChange('agent', value)}
+                />
+                {
+                  filter.agent !== '' &&
+                  <CustomSelect
+                    placeholder={t('shops')}
+                    options={shopsOptions}
+                    data={filter.shop}
+                    onChange={value => handlePropsChange('shop', value)}
+                  />
+                }
+              </>
             }
-            <Field
-              type='datetime-local'
-              placeholder={t('date_from')}
-              data={filter['date-from']}
-              onChange={value => handlePropsChange('date-from', value)}
-            />
-            <Field
-              type='datetime-local'
-              placeholder={t('date_to')}
-              data={filter['date-to']}
-              onChange={value => handlePropsChange('date-to', value)}
-            />
             <CustomSelect
               placeholder={t('locked')}
-              options={convertOptions(service.YES_NO)}
+              options={[
+                { value: -1, label: t('all') },
+                ...convertOptions(service.YES_NO)
+              ]}
               data={filter['locked']}
               onChange={value => handlePropsChange('locked', value)}
             />

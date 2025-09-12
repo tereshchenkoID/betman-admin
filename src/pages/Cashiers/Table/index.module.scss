@@ -2,14 +2,13 @@
 
 .block {
   width: 100%;
-  overflow: hidden;
   font-size: rem(14px);
   font-weight: var(--typography-thin);
 }
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(4, 1fr) repeat(2, rem(80px)) repeat(2, 1fr);
+  grid-template-columns: rem(80px) repeat(5, 1fr) repeat(2, rem(80px)) repeat(2, 1fr);
 
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--primary);
@@ -27,11 +26,18 @@
   }
 }
 
+.wrapper,
 .cell {
   @include flex(null, center, null, wrap);
+}
 
+.cell {
   gap: rem(4px);
   padding: rem(12px);
+}
+
+.wrapper {
+  gap: rem(8px);
 }
 
 .empty {

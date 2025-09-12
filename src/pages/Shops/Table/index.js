@@ -121,7 +121,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     const value = row[key]
     switch (key) {
       case 'locked':
-        return service.YES_NO[value]
+        return t(service.YES_NO[value])
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
@@ -194,7 +194,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             <div
               key={key}
               className={style.cell}
-              onClick={() => handleSortChange(key)}
+              onClick={() => handleSortChange(key, sorted)}
             >
               <span>{t(text)}</span>
               {

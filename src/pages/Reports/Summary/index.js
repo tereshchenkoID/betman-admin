@@ -58,9 +58,8 @@ const Summary = () => {
       return true
     })
 
-    // TODO Update after api on postData
     getData(`${window.location.origin}/json/summary.json`).then(json => {
-      if (json.code === '0') {
+      if (json?.code === '0') {
         setData(json)
         setLoading(false)
       } else {

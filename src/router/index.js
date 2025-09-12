@@ -14,11 +14,18 @@ const Cashiers = lazy(() => import('pages/Cashiers'))
 
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
-const Summary = lazy(() => import('pages/Summary'))
-const History = lazy(() => import('pages/History'))
-const Financial = lazy(() => import('pages/Financial'))
-const Payments = lazy(() => import('pages/Payments'))
-const Bonuses = lazy(() => import('pages/Bonuses'))
+
+const ReportsSummary = lazy(() => import('pages/Reports/Summary'))
+const ReportsHistory = lazy(() => import('pages/Reports/History'))
+const ReportsFinancial = lazy(() => import('pages/Reports/Financial'))
+const ReportsPayments = lazy(() => import('pages/Reports/Payments'))
+const ReportsBonuses = lazy(() => import('pages/Reports/Bonuses'))
+
+const ManagementsPromos = lazy(() => import('pages/Managements/Promos'))
+const ManagementsBanners = lazy(() => import('pages/Managements/Banners'))
+const ManagementsJackpots = lazy(() => import('pages/Managements/Jackpots'))
+const ManagementsBonuses = lazy(() => import('pages/Managements/Bonuses'))
+
 const NotFound = lazy(() => import('pages/NotFound'))
 
 const withSuspense = (Component) => (
@@ -66,24 +73,24 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: NAVIGATION.summary.link,
-        element: withSuspense(Summary),
+        path: NAVIGATION.reports.summary.link,
+        element: withSuspense(ReportsSummary),
       },
       {
-        path: NAVIGATION.history.link,
-        element: withSuspense(History),
+        path: NAVIGATION.reports.history.link,
+        element: withSuspense(ReportsHistory),
       },
       {
-        path: NAVIGATION.financial.link,
-        element: withSuspense(Financial),
+        path: NAVIGATION.reports.financial.link,
+        element: withSuspense(ReportsFinancial),
       },
       {
-        path: NAVIGATION.payments.link,
-        element: withSuspense(Payments),
+        path: NAVIGATION.reports.payments.link,
+        element: withSuspense(ReportsPayments),
       },
       {
-        path: NAVIGATION.bonuses.link,
-        element: withSuspense(Bonuses),
+        path: NAVIGATION.reports.bonuses.link,
+        element: withSuspense(ReportsBonuses),
       },
       {
         path: NAVIGATION.login.link,
@@ -91,6 +98,40 @@ export const router = createBrowserRouter([
           <PublicRoute>
             {withSuspense(Login)}
           </PublicRoute>
+        )
+      },
+      {
+        // path: NAVIGATION.managements.promos.link,
+        path: `${NAVIGATION.managements.promos.link}/:promo?`,
+        element: (
+          <ProtectedRoute allowedRoles={['-1', '0']}>
+            {withSuspense(ManagementsPromos)}
+          </ProtectedRoute>
+        )
+      },
+      {
+        // path: NAVIGATION.managements.banners.link,
+        path: `${NAVIGATION.managements.banners.link}/:banner?`,
+        element: (
+          <ProtectedRoute allowedRoles={['-1', '0']}>
+            {withSuspense(ManagementsBanners)}
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: NAVIGATION.managements.jackpots.link,
+        element: (
+          <ProtectedRoute allowedRoles={['-1', '0']}>
+            {withSuspense(ManagementsJackpots)}
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: NAVIGATION.managements.bonuses.link,
+        element: (
+          <ProtectedRoute allowedRoles={['-1', '0']}>
+            {withSuspense(ManagementsBonuses)}
+          </ProtectedRoute>
         )
       },
       {

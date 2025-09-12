@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 import style from './index.module.scss'
 
@@ -17,7 +17,7 @@ const Node = ({ node }) => {
           {node.username}
         </Link>
         {
-          node.child &&
+          node?.child &&
           <div className={style.wrapper}>
             <div className={style.arrow} />
             <Node node={node.child}/>

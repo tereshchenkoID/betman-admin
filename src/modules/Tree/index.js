@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { useOutsideClick } from "hooks/useOutsideClick"
+import { useOutsideClick } from 'hooks/useOutsideClick'
 
-import Node from "./Node"
+import Node from './Node'
 
 import style from './index.module.scss'
 
@@ -35,7 +35,7 @@ const Tree = ({ data }) => {
         aria-label={'Toggle'}
         ref={buttonRef}
       >
-        <FontAwesomeIcon icon="fa-solid fa-folder-tree" />
+        <FontAwesomeIcon icon='fa-solid fa-folder-tree' />
       </button>
       {
         toggle &&

@@ -16,57 +16,86 @@ import Logo from 'modules/Logo'
 
 import style from './index.module.scss'
 
-const MENU = [
-  {
-    type: [ACCOUNT_TYPE.AGENT],
-    ...NAVIGATION.agents,
-  },
-  {
-    type: [ACCOUNT_TYPE.AGENT],
-    ...NAVIGATION.shops,
-  },
-  {
-    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP],
-    ...NAVIGATION.cashiers,
-  },
-  {
-    type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.CASHIER],
-    ...NAVIGATION.players,
-  },
-  {
-    text: 'reports',
-    icon: 'fa-solid fa-file',
-    submenu: [
-      {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        ...NAVIGATION.summary,
-      },
-      {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        ...NAVIGATION.history,
-      },
-      {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        ...NAVIGATION.financial,
-      },
-      {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        ...NAVIGATION.payments,
-      },
-      {
-        type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        ...NAVIGATION.bonuses,
-      }
-    ],
-  }
-]
-
 const Nav = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { pathname } = useLocation()
   const { auth } = useAuth()
   const role = auth ? auth.role : null
+
+  const MENU = [
+    {
+      show: true,
+      type: [ACCOUNT_TYPE.AGENT],
+      ...NAVIGATION.agents,
+    },
+    {
+      show: true,
+      type: [ACCOUNT_TYPE.AGENT],
+      ...NAVIGATION.shops,
+    },
+    {
+      show: true,
+      type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP],
+      ...NAVIGATION.cashiers,
+    },
+    {
+      show: true,
+      type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.CASHIER],
+      ...NAVIGATION.players,
+    },
+    {
+      text: 'reports',
+      icon: 'fa-solid fa-file',
+      show: true,
+      submenu: [
+        {
+          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          ...NAVIGATION.reports.summary,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          ...NAVIGATION.reports.history,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          ...NAVIGATION.reports.financial,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          ...NAVIGATION.reports.payments,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          ...NAVIGATION.reports.bonuses,
+        }
+      ],
+    },
+    {
+      text: 'managements',
+      icon: 'fa-solid fa-bars-progress',
+      show: true,
+      // show: role === ACCOUNT_TYPE.ADMIN,
+      submenu: [
+        {
+          type: [ACCOUNT_TYPE.AGENT],
+          ...NAVIGATION.managements.promos,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT],
+          ...NAVIGATION.managements.banners,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT],
+          ...NAVIGATION.managements.jackpots,
+        },
+        {
+          type: [ACCOUNT_TYPE.AGENT],
+          ...NAVIGATION.managements.bonuses,
+        }
+      ],
+    }
+  ]
 
   const [show, setShow] = useState(false)
   const [active, setActive] = useState(false)
@@ -131,24 +160,82 @@ const Nav = () => {
         <ul className={style.list}>
           {
             MENU.map((el, idx) =>
-            <li
-              key={idx}
-              className={
-                classNames(
-                  style.item,
-                  idx === active && style.active
-                )
-              }
-            >
-              {
-                el.submenu
-                  ?
-                    <>
-                      <span
-                        className={style.link}
+              el.show &&
+              <li
+                key={idx}
+                className={
+                  classNames(
+                    style.item,
+                    idx === active && style.active
+                  )
+                }
+              >
+                {
+                  el.submenu
+                    ?
+                      <>
+                        <span
+                          className={style.link}
+                          onClick={() => {
+                            setActive(idx)
+                            setShow(true)
+                            dispatch(setAside(null))
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={el.icon}
+                            className={style.icon}
+                          />
+                          <span>{t(el.text)}</span>
+                          <FontAwesomeIcon
+                            icon="fa-solid fa-angle-down"
+                            className={style.arrow}
+                          />
+                        </span>
+                        <div className={style.submenu}>
+                          {
+                            el.submenu.map((el_s, idx_s) =>
+                              el_s.type.includes(role) &&
+                              <Link
+                                key={idx_s}
+                                to={el_s.link}
+                                rel="noreferrer"
+                                className={
+                                  classNames(
+                                    style.link,
+                                    pathname === el_s.link && style.active,
+                                  )
+                                }
+                                onClick={() => {
+                                  setShow(false)
+                                  setActive(false)
+                                  dispatch(setAside(null))
+                                }}
+                              >
+                                {
+                                  el_s.icon &&
+                                  <FontAwesomeIcon icon={el_s.icon} className={style.icon}/>
+                                }
+                                <span>{t(el_s.text)}</span>
+                              </Link>
+                            )
+                          }
+                        </div>
+                      </>
+                    :
+                      el.type.includes(role) &&
+                      <Link
+                        to={el.link}
+                        rel="noreferrer"
+                        className={
+                          classNames(
+                            style.link,
+                            pathname === el.link && style.active,
+                          )
+                        }
                         onClick={() => {
-                          setActive(idx)
-                          setShow(true)
+                          setShow(false)
+                          setActive(false)
                           dispatch(setAside(null))
                         }}
                       >
@@ -157,58 +244,9 @@ const Nav = () => {
                           className={style.icon}
                         />
                         <span>{t(el.text)}</span>
-                        <FontAwesomeIcon
-                          icon="fa-solid fa-angle-down"
-                          className={style.arrow}
-                        />
-                      </span>
-                      <div className={style.submenu}>
-                        {
-                          el.submenu.map((el_s, idx_s) =>
-                            el_s.type.includes(role) &&
-                            <Link
-                              key={idx_s}
-                              to={el_s.link}
-                              rel="noreferrer"
-                              className={
-                                classNames(
-                                  style.link,
-                                  pathname === el_s.link && style.active,
-                                )
-                              }
-                              onClick={() => dispatch(setAside(null))}
-                            >
-                              {
-                                el_s.icon &&
-                                <FontAwesomeIcon icon={el_s.icon} className={style.icon}/>
-                              }
-                              <span>{t(el_s.text)}</span>
-                            </Link>
-                          )
-                        }
-                      </div>
-                    </>
-                  :
-                    el.type.includes(role) &&
-                    <Link
-                      to={el.link}
-                      rel="noreferrer"
-                      className={
-                        classNames(
-                          style.link,
-                          pathname === el.link && style.active,
-                        )
-                      }
-                      onClick={() => dispatch(setAside(null))}
-                    >
-                      <FontAwesomeIcon
-                        icon={el.icon}
-                        className={style.icon}
-                      />
-                      <span>{t(el.text)}</span>
-                    </Link>
-              }
-            </li>
+                      </Link>
+                }
+              </li>
           )}
         </ul>
         <hr/>
@@ -230,7 +268,11 @@ const Nav = () => {
               )
             }
             type={'button'}
-            onClick={() => setShow(!show)}
+            onClick={() => {
+              setShow(!show)
+              setActive(!active)
+              dispatch(setAside(null))
+            }}
             aria-label={'Toggle'}
             title={'Toggle'}
           >

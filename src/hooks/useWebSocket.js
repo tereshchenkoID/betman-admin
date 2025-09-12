@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 export const useWebSocket = ({ url, onMessage, onOpen, onError, onClose, reconnectDelay = 3000 }) => {
   const socketRef = useRef(null)
   const reconnectTimeoutRef = useRef(null)
+  const pingIntervalRef = useRef(null)
 
   const savedOnMessage = useRef(onMessage)
   const savedOnOpen = useRef(onOpen)
@@ -28,6 +29,10 @@ export const useWebSocket = ({ url, onMessage, onOpen, onError, onClose, reconne
       socket.onopen = () => {
         console.log('WebSocket connected')
         savedOnOpen.current?.(socket)
+
+        pingIntervalRef.current = setInterval(() => {
+          socket.send(JSON.stringify({ cmd: 'ping' }))
+        }, 30000)
       }
 
       socket.onmessage = (event) => {
@@ -59,9 +64,21 @@ export const useWebSocket = ({ url, onMessage, onOpen, onError, onClose, reconne
     return () => {
       isUnmounted = true
       clearTimeout(reconnectTimeoutRef.current)
+      clearInterval(pingIntervalRef.current)
       socketRef.current?.close()
     }
   }, [url, reconnectDelay])
 
-  return socketRef
+  const sendWhenReady = (data) => {
+    const socket = socketRef.current
+    if (!socket) return
+
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(data)
+    } else {
+      socket.addEventListener("open", () => socket.send(data), { once: true })
+    }
+  }
+
+  return { socketRef, sendWhenReady }
 }

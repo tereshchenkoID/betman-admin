@@ -12,6 +12,7 @@ import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
 
 import style from './index.module.scss'
+import Tree from "../../../modules/Tree";
 
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
@@ -91,15 +92,28 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   }
 
   const renderCell = (key, row) => {
+    if (key.indexOf('agent') !== -1) {
+      const keys = key.split('.');
+
+      return <div className={style.wrapper}>
+        {
+          row.tree &&
+          <Tree data={row} />
+        }
+        <p>{keys.reduce((acc, k) => acc?.[k], row)}</p>
+      </div>
+    }
+
     if (key.indexOf('.') !== -1) {
       const keys = key.split('.');
+
       return keys.reduce((acc, k) => acc?.[k], row)
     }
 
     const value = row[key]
     switch (key) {
       case 'locked':
-        return service.YES_NO[value]
+        return t(service.YES_NO[value])
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
@@ -162,7 +176,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             <div
               key={key}
               className={style.cell}
-              onClick={() => handleSortChange(key)}
+              onClick={() => handleSortChange(key, sorted)}
             >
               <span>{t(text)}</span>
               {

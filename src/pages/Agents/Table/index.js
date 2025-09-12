@@ -194,7 +194,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             <div
               key={key}
               className={style.cell}
-              onClick={() => handleSortChange(key)}
+              onClick={() => handleSortChange(key, sorted)}
             >
               <span>{t(text)}</span>
               {

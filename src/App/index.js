@@ -52,19 +52,24 @@ const App = () => {
   if (loading) return <Loader />
 
   return (
-    <WebSocketProvider>
-      <div className={style.root}>
-        {isAuth ? <Home /> : <Login />}
-
-        <Toastify />
-        <Tooltip
-          id={'tooltip'}
-          place={'left'}
-          className={style.tooltip}
-          classNameArrow={style.arrow}
-        />
-      </div>
-    </WebSocketProvider>
+    <div className={style.root}>
+      {
+        isAuth
+          ?
+            <WebSocketProvider>
+              <Home />
+            </WebSocketProvider>
+          :
+            <Login />
+      }
+      <Toastify />
+      <Tooltip
+        id={'tooltip'}
+        place={'left'}
+        className={style.tooltip}
+        classNameArrow={style.arrow}
+      />
+    </div>
   )
 }
 

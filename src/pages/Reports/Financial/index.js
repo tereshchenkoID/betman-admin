@@ -2,36 +2,35 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getDate } from 'helpers/getDate'
-import { getData } from "helpers/api"
+import { getData } from 'helpers/api'
 
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
-import CustomSelect from "components/Select"
-import CustomTable from "modules/CustomTable"
+import CustomSelect from 'components/Select'
+import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
 
 const CONFIG = [
-  { key: 'id', text: 'id' },
-  { key: 'player', text: 'players' },
-  { key: 'provider', text: 'provider' },
-  { key: 'game', text: 'game' },
-  { key: 'start_date', text: 'start_date', data: 'datetime' },
-  { key: 'bet', text: 'bet', sorted: true },
-  { key: 'win', text: 'win', sorted: true },
-  { key: 'profit', text: 'profit', sorted: true },
+  { key: 'id', text: 'id', sorted: true },
+  { key: 'datetime', text: 'date_hour', data: 'datetime' },
+  { key: 'agent', text: 'agent' },
+  { key: 'store', text: 'store' },
+  { key: 'user', text: 'user' },
+  { key: 'player', text: 'player' },
+  { key: 'type', text: 'type_transaction' },
+  { key: 'sum', text: 'sum' },
   { key: 'currency', text: 'currency' },
-  { key: 'action', text: 'action' },
+  { key: 'balance_after', text: 'balance_after', sorted: true },
+  { key: 'bonus_after', text: 'bonus_after', sorted: true },
 ]
 
-const History = () => {
+const Financial = () => {
   const { t } = useTranslation()
   const initialValue = {
     'player': '',
-    'provider': '',
-    'game': '',
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
   }
@@ -61,8 +60,8 @@ const History = () => {
     })
 
     // TODO Update after api on postData
-    getData(`${window.location.origin}/json/history.json`).then(json => {
-      if (json.code === '0') {
+    getData(`${window.location.origin}/json/financial.json`).then(json => {
+      if (json?.code === '0') {
         setData(json)
         setLoading(false)
       } else {
@@ -78,7 +77,7 @@ const History = () => {
   return (
     <div className={style.block}>
       <Paper
-        headline={t('history_report')}
+        headline={t('financial_report')}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}
@@ -93,35 +92,13 @@ const History = () => {
                   { label: 'Agent X', value: 'Agent X' },
                   { label: 'Agent Y', value: 'Agent Y' },
                 ]}
-                data={filter.player}
+                data={filter.provider}
                 onChange={value => handlePropsChange('player', value)}
               />
             </div>
             <div>
-              <CustomSelect
-                placeholder={t('provider')}
-                options={[
-                  { label: 'Provider 1', value: 'provider 1' },
-                  { label: 'Provider 2', value: 'provider 2' },
-                ]}
-                data={filter.provider}
-                onChange={value => handlePropsChange('provider', value)}
-              />
-            </div>
-            <div>
-              <CustomSelect
-                placeholder={t('game')}
-                options={[
-                  { label: 'Game 1', value: 'Game 1' },
-                  { label: 'Game 2', value: 'Game 2' },
-                ]}
-                data={filter.game}
-                onChange={value => handlePropsChange('game', value)}
-              />
-            </div>
-            <div>
               <Field
-                type="datetime-local"
+                type='datetime-local'
                 placeholder={t('date_from')}
                 data={filter['date-from']}
                 onChange={value => handlePropsChange('date-from', value)}
@@ -129,7 +106,7 @@ const History = () => {
             </div>
             <div>
               <Field
-                type="datetime-local"
+                type='datetime-local'
                 placeholder={t('date_to')}
                 data={filter['date-to']}
                 onChange={value => handlePropsChange('date-to', value)}
@@ -160,4 +137,4 @@ const History = () => {
   )
 }
 
-export default History
+export default Financial

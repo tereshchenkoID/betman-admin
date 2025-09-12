@@ -1,6 +1,11 @@
 @use 'scss/config' as *;
 
-.grid {
+.block {
+  display: grid;
+  gap: rem(16px);
+}
+
+.filter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: rem(16px);

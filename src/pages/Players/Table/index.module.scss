@@ -27,15 +27,22 @@
   }
 }
 
+.wrapper,
 .cell {
   @include flex(null, center, null, wrap);
+}
 
+.cell {
   gap: rem(4px);
   padding: rem(12px);
 
   &:last-child {
     flex-wrap: nowrap;
   }
+}
+
+.wrapper {
+  gap: rem(8px);
 }
 
 .empty {
