@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { NAVIGATION } from 'constant/config'
+
 import Button from 'components/Button'
+import Reference from "components/Reference";
+import {getDate} from "helpers/getDate";
 
 import style from './index.module.scss'
 
@@ -14,6 +19,7 @@ const List = ({ onEdit, onDelete }) => {
       title: 'Banner 1',
       subtitle: 'Subtitle 1',
       category: 'A',
+      startDateMs: 1744873320000
     },
     {
       id: 2,
@@ -21,19 +27,41 @@ const List = ({ onEdit, onDelete }) => {
       title: 'Banner 2',
       subtitle: 'Subtitle 2',
       category: 'B',
+      startDateMs: 1744873320000
     },
   ])
 
   return (
     <div className={style.block}>
       <div className={style.list}>
+        <div className={style.item}>
+          <div>
+            {t('id')}
+          </div>
+          <div>
+            {t('image')}
+          </div>
+          <div>
+            {t('title')}
+          </div>
+          <div>
+            {t('subtitle')}
+          </div>
+          <div>
+            {t('category')}
+          </div>
+          <div>
+            {t('start_date')}
+          </div>
+          <div></div>
+        </div>
         {banners.map(b => (
           <div key={b.id} className={style.item}>
             <div>
               {b.id}
             </div>
             <div>
-              {b.image && <img src={b.image} alt={b.title} width={60} />}
+              {b.image && <img src={b.image} alt={b.title} width={60}/>}
             </div>
             <div>
               {b.title}
@@ -44,11 +72,14 @@ const List = ({ onEdit, onDelete }) => {
             <div>
               {b.category}
             </div>
+            <div>
+              {getDate(b.startDateMs)}
+            </div>
             <div className={style.actions}>
-              <Button
-                classes={['primary']}
+              <Reference
+                to={`${NAVIGATION.managements.banners.link}/${b.id}}`}
+                classes={['outline']}
                 placeholder={t('edit')}
-                onClick={() => alert('EDIT')}
               />
               <Button
                 classes={['secondary']}

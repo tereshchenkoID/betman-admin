@@ -7,7 +7,7 @@
 
 .item {
   display: grid;
-  grid-template-columns: 50px 200px 1fr 1fr 1fr auto;
+  grid-template-columns: 50px 200px 300px 200px 150px 1fr auto;
   align-items: center;
   gap: rem(16px);
 }
