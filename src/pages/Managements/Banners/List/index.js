@@ -53,7 +53,6 @@ const List = ({ onEdit, onDelete }) => {
           <div>
             {t('start_date')}
           </div>
-          <div></div>
         </div>
         {banners.map(b => (
           <div key={b.id} className={style.item}>
