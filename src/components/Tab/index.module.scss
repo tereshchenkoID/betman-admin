@@ -1,0 +1,44 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex(null, center);
+
+  border-bottom: rem(1px) solid var(--primary);
+  height: rem(40px);
+}
+
+.link {
+  @include flex(center, center);
+
+  position: relative;
+  flex-shrink: 0;
+  padding-inline: rem(10px);
+  min-width: rem(60px);
+  height: 100%;
+  text-transform: uppercase;
+  font-size: rem(14px);
+
+  &::after {
+    @include transition(width);
+    @include size(0, rem(2px));
+
+    position: absolute;
+    inset-inline: 0;
+    bottom: rem(-1px);
+    background-color: var(--link);
+    content: '';
+  }
+
+  &.active,
+  &:hover {
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &.active {
+    color: var(--link);
+    pointer-events: none;
+  }
+}

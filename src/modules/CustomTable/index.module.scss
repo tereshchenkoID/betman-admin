@@ -4,11 +4,8 @@
   @include flex($direction: column);
 
   position: relative;
-  border-radius: var(--border-radius-default);
   overflow: hidden;
-  background-color: var(--material);
   padding: rem(16px);
-  min-height: rem(120px);
 }
 
 .row {

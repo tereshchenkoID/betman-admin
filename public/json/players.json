@@ -2,66 +2,26 @@
   "code": "0",
   "pagination": {
     "page": "0",
-    "pages": "1",
+    "pages": "4",
     "quantity": "20"
   },
   "data": [
     {
-      "id": "1000",
-      "username": "test",
-      "full_name": "Test",
-      "locked": "0",
+      "id": 1,
+      "user": {
+        "id": "301",
+        "username": "player_1"
+      },
       "currency": "USD",
-      "date_created": "1752608279798",
-      "email": "test@mail.com",
-      "phone": "+2332833463684",
-      "agent": {
-        "id": "1000",
-        "username": "austin"
-      },
-      "tree": {
-        "id": "1000",
-        "username": "austin",
-        "child": {
-          "id": "10001",
-          "username": "austin 2",
-          "child": {
-            "id": "10003",
-            "username": "austin 3"
-          }
-        }
-      },
       "credits": {
-        "ETB": "999827582.68"
-      }
-    },
-    {
-      "id": "1001",
-      "username": "player",
-      "full_name": "Player",
-      "locked": "0",
-      "currency": "USD",
-      "date_created": "1752508279798",
-      "email": "tes2t@mail.com",
-      "phone": "+3332833463684",
-      "agent": {
-        "id": "1000",
-        "username": "austin"
+        "in": "3000.68",
+        "out": "5000.68",
+        "revenue": "500,00"
       },
-      "tree": {
-        "id": "1000",
-        "username": "austin",
-        "child": {
-          "id": "10001",
-          "username": "austin 2",
-          "child": {
-            "id": "10003",
-            "username": "austin 3"
-          }
-        }
-      },
-      "credits": {
-        "ETB": "999827582.68"
+      "bonus": {
+        "in": "0",
+        "out": "0",
+        "revenue": "0"
       }
     }
   ]

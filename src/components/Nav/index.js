@@ -51,24 +51,24 @@ const Nav = () => {
       submenu: [
         {
           type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-          ...NAVIGATION.reports.summary,
-        },
-        {
-          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-          ...NAVIGATION.reports.history,
-        },
-        {
-          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
           ...NAVIGATION.reports.financial,
         },
-        {
-          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-          ...NAVIGATION.reports.payments,
-        },
-        {
-          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-          ...NAVIGATION.reports.bonuses,
-        }
+        // {
+        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        //   ...NAVIGATION.reports.summary,
+        // },
+        // {
+        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        //   ...NAVIGATION.reports.history,
+        // },
+        // {
+        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        //   ...NAVIGATION.reports.payments,
+        // },
+        // {
+        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+        //   ...NAVIGATION.reports.bonuses,
+        // }
       ],
     },
     {

@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getDate } from 'helpers/getDate'
-import { getData } from 'helpers/api'
+import { postData } from 'helpers/api'
 
 import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
+import Tab from 'components/Tab'
 import CustomSelect from 'components/Select'
 import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
+
 
 const CONFIG = [
   { key: 'id', text: 'id', sorted: true },
@@ -27,6 +29,14 @@ const CONFIG = [
   { key: 'bonus_after', text: 'bonus_after', sorted: true },
 ]
 
+const TABS = {
+  '0': 'detailed',
+  '1': 'currency',
+  '2': 'shops',
+  '3': 'players',
+  '4': 'users'
+}
+
 const Financial = () => {
   const { t } = useTranslation()
   const initialValue = {
@@ -34,6 +44,8 @@ const Financial = () => {
     'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
     'date-to': getDate(new Date(), 'datetime-local'),
   }
+  const [active, setActive] = useState('0')
+
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(20)
@@ -59,8 +71,7 @@ const Financial = () => {
       return true
     })
 
-    // TODO Update after api on postData
-    getData(`${window.location.origin}/json/financial.json`).then(json => {
+    postData('financial', formData).then(json => {
       if (json?.code === '0') {
         setData(json)
         setLoading(false)
@@ -127,12 +138,21 @@ const Financial = () => {
           </div>
         </form>
       </Paper>
-      <CustomTable
-        data={data}
-        config={CONFIG}
-        loading={loading}
-        handleSubmit={handleSubmit}
-      />
+
+      <Paper>
+        <Tab
+          data={active}
+          action={setActive}
+          options={Object.entries(TABS)}
+        />
+        <br/>
+        <CustomTable
+          data={data}
+          config={CONFIG}
+          loading={loading}
+          handleSubmit={handleSubmit}
+        />
+      </Paper>
     </div>
   )
 }

@@ -1,0 +1,65 @@
+@import 'scss/config';
+
+.upload {
+  border-radius: var(--border-radius-4);
+  overflow: hidden;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.label {
+  @include flex(center, center);
+  @include transition;
+
+  position: relative;
+  padding-inline: rem(24px);
+  min-width: rem(100px);
+  height: rem(48px);
+  gap: rem(8px);
+  overflow: hidden;
+  text-align: center;
+  background-color: var(--primary);
+  cursor: pointer;
+
+  &:active,
+  &.active {
+    background-color: var(--primary-hover);
+  }
+
+  @include hover {
+
+    &:hover {
+      background-color: var(--primary-hover);
+    }
+  }
+}
+
+.preview {
+  position: relative;
+  width: fit-content;
+  margin-top: rem(24px);
+}
+
+.media {
+  @include size(rem(100px));
+
+  position: relative;
+  border-radius: var(--border-radius-4);
+  background-color: var(--primary);
+  overflow: hidden;
+}
+
+.close {
+  @include size(rem(24px));
+
+  position: absolute;
+  top: rem(-8px);
+  right: rem(-8px);
+  padding: rem(5px);
+  min-width: 0;
+  border-radius: var(--border-radius-2);
+}

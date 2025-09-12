@@ -8,10 +8,6 @@
   "data": [
     {
       "id": 1,
-      "user": {
-        "id": "301",
-        "username": "shop"
-      },
       "currency": "USD",
       "credits": {
         "in": "3000.68",
