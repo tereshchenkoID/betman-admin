@@ -1,0 +1,19 @@
+@use 'scss/config' as *;
+
+.list {
+  display: grid;
+  gap: rem(16px);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 50px 200px 250px 300px 100px 1fr auto;
+  align-items: center;
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(center, center);
+
+  gap: rem(16px);
+}
