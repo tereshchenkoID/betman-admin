@@ -5,17 +5,16 @@ import { useTranslation } from 'react-i18next'
 import Paper from 'components/Paper'
 
 import style from './index.module.scss'
+import Edit from "./Edit";
 import List from "./List";
 
 const Promos = () => {
   const { t } = useTranslation()
   const { promo } = useParams()
 
-  // Создать 2 компонента
-  // 1 - <Edit /> - для редактирования, добавления
-
-  // Edit - плагин для редактирования текста, отдельно форма для загрузки изображений сверху и 1 кнопка сохранить после нажатия уходит изображение и текст.
-  // Изначально загрузка промки для редактирования и надо вставлять данные в поля формы и загрузки. Отдельно поле для категории
+  const handleSubmit = (formData) => {
+    console.log('Submit banner', formData)
+  }
 
   return (
     <div className={style.block}>
@@ -26,7 +25,7 @@ const Promos = () => {
         {
           promo
             ?
-              <div>Add / Edit</div>
+            <Edit bannerId={promo} onSubmit={handleSubmit} />
             :
             <List />
         }

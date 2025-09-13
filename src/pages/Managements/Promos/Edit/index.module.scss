@@ -1,0 +1,17 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: rem(20px);
+}
+
+.form {
+  display: grid;
+  gap: rem(16px);
+}
+
+.actions {
+  margin-top: rem(25px);
+}
+
