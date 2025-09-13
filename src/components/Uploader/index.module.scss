@@ -1,5 +1,9 @@
 @import 'scss/config';
 
+.block {
+  display: grid;
+}
+
 .upload {
   border-radius: var(--border-radius-4);
   overflow: hidden;
@@ -41,16 +45,8 @@
 .preview {
   position: relative;
   width: fit-content;
-  margin-top: rem(24px);
-}
-
-.media {
-  @include size(rem(100px));
-
-  position: relative;
-  border-radius: var(--border-radius-4);
-  background-color: var(--primary);
-  overflow: hidden;
+  margin-top: rem(16px);
+  height: 100%;
 }
 
 .close {

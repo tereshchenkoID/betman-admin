@@ -17,21 +17,11 @@
         "id": "301",
         "username": "Winup shop"
       },
-      "cashier": {
-        "id": "301",
-        "username": "Winup cashier"
-      },
-      "player": {
-        "id": "301",
-        "username": "player_1"
-      },
       "transaction": "0" // 0 - deposit, 1 - withdrawal,
-      "amount": "5000",
-      "currency": "USD",
-      "credits": {
-        "after": "3000.68",
-        "before": "5000.68"
-      }
+      "amount": {
+        "USD": "3000.68"
+      },
+      "currency": "USD"
     }
   ]
 }

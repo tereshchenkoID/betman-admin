@@ -10,6 +10,7 @@ const Uploader = ({
   id = 'upload',
   data,
   onChange,
+  maxHeight = 128,
 }) => {
   const { t } = useTranslation()
   const [blob, setBlob] = useState(null)
@@ -20,7 +21,7 @@ const Uploader = ({
       const reader = new FileReader()
       reader.onloadend = () => {
         const newBlob = new Blob([reader.result], { type: file.type })
-        setBlob(newBlob)
+        setBlob(URL.createObjectURL(newBlob))
         onChange(newBlob)
       }
       reader.readAsArrayBuffer(file)
@@ -33,8 +34,14 @@ const Uploader = ({
   }
 
   useEffect(() => {
-    setBlob(data || null)
-  }, [data])
+    if (data instanceof Blob) {
+      const url = URL.createObjectURL(data)
+      setBlob(url)
+      return () => URL.revokeObjectURL(url)
+    } else {
+      setBlob(null)
+    }
+    }, [data])
 
   return (
     <div className={style.block}>
@@ -53,13 +60,16 @@ const Uploader = ({
       </div>
       {
         blob &&
-        <div className={style.preview}>
-          <div className={style.media}>
-            <img
-              src={URL.createObjectURL(blob)}
-              alt="Preview"
-            />
-          </div>
+        <div
+          className={style.preview}
+          style={{
+            maxHeight: maxHeight,
+          }}
+        >
+          <img
+            src={blob}
+            alt="Preview"
+          />
           <Button
             classes={['primary', style.close]}
             onChange={handleRemove}

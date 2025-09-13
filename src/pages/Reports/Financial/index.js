@@ -14,7 +14,6 @@ import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
 
-
 const CONFIG = [
   { key: 'id', text: 'id', sorted: true },
   { key: 'datetime', text: 'date_hour', data: 'datetime' },
@@ -34,8 +33,11 @@ const TABS = {
   '1': 'currency',
   '2': 'shops',
   '3': 'players',
-  '4': 'users'
+  '4': 'cashier'
 }
+
+const INITIAL_FILTER = { q: '', locked: -1 }
+const INITIAL_SORT = { key: null, direction: null }
 
 const Financial = () => {
   const { t } = useTranslation()

@@ -41,8 +41,34 @@
   "category": "Category",
   "save": "Save",
   "create": "Create",
+  "visibility": "Visibility",
+  "description": "Description",
+  "add": "Add",
+  "upload_file": "Upload image",
+  "text": "Text",
+  "button_label": "Button label",
+  "button_link": "Button link",
+  "preview": "Preview",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back"
+  },
+  "navigation": {
+    "home": "Home",
+    "agents": "Agents",
+    "shops": "Shops",
+    "cashiers": "Cashiers",
+    "players": "Players",
+    "summary": "Summary",
+    "history": "History",
+    "financial": "Financial",
+    "payments": "Payments",
+    "bonuses": "Bonuses",
+    "promos": "Promos",
+    "banners": "Banners",
+    "jackpots": "Jackpots",
+    "login": "Login",
+    "reports": "Reports",
+    "managements": "Managements"
   }
 }
