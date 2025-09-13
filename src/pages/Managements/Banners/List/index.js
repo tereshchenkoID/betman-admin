@@ -34,7 +34,7 @@ const DATA= {
       title: 'Banner 1',
       subtitle: 'Subtitle 1',
       alt: 'Text alt',
-      visibility: 0, // 0 - hide, 1 - show
+      visibility: 0,
       button: {
         text: 'More',
         link: ['casino', 'promotions', '1']
@@ -46,7 +46,7 @@ const DATA= {
       title: 'Banner 2',
       subtitle: 'Subtitle 2',
       alt: 'Text alt',
-      visibility: 1, // 0 - hide, 1 - show
+      visibility: 1,
       button: {
         text: 'More',
         link: ['casino', 'promotions', '1'],
@@ -114,7 +114,7 @@ const List = () => {
   return (
     <>
       <Paper
-        headline={t('banners')}
+        headline={t('navigation.banners')}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}
@@ -187,7 +187,7 @@ const List = () => {
                   {
                     DATA?.data.map((el, idx) =>
                       <div
-                        key={el.id}
+                        key={idx}
                         className={
                           classNames(
                             style.row,
