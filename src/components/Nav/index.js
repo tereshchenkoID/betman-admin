@@ -23,25 +23,27 @@ const Nav = () => {
   const { auth } = useAuth()
   const role = auth ? auth.role : null
 
+  console.log(auth)
+
   const MENU = [
     {
       show: true,
-      type: [ACCOUNT_TYPE.AGENT],
+      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT],
       ...NAVIGATION.agents,
     },
     {
       show: true,
-      type: [ACCOUNT_TYPE.AGENT],
+      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT],
       ...NAVIGATION.shops,
     },
     {
       show: true,
-      type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP],
+      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP],
       ...NAVIGATION.cashiers,
     },
     {
       show: true,
-      type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.CASHIER],
+      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.CASHIER],
       ...NAVIGATION.players,
     },
     {
@@ -50,7 +52,7 @@ const Nav = () => {
       show: true,
       submenu: [
         {
-          type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
           ...NAVIGATION.reports.financial,
         },
         // {
@@ -77,19 +79,19 @@ const Nav = () => {
       show: role === ACCOUNT_TYPE.ADMIN,
       submenu: [
         {
-          type: [ACCOUNT_TYPE.AGENT],
+          type: [ACCOUNT_TYPE.ADMIN],
           ...NAVIGATION.managements.promos,
         },
         {
-          type: [ACCOUNT_TYPE.AGENT],
+          type: [ACCOUNT_TYPE.ADMIN],
           ...NAVIGATION.managements.banners,
         },
         {
-          type: [ACCOUNT_TYPE.AGENT],
+          type: [ACCOUNT_TYPE.ADMIN],
           ...NAVIGATION.managements.jackpots,
         },
         {
-          type: [ACCOUNT_TYPE.AGENT],
+          type: [ACCOUNT_TYPE.ADMIN],
           ...NAVIGATION.managements.bonuses,
         }
       ],

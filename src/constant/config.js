@@ -3,6 +3,10 @@ export const NAVIGATION = {
     text: 'navigation.home',
     link: '/',
   },
+  dashboard: {
+    text: 'navigation.dashboard',
+    link: '/',
+  },
   agents: {
     text: 'navigation.agents',
     icon: 'fa-solid fa-users',

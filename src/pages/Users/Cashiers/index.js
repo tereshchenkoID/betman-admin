@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { ACCOUNT_TYPE, REQUEST_TYPE, service } from 'constant/config'
+import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
@@ -136,7 +136,7 @@ const Cashiers = () => {
   return (
     <>
       <Paper
-        headline={t('cashiers')}
+        headline={t(NAVIGATION.cashiers.text)}
         classes={['sm']}
         quantity={!isSingle && quantity}
         setQuantity={!isSingle && setQuantity}

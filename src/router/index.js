@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
       {
         path: NAVIGATION.agents.link,
         element: (
-          <ProtectedRoute allowedRoles={['0', '1']}>
+          <ProtectedRoute allowedRoles={['-1', '0', '1']}>
             {withSuspense(UsersAgents)}
           </ProtectedRoute>
         ),
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
       {
         path: `${NAVIGATION.shops.link}/:agent?`,
         element: (
-          <ProtectedRoute allowedRoles={['0', '1']}>
+          <ProtectedRoute allowedRoles={['-1', '0', '1']}>
             {withSuspense(UsersShops)}
           </ProtectedRoute>
         ),
@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
       {
         path: `${NAVIGATION.players.link}/:agent?/:shop?`,
         element: (
-          <ProtectedRoute allowedRoles={['0', '1', '2']}>
+          <ProtectedRoute allowedRoles={['-1', '0', '1', '2']}>
             {withSuspense(UsersPlayers)}
           </ProtectedRoute>
         ),
@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
       {
         path: `${NAVIGATION.cashiers.link}/:agent?/:shop?`,
         element: (
-          <ProtectedRoute allowedRoles={['0', '1', '2']}>
+          <ProtectedRoute allowedRoles={['-1', '0', '1', '2']}>
             {withSuspense(UsersCashiers)}
           </ProtectedRoute>
         ),

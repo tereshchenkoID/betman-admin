@@ -13,6 +13,7 @@ import CustomSelect from 'components/Select'
 import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
+import {NAVIGATION} from "../../../constant/config";
 
 const CONFIG = [
   { key: 'id', text: 'id', sorted: true },
@@ -90,7 +91,7 @@ const Financial = () => {
   return (
     <div className={style.block}>
       <Paper
-        headline={t('financial_report')}
+        headline={t(NAVIGATION.reports.financial.text)}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}

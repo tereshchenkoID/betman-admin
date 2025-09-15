@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
-import { REQUEST_TYPE, service } from 'constant/config'
+import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
@@ -122,7 +122,7 @@ const Shops = () => {
   return (
     <>
       <Paper
-        headline={t('shops')}
+        headline={t(NAVIGATION.shops.text)}
         classes={['sm']}
         quantity={!isSingle && quantity}
         setQuantity={!isSingle && setQuantity}

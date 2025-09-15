@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import i18n from 'i18next'
 
-import {NAVIGATION, REQUEST_TYPE} from 'constant/config'
+import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
 import { setToastify } from 'store/actions/toastifyAction'
 import { useApi } from 'hooks/useApi'
@@ -63,7 +63,10 @@ const Login = () => {
 
   return (
     <div className={style.block}>
-      <Paper headline={t('login')} classes={['sm']}>
+      <Paper
+        headline={t(NAVIGATION.login.text)}
+        classes={['sm']}
+      >
         <form className={style.form} onSubmit={handleSubmit}>
           <Field
             type={'number'}

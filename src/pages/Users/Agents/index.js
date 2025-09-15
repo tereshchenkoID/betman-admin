@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import { REQUEST_TYPE, service } from 'constant/config'
+import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
@@ -109,7 +109,7 @@ const Agents = () => {
   return (
     <>
       <Paper
-        headline={t('agents')}
+        headline={t(NAVIGATION.agents.text)}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}
