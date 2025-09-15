@@ -10,7 +10,6 @@ const Confirmed = ({ data }) => {
 
   return (
     <div className={style.block}>
-      <p>{t('confirmed')}?</p>
       <div className={style.actions}>
         <Button
           type={'button'}

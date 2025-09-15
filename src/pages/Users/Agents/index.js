@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import { service } from 'constant/config'
+import { REQUEST_TYPE, service } from 'constant/config'
 
-import { postData } from 'helpers/api'
+import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 import { setAside } from 'store/actions/asideAction'
+import { useApi } from 'hooks/useApi'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -35,37 +36,28 @@ const INITIAL_SORT = { key: null, direction: null }
 const Agents = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const [loading, setLoading] = useState(true)
+  const { request, loading } = useApi()
   const [filter, setFilter] = useState(INITIAL_FILTER)
   const [sort, setSort] = useState(INITIAL_SORT)
   const [data, setData] = useState({})
-  const [quantity, setQuantity] = useState(20)
+  const [quantity, setQuantity] = useState(service.QUANTITY[20])
 
   const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
-    setLoading(true)
 
-    const formData = new FormData()
-    formData.append('page', page)
-    formData.append('quantity', quantity)
-    formData.append('q', nextFilter.q)
-    formData.append('locked', nextFilter.locked)
+    const formData = buildFormData({
+      page,
+      quantity,
+      q: nextFilter.q,
+      locked: nextFilter.locked
+    })
 
     if (nextSort.direction) {
       formData.append('sort_key', nextSort.key)
       formData.append('sort_direction', nextSort.direction)
     }
 
-    try {
-      const json = await postData('agents/', formData)
-      if (json?.code === '0') {
-        setData(json)
-      } else {
-        console.error('Failed to load agents:', json?.message)
-      }
-    } finally {
-      setLoading(false)
-    }
+    setData(await request(REQUEST_TYPE.POST, 'agents/', formData))
   }
 
   const handleResetForm = () => {
@@ -175,29 +167,28 @@ const Agents = () => {
       </Paper>
       <Paper>
         {
-          loading
-            ?
-              <Loader type={'content'} />
-            :
-              <>
-                <Pagination
-                  position='top'
-                  pagination={data.pagination}
-                  handleSubmit={handleSubmit}
-                />
-                <Table
-                  data={data.data}
-                  config={CONFIG}
-                  sort={sort}
-                  handleSortChange={handleSortChange}
-                />
-                <Pagination
-                  position='bottom'
-                  pagination={data.pagination}
-                  handleSubmit={handleSubmit}
-                />
-              </>
+          loading &&
+          <Loader type={'loading'} />
         }
+        <Pagination
+          position='top'
+          pagination={data.pagination}
+          handleSubmit={handleSubmit}
+        />
+        {
+          data?.code &&
+          <Table
+            data={data?.data}
+            config={CONFIG}
+            sort={sort}
+            handleSortChange={handleSortChange}
+          />
+        }
+        <Pagination
+          position='bottom'
+          pagination={data.pagination}
+          handleSubmit={handleSubmit}
+        />
       </Paper>
     </>
   )

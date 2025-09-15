@@ -1,16 +1,16 @@
 import React, { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import { NAVIGATION } from '../constant/config'
+import { NAVIGATION } from 'constant/config'
 
 import App from 'App'
 import Loader from 'components/Loader'
 import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
 
-const Agents = lazy(() => import('pages/Agents'))
-const Shops = lazy(() => import('pages/Shops'))
-const Players = lazy(() => import('pages/Players'))
-const Cashiers = lazy(() => import('pages/Cashiers'))
+const UsersAgents = lazy(() => import('pages/Users/Agents'))
+const UsersShops = lazy(() => import('pages/Users/Shops'))
+const UsersPlayers = lazy(() => import('pages/Users/Players'))
+const UsersCashiers = lazy(() => import('pages/Users/Cashiers'))
 
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
         path: NAVIGATION.agents.link,
         element: (
           <ProtectedRoute allowedRoles={['0', '1']}>
-            {withSuspense(Agents)}
+            {withSuspense(UsersAgents)}
           </ProtectedRoute>
         ),
       },
@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
         path: `${NAVIGATION.shops.link}/:agent?`,
         element: (
           <ProtectedRoute allowedRoles={['0', '1']}>
-            {withSuspense(Shops)}
+            {withSuspense(UsersShops)}
           </ProtectedRoute>
         ),
       },
@@ -60,7 +60,7 @@ export const router = createBrowserRouter([
         path: `${NAVIGATION.players.link}/:agent?/:shop?`,
         element: (
           <ProtectedRoute allowedRoles={['0', '1', '2']}>
-            {withSuspense(Players)}
+            {withSuspense(UsersPlayers)}
           </ProtectedRoute>
         ),
       },
@@ -68,7 +68,7 @@ export const router = createBrowserRouter([
         path: `${NAVIGATION.cashiers.link}/:agent?/:shop?`,
         element: (
           <ProtectedRoute allowedRoles={['0', '1', '2']}>
-            {withSuspense(Cashiers)}
+            {withSuspense(UsersCashiers)}
           </ProtectedRoute>
         ),
       },
@@ -101,19 +101,17 @@ export const router = createBrowserRouter([
         )
       },
       {
-        // path: NAVIGATION.managements.promos.link,
         path: `${NAVIGATION.managements.promos.link}/:promo?`,
         element: (
-          <ProtectedRoute allowedRoles={['-1', '0']}>
+          <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsPromos)}
           </ProtectedRoute>
         )
       },
       {
-        // path: NAVIGATION.managements.banners.link,
         path: `${NAVIGATION.managements.banners.link}/:banner?`,
         element: (
-          <ProtectedRoute allowedRoles={['-1', '0']}>
+          <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsBanners)}
           </ProtectedRoute>
         )
@@ -121,7 +119,7 @@ export const router = createBrowserRouter([
       {
         path: NAVIGATION.managements.jackpots.link,
         element: (
-          <ProtectedRoute allowedRoles={['-1', '0']}>
+          <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsJackpots)}
           </ProtectedRoute>
         )
@@ -129,7 +127,7 @@ export const router = createBrowserRouter([
       {
         path: NAVIGATION.managements.bonuses.link,
         element: (
-          <ProtectedRoute allowedRoles={['-1', '0']}>
+          <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsBonuses)}
           </ProtectedRoute>
         )

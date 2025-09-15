@@ -9,11 +9,11 @@ import { setAside } from 'store/actions/asideAction'
 import Field from 'components/Field'
 import Button from 'components/Button'
 import Toggle from 'components/Toggle'
+import Select from 'components/Select'
 import GeneratePassword from 'modules/GeneratePassword'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
-import Select from "../../../components/Select";
 
 const Agent = ({ data }) => {
   const dispatch = useDispatch()

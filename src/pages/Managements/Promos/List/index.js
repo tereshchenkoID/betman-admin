@@ -70,7 +70,7 @@ const List = ({ onEdit, onDelete }) => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(DATA)
-  const [quantity, setQuantity] = useState(20)
+  const [quantity, setQuantity] = useState(service.QUANTITY[20])
   const [filter, setFilter] = useState(INITIAL_FILTER)
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -122,7 +122,7 @@ const List = ({ onEdit, onDelete }) => {
   return (
     <>
       <Paper
-        headline={t('navigation.banners')}
+        headline={t(NAVIGATION.managements.promos.text)}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}

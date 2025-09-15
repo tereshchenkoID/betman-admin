@@ -1,22 +1,35 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
 import { setAside } from 'store/actions/asideAction'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { service } from 'constant/config'
+import { NAVIGATION, service } from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
 
 import Icon from 'components/Icon'
+import Reference from 'components/Reference'
 import ReadMore from 'modules/ReadMore'
 
 import style from './index.module.scss'
-import Tree from "../../../modules/Tree";
 
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const handleEditAgent = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('edit_agent'),
+          cmd: 'account-agent-edit',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
 
   const handleDeposit = (e, row) => {
     dispatch(
@@ -44,12 +57,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handlePlayerInfo = (e, row) => {
+  const handleShop = (e, row) => {
     dispatch(
       setAside({
         meta: {
-          title: t('player_details'),
-          cmd: 'account-player-info',
+          title: t('new_shop'),
+          cmd: 'account-shop',
           buttonRef: e.target,
         },
         ...row,
@@ -57,12 +70,25 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handlePlayerEdit = (e, row) => {
+  const handlePlayer = (e, row) => {
     dispatch(
       setAside({
         meta: {
-          title: t('player_edit'),
-          cmd: 'account-player-edit',
+          title: t('player'),
+          cmd: 'account-player',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
+
+  const handleCashier = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('new_cashier'),
+          cmd: 'account-cashier',
           buttonRef: e.target,
         },
         ...row,
@@ -92,24 +118,6 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   }
 
   const renderCell = (key, row) => {
-    if (key.indexOf('agent') !== -1) {
-      const keys = key.split('.');
-
-      return <div className={style.wrapper}>
-        {
-          row.tree &&
-          <Tree data={row} />
-        }
-        <p>{keys.reduce((acc, k) => acc?.[k], row)}</p>
-      </div>
-    }
-
-    if (key.indexOf('.') !== -1) {
-      const keys = key.split('.');
-
-      return keys.reduce((acc, k) => acc?.[k], row)
-    }
-
     const value = row[key]
     switch (key) {
       case 'locked':
@@ -146,14 +154,9 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const renderActions = () => (
     <>
       <Icon
-        icon="fa-info-circle"
-        alt="info"
-        action={e => handlePlayerInfo(e)}
-      />
-      <Icon
         icon="fa-pencil"
         alt="edit"
-        action={e => handlePlayerEdit(e)}
+        action={e => handleEditAgent(e, 'edit_agent')}
       />
       <Icon
         icon="fa-lock"
@@ -164,6 +167,21 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         icon="fa-trash"
         alt="delete"
         action={e => handleConfirmed(e, handleDelete, 'delete_confirmed')}
+      />
+    </>
+  )
+
+  const renderLink = (label, value, url, handleAction, type, row) => (
+    <>
+      <Icon
+        icon="fa-add"
+        alt="add"
+        action={e => handleAction(e, row)}
+      />
+      <Reference
+        to={url}
+        classes={['outline']}
+        placeholder={value}
       />
     </>
   )
@@ -196,10 +214,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           )
         }
         <div className={style.cell}>{t('actions')}</div>
+        <div className={style.cell}>{t('shops')}</div>
+        <div className={style.cell}>{t('cashiers')}</div>
+        <div className={style.cell}>{t('players')}</div>
       </div>
-
       {
-        data.length > 0
+        data?.length > 0
           ?
             data.map((row, idx) =>
               <div
@@ -217,6 +237,9 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   )
                 }
                 <div className={style.cell}>{renderActions()}</div>
+                <div className={style.cell}>{renderLink('shops', row.shops, `${NAVIGATION.shops.link}/${row.id}`, handleShop, 2, row)}</div>
+                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.id}`, handleCashier, 4, row)}</div>
+                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.id}`, handlePlayer, 3, row)}</div>
               </div>
             )
           :

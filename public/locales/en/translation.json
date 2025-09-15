@@ -49,9 +49,13 @@
   "button_label": "Button label",
   "button_link": "Button link",
   "preview": "Preview",
+  "new_tab": "Open in new tab",
   "notification": {
     "no_matching_records_found": "No matching records found",
-    "successfully_logged": "Welcome back"
+    "successfully_logged": "Welcome back",
+    "failed_load": "Failed load data",
+    "failed_request": "Failed request",
+    "delete_confirmed": "Are you sure you won't delete?"
   },
   "navigation": {
     "home": "Home",

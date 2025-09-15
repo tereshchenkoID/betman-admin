@@ -1,17 +1,61 @@
 @use 'scss/config' as *;
 
-.block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: rem(20px);
-}
-
-.form {
+.block,
+.form,
+.grid {
   display: grid;
   gap: rem(16px);
 }
 
-.actions {
-  margin-top: rem(25px);
+.block,
+.grid {
+  grid-template-columns: repeat(2, 1fr);
 }
 
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.text {
+  margin-bottom: rem(4px);
+}
+
+
+.block {
+
+  :global {
+
+    .tox {
+      border-radius: var(--border-radius-4);
+      color: var(--text-for-material);
+
+      &.tox-tinymce {
+        border: 0;
+      }
+
+      .tox-statusbar {
+        display: none;
+      }
+
+      .tox-edit-area {
+        &__iframe {
+          background-color: var(--material-hover);
+        }
+      }
+
+      .tox-editor-header {
+        background-color: transparent!important;
+      }
+
+      .tox-toolbar {
+        background: var(--material-hover)!important;
+
+        &__primary {
+          background: none;
+        }
+      }
+    }
+  }
+}

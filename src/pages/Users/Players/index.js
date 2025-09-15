@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { service } from 'constant/config'
 
+import { ACCOUNT_TYPE, REQUEST_TYPE, service } from 'constant/config'
+
+import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
-import { postData } from 'helpers/api'
+import { useApi } from 'hooks/useApi'
+import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 
 import Paper from 'components/Paper'
@@ -23,35 +26,38 @@ const CONFIG = [
   { key: 'agent.username', text: 'agent' },
   { key: 'username', text: 'username', sorted: true },
   { key: 'full_name', text: 'full_name', sorted: true },
+  { key: 'phone', text: 'phone' },
+  { key: 'email', text: 'email' },
   { key: 'credits', text: 'credits' },
   { key: 'currency', text: 'currency' },
   { key: 'locked', text: 'locked' },
   { key: 'date_created', text: 'date_created', sorted: true }
 ]
 
-const Shops = () => {
+const Players = () => {
   const { t } = useTranslation()
-  const { agent } = useParams()
+  const { auth } = useAuth()
+  const { agent, shop } = useParams()
+  const { request, loading } = useApi()
 
-  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '' }
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '', shop: Number(shop) || '' }
   const INITIAL_SORT = { key: null, direction: null }
 
-  const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState(INITIAL_FILTER)
-  const [data, setData] = useState({})
   const [sort, setSort] = useState(INITIAL_SORT)
-  const [quantity, setQuantity] = useState(20)
-  const isSingle = agent
+  const [data, setData] = useState({})
+  const [quantity, setQuantity] = useState(service.QUANTITY[20])
+  const isSingle = agent || shop
 
   const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
-    setLoading(true)
 
-    const formData = new FormData()
-    formData.append('page', page)
-    formData.append('quantity', quantity)
-    formData.append('q', nextFilter.q)
-    formData.append('locked', nextFilter.locked)
+    const formData = buildFormData({
+      page,
+      quantity,
+      q: nextFilter.q,
+      locked: nextFilter.locked
+    })
 
     if (nextSort.direction) {
       formData.append('sort_key', nextSort.key)
@@ -62,16 +68,11 @@ const Shops = () => {
       formData.append('agent', agent)
     }
 
-    try {
-      const json = await postData('shops/', formData)
-      if (json?.code === '0') {
-        setData(json)
-      } else {
-        console.error('Failed to load shops:', json?.message)
-      }
-    } finally {
-      setLoading(false)
+    if (shop) {
+      formData.append('shop', shop)
     }
+
+    setData(await request(REQUEST_TYPE.POST, 'players/', formData))
   }
 
   const handleResetForm = () => {
@@ -122,6 +123,13 @@ const Shops = () => {
     [{ value: -1, label: t('all') }]
   )
 
+  const { options: shopsOptions } = useOptions(
+    `shops_tree/${filter.agent}`,
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }],
+    Boolean(filter.agent)
+  )
+
   useEffect(() => {
     handleSubmit(null, 0);
   }, [quantity])
@@ -129,7 +137,7 @@ const Shops = () => {
   return (
     <>
       <Paper
-        headline={isSingle ? `${t('shop')}: ${agent}` : t('shops')}
+        headline={t('players')}
         classes={['sm']}
         quantity={!isSingle && quantity}
         setQuantity={!isSingle && setQuantity}
@@ -144,12 +152,26 @@ const Shops = () => {
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
             />
-            <CustomSelect
-              placeholder={t('agents')}
-              options={agentsOptions}
-              data={filter.agent}
-              onChange={value => handlePropsChange('agent', value)}
-            />
+            {
+              auth?.role === ACCOUNT_TYPE.AGENT &&
+              <>
+                <CustomSelect
+                  placeholder={t('agents')}
+                  options={agentsOptions}
+                  data={filter.agent}
+                  onChange={value => handlePropsChange('agent', value)}
+                />
+                {
+                  filter.agent !== '' &&
+                  <CustomSelect
+                    placeholder={t('shops')}
+                    options={shopsOptions}
+                    data={filter.shop}
+                    onChange={value => handlePropsChange('shop', value)}
+                  />
+                }
+              </>
+            }
             <CustomSelect
               placeholder={t('locked')}
               options={[
@@ -174,40 +196,39 @@ const Shops = () => {
           </div>
         </form>
       </Paper>
-      <Paper>
+      <Paper classes={[style.paper]}>
         {
-          loading
-            ?
-              <Loader type={'content'} />
-            :
-              <>
-                {
-                  !isSingle &&
-                  <Pagination
-                    position='top'
-                    pagination={data.pagination}
-                    handleSubmit={handleSubmit}
-                  />
-                }
-                <Table
-                  data={data.data}
-                  config={CONFIG}
-                  sort={sort}
-                  handleSortChange={handleSortChange}
-                />
-                {
-                  !isSingle &&
-                  <Pagination
-                    position='bottom'
-                    pagination={data.pagination}
-                    handleSubmit={handleSubmit}
-                  />
-                }
-              </>
+          loading &&
+          <Loader type={'loading'} />
+        }
+        {
+          !isSingle &&
+          <Pagination
+            position='top'
+            pagination={data.pagination}
+            handleSubmit={handleSubmit}
+          />
+        }
+        {
+          data?.code &&
+          <Table
+            data={data.data}
+            config={CONFIG}
+            sort={sort}
+            handleSortChange={handleSortChange}
+          />
+        }
+        {
+          !isSingle &&
+          <Pagination
+            position='bottom'
+            pagination={data.pagination}
+            handleSubmit={handleSubmit}
+          />
         }
       </Paper>
     </>
   )
 }
 
-export default Shops
+export default Players

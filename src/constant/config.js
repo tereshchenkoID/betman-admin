@@ -1,76 +1,76 @@
 export const NAVIGATION = {
   home: {
-    text: 'home',
+    text: 'navigation.home',
     link: '/',
   },
   agents: {
-    text: 'agents',
+    text: 'navigation.agents',
     icon: 'fa-solid fa-users',
-    link: '/agents',
+    link: '/users/agents',
   },
   shops: {
-    text: 'shops',
+    text: 'navigation.shops',
     icon: 'fa-solid fa-shop',
-    link: '/shops',
+    link: '/users/shops',
   },
   cashiers: {
-    text: 'cashiers',
+    text: 'navigation.cashiers',
     icon: 'fa-solid fa-cash-register',
-    link: '/cashiers',
+    link: '/users/cashiers',
   },
   players: {
-    text: 'players',
+    text: 'navigation.players',
     icon: 'fa-solid fa-users',
-    link: '/players',
+    link: '/users/players',
   },
 
   reports: {
-    text: 'reports',
+    text: 'navigation.reports',
     icon: 'fa-solid fa-file',
     summary: {
-      text: 'summary',
+      text: 'navigation.summary',
       link: '/reports/summary',
     },
     history: {
-      text: 'history',
+      text: 'navigation.history',
       link: '/reports/history',
     },
     financial: {
-      text: 'financial',
+      text: 'navigation.financial',
       link: '/reports/financial',
     },
     payments: {
-      text: 'payments',
+      text: 'navigation.payments',
       link: '/reports/payments',
     },
     bonuses: {
-      text: 'bonuses',
+      text: 'navigation.bonuses',
       link: '/reports/bonuses',
     },
   },
   managements: {
-    text: 'managements',
+    text: 'navigation.managements',
     icon: 'fa-solid fa-bars-progress',
     promos: {
-      text: 'promos',
+      text: 'navigation.promos',
       link: '/managements/promos'
     },
     banners: {
-      text: 'banners',
+      text: 'navigation.banners',
       link: '/managements/banners'
     },
     jackpots: {
-      text: 'jackpots',
+      text: 'navigation.jackpots',
       link: '/managements/jackpots'
     },
     bonuses: {
-      text: 'bonuses',
+      text: 'navigation.bonuses',
       link: '/managements/bonuses'
     },
   },
 
   login: {
-    text: 'login',
+    text: 'navigation.login',
     link: '/login'
   }
 };
@@ -83,10 +83,21 @@ export const ACCOUNT_TYPE = {
   'PLAYER':   '3'
 }
 
+export const REQUEST_TYPE = {
+  'GET':      'GET',
+  'POST':     'POST',
+}
+
 export const service = {
   YES_NO: {
     0: 'no',
     1: 'yes',
+  },
+
+  QUANTITY: {
+    20: 20,
+    50: 50,
+    100: 100,
   },
 
   ENABLE_DISABLE: {

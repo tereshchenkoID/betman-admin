@@ -9,7 +9,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(100px) rem(200px) repeat(3, 1fr) rem(140px);
+  grid-template-columns: rem(80px) rem(200px) repeat(4, 1fr) rem(140px);
   align-items: center;
 
   &:first-child {
@@ -28,7 +28,13 @@
   }
 
   &.hidden {
-    opacity: 0.5;
+
+    .cell {
+
+      &:not(:last-child) {
+        opacity: 0.5;
+      }
+    }
   }
 }
 
@@ -47,4 +53,15 @@
   &:not(:last-child) {
     margin-bottom: rem(16px);
   }
+}
+
+.empty {
+  padding: rem(12px);
+  text-align: center;
+}
+
+.picture {
+  @include size(rem(100px), rem(40px));
+
+  background-color: var(--material-hover);
 }

@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux'
 
 import classNames from 'classnames'
 
+import { service } from 'constant/config'
+
 import { setAside } from 'store/actions/asideAction'
+import { convertOptions } from 'helpers/convertOptions'
 
 import Select from 'components/Select'
 import Icon from 'components/Icon'
@@ -49,11 +52,7 @@ const Paper = ({
               <div className={style.option}>
                 <Select
                   placeholder={t('rows')}
-                  options={[
-                    { value: 20, label: '20' },
-                    { value: 50, label: '50' },
-                    { value: 100, label: '100' },
-                  ]}
+                  options={convertOptions(service.QUANTITY)}
                   data={quantity}
                   onChange={value => setQuantity(value)}
                 />

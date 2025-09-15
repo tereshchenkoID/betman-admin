@@ -2,13 +2,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { setAside } from 'store/actions/asideAction'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { service } from 'constant/config'
+import { NAVIGATION, service } from 'constant/config'
 
 import { getDate } from 'helpers/getDate'
 
 import Icon from 'components/Icon'
+import Reference from 'components/Reference'
 import ReadMore from 'modules/ReadMore'
 import Tree from 'modules/Tree'
 
@@ -44,12 +45,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handleCashierEdit = (e, row) => {
+  const handlePlayer = (e, row) => {
     dispatch(
       setAside({
         meta: {
-          title: t('cashier_edit'),
-          cmd: 'account-cashier-edit',
+          title: t('player'),
+          cmd: 'account-player',
           buttonRef: e.target,
         },
         ...row,
@@ -57,56 +58,30 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const renderCell = (key, row) => {
-    if (key.indexOf('agent') !== -1) {
-      const keys = key.split('.');
+  const handleCashier = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('new_cashier'),
+          cmd: 'account-cashier',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
 
-      return <div className={style.wrapper}>
-        {
-          row.tree &&
-          <Tree data={row} />
-        }
-        <p>{keys.reduce((acc, k) => acc?.[k], row)}</p>
-      </div>
-    }
-
-    if (key.indexOf('.') !== -1) {
-      const keys = key.split('.');
-
-      return keys.reduce((acc, k) => acc?.[k], row)
-    }
-
-    const value = row[key]
-    switch (key) {
-      case 'locked':
-        return t(service.YES_NO[value])
-      case 'date_created':
-        return getDate(value, 'datetime')
-      case 'credits':
-        return value
-          ?
-            <div>
-              <ReadMore data={value} />
-              <div className={style.actions}>
-                <Icon
-                  classes={['success']}
-                  icon='fa-plus'
-                  alt='deposit'
-                  action={e => handleDeposit(e, row)}
-                />
-                <Icon
-                  classes={['warning']}
-                  icon='fa-minus'
-                  alt='withdraw'
-                  action={e => handleWithdrawal(e, row)}
-                />
-              </div>
-            </div>
-          :
-            null
-      default:
-        return value
-    }
+  const handleShopEdit = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('shop_edit'),
+          cmd: 'account-shop-edit',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
   }
 
   const handleConfirmed = (e, onChange, title) => {
@@ -130,22 +105,83 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     alert(`Delete ${e}`)
   }
 
+  const renderCell = (key, row) => {
+    if (key.indexOf('.') !== -1) {
+      const keys = key.split('.');
+
+      return <div className={style.wrapper}>
+                {
+                  row.tree &&
+                 <Tree data={row} />
+                }
+                <p>{keys.reduce((acc, k) => acc?.[k], row)}</p>
+             </div>
+    }
+
+    const value = row[key]
+    switch (key) {
+      case 'locked':
+        return t(service.YES_NO[value])
+      case 'date_created':
+        return getDate(value, 'datetime')
+      case 'credits':
+        return value
+          ?
+            <div>
+              <ReadMore data={value} />
+              <div className={style.actions}>
+                <Icon
+                  classes={['success']}
+                  icon="fa-plus"
+                  alt="deposit"
+                  action={e => handleDeposit(e, row)}
+                />
+                <Icon
+                  classes={['warning']}
+                  icon="fa-minus"
+                  alt="withdraw"
+                  action={e => handleWithdrawal(e, row)}
+                />
+              </div>
+            </div>
+          :
+            null
+      default:
+        return value
+    }
+  }
+
   const renderActions = () => (
     <>
       <Icon
-        icon='fa-pencil'
-        alt='edit'
-        action={e => handleCashierEdit(e)}
+        icon="fa-pencil"
+        alt="edit"
+        action={e => handleShopEdit(e)}
       />
       <Icon
-        icon='fa-lock'
-        alt='locked'
+        icon="fa-lock"
+        alt="locked"
         action={e => handleConfirmed(e, handleLocked, 'locked_confirmed')}
       />
       <Icon
-        icon='fa-trash'
-        alt='delete'
+        icon="fa-trash"
+        alt="delete"
         action={e => handleConfirmed(e, handleDelete, 'delete_confirmed')}
+      />
+    </>
+  )
+
+  const renderLink = (label, value, url, handleAction, type, row) => (
+    <>
+      <Icon
+        icon="fa-add"
+        alt="add"
+        action={e => handleAction(e, row)}
+      />
+      <Reference
+        to={url}
+        classes={['outline']}
+        placeholder={value}
       />
     </>
   )
@@ -178,10 +214,11 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           )
         }
         <div className={style.cell}>{t('actions')}</div>
+        <div className={style.cell}>{t('cashiers')}</div>
+        <div className={style.cell}>{t('players')}</div>
       </div>
-
       {
-        data.length > 0
+        data?.length > 0
           ?
             data.map((row, idx) =>
               <div
@@ -199,6 +236,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                   )
                 }
                 <div className={style.cell}>{renderActions()}</div>
+                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.agent.id}/${row.id}`, handleCashier, 4, row)}</div>
+                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.agent.id}/${row.id}`, handlePlayer, 3, row)}</div>
               </div>
             )
           :

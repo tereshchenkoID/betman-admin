@@ -1,0 +1,22 @@
+@import 'scss/config';
+
+.block {
+  @include flex($align-items: center);
+
+  gap: rem(8px);
+  margin-bottom: rem(16px);
+  font-size: rem(14px);
+}
+
+.link {
+  @include hover {
+
+    &:hover {
+      color: var(--link-hover);
+    }
+  }
+}
+
+.text {
+  opacity: 0.3;
+}

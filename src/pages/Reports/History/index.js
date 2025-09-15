@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { service } from 'constant/config'
+
 import { getDate } from 'helpers/getDate'
 import { getData } from "helpers/api"
 
@@ -8,8 +10,8 @@ import Debug from 'modules/Debug'
 import Button from 'components/Button'
 import Paper from 'components/Paper'
 import Field from 'components/Field'
-import CustomSelect from "components/Select"
-import CustomTable from "modules/CustomTable"
+import CustomSelect from 'components/Select'
+import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
 
@@ -37,7 +39,7 @@ const History = () => {
   }
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState({})
-  const [quantity, setQuantity] = useState(20)
+  const [quantity, setQuantity] = useState(service.QUANTITY[20])
   const [filter, setFilter] = useState(initialValue)
 
   const handlePropsChange = (field, value) => {

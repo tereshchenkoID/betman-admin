@@ -74,8 +74,7 @@ const Nav = () => {
     {
       text: NAVIGATION.managements.text,
       icon: NAVIGATION.managements.icon,
-      show: true,
-      // show: role === ACCOUNT_TYPE.ADMIN,
+      show: role === ACCOUNT_TYPE.ADMIN,
       submenu: [
         {
           type: [ACCOUNT_TYPE.AGENT],
@@ -186,7 +185,7 @@ const Nav = () => {
                             icon={el.icon}
                             className={style.icon}
                           />
-                          <span>{t(`navigation.${el.text}`)}</span>
+                          <span>{t(el.text)}</span>
                           <FontAwesomeIcon
                             icon="fa-solid fa-angle-down"
                             className={style.arrow}
@@ -219,7 +218,7 @@ const Nav = () => {
                                     className={style.icon}
                                   />
                                 }
-                                <span>{t(`navigation.${el_s.text}`)}</span>
+                                <span>{t(el_s.text)}</span>
                               </Link>
                             )
                           }

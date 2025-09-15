@@ -11,7 +11,7 @@ const Pagination = ({
   handleSubmit
 }) => {
 
-  if(pagination.pages === '0') return
+  if(!pagination || pagination?.pages === '0') return
 
   return (
     <div

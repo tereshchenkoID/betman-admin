@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import i18n from 'i18next'
 
-import { NAVIGATION } from 'constant/config'
+import {NAVIGATION, REQUEST_TYPE} from 'constant/config'
 
 import { setToastify } from 'store/actions/toastifyAction'
-import { postData } from 'helpers/api'
+import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
+import { buildFormData } from 'helpers/buildFormData'
 
 import Field from 'components/Field'
 import Paper from 'components/Paper'
@@ -17,18 +18,16 @@ import Password from 'components/Password'
 
 import style from './index.module.scss'
 
+const INITIAL_FILTER = { username: '', password: '', role: '0' }
+
 const Login = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const { initAuth } = useAuth()
-  const initialValue = {
-    username: '',
-    password: '',
-    role: '0'
-  }
+  const { request } = useApi()
   const navigate = useNavigate()
 
-  const [filter, setFilter] = useState(initialValue)
+  const [filter, setFilter] = useState(INITIAL_FILTER)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -38,39 +37,28 @@ const Login = () => {
   }
 
   const handleResetForm = () => {
-    setFilter(initialValue)
+    setFilter(INITIAL_FILTER)
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const formData = new FormData()
-    formData.append('username', filter.username)
-    formData.append('password', filter.password)
-    formData.append('role', filter.role)
+    const formData = buildFormData(filter)
+    const json = await request(REQUEST_TYPE.POST, 'login/', formData)
 
-    postData('login/', formData).then(json => {
-      if (json.code === '0') {
-        initAuth(json)
-        sessionStorage.setItem('authToken', JSON.stringify(json))
-        sessionStorage.setItem('language', JSON.stringify(json?.language))
-        i18n.changeLanguage(json?.language?.code)
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: `${t('successfully_logged')} ${json?.username}!`
-          }),
-        )
-        navigate(NAVIGATION.home.link)
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (json.id) {
+      initAuth(json)
+      sessionStorage.setItem('authToken', JSON.stringify(json))
+      sessionStorage.setItem('language', JSON.stringify(json?.language))
+      i18n.changeLanguage(json?.language?.code)
+      dispatch(
+        setToastify({
+          type: 'success',
+          text: `${t('successfully_logged')} ${json?.username}!`
+        }),
+      )
+      navigate(NAVIGATION.home.link)
+    }
   }
 
   return (

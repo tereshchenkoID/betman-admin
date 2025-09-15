@@ -51,7 +51,6 @@ const Field = ({
           {isRequired && <span>*</span>}
         </label>
       }
-
       {
         data &&
         <button
