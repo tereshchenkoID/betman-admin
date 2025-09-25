@@ -8,6 +8,7 @@ import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 import { buildFormData } from 'helpers/buildFormData'
 import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
+import { useFilterState } from 'hooks/useFilterState'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -49,28 +50,17 @@ const Edit = ({ id }) => {
     }, {}),
   }
 
-  const [filter, setFilter] = useState(INITIAL_FILTER)
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
   const [active, setActive] = useState(auth?.language.code)
   const currentTranslation = filter?.translations?.[active]
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => {
-      const keys = fieldName.split('.')
-      let updated = { ...prevData }
-      let obj = updated
-
-      for (let i = 0; i < keys.length - 1; i++) {
-        obj[keys[i]] = { ...obj[keys[i]] }
-        obj = obj[keys[i]]
-      }
-
-      obj[keys[keys.length - 1]] = fieldValue
-      return updated
-    })
-  }
-
   const handleResetForm = () => {
-    if(!isAdd) handleLoad()
+    if(isAdd) {
+      setFilter(INITIAL_FILTER)
+    }
+    else {
+      handleLoad()
+    }
   }
 
   const handleSubmit = async (e) => {

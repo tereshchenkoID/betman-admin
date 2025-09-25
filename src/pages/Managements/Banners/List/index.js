@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useFilterState } from 'hooks/useFilterState'
 import { setAside } from 'store/actions/asideAction'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
@@ -33,14 +34,8 @@ const List = () => {
   const { request, loading } = useApi()
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(service.QUANTITY[20])
-  const [filter, setFilter] = useState(INITIAL_FILTER)
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const handleResetForm = () => {
     setFilter(INITIAL_FILTER)

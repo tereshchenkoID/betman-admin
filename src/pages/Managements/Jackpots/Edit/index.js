@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
-import { buildFormData } from 'helpers/buildFormData'
+import { useFilterState } from 'hooks/useFilterState'
 import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
+import { buildFormData } from 'helpers/buildFormData'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -54,35 +55,18 @@ const Edit = ({ id }) => {
     }, {}),
   }
 
-  const [filter, setFilter] = useState(INITIAL_FILTER)
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
+
   const [active, setActive] = useState(auth?.language.code)
   const currentTranslation = filter?.translations?.[active]
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => {
-      const updated = structuredClone(prevData)
-      const keys = fieldName
-        .replace(/\[(\d+)\]/g, '.$1')
-        .split('.')
-
-      let obj = updated
-      for (let i = 0; i < keys.length - 1; i++) {
-        const key = keys[i]
-        if (Array.isArray(obj[key])) {
-          obj[key] = [...obj[key]]
-        } else {
-          obj[key] = { ...obj[key] }
-        }
-        obj = obj[key]
-      }
-
-      obj[keys[keys.length - 1]] = fieldValue
-      return updated
-    })
-  }
-
   const handleResetForm = () => {
-    if(!isAdd) handleLoad()
+    if(isAdd) {
+      setFilter(INITIAL_FILTER)
+    }
+    else {
+      handleLoad()
+    }
   }
 
   const handleSubmit = async (e) => {

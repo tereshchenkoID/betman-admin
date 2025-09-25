@@ -125,6 +125,7 @@
   "first_deposit": "First deposit",
   "any_deposit": "Any deposit",
   "lose": "Lose",
+  "triggers": "Triggers",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back",

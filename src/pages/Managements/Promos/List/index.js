@@ -5,9 +5,11 @@ import { useDispatch } from 'react-redux'
 import classNames from 'classnames'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
+
+import { useFilterState } from 'hooks/useFilterState'
+import { useApi } from 'hooks/useApi'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
-import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
 import { setAside } from 'store/actions/asideAction'
 
@@ -33,14 +35,8 @@ const List = ({ onEdit, onDelete }) => {
   const { request, loading } = useApi()
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(service.QUANTITY[20])
-  const [filter, setFilter] = useState(INITIAL_FILTER)
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const handleResetForm = () => {
     setFilter(INITIAL_FILTER)
