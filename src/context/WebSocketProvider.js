@@ -30,7 +30,15 @@ export const WebSocketProvider = ({ children }) => {
       }
 
       if (cmd === 'login' && topic === 'account') {
-        dispatch(setAuth(data))
+        // const { language, ...rest } = data
+        // console.log(rest)
+        // dispatch(setAuth(rest))
+
+        dispatch(prev => ({
+          ...prev,
+          ...data,
+          language: prev.language,
+        }))
       }
 
       if (cmd === 'set-credits' && topic === 'account') {

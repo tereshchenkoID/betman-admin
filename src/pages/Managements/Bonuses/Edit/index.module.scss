@@ -1,0 +1,27 @@
+@use 'scss/config' as *;
+
+.block,
+.form,
+.column,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.form,
+.grid {
+  grid-template-columns: repeat(2, 1fr);
+  align-items: flex-start;
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.list {
+  @include flex($wrap: wrap);
+
+  gap: rem(8px);
+}

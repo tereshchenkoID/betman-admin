@@ -11,8 +11,9 @@ const Tab = ({ data, action, options }) => {
   return (
     <div className={style.block}>
       {
-        options.map(([key, value]) =>
+        options?.map(([key, value]) =>
           <button
+            type={'button'}
             key={key}
             className={
               classNames(
@@ -21,6 +22,7 @@ const Tab = ({ data, action, options }) => {
               )
             }
             onClick={() => action(key)}
+            aria-label={t(value)}
           >
             {t(value)}
           </button>

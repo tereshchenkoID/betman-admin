@@ -60,6 +60,7 @@
 .button {
   @include size(100%, rem(24px));
 
+  margin-top: auto;
   flex-shrink: 0;
   padding-inline: rem(12px);
   border-radius: rem(1000px);

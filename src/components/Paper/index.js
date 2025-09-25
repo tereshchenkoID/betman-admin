@@ -52,7 +52,7 @@ const Paper = ({
               <div className={style.option}>
                 <Select
                   placeholder={t('rows')}
-                  options={convertOptions(service.QUANTITY)}
+                  options={convertOptions(service.QUANTITY, t)}
                   data={quantity}
                   onChange={value => setQuantity(value)}
                 />

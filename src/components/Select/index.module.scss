@@ -35,5 +35,10 @@
   color: var(--text-for-material);
   font-size: rem(10px);
   pointer-events: none;
+
+  span {
+    margin-left: rem(3px);
+    color: var(--red);
+  }
 }
 

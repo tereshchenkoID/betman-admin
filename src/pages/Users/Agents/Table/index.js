@@ -22,7 +22,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     dispatch(
       setAside({
         meta: {
-          title: t('edit_agent'),
+          title: t('edit'),
           cmd: 'account-agent-edit',
           buttonRef: e.target,
         },
@@ -161,12 +161,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       <Icon
         icon="fa-lock"
         alt="locked"
-        action={e => handleConfirmed(e, handleLocked, 'locked_confirmed')}
+        action={e => handleConfirmed(e, handleLocked, 'notification.locked_confirmed')}
       />
       <Icon
         icon="fa-trash"
         alt="delete"
-        action={e => handleConfirmed(e, handleDelete, 'delete_confirmed')}
+        action={e => handleConfirmed(e, handleDelete, 'notification.delete_confirmed')}
       />
     </>
   )

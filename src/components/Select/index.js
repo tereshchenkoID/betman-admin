@@ -11,7 +11,8 @@ const CustomSelect = ({
   options,
   data,
   onChange,
-  classes = []
+  classes = [],
+  isRequired= false
 }) => {
   const { t } = useTranslation()
   const selectRef = useRef()
@@ -46,7 +47,13 @@ const CustomSelect = ({
         classNamePrefix="react-select"
         isClearable
       />
-      {placeholder && <label className={style.label}>{placeholder}</label>}
+      {
+        placeholder &&
+        <label className={style.label}>
+          {placeholder}
+          {isRequired && <span>*</span>}
+        </label>
+      }
     </div>
   )
 }

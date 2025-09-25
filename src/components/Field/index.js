@@ -16,6 +16,7 @@ const Field = ({
   min = null,
   max = null,
 }) => {
+  const isDate = type.indexOf('date') !== -1
   const inputRef = useRef(null)
 
   const onFocus = () => {
@@ -52,17 +53,23 @@ const Field = ({
         </label>
       }
       {
-        data &&
-        <button
-          type="button"
-          className={style.remove}
-          aria-label={'Remove'}
-          onClick={() => {
-            onChange('')
-          }}
-        >
-          <FontAwesomeIcon icon="fa-solid fa-xmark" />
-        </button>
+        isDate
+          ?
+            <span className={style.remove}>
+              <FontAwesomeIcon icon="fa-regular fa-calendar-days" />
+            </span>
+          :
+            data &&
+              <button
+                type="button"
+                className={style.remove}
+                aria-label={'Remove'}
+                onClick={() => {
+                  onChange('')
+                }}
+              >
+                <FontAwesomeIcon icon="fa-solid fa-xmark" />
+              </button>
       }
     </div>
   )

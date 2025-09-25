@@ -11,5 +11,6 @@ export const getDate = (date, type) => {
   if (type === 'datetime-local') return `${year}-${month}-${day}T${hours}:${minutes}`
   if (type === 'time-local') return `${hours}:${minutes}:${seconds}`
   if (type === 'datetime') return `${year}-${month}-${day} ${hours}:${minutes}`
+  if (type === 'date') return `${year}-${month}-${day}`
   return `${day}-${month}-${year}`
 }

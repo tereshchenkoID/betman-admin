@@ -117,7 +117,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: NAVIGATION.managements.jackpots.link,
+        path: `${NAVIGATION.managements.jackpots.link}/:jackpot?`,
         element: (
           <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsJackpots)}
@@ -125,7 +125,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: NAVIGATION.managements.bonuses.link,
+        path: `${NAVIGATION.managements.bonuses.link}/:bonus?`,
         element: (
           <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsBonuses)}

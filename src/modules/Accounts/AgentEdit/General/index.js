@@ -1,35 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useOptions } from 'hooks/useOptions'
 
-import { useAuth } from 'hooks/useAuth'
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
-
-import Button from 'components/Button'
 import Toggle from 'components/Toggle'
-import Password from 'components/Password'
 import Field from 'components/Field'
-import GeneratePassword from 'modules/GeneratePassword'
-import Debug from 'modules/Debug'
+import CustomSelect from 'components/Select'
 
-import style from './index.module.scss'
-
-const General = ({ data }) => {
-  const dispatch = useDispatch()
+const General = ({ filter, setFilter }) => {
   const { t } = useTranslation()
-  const { auth } = useAuth()
-
-  const initialValue = {
-    id: auth.id,
-    username: auth.username,
-    old_password: '',
-    new_password: '',
-    confirm_password: '',
-    short_form: '1'
-  }
-
-  const [filter, setFilter] = useState(initialValue)
+  const { settings } = useSelector(state => state.settings)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -38,81 +18,75 @@ const General = ({ data }) => {
     }))
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
-  }
-
-  // TODO change url
-  const handleSubmit = e => {
-    e.preventDefault()
-    const formData = new FormData()
-
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
-
-    postData('general', formData).then(json => {
-      if (json.code === '0') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        )
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
-  }
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
 
   return (
     <>
-      <Debug data={filter} />
-      <form className={style.block} onSubmit={handleSubmit}>
-        <Field
-          type={'text'}
-          placeholder={t('username')}
-          data={filter.username}
-          classes={['disabled']}
-          isRequired={true}
-        />
-        <Password
-          placeholder={t('old_password')}
-          data={filter.old_password}
-          onChange={value => handlePropsChange('old_password', value)}
-          isRequired={true}
-        />
-        <GeneratePassword
-          list={['new_password', 'confirm_password']}
-          data={filter}
-          action={setFilter}
-          filter={filter}
-          handlePropsChange={handlePropsChange}
-        />
-        <Toggle
-          placeholder={t('short_form')}
-          data={filter.short_form}
-          onChange={(e) => handlePropsChange('short_form', e)}
-        />
-        <div className={style.actions}>
-          <Button
-            type={'submit'}
-            classes={['primary']}
-            placeholder={t('save')}
-          />
-          <Button
-            type={'reset'}
-            placeholder={t('cancel')}
-            onChange={handleResetForm}
-          />
-        </div>
-      </form>
+      <Field
+        type={'text'}
+        placeholder={t('name')}
+        data={filter?.name}
+        onChange={(e) => handlePropsChange('name', e)}
+        isRequired={true}
+      />
+      <CustomSelect
+        placeholder={t('agents')}
+        options={agentsOptions}
+        data={filter?.parent}
+        onChange={value => handlePropsChange('agent', value)}
+      />
+      <Field
+        type={'text'}
+        placeholder={t('username')}
+        data={filter?.username}
+        onChange={(e) => handlePropsChange('username', e)}
+        isRequired={true}
+      />
+      <CustomSelect
+        placeholder={t('currency')}
+        options={[
+          { value: -1, label: t('all') },
+          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+            value: key,
+            label: el.text
+          }))
+        ]}
+        data={filter?.currency}
+        onChange={value => handlePropsChange('currency', value)}
+        isRequired={true}
+      />
+      <Toggle
+        placeholder={t('unlimited_balance')}
+        data={filter?.unlimited_balance}
+        onChange={(e) => handlePropsChange('unlimited_balance', e)}
+      />
+      <Toggle
+        placeholder={t('create_subagents')}
+        data={filter?.create_subagents}
+        onChange={(e) => handlePropsChange('create_subagents', e)}
+      />
+      <Field
+        type={'text'}
+        placeholder={t('contact')}
+        data={filter?.contact}
+        onChange={(e) => handlePropsChange('contact', e)}
+      />
+      <Field
+        type={'email'}
+        placeholder={t('email')}
+        data={filter?.email}
+        onChange={(e) => handlePropsChange('email', e)}
+      />
+      <Field
+        type={'text'}
+        placeholder={t('phone')}
+        data={filter?.phone}
+        onChange={(e) => handlePropsChange('phone', e)}
+      />
     </>
   )
 }

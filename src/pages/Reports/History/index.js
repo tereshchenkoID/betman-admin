@@ -114,8 +114,8 @@ const History = () => {
               <CustomSelect
                 placeholder={t('game')}
                 options={[
-                  { label: 'Game 1', value: 'Game 1' },
-                  { label: 'Game 2', value: 'Game 2' },
+                  { label: 'Games 1', value: 'Games 1' },
+                  { label: 'Games 2', value: 'Games 2' },
                 ]}
                 data={filter.game}
                 onChange={value => handlePropsChange('game', value)}

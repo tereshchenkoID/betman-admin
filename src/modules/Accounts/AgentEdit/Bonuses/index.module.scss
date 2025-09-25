@@ -2,72 +2,16 @@
 
 .block {
   display: grid;
-  gap: rem(16px);
+  gap: rem(2px);
 }
 
-.header {
-  @include flex(null, center);
-
+.row {
+  display: grid;
+  grid-template-columns: rem(50px) 1fr auto auto;
+  align-items: center;
   border-bottom: rem(1px) solid var(--primary);
-  height: rem(40px);
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  &::-webkit-scrollbar {
-    width: rem(15px);
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: var(--bg);
-    height: rem(5px);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border: rem(5px) solid var(--primary);
-    background-color: var(--material);
-  }
 }
 
-.link {
-  @include flex(center, center);
-
-  position: relative;
-  flex-shrink: 0;
-  padding-inline: rem(10px);
-  min-width: rem(60px);
-  height: 100%;
-  text-transform: uppercase;
-  font-size: rem(14px);
-
-  &::after {
-    @include transition(width);
-    @include size(0, rem(2px));
-
-    position: absolute;
-    right: 0;
-    bottom: rem(-1px);
-    left: 0;
-    background-color: var(--link);
-    content: '';
-  }
-
-  &.active,
-  &:hover {
-
-    &::after {
-      width: 100%;
-    }
-  }
-
-  &.active {
-    color: var(--link);
-    pointer-events: none;
-  }
-}
-
-.actions {
-  @include flex(flex-end, center);
-
-  gap: rem(16px);
-  position: relative;
+.cell {
+  padding: rem(4px) rem(8px);
 }

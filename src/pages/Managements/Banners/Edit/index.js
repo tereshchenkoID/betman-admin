@@ -1,43 +1,57 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
 import { buildFormData } from 'helpers/buildFormData'
 import { useApi } from 'hooks/useApi'
+import { useAuth } from 'hooks/useAuth'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Uploader from 'components/Uploader'
 import Checkbox from 'components/Checkbox'
+import Tab from 'components/Tab'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import ImagePreview from 'modules/ImagePreview'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = {
-  image: '',
-  title: '',
-  subtitle: '',
-  alt: '',
-  description: '',
-  visibility: 0,
-  button: {
-    text: '',
-    newtab: false,
-    link: [],
-  }
-}
-
 const Edit = ({ id }) => {
   const { t } = useTranslation()
   const isAdd = id === 'add'
   const navigate = useNavigate()
   const { request } = useApi()
+  const { settings } = useSelector(state => state.settings)
+  const { auth } = useAuth()
+
+  const INITIAL_FILTER = {
+    image: '',
+    visibility: 0,
+    translations: Object.values(settings.site_languages).reduce((acc, lang) => {
+      acc[lang.code] = {
+        title: '',
+        subtitle: '',
+        alt: '',
+        description: '',
+        visibility: 0,
+        button: {
+          text: '',
+          newtab: false,
+          link: [],
+        }
+      }
+      return acc
+    }, {}),
+  }
+
   const [filter, setFilter] = useState(INITIAL_FILTER)
+  const [active, setActive] = useState(auth?.language.code)
+  const currentTranslation = filter?.translations?.[active]
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => {
@@ -98,61 +112,80 @@ const Edit = ({ id }) => {
         classes={['sm']}
         headline={isAdd ? t('add') : `${t('edit')}: ${id}`}
       >
-        <Debug data={filter}/>
+        <Debug data={filter} />
         <div className={style.block}>
           <form className={style.form} onSubmit={handleSubmit}>
             <Uploader
-              data={filter.image}
+              data={filter?.image}
               onChange={(blob) => handlePropsChange('image', blob)}
+            />
+            <Tab
+              data={active}
+              action={setActive}
+              options={Object.entries(
+                Object.fromEntries(
+                  Object.values(settings.languages).map((item, _) => [
+                    item.code,
+                    item.code,
+                  ])
+                )
+              )}
             />
             <div className={style.grid}>
               <Field
                 type={'text'}
                 placeholder={t('title')}
-                data={filter.title}
-                onChange={value => handlePropsChange('title', value)}
+                data={currentTranslation?.title}
+                onChange={value => handlePropsChange(`translations.${active}.title`, value)}
+                isRequired={true}
               />
               <Field
                 type={'text'}
                 placeholder={t('subtitle')}
-                data={filter.subtitle}
-                onChange={value => handlePropsChange('subtitle', value)}
+                data={currentTranslation?.subtitle}
+                onChange={value => handlePropsChange(`translations.${active}.subtitle`, value)}
+                isRequired={true}
               />
             </div>
             <Field
               type={'text'}
               placeholder={t('text')}
-              data={filter.alt}
-              onChange={value => handlePropsChange('alt', value)}
+              data={currentTranslation?.alt}
+              onChange={value => handlePropsChange(`translations.${active}.alt`, value)}
             />
             <Field
               type={'text'}
               placeholder={t('description')}
-              data={filter.description}
-              onChange={value => handlePropsChange('description', value)}
+              data={currentTranslation?.description}
+              onChange={value => handlePropsChange(`translations.${active}.description`, value)}
             />
             <div className={style.grid}>
               <Field
                 type={'text'}
                 placeholder={t('button_label')}
-                data={filter.button.text}
-                onChange={value => handlePropsChange('button.text', value)}
+                data={currentTranslation?.button.text}
+                onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
               />
               <div>
                 <Field
                   type={'text'}
                   placeholder={t('button_link')}
-                  data={filter.button.link}
-                  onChange={value => handlePropsChange('button.link', value)}
+                  data={currentTranslation?.button.link}
+                  onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
                 />
                 <p className={style.label}>Example: <strong>promotions/first-deposit</strong></p>
               </div>
-              <Checkbox
-                placeholder={t('new_tab')}
-                data={filter.button.newtab}
-                onChange={value => handlePropsChange('button.newtab', value)}
-              />
             </div>
+            <Checkbox
+              placeholder={t('new_tab')}
+              data={currentTranslation?.button.newtab}
+              onChange={value => handlePropsChange(`translations.${active}.button.newtab`, value)}
+            />
+            <Checkbox
+              placeholder={t('visibility')}
+              data={currentTranslation?.visibility}
+              onChange={value => handlePropsChange(`translations.${active}.visibility`, value)}
+            />
             <div className={style.actions}>
               <Button
                 type={'submit'}
@@ -180,14 +213,14 @@ const Edit = ({ id }) => {
                 />
               }
               <div className={style.content}>
-                <p className={style.title}>{filter.title}</p>
-                <p className={style.subtitle}>{filter.subtitle}</p>
-                <p className={style.description}>{filter.alt}</p>
+                <p className={style.title}>{currentTranslation?.title}</p>
+                <p className={style.subtitle}>{currentTranslation?.subtitle}</p>
+                <p className={style.description}>{currentTranslation?.alt}</p>
                 {
-                  filter.button.text !== '' &&
+                  currentTranslation?.button.text !== '' &&
                   <Button
                     classes={['primary', 'sm', style.button]}
-                    placeholder={filter.button.text}
+                    placeholder={currentTranslation?.button.text}
                   />
                 }
               </div>

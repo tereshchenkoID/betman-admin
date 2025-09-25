@@ -1,28 +1,57 @@
-import React, { useState, useRef } from 'react'
+import React, {useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Editor } from '@tinymce/tinymce-react'
+import { useSelector } from 'react-redux'
+
+import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
+
+import { useAuth } from 'hooks/useAuth'
+import { useApi } from 'hooks/useApi'
+import { buildFormData } from 'helpers/buildFormData'
 
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Uploader from 'components/Uploader'
 import Paper from 'components/Paper'
+import Tab from 'components/Tab'
+import Checkbox from 'components/Checkbox'
+import Redactor from 'components/Redactor'
 import Debug from 'modules/Debug'
+import Breadcrumbs from 'modules/Breadcrumbs'
+import ImagePreview from 'modules/ImagePreview'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = {
-  title: '',
-  subtitle: '',
-  description: '',
-  category: '',
-  image: '',
-}
-
 const Edit = ({ id }) => {
   const { t } = useTranslation()
+  const isAdd = id === 'add'
+  const navigate = useNavigate()
+  const { settings } = useSelector(state => state.settings)
+  const { auth } = useAuth()
+  const { request } = useApi()
+
+  const INITIAL_FILTER = {
+    image: '',
+    visibility: 0,
+    translations: Object.values(settings.site_languages).reduce((acc, lang) => {
+      acc[lang.code] = {
+        title: '',
+        description: '',
+        visibility: 0,
+        category: '',
+        button: {
+          text: '',
+          newtab: false,
+          link: [],
+        }
+      }
+      return acc
+    }, {}),
+  }
 
   const [filter, setFilter] = useState(INITIAL_FILTER)
-  const editorRef = useRef(null)
+  const [active, setActive] = useState(auth?.language.code)
+  const currentTranslation = filter.translations?.[active]
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => {
@@ -41,94 +70,167 @@ const Edit = ({ id }) => {
   }
 
   const handleResetForm = () => {
-    setFilter(INITIAL_FILTER)
+    if(!isAdd) handleLoad()
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editorRef.current) {
-      const html = editorRef.current.getContent();
-      setFilter(prev => ({ ...prev, description: html }));
+    const formData = buildFormData(filter)
+
+    if (!isAdd) {
+      formData.append('id', filter.id)
     }
-    alert('Send')
-  };
+
+    const json = await request(REQUEST_TYPE.POST, `promo/${isAdd ? 'add' : 'edit'}`, formData)
+    setFilter(json?.data)
+
+    if (isAdd) {
+      navigate(NAVIGATION.managements.promos.link)
+    }
+  }
+
+  const handleLoad = async () => {
+    const json = await request(REQUEST_TYPE.GET, `promo/${id}`)
+    setFilter(json?.data)
+  }
+
+  useEffect(() => {
+    if(!isAdd) handleLoad()
+  }, [])
 
   return (
-    <Paper
-      classes={['sm']}
-      headline={id === '-1' ? t('add') : `${t('edit')}: ${id}`}
-    >
-      <Debug data={filter}/>
-      <div className={style.block}>
-        <form className={style.form} onSubmit={handleSubmit}>
-          <Uploader
-            data={filter.image}
-            onChange={(blob) => handlePropsChange('image', blob)}
-          />
-          <div className={style.grid}>
+    <>
+      <Breadcrumbs
+        data={[
+          NAVIGATION.home,
+          NAVIGATION.managements.promos,
+        ]}
+        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+      />
+      <Paper
+        classes={['sm']}
+        headline={id === '-1' ? t('add') : `${t('edit')}: ${id}`}
+      >
+        <Debug data={filter}/>
+        <div className={style.block}>
+          <form className={style.form} onSubmit={handleSubmit}>
+            <Uploader
+              data={filter.image}
+              onChange={(blob) => handlePropsChange('image', blob)}
+              maxHeight={'auto'}
+            />
+            <Tab
+              data={active}
+              action={setActive}
+              options={Object.entries(
+                Object.fromEntries(
+                  Object.values(settings.languages).map((item, _) => [
+                    item.code,
+                    item.code,
+                  ])
+                )
+              )}
+            />
             <Field
               type={'text'}
               placeholder={t('title')}
-              data={filter.title}
-              onChange={value => handlePropsChange('title', value)}
+              data={currentTranslation?.title}
+              onChange={value => handlePropsChange(`translations.${active}.title`, value)}
               isRequired={true}
             />
-            <Field
-              type={'text'}
-              placeholder={t('subtitle')}
-              data={filter.subtitle}
-              onChange={value => handlePropsChange('subtitle', value)}
-              isRequired={true}
+            <div>
+              <Field
+                type={'text'}
+                placeholder={t('category')}
+                data={currentTranslation?.category}
+                onChange={value => handlePropsChange(`translations.${active}.category`, value)}
+                isRequired={true}
+              />
+              <p className={style.label}>Example: <strong>New, Top</strong></p>
+            </div>
+            <Redactor
+              key={active}
+              data={currentTranslation?.description}
+              action={(value) => handlePropsChange(`translations.${active}.description`, value)} />
+            <div className={style.grid}>
+              <Field
+                type={'text'}
+                placeholder={t('button_label')}
+                data={currentTranslation?.button.text}
+                onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
+              />
+              <div>
+                <Field
+                  type={'text'}
+                  placeholder={t('button_link')}
+                  data={currentTranslation?.button.link}
+                  onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
+                />
+                <p className={style.label}>Example: <strong>promotions/first-deposit</strong></p>
+              </div>
+            </div>
+            <Checkbox
+              placeholder={t('new_tab')}
+              data={currentTranslation?.button.newtab}
+              onChange={value => handlePropsChange(`translations.${active}.button.newtab`, value)}
             />
+            <div className={style.actions}>
+              <Button
+                type={'submit'}
+                classes={['primary']}
+                placeholder={t('save')}
+              />
+              <Button
+                type={'reset'}
+                placeholder={t('cancel')}
+                onChange={handleResetForm}
+              />
+            </div>
+          </form>
+          <div>
+            <p className={style.text}>{t('preview')}:</p>
+            <div className={style.promo}>
+              <div className={style.picture}>
+                {
+                  filter?.image &&
+                  <ImagePreview
+                    image={filter.image}
+                    width={320}
+                    height={128}
+                    alt={t('preview')}
+                  />
+                }
+                {
+                  currentTranslation?.category !== '' &&
+                  <div className={style.categories}>
+                    {
+                      currentTranslation?.category.split(',').map((el, idx) =>
+                        <div
+                          key={idx}
+                          className={style.badge}
+                        >
+                          {el}
+                        </div>
+                      )
+                    }
+                  </div>
+                }
+              </div>
+              <h1>{currentTranslation?.title}</h1>
+              <div dangerouslySetInnerHTML={{ __html: currentTranslation?.description }} />
+              {
+                currentTranslation?.button.text !== '' &&
+                <Button
+                  classes={['primary', 'sm', style.button]}
+                  placeholder={currentTranslation?.button.text}
+                />
+              }
+            </div>
           </div>
-          <Field
-            type={'text'}
-            placeholder={t('category')}
-            data={filter.category}
-            onChange={value => handlePropsChange('category', value)}
-            isRequired={true}
-          />
-          <Editor
-            apiKey='gqm3ektdsagwkj4vf9fkzs703utk9izk8j89podwhtfm66q0'
-            onInit={(_evt, editor) => (editorRef.current = editor)}
-            value={filter.description}
-            onEditorChange={(content) =>
-              handlePropsChange('description', content)
-            }
-            init={{
-              height: 300,
-              menubar: false,
-              skin: 'tinymce-5',
-              content_css: 'tinymce-5',
-              plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-              ],
-              toolbar:
-                'undo redo | blocks | bold italic forecolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-            }}
-          />
-          <div className={style.actions}>
-            <Button
-              type={'submit'}
-              classes={['primary']}
-              placeholder={t('save')}
-            />
-            <Button
-              type={'reset'}
-              placeholder={t('cancel')}
-              onChange={handleResetForm}
-            />
-          </div>
-        </form>
-        <div>
-          <p className={style.text}>{t('preview')}:</p>
         </div>
-      </div>
-    </Paper>
+      </Paper>
+    </>
   );
 };
 

@@ -1,0 +1,74 @@
+@use 'scss/config' as *;
+
+.block,
+.form,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.block,
+.grid {
+  grid-template-columns: repeat(2, 1fr);
+  align-items: flex-start;
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.text {
+  margin-bottom: rem(4px);
+}
+
+.banner {
+  @include size(rem(320px), rem(128px));
+
+  position: relative;
+  border-radius: var(--border-radius-default);
+  background-color: var(--material-hover);
+  overflow: hidden;
+}
+
+.picture {
+  position: absolute;
+  inset: 0;
+}
+
+.content {
+  @include flex($justify-content: flex-end, $direction: column);
+  @include size(50%, 100%);
+
+  gap: rem(2px);
+  position: relative;
+  padding: rem(12px);
+  font-size: rem(12px);
+  word-break: break-word;
+}
+
+.title {
+  font-weight: var(--typography-bold);
+}
+
+.subtitle {
+  font-weight: var(--typography-bold);
+  font-size: rem(14px);
+  color: var(--amber);
+}
+
+.button {
+  @include size(100%, rem(24px));
+
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-inline: rem(12px);
+  border-radius: rem(1000px);
+  font-size: rem(12px);
+}
+
+.label {
+  margin-top: rem(4px);
+  font-size: rem(12px);
+}

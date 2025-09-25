@@ -1,22 +1,14 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 
-import Paper from 'components/Paper'
-
-import style from './index.module.scss'
+import Edit from './Edit'
+import List from './List'
 
 const Jackpots = () => {
-  const { t } = useTranslation()
+  const { jackpot } = useParams()
 
   return (
-    <div className={style.block}>
-      <Paper
-        headline={t('jackpots')}
-        classes={['sm']}
-      >
-        <p>1</p>
-      </Paper>
-    </div>
+    jackpot ? <Edit id={jackpot} /> : <List />
   )
 }
 

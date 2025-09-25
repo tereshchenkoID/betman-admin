@@ -1,0 +1,25 @@
+@use 'rem-converter' as *;
+
+@mixin scroll {
+  overflow-y: auto;
+  overscroll-behavior: none;
+
+  &::-webkit-scrollbar {
+    width: rem(5px);
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: var(--primary-hover);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: rem(1px) solid var(--primary-hover);
+    background-color: var(--primary-hover);
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-track {
+    border: rem(1px) solid var(--material-hover);
+    background-color: var(--material-hover);
+  }
+}

@@ -1,35 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
-import { setAside } from 'store/actions/asideAction'
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
 import Toggle from 'components/Toggle'
-import Select from 'components/Select'
-import GeneratePassword from 'modules/GeneratePassword'
+import CustomSelect from 'components/Select'
+import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const Agent = ({ data }) => {
-  const dispatch = useDispatch()
+const Agent = () => {
   const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
-    parent_agent: '',
-    name: '',
-    admin_username: '',
-    admin_password: '',
-    unlimited_balance: '0',
-    currency: 'UAH',
-    can_create_sub_agents: '0',
-  }
-  const [filter, setFilter] = useState(initialValue)
-  const [loading, setLoading] = useState(true)
+  const { settings } = useSelector(state => state.settings)
+  const { request } = useApi()
+  const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -38,106 +29,96 @@ const Agent = ({ data }) => {
     }))
   }
 
-  const handleParentAgent = (value) => {
-    setFilter(prev => ({
-      ...prev,
-      parent_agent: value,
-      // ...DATA[value]
-    }))
-    setLoading(false)
+  const handleLoad = async () => {
+    const json = await request(REQUEST_TYPE.GET, 'agent/add/general/')
+    setFilter(json?.data)
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
-  }
-
-  // TODO change url
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    postData(`new-cashier`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
-
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    const json = await request(REQUEST_TYPE.POST, 'agent/add/general/', formData)
+    setFilter(json?.data)
   }
+
+  useEffect(() => {
+    handleLoad()
+  }, [])
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
+
+  if (!filter) return <Loader type='content' />
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
-      <Select
-        placeholder={t('parent_agent')}
-        options={[
-          { value: '0', label: 'Agent 1' },
-          { value: '1', label: 'Agent 2' },
-          { value: '2', label: 'Agent 3' },
-        ]}
-        data={filter.parent_agent}
-        onChange={value => {
-          handleParentAgent(value)
-        }}
+      <CustomSelect
+        placeholder={t('agents')}
+        options={agentsOptions}
+        data={filter?.parent}
+        onChange={value => handlePropsChange('agent', value)}
       />
       <Field
         type={'text'}
         placeholder={t('name')}
-        data={filter.name}
-        onChange={value => handlePropsChange('name', value)}
+        data={filter?.name}
+        onChange={(e) => handlePropsChange('name', e)}
         isRequired={true}
       />
       <Field
         type={'text'}
-        placeholder={t('admin_username')}
-        data={filter.login}
-        onChange={value => handlePropsChange('admin_username', value)}
+        placeholder={t('username')}
+        data={filter?.username}
+        onChange={(e) => handlePropsChange('username', e)}
         isRequired={true}
       />
-      <GeneratePassword
-        list={['admin_password']}
-        data={filter}
-        action={setFilter}
-        filter={filter}
-        handlePropsChange={handlePropsChange}
+      <CustomSelect
+        placeholder={t('currency')}
+        options={[
+          { value: -1, label: t('all') },
+          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+            value: key,
+            label: el.text
+          }))
+        ]}
+        data={filter?.currency}
+        onChange={value => handlePropsChange('currency', value)}
+        isRequired={true}
       />
       <Toggle
         placeholder={t('unlimited_balance')}
-        data={filter.unlimited_balance}
-        onChange={value => handlePropsChange('unlimited_balance', value)}
-        isRequired={true}
+        data={filter?.unlimited_balance}
+        onChange={(e) => handlePropsChange('unlimited_balance', e)}
+      />
+      <Toggle
+        placeholder={t('create_subagents')}
+        data={filter?.create_subagents}
+        onChange={(e) => handlePropsChange('create_subagents', e)}
       />
       <Field
         type={'text'}
-        placeholder={t('currency')}
-        data={filter.currency}
-        onChange={value => handlePropsChange('currency', value)}
-        isDisabled={true}
+        placeholder={t('contact')}
+        data={filter?.contact}
+        onChange={(e) => handlePropsChange('contact', e)}
       />
-      <Toggle
-        placeholder={t('can_create_sub_agents')}
-        data={filter.can_create_sub_agents}
-        onChange={value => handlePropsChange('can_create_sub_agents', value)}
-        isRequired={true}
+      <Field
+        type={'email'}
+        placeholder={t('email')}
+        data={filter?.email}
+        onChange={(e) => handlePropsChange('email', e)}
+      />
+      <Field
+        type={'text'}
+        placeholder={t('phone')}
+        data={filter?.phone}
+        onChange={(e) => handlePropsChange('phone', e)}
       />
       <div className={style.actions}>
         <Button
@@ -148,7 +129,7 @@ const Agent = ({ data }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleResetForm}
+          onChange={handleLoad}
         />
       </div>
     </form>

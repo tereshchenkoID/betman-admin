@@ -176,7 +176,7 @@ const Players = () => {
               placeholder={t('locked')}
               options={[
                 { value: -1, label: t('all') },
-                ...convertOptions(service.YES_NO)
+                ...convertOptions(service.YES_NO, t)
               ]}
               data={filter['locked']}
               onChange={value => handlePropsChange('locked', value)}

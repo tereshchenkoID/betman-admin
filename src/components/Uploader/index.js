@@ -3,14 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Button from 'components/Button'
+
 import style from './index.module.scss'
 
 const Uploader = ({
-                    id = 'upload',
-                    data,
-                    onChange = () => {},
-                    maxHeight = 128,
-                  }) => {
+  id = 'upload',
+  data,
+  onChange = () => {},
+  maxHeight = 128,
+}) => {
   const { t } = useTranslation()
   const [previewUrl, setPreviewUrl] = useState(null)
   const createdUrlRef = useRef(null)

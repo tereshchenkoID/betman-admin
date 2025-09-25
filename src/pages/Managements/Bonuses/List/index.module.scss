@@ -1,0 +1,61 @@
+@use 'scss/config' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: rem(16px);
+  margin-bottom: rem(16px);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: rem(80px) repeat(4, 1fr) rem(140px);
+  align-items: center;
+
+  &:first-child {
+    font-size: rem(12px);
+    font-weight: var(--typography-medium);
+
+    .cell {
+      &:has(svg) {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: rem(1px) solid var(--primary);
+  }
+
+  &.hidden {
+
+    .cell {
+
+      &:not(:last-child) {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.cell {
+  @include flex(null, center, null, wrap);
+
+  gap: rem(4px);
+  padding: rem(12px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+
+  &:not(:last-child) {
+    margin-bottom: rem(16px);
+  }
+}
+
+.empty {
+  padding: rem(12px);
+  text-align: center;
+}

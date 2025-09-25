@@ -2,28 +2,16 @@
 
 .block {
   display: grid;
-  gap: rem(16px);
-}
-
-.table {
-  display: table;
-  width: 100%;
+  gap: rem(2px);
 }
 
 .row {
-  display: table-row;
+  display: grid;
+  grid-template-columns: rem(50px) 1fr auto auto;
+  align-items: center;
+  border-bottom: rem(1px) solid var(--primary);
 }
 
 .cell {
-  display: table-cell;
-  vertical-align: middle;
-  border-bottom: rem(1px) solid var(--primary);
   padding: rem(4px) rem(8px);
-}
-
-.actions {
-  @include flex(flex-end, center);
-
-  gap: rem(16px);
-  position: relative;
 }

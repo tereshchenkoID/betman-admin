@@ -1,0 +1,33 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: rem(8px);
+  position: relative;
+}
+
+.column {
+  display: grid;
+  align-content: flex-start;
+  gap: rem(16px);
+  padding: rem(8px);
+  background-color: var(--primary-disabled);
+  border-radius: var(--border-radius-default);
+  border: rem(1px) solid var(--border);
+  overflow: hidden;
+}
+
+.list {
+  @include scroll;
+
+  display: grid;
+  align-content: flex-start;
+  gap: rem(4px);
+  height: rem(300px);
+}
+
+.subtitle {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}

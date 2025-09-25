@@ -121,7 +121,7 @@ const List = () => {
               placeholder={t('visibility')}
               options={[
                 { value: -1, label: t('all') },
-                ...convertOptions(service.YES_NO)
+                ...convertOptions(service.YES_NO, t)
               ]}
               data={filter['visibility']}
               onChange={value => handlePropsChange('visibility', value)}

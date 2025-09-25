@@ -33,6 +33,7 @@ const Language = () => {
     i18n.changeLanguage(el.code)
     sessionStorage.setItem('language', JSON.stringify(el))
     setActive(false)
+    // window.location.reload()
   }
 
   return (

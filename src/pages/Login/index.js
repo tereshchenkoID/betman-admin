@@ -18,7 +18,7 @@ import Password from 'components/Password'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { username: '', password: '', role: '0' }
+const INITIAL_FILTER = { username: '', password: '' }
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -68,12 +68,6 @@ const Login = () => {
         classes={['sm']}
       >
         <form className={style.form} onSubmit={handleSubmit}>
-          <Field
-            type={'number'}
-            placeholder={t('role')}
-            data={filter.role}
-            onChange={value => handlePropsChange('role', value)}
-          />
           <Field
             type={'text'}
             placeholder={t('username')}

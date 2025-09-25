@@ -107,6 +107,65 @@
       }
     }
   }
+
+  .tox {
+
+    &.tox-silver-sink {
+
+      .tox-tooltip {
+
+        &__body {
+          background-color: var(--material);
+          color: var(--text-for-material);
+        }
+      }
+
+      .tox-menu {
+        background-color: var(--material);
+        border: 0;
+        box-shadow: none;
+        color: var(--text-for-material);
+      }
+
+      .tox-collection {
+
+        &__group {
+          padding-block: 0;
+        }
+
+        &__item {
+          color: var(--text-for-material);
+
+          &--active {
+            &:not(.tox-collection__item--state-disabled) {
+              background-color: var(--link)!important;
+            }
+          }
+
+          &--enabled {
+            &:not(.tox-collection__item--state-disabled) {
+              background-color: var(--link-hover)!important;
+            }
+          }
+        }
+      }
+
+      .tox-toolbar {
+
+        &__group {
+          cursor: pointer;
+        }
+      }
+
+      .tox-tooltip {
+
+        &__body {
+          background-color: var(--material);
+          color: var(--text-for-material);
+        }
+      }
+    }
+  }
 }
 
 .tooltip {

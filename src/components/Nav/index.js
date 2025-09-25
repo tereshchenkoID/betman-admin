@@ -23,8 +23,6 @@ const Nav = () => {
   const { auth } = useAuth()
   const role = auth ? auth.role : null
 
-  console.log(auth)
-
   const MENU = [
     {
       show: true,
