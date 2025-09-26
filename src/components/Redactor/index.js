@@ -10,11 +10,11 @@ const Redactor = ({ data, action }) => {
     <div className={style.block}>
       <Editor
         apiKey='jxjoq6sfxuinuz0hlwh6j0dnekusf2shb0fcnt6jyaydzabn'
-        // apiKey='gqm3ektdsagwkj4vf9fkzs703utk9izk8j89podwhtfm66q0'
-        onInit={(_evt, editor) => (editorRef.current = editor)}
+        onInit={(_evt, editor) => editorRef.current = editor}
         value={data}
         onEditorChange={action}
         init={{
+          height: 300,
           menubar: false,
           skin: 'tinymce-5',
           content_style: `

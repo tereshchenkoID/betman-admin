@@ -6,6 +6,7 @@ import { REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
+import { useAuth } from 'hooks/useAuth'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -13,11 +14,13 @@ import Toggle from 'components/Toggle'
 import CustomSelect from 'components/Select'
 import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
+import GeneratePassword from 'modules/GeneratePassword'
 
 import style from './index.module.scss'
 
 const Agent = () => {
   const { t } = useTranslation()
+  const { auth } = useAuth()
   const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
   const [filter, setFilter] = useState(null)
@@ -63,7 +66,7 @@ const Agent = () => {
         placeholder={t('agents')}
         options={agentsOptions}
         data={filter?.parent}
-        onChange={value => handlePropsChange('agent', value)}
+        onChange={value => handlePropsChange('parent', value)}
       />
       <Field
         type={'text'}
@@ -92,15 +95,28 @@ const Agent = () => {
         onChange={value => handlePropsChange('currency', value)}
         isRequired={true}
       />
-      <Toggle
-        placeholder={t('unlimited_balance')}
-        data={filter?.unlimited_balance}
-        onChange={(e) => handlePropsChange('unlimited_balance', e)}
-      />
-      <Toggle
-        placeholder={t('create_subagents')}
-        data={filter?.create_subagents}
-        onChange={(e) => handlePropsChange('create_subagents', e)}
+      {
+        auth.unlimited_balance !== '1' &&
+        <Toggle
+          placeholder={t('unlimited_balance')}
+          data={filter?.unlimited_balance}
+          onChange={(e) => handlePropsChange('unlimited_balance', e)}
+        />
+      }
+      {
+        auth.create_subagents !== '1' &&
+        <Toggle
+          placeholder={t('create_subagents')}
+          data={filter?.create_subagents}
+          onChange={(e) => handlePropsChange('create_subagents', e)}
+        />
+      }
+      <GeneratePassword
+        list={['password']}
+        data={filter}
+        action={setFilter}
+        filter={filter}
+        handlePropsChange={handlePropsChange}
       />
       <Field
         type={'text'}

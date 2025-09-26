@@ -26,8 +26,8 @@ const PlaceLogin = lazy(() => import('modules/Hall/PlaceLogin'))
 const components = {
   'account-deposit': Deposit,
   'account-withdrawal': Withdrawal,
-  'account-shop': Shop,
   'account-agent': Agent,
+  'account-shop': Shop,
   'account-player': Player,
   'account-cashier': Cashier,
   'account-player-info': PlayerInfo,

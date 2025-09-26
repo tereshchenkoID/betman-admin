@@ -22,31 +22,30 @@ const Websites = ({ filter, setFilter }) => {
     setFilter(prev => [
       ...prev,
       {
-        id: prev.reduce((max, el) => Math.max(max, el.id), 0) + 1,
+        id: null,
         domain: '',
         enabled: '0'
       }
     ])
   }
 
-  const handleRemove = (id) => {
-    setFilter(prev => prev.filter((_, i) => i !== id))
+  const handleRemove = (idx) => {
+    setFilter(prev => prev.filter((_, i) => i !== idx))
   }
 
   return (
     <div className={style.block}>
       <div className={style.row}>
-        <div className={style.cell}>{t('id')}</div>
         <div className={style.cell}>{t('domain')}</div>
         <div className={style.cell}></div>
       </div>
       {
         filter?.map((el, idx) =>
           <div
+            key={idx}
             className={style.row}
-            key={el.id}
           >
-            <div className={style.cell}>{el.id}</div>
+            <div className={style.cell}>{el?.id}</div>
             <div className={style.cell}>
               <Field
                 type={'text'}

@@ -14,6 +14,9 @@ export const useOptions = (endpoint, mapper, defaultOptions = [], enabled = true
 
     const fetchOptions = async () => {
       try {
+        // Delay
+        await new Promise(resolve => setTimeout(resolve, 300))
+
         const json = await getData(endpoint)
 
         if (json) {

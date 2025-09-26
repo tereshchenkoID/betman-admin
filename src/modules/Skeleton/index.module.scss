@@ -1,0 +1,34 @@
+@import 'scss/config';
+
+.block {
+  @include size(100%);
+  @include flex;
+
+  gap: var(--gap-16);
+  overflow: hidden;
+}
+
+.item {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.2) 0,
+    var(--material) 25%,
+    rgba(0, 0, 0, 0.2) 50%) 100% / 200% 100%;
+  background-color: var(--material-disabled);
+  animation: skeleton 2s linear infinite;
+  border-radius: var(--border-radius-4);
+  border: rem(1px) solid var(--border);
+  flex: 1;
+}
+
+@keyframes skeleton {
+
+  0% {
+    background-position: 100%;
+  }
+
+  100% {
+    background-position: -100%;
+  }
+}

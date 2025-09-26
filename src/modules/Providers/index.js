@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'constant/config'
+
 import { useApi } from 'hooks/useApi'
 
 import Checkbox from 'components/Checkbox'
@@ -79,17 +80,49 @@ const Providers = ({ providersSelected, gamesSelected, onChange }) => {
     }
   }, [])
 
-  const filteredProviders = providers.filter(el =>
-    el.title.toLowerCase().includes(providerSearch.toLowerCase())
-  )
-
-  const filteredGames = Object.entries(games).reduce((acc, [provId, provGames]) => {
-    const matchedGames = provGames.filter(game =>
-      game.name.toLowerCase().includes(gameSearch.toLowerCase())
+  const filteredProviders = useMemo(() => {
+    return providers.filter(el =>
+      el.title.toLowerCase().includes(providerSearch.toLowerCase())
     )
-    if (matchedGames.length > 0) acc[provId] = matchedGames
-    return acc
-  }, {})
+  }, [providers, providerSearch])
+
+  const filteredGames = useMemo(() => {
+    if (!games) return {}
+    return Object.entries(games).reduce((acc, [provId, provGames]) => {
+      if (!Array.isArray(provGames)) return acc
+      const matchedGames = provGames.filter(game =>
+        game.name.toLowerCase().includes(gameSearch.toLowerCase())
+      )
+      if (matchedGames.length > 0) acc[provId] = matchedGames
+      return acc
+    }, {})
+  }, [games, gameSearch])
+
+  const filteredGameIds = useMemo(() => {
+    return Object.values(filteredGames || {}).flatMap(g => g.map(el => el.id))
+  }, [filteredGames])
+
+  const allFilteredSelected = useMemo(() => {
+    if (!filteredGameIds.length) return false
+    const selectedSet = new Set(gamesSelected)
+    return filteredGameIds.every(id => selectedSet.has(id))
+  }, [filteredGameIds, gamesSelected])
+
+  const handleToggleFilteredGames = () => {
+    if (allFilteredSelected) {
+      onChange(
+        'games',
+        gamesSelected.filter(id => !filteredGameIds.includes(id))
+      )
+    } else {
+      const selectedSet = new Set(gamesSelected)
+      const newSelection = [...gamesSelected]
+      for (const id of filteredGameIds) {
+        if (!selectedSet.has(id)) newSelection.push(id)
+      }
+      onChange('games', newSelection)
+    }
+  }
 
   return (
     <div className={style.block}>
@@ -105,22 +138,20 @@ const Providers = ({ providersSelected, gamesSelected, onChange }) => {
           onChange={setProviderSearch}
         />
         <div className={style.list}>
-          {
-            filteredProviders.map(el => (
-              <Checkbox
-                key={el.id}
-                placeholder={`${el.title} (${el.results})`}
-                data={providersSelected.includes(el.id) ? '1' : '0'}
-                onChange={val => handleProvider(el.id, val === '1')}
-              />
-            ))
-          }
+          {filteredProviders.map(el => (
+            <Checkbox
+              key={el.id}
+              placeholder={`${el.title} (${el.results})`}
+              data={providersSelected.includes(el.id) ? '1' : '0'}
+              onChange={val => handleProvider(el.id, val === '1')}
+            />
+          ))}
         </div>
       </div>
 
       <div className={style.column}>
         <p className={style.subtitle}>
-          {t('games')} <strong>{gamesSelected.length} / {Object.values(games).flat().length}</strong>
+          {t('games')} <strong>{gamesSelected.length} / {Object.values(games || {}).flat().length}</strong>
         </p>
         <Field
           type={'text'}
@@ -130,22 +161,24 @@ const Providers = ({ providersSelected, gamesSelected, onChange }) => {
           onChange={setGameSearch}
         />
         <div className={style.list}>
-          {
-            Object.entries(filteredGames).map(([provId, provGames]) =>
-              <React.Fragment key={provId}>
-                {
-                  provGames.map(game => (
-                    <Checkbox
-                      key={game.id}
-                      placeholder={game.name}
-                      data={gamesSelected.includes(game.id) ? '1' : '0'}
-                      onChange={val => handleGame(game.id, val === '1')}
-                    />
-                  ))
-                }
-              </React.Fragment>
-            )
-          }
+          <Checkbox
+            placeholder={t('select_all')}
+            classes={[style.select]}
+            data={allFilteredSelected ? '1' : '0'}
+            onChange={handleToggleFilteredGames}
+          />
+          {Object.entries(filteredGames).map(([provId, provGames]) =>
+            <React.Fragment key={provId}>
+              {provGames.map(game => (
+                <Checkbox
+                  key={game.id}
+                  placeholder={game.name}
+                  data={gamesSelected.includes(game.id) ? '1' : '0'}
+                  onChange={val => handleGame(game.id, val === '1')}
+                />
+              ))}
+            </React.Fragment>
+          )}
         </div>
       </div>
     </div>

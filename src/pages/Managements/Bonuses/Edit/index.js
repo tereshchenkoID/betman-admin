@@ -51,7 +51,7 @@ const Edit = ({ id }) => {
     created: null,
     updated: null,
     period: {
-      type: '-1',
+      type: -1,
       from: '',
       to: ''
     },
@@ -60,12 +60,12 @@ const Edit = ({ id }) => {
         enable: '0',
         percentage: '',
         max: '',
-        currency: '-1',
+        currency: -1,
       },
       bonus_fixed: {
         enable: '0',
         amount: '',
-        currency: '-1',
+        currency: -1,
       },
       free_spins: {
         enable: '0',
@@ -177,7 +177,7 @@ const Edit = ({ id }) => {
               isRequired={true}
             />
             {
-              filter?.type !== '-1' &&
+              filter?.type !== -1 &&
               <>
                 <CustomSelect
                   placeholder={t('status')}
@@ -189,7 +189,7 @@ const Edit = ({ id }) => {
                 <CustomSelect
                   placeholder={t('period')}
                   options={[
-                    { value: '-1', label: t('all') },
+                    { value: -1, label: t('all') },
                     ...convertOptions(settings.bonuses.periods, t)
                   ]}
                   data={filter?.period?.type}
@@ -197,7 +197,7 @@ const Edit = ({ id }) => {
                   isRequired={true}
                 />
                 {
-                  filter?.period?.type === '-1' &&
+                  filter?.period?.type === -1 &&
                   <div className={style.grid}>
                     <Field
                       type={'datetime-local'}

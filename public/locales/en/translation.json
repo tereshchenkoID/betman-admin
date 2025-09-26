@@ -126,6 +126,10 @@
   "any_deposit": "Any deposit",
   "lose": "Lose",
   "triggers": "Triggers",
+  "generate_password": "Generate password",
+  "unlimited": "Unlimited",
+  "subagents": "Subagents",
+  "select_all": "Select all",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back",

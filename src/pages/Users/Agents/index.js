@@ -8,6 +8,7 @@ import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 import { setAside } from 'store/actions/asideAction'
 import { useApi } from 'hooks/useApi'
+import { useAuth} from 'hooks/useAuth'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -37,6 +38,7 @@ const Agents = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { request, loading } = useApi()
+  const { auth } = useAuth()
   const [filter, setFilter] = useState(INITIAL_FILTER)
   const [sort, setSort] = useState(INITIAL_SORT)
   const [data, setData] = useState({})
@@ -114,8 +116,7 @@ const Agents = () => {
         quantity={quantity}
         setQuantity={setQuantity}
       >
-        <Debug data={sort} />
-        <Debug data={filter} />
+        <Debug data={{...filter, ...sort}} />
         <form onSubmit={(e) => handleSubmit(e, 0)}>
           <div className={style.grid}>
             <Field
@@ -146,23 +147,26 @@ const Agents = () => {
               onChange={handleResetForm}
             />
           </div>
-          <div className={style.actions}>
-            <Button
-              classes={['primary']}
-              placeholder={t('add_agent')}
-              onChange={(e) => {
-                dispatch(
-                  setAside({
-                    meta: {
-                      title: t('add_agent'),
-                      cmd: 'account-agent',
-                      buttonRef: e.target,
-                    }
-                  }),
-                )
-              }}
-            />
-          </div>
+          {
+            auth.create_subagents === '1' &&
+            <div className={style.actions}>
+              <Button
+                classes={['primary']}
+                placeholder={t('add_agent')}
+                onChange={(e) => {
+                  dispatch(
+                    setAside({
+                      meta: {
+                        title: t('add_agent'),
+                        cmd: 'account-agent',
+                        buttonRef: e.target,
+                      }
+                    }),
+                  )
+                }}
+              />
+            </div>
+          }
         </form>
       </Paper>
       <Paper>

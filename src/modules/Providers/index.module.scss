@@ -31,3 +31,7 @@
   display: grid;
   grid-template-columns: 1fr auto;
 }
+
+.select {
+  font-weight: var(--typography-bold);
+}

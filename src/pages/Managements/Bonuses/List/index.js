@@ -52,7 +52,7 @@ const List = () => {
     if (type === 1) {
       const formData = buildFormData({ id: el.id })
 
-      await request(REQUEST_TYPE.POST, 'bonuses/delete', formData)
+      await request(REQUEST_TYPE.POST, 'bonus/delete', formData)
       handleSubmit(null, data?.pagination?.page)
     }
     dispatch(setAside(null))

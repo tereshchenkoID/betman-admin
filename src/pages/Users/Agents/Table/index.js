@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux'
 import { setAside } from 'store/actions/asideAction'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-import { NAVIGATION, service } from 'constant/config'
+import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
+import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
+import { buildFormData } from 'helpers/buildFormData'
 
 import Icon from 'components/Icon'
 import Reference from 'components/Reference'
@@ -17,6 +19,7 @@ import style from './index.module.scss'
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { request } = useApi()
 
   const handleEditAgent = (e, row) => {
     dispatch(
@@ -26,7 +29,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-agent-edit',
           buttonRef: e.target,
         },
-        ...row,
+        id: row,
       }),
     )
   }
@@ -61,8 +64,21 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     dispatch(
       setAside({
         meta: {
-          title: t('new_shop'),
+          title: t('shop'),
           cmd: 'account-shop',
+          buttonRef: e.target,
+        },
+        ...row,
+      }),
+    )
+  }
+
+  const handleAgent = (e, row) => {
+    dispatch(
+      setAside({
+        meta: {
+          title: t('agent'),
+          cmd: 'account-agent',
           buttonRef: e.target,
         },
         ...row,
@@ -87,7 +103,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     dispatch(
       setAside({
         meta: {
-          title: t('new_cashier'),
+          title: t('cashier'),
           cmd: 'account-cashier',
           buttonRef: e.target,
         },
@@ -96,7 +112,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handleConfirmed = (e, onChange, title) => {
+  const handleConfirmed = (e, id, onChange, title) => {
     dispatch(
       setAside({
         meta: {
@@ -104,17 +120,25 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'confirmed',
           buttonRef: e.target,
         },
-        action: (result) => onChange(result),
+        action: (result) => onChange(result, id),
       }),
     )
   }
 
-  const handleLocked = (e) => {
-    alert(`Locked ${e}`)
+  const handleLocked = async (e, id) => {
+    if (e === 1) {
+      const formData = buildFormData({ id: id })
+      await request(REQUEST_TYPE.POST, 'agent/locked', formData)
+    }
+    dispatch(setAside(null))
   }
 
-  const handleDelete = (e) => {
-    alert(`Delete ${e}`)
+  const handleDelete = async (e, id) => {
+    if (e === 1) {
+      const formData = buildFormData({ id: id })
+      await request(REQUEST_TYPE.POST, 'agent/delete', formData)
+    }
+    dispatch(setAside(null))
   }
 
   const renderCell = (key, row) => {
@@ -128,21 +152,29 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         return value
           ?
             <div>
-              <ReadMore data={value} />
-              <div className={style.actions}>
-                <Icon
-                  classes={['success']}
-                  icon="fa-plus"
-                  alt="deposit"
-                  action={e => handleDeposit(e, row)}
-                />
-                <Icon
-                  classes={['warning']}
-                  icon="fa-minus"
-                  alt="withdraw"
-                  action={e => handleWithdrawal(e, row)}
-                />
-              </div>
+              {
+                row.unlimited_balance === '1'
+                  ?
+                    t('unlimited')
+                  :
+                    <>
+                      <ReadMore data={value} />
+                        <div className={style.actions}>
+                        <Icon
+                          classes={['success']}
+                          icon="fa-plus"
+                          alt="deposit"
+                          action={e => handleDeposit(e, row)}
+                        />
+                        <Icon
+                          classes={['warning']}
+                          icon="fa-minus"
+                          alt="withdraw"
+                          action={e => handleWithdrawal(e, row)}
+                        />
+                      </div>
+                    </>
+                }
             </div>
           :
             null
@@ -151,33 +183,36 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     }
   }
 
-  const renderActions = () => (
+  const renderActions = (id) => (
     <>
       <Icon
         icon="fa-pencil"
         alt="edit"
-        action={e => handleEditAgent(e, 'edit_agent')}
+        action={e => handleEditAgent(e, id)}
       />
       <Icon
         icon="fa-lock"
         alt="locked"
-        action={e => handleConfirmed(e, handleLocked, 'notification.locked_confirmed')}
+        action={e => handleConfirmed(e, id, handleLocked, 'notification.locked_confirmed')}
       />
       <Icon
         icon="fa-trash"
         alt="delete"
-        action={e => handleConfirmed(e, handleDelete, 'notification.delete_confirmed')}
+        action={e => handleConfirmed(e, id, handleDelete, 'notification.delete_confirmed')}
       />
     </>
   )
 
-  const renderLink = (label, value, url, handleAction, type, row) => (
+  const renderLink = (label, value, url, handleAction, type, row, isSmall = false ) => (
     <>
-      <Icon
-        icon="fa-add"
-        alt="add"
-        action={e => handleAction(e, row)}
-      />
+      {
+        !isSmall &&
+        <Icon
+          icon="fa-add"
+          alt="add"
+          action={e => handleAction(e, row)}
+        />
+      }
       <Reference
         to={url}
         classes={['outline']}
@@ -214,6 +249,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           )
         }
         <div className={style.cell}>{t('actions')}</div>
+        <div className={style.cell}>{t('subagents')}</div>
         <div className={style.cell}>{t('shops')}</div>
         <div className={style.cell}>{t('cashiers')}</div>
         <div className={style.cell}>{t('players')}</div>
@@ -236,7 +272,20 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                     </div>
                   )
                 }
-                <div className={style.cell}>{renderActions()}</div>
+                <div className={style.cell}>{renderActions(row.id)}</div>
+                <div className={style.cell}>
+                  {
+                    renderLink(
+                      'subagents',
+                      row.shops,
+                      `${NAVIGATION.agents.link}/${row.id}`,
+                      handleAgent,
+                      2,
+                      row,
+                      row.create_subagents === '0'
+                    )
+                  }
+                </div>
                 <div className={style.cell}>{renderLink('shops', row.shops, `${NAVIGATION.shops.link}/${row.id}`, handleShop, 2, row)}</div>
                 <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.id}`, handleCashier, 4, row)}</div>
                 <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.id}`, handlePlayer, 3, row)}</div>

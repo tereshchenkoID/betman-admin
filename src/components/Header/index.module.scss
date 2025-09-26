@@ -4,7 +4,7 @@
   display: grid;
   position: sticky;
   top: 0;
-  grid-template-columns: 1fr auto rem(80px) auto;
+  grid-template-columns: 1fr repeat(3, auto);
   align-items: center;
   column-gap: rem(15px);
   padding-inline: rem(24px);

@@ -37,17 +37,17 @@ const AgentEdit = ({ data }) => {
   const ActiveComponent = TABS[active].component
 
   const handleLoad = async (key = TABS[active].key) => {
-    const json = await request(REQUEST_TYPE.GET, `agent/edit/${key}/`)
+    const json = await request(REQUEST_TYPE.GET, `agent/edit/${key}/${data?.id}`)
     setFilter(json?.data)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, key = TABS[active].key) => {
     e.preventDefault()
 
     const formData = new FormData()
     formData.append('data', JSON.stringify(filter))
 
-    const json = await request(REQUEST_TYPE.POST, `agent/edit/${data.key}`, formData)
+    const json = await request(REQUEST_TYPE.POST, `agent/edit/${key}/${data?.id}`, formData)
     setFilter(json?.data)
   }
 
@@ -101,20 +101,19 @@ const AgentEdit = ({ data }) => {
                   />
             }
           </Suspense>
+          <div className={style.actions}>
+            <Button
+              type={'submit'}
+              classes={['primary']}
+              placeholder={t('save')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleLoad}
+            />
+          </div>
         </form>
-
-        <div className={style.actions}>
-          <Button
-            type={'submit'}
-            classes={['primary']}
-            placeholder={t('save')}
-          />
-          <Button
-            type={'reset'}
-            placeholder={t('cancel')}
-            onChange={handleLoad}
-          />
-        </div>
       </div>
     </div>
   )

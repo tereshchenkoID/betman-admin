@@ -4,6 +4,8 @@ import Select from 'react-select'
 
 import classNames from 'classnames'
 
+import Skeleton from 'modules/Skeleton'
+
 import style from './index.module.scss'
 
 const CustomSelect = ({
@@ -26,7 +28,7 @@ const CustomSelect = ({
     return options.find(option => option.value === data) || null
   }, [data, options])
 
-  if (options.length === 0) return null
+  if (options.length === 0) return <Skeleton styles={{ height: 56 }} counts={1} />
 
   return (
     <div

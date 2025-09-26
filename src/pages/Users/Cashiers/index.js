@@ -141,8 +141,7 @@ const Cashiers = () => {
         quantity={!isSingle && quantity}
         setQuantity={!isSingle && setQuantity}
       >
-        <Debug data={sort} />
-        <Debug data={filter} />
+        <Debug data={{...filter, ...sort}} />
         <form onSubmit={handleSubmit}>
           <div className={style.grid}>
             <Field

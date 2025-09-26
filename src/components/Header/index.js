@@ -14,15 +14,18 @@ const Header = () => {
   return (
     <header className={style.block}>
       <Clock />
-      <div className={style.balance}>
-        {
-          Object.entries(auth?.credits).map(([key, value]) =>
-            <p key={key}>
-              <strong>{value}</strong> <span>{key}</span>
-            </p>
-          )
-        }
-      </div>
+      {
+        auth.unlimited_balance !== '1' &&
+        <div className={style.balance}>
+          {
+            Object.entries(auth?.credits).map(([key, value]) =>
+              <p key={key}>
+                <strong>{value}</strong> <span>{key}</span>
+              </p>
+            )
+          }
+        </div>
+      }
       <Language />
       <Account />
     </header>
