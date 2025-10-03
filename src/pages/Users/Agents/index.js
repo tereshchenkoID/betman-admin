@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
+import { useApi } from 'hooks/useApi'
+import { useAuth} from 'hooks/useAuth'
+import { useSort } from 'hooks/useSort'
+import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 import { setAside } from 'store/actions/asideAction'
-import { useApi } from 'hooks/useApi'
-import { useAuth} from 'hooks/useAuth'
+import { setCmd } from 'store/actions/cmdAction'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -27,22 +31,23 @@ const CONFIG = [
   { key: 'full_name', text: 'full_name', sorted: true },
   { key: 'credits', text: 'credits' },
   { key: 'currency', text: 'currency' },
-  { key: 'locked', text: 'locked' },
   { key: 'date_created', text: 'date_created', sorted: true }
 ]
-
-const INITIAL_FILTER = { q: '', locked: -1 }
-const INITIAL_SORT = { key: null, direction: null }
 
 const Agents = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { request, loading } = useApi()
   const { auth } = useAuth()
-  const [filter, setFilter] = useState(INITIAL_FILTER)
-  const [sort, setSort] = useState(INITIAL_SORT)
+  const { agent } = useParams()
+  const { request, loading } = useApi()
+  const { cmd } = useSelector(state => state.cmd)
+
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '' }
+  const INITIAL_SORT = { key: null, direction: null }
+
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(service.QUANTITY[20])
+  const isSingle = agent
 
   const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
@@ -59,8 +64,15 @@ const Agents = () => {
       formData.append('sort_direction', nextSort.direction)
     }
 
+    if (isSingle) {
+      formData.append('agent', agent)
+    }
+
     setData(await request(REQUEST_TYPE.POST, 'agents/', formData))
   }
+
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
+  const { sort, setSort, handleSortChange } = useSort(INITIAL_SORT, handleSubmit, filter)
 
   const handleResetForm = () => {
     setFilter(INITIAL_FILTER)
@@ -68,53 +80,24 @@ const Agents = () => {
     handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
   }
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
-
-  const handleSortChange = (fieldName, sorted) => {
-    if (!sorted) return
-
-    setSort((prev) => {
-      if (prev.key === fieldName) {
-        const nextDirection =
-          prev.direction === null
-            ? 'asc'
-            : prev.direction === 'asc' ? 'desc' : null;
-
-        const value = {
-          key: nextDirection ? fieldName : null,
-          direction: nextDirection,
-        }
-
-        handleSubmit(null, 0, filter, value)
-        return value
-      }
-
-      const value = {
-        key: fieldName,
-        direction: 'asc',
-      }
-
-      handleSubmit(null, 0, filter, value)
-      return value
-    })
-  }
-
   useEffect(() => {
     handleSubmit(null, 0);
   }, [quantity])
+
+  useEffect(() => {
+    if (cmd === 'refresh-table') {
+      handleSubmit(null, data?.pagination?.page, filter, sort);
+      dispatch(setCmd(null))
+    }
+  }, [cmd])
 
   return (
     <>
       <Paper
         headline={t(NAVIGATION.agents.text)}
         classes={['sm']}
-        quantity={quantity}
-        setQuantity={setQuantity}
+        quantity={!isSingle && quantity}
+        setQuantity={!isSingle && setQuantity}
       >
         <Debug data={{...filter, ...sort}} />
         <form onSubmit={(e) => handleSubmit(e, 0)}>
@@ -174,11 +157,14 @@ const Agents = () => {
           loading &&
           <Loader type={'loading'} />
         }
-        <Pagination
-          position='top'
-          pagination={data.pagination}
-          handleSubmit={handleSubmit}
-        />
+        {
+          !isSingle &&
+          <Pagination
+            position='top'
+            pagination={data.pagination}
+            handleSubmit={handleSubmit}
+          />
+        }
         {
           data?.code &&
           <Table
@@ -188,11 +174,14 @@ const Agents = () => {
             handleSortChange={handleSortChange}
           />
         }
-        <Pagination
-          position='bottom'
-          pagination={data.pagination}
-          handleSubmit={handleSubmit}
-        />
+        {
+          !isSingle &&
+          <Pagination
+            position='bottom'
+            pagination={data.pagination}
+            handleSubmit={handleSubmit}
+          />
+        }
       </Paper>
     </>
   )

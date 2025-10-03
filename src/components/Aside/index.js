@@ -20,8 +20,8 @@ const PlayerEdit = lazy(() => import('modules/Accounts/PlayerEdit'))
 const CashierEdit = lazy(() => import('modules/Accounts/CashierEdit'))
 const ShopEdit = lazy(() => import('modules/Accounts/ShopEdit'))
 const Confirmed = lazy(() => import('modules/Confirmed'))
-const PlaceInfo = lazy(() => import('modules/Hall/PlaceInfo'))
-const PlaceLogin = lazy(() => import('modules/Hall/PlaceLogin'))
+const PlaceInfo = lazy(() => import('pages/Dashboard/Hall/PlaceInfo'))
+const PlaceLogin = lazy(() => import('pages/Dashboard/Hall/PlaceLogin'))
 
 const components = {
   'account-deposit': Deposit,
@@ -42,7 +42,7 @@ const components = {
 
 const checkCmd = (cmd) => {
   const Component = components[cmd.meta.cmd]
-  return Component ? <Component data={cmd} /> : null
+  return Component ? <Component mock={cmd} /> : null
 }
 
 const Aside = () => {

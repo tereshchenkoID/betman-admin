@@ -104,6 +104,7 @@ const Nav = () => {
 
   const handleOption = (e) => {
     const modules = {
+      [ACCOUNT_TYPE.ADMIN]: 'account-agent-edit',
       [ACCOUNT_TYPE.AGENT]: 'account-agent-edit',
       [ACCOUNT_TYPE.SHOP]: 'account-shop-edit',
       [ACCOUNT_TYPE.CASHIER]: 'account-cashier-edit',
@@ -113,10 +114,11 @@ const Nav = () => {
     dispatch(
       setAside({
         meta: {
-          title: t('edit_user'),
+          title: t('edit'),
           cmd: modules[role],
           buttonRef: e.target,
-        }
+        },
+        id: auth.id,
       }),
     )
   }

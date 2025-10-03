@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { NAVIGATION } from 'constant/config'
+
 import { getDate } from 'helpers/getDate'
 import { postData } from 'helpers/api'
 
@@ -13,7 +15,6 @@ import CustomSelect from 'components/Select'
 import CustomTable from 'modules/CustomTable'
 
 import style from './index.module.scss'
-import {NAVIGATION} from "../../../constant/config";
 
 const CONFIG = [
   { key: 'id', text: 'id', sorted: true },
@@ -74,7 +75,7 @@ const Financial = () => {
       return true
     })
 
-    postData('financial', formData).then(json => {
+    postData('financial/', formData).then(json => {
       if (json?.code === '0') {
         setData(json)
         setLoading(false)

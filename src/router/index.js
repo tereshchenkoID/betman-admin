@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: withSuspense(Dashboard) },
       {
-        path: NAVIGATION.agents.link,
+        path: `${NAVIGATION.agents.link}/:agent?`,
         element: (
           <ProtectedRoute allowedRoles={['-1', '0', '1']}>
             {withSuspense(UsersAgents)}

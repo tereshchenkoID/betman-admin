@@ -1,31 +1,29 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
+import { setCmd } from 'store/actions/cmdAction'
 import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
-import CustomSelect from "components/Select";
-import GeneratePassword from 'modules/GeneratePassword'
+import CustomSelect from 'components/Select'
+import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
+import GeneratePassword from 'modules/GeneratePassword'
 
 import style from './index.module.scss'
 
-const Player = ({ data }) => {
-  const dispatch = useDispatch()
+const Player = ({ mock }) => {
   const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
-    username: '',
-    password: '',
-    confirm_password: '',
-    balance: '0',
-    bonus: '',
-  }
-  const [filter, setFilter] = useState(initialValue)
+  const dispatch = useDispatch()
+  const { settings } = useSelector(state => state.settings)
+  const { request } = useApi()
+  const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -34,89 +32,111 @@ const Player = ({ data }) => {
     }))
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
+  const handleLoad = async () => {
+    const { data, error } = await request(REQUEST_TYPE.GET, `player/add/general/${mock.id || 0}`)
+
+    if (!error) {
+      setFilter(data)
+    }
   }
 
-  const bonusOptions = useMemo(() => {
-    return Object.entries({
-      cashback: 'cashback',
-      bounceback: 'bounceback'
-    }).map(([key, label]) => ({
-      value: key,
-      label,
-    }))
-  }, [])
-
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    // TODO change url
-    postData(`new-player`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
+    const { data, error } = await request(REQUEST_TYPE.POST, 'player/add/general/', formData)
 
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+      dispatch(setAside(null))
+    }
   }
+
+  useEffect(() => {
+    handleLoad()
+  }, [])
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
+
+  if (!filter) return <Loader type='content' />
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
+      <CustomSelect
+        placeholder={t('agents')}
+        options={agentsOptions}
+        data={filter?.parent}
+        onChange={value => handlePropsChange('parent', value)}
+      />
       <Field
         type={'text'}
-        placeholder={t('current_id')}
-        data={filter.id}
+        placeholder={t('name')}
+        data={filter?.name}
+        onChange={(e) => handlePropsChange('name', e)}
         isRequired={true}
-        isDisabled={true}
       />
       <Field
         type={'text'}
         placeholder={t('username')}
-        data={filter.username}
-        onChange={value => handlePropsChange('username', value)}
+        data={filter?.username}
+        onChange={(e) => handlePropsChange('username', e)}
         isRequired={true}
       />
       <GeneratePassword
-        list={['password', 'confirm_password']}
+        list={['password']}
         data={filter}
         action={setFilter}
         filter={filter}
         handlePropsChange={handlePropsChange}
       />
+      <div className={style.grid}>
+        <Field
+          type={'number'}
+          placeholder={t('balance')}
+          data={filter?.balance}
+          onChange={(e) => handlePropsChange('balance', e)}
+          isRequired={true}
+        />
+        <CustomSelect
+          placeholder={t('currency')}
+          options={[
+            { value: -1, label: t('all') },
+            ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+              value: key,
+              label: el.text
+            }))
+          ]}
+          isDisabled={true}
+          data={filter?.currency}
+          onChange={() => {}}
+          isRequired={true}
+        />
+      </div>
       <Field
-        type={'balance'}
-        placeholder={t('balance')}
-        data={filter.balance}
-        onChange={value => handlePropsChange('balance', value)}
-        isRequired={true}
+        type={'text'}
+        placeholder={t('contact')}
+        data={filter?.contact}
+        onChange={(e) => handlePropsChange('contact', e)}
       />
-      <CustomSelect
-        placeholder={t('select_bonus')}
-        options={bonusOptions}
-        data={filter.bonus}
-        onChange={value => handlePropsChange('bonus', value)}
+      <Field
+        type={'email'}
+        placeholder={t('email')}
+        data={filter?.email}
+        onChange={(e) => handlePropsChange('email', e)}
+      />
+      <Field
+        type={'text'}
+        placeholder={t('phone')}
+        data={filter?.phone}
+        onChange={(e) => handlePropsChange('phone', e)}
       />
       <div className={style.actions}>
         <Button
@@ -127,7 +147,7 @@ const Player = ({ data }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleResetForm}
+          onChange={handleLoad}
         />
       </div>
     </form>

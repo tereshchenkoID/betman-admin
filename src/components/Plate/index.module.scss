@@ -1,0 +1,22 @@
+@use 'scss/config' as *;
+
+.block {
+  position: relative;
+  overflow: hidden;
+  padding: rem(4px) rem(8px);
+  border-radius: var(--border-radius-8);
+  border: rem(1px) solid currentColor;
+  font-size: rem(12px);
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    opacity: 0.1;
+    background-color: currentColor;
+    content: '';
+  }
+
+  &.error {
+    color: var(--red);
+  }
+}

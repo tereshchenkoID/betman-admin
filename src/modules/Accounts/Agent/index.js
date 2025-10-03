@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
 import { useAuth } from 'hooks/useAuth'
+import { setCmd } from 'store/actions/cmdAction'
+import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -18,8 +20,9 @@ import GeneratePassword from 'modules/GeneratePassword'
 
 import style from './index.module.scss'
 
-const Agent = () => {
+const Agent = ({ mock }) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { auth } = useAuth()
   const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
@@ -33,8 +36,11 @@ const Agent = () => {
   }
 
   const handleLoad = async () => {
-    const json = await request(REQUEST_TYPE.GET, 'agent/add/general/')
-    setFilter(json?.data)
+    const { data, error } = await request(REQUEST_TYPE.GET, `agent/add/general/${mock.id || 0}`)
+
+    if (!error) {
+      setFilter(data)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -43,8 +49,13 @@ const Agent = () => {
     const formData = new FormData()
     formData.append('data', JSON.stringify(filter))
 
-    const json = await request(REQUEST_TYPE.POST, 'agent/add/general/', formData)
-    setFilter(json?.data)
+    const { data, error } = await request(REQUEST_TYPE.POST, 'agent/add/general/', formData)
+
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+      dispatch(setAside(null))
+    }
   }
 
   useEffect(() => {
@@ -96,7 +107,7 @@ const Agent = () => {
         isRequired={true}
       />
       {
-        auth.unlimited_balance !== '1' &&
+        auth.unlimited_balance === '1' &&
         <Toggle
           placeholder={t('unlimited_balance')}
           data={filter?.unlimited_balance}
@@ -104,7 +115,7 @@ const Agent = () => {
         />
       }
       {
-        auth.create_subagents !== '1' &&
+        auth.create_subagents === '1' &&
         <Toggle
           placeholder={t('create_subagents')}
           data={filter?.create_subagents}

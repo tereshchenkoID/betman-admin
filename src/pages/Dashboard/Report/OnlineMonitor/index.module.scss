@@ -1,0 +1,52 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  gap: rem(16px);
+}
+
+.list {
+  display: grid;
+  gap: rem(16px);
+}
+
+.item {
+  display: grid;
+  position: relative;
+  grid-template-columns: rem(65px) 1fr;
+  align-items: center;
+  justify-content: center;
+  padding-left: rem(20px);
+  gap: rem(16px);
+  min-height: rem(65px);
+  font-size: rem(14px);
+
+  &.wide {
+    grid-template-columns: rem(200px) 1fr;
+    border-bottom: rem(1px) solid var(--border);
+  }
+}
+
+.line {
+  @include size(rem(8px), auto);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: rem(-1px);
+}
+
+.title {
+  @include flex($align-items: baseline);
+
+  gap: rem(6px);
+}
+
+.circle {
+  @include flex(center, center);
+  @include size(rem(65px));
+
+  border-radius: 50%;
+}

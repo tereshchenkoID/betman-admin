@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
@@ -32,11 +32,13 @@ const Edit = ({ id }) => {
   const { request } = useApi()
 
   const INITIAL_FILTER = {
+    id: null,
     image: '',
     visibility: 0,
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         title: '',
+        teaser: '',
         description: '',
         visibility: 0,
         category: '',
@@ -65,25 +67,24 @@ const Edit = ({ id }) => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const formData = buildFormData(filter)
 
-    if (!isAdd) {
-      formData.append('id', filter.id)
-    }
+    const { data, error } = await request(REQUEST_TYPE.POST, `promo/${isAdd ? 'add' : 'edit'}`, formData)
 
-    const json = await request(REQUEST_TYPE.POST, `promo/${isAdd ? 'add' : 'edit'}`, formData)
-    setFilter(json?.data)
+    if (!error) {
+      setFilter(data)
 
-    if (isAdd) {
-      navigate(NAVIGATION.managements.promos.link)
+      if (isAdd) {
+        navigate(NAVIGATION.managements.promos.link)
+      }
     }
   }
 
   const handleLoad = async () => {
-    const json = await request(REQUEST_TYPE.GET, `promo/${id}`)
-    setFilter(json?.data)
+    const { data } = await request(REQUEST_TYPE.GET, `promo/${id}`)
+    setFilter(data)
   }
 
   useEffect(() => {
@@ -130,6 +131,13 @@ const Edit = ({ id }) => {
               onChange={value => handlePropsChange(`translations.${active}.title`, value)}
               isRequired={true}
             />
+            <Field
+              type={'text'}
+              placeholder={t('teaser')}
+              data={currentTranslation?.teaser}
+              onChange={value => handlePropsChange(`translations.${active}.teaser`, value)}
+              isRequired={true}
+            />
             <div>
               <Field
                 type={'text'}
@@ -158,7 +166,7 @@ const Edit = ({ id }) => {
                   data={currentTranslation?.button.link}
                   onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
                 />
-                <p className={style.label}>Example: <strong>promotions/first-deposit</strong></p>
+                <p className={style.label}>Example: <strong>/promo/first-deposit</strong></p>
               </div>
             </div>
             <Checkbox

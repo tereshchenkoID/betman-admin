@@ -1,14 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { setAside } from 'store/actions/asideAction'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import classNames from 'classnames'
 
-import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
+import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
 import { buildFormData } from 'helpers/buildFormData'
+import { setCmd } from 'store/actions/cmdAction'
+import { setAside } from 'store/actions/asideAction'
 
 import Icon from 'components/Icon'
 import Reference from 'components/Reference'
@@ -21,7 +23,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const dispatch = useDispatch()
   const { request } = useApi()
 
-  const handleEditAgent = (e, row) => {
+  const handleEdit = (e, row) => {
     dispatch(
       setAside({
         meta: {
@@ -29,7 +31,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-agent-edit',
           buttonRef: e.target,
         },
-        id: row,
+        id: row.id,
       }),
     )
   }
@@ -99,20 +101,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handleCashier = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('cashier'),
-          cmd: 'account-cashier',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
-  }
-
-  const handleConfirmed = (e, id, onChange, title) => {
+  const handleConfirmed = (e, row, onChange, title) => {
     dispatch(
       setAside({
         meta: {
@@ -120,32 +109,32 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'confirmed',
           buttonRef: e.target,
         },
-        action: (result) => onChange(result, id),
+        action: (result) => onChange(result, row),
       }),
     )
   }
 
-  const handleLocked = async (e, id) => {
+  const handleLocked = async (e, row) => {
     if (e === 1) {
-      const formData = buildFormData({ id: id })
+      const formData = buildFormData({ id: row.id, locked: row.locked === '1' ? '0' : '1' })
       await request(REQUEST_TYPE.POST, 'agent/locked', formData)
     }
+    dispatch(setCmd('refresh-table'))
     dispatch(setAside(null))
   }
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (e, row) => {
     if (e === 1) {
-      const formData = buildFormData({ id: id })
+      const formData = buildFormData({ id: row.id })
       await request(REQUEST_TYPE.POST, 'agent/delete', formData)
     }
+    dispatch(setCmd('refresh-table'))
     dispatch(setAside(null))
   }
 
   const renderCell = (key, row) => {
     const value = row[key]
     switch (key) {
-      case 'locked':
-        return t(service.YES_NO[value])
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
@@ -183,42 +172,45 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     }
   }
 
-  const renderActions = (id) => (
+  const renderActions = (row) => (
     <>
       <Icon
         icon="fa-pencil"
         alt="edit"
-        action={e => handleEditAgent(e, id)}
+        action={e => handleEdit(e, row)}
       />
       <Icon
-        icon="fa-lock"
-        alt="locked"
-        action={e => handleConfirmed(e, id, handleLocked, 'notification.locked_confirmed')}
+        icon={`${row.locked === '0' ? 'fa-lock' : 'fa-lock-open'}`}
+        alt={`${row.locked === '0' ? t('lock') : t('unlock')}`}
+        action={e => handleConfirmed(e, row, handleLocked, 'notification.locked_confirmed')}
       />
       <Icon
         icon="fa-trash"
         alt="delete"
-        action={e => handleConfirmed(e, id, handleDelete, 'notification.delete_confirmed')}
+        action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
       />
     </>
   )
 
-  const renderLink = (label, value, url, handleAction, type, row, isSmall = false ) => (
-    <>
+  const renderLink = (label, value, url, handleAction, row, isSmall = false ) => (
+    <div className={style.action}>
       {
-        !isSmall &&
-        <Icon
-          icon="fa-add"
-          alt="add"
-          action={e => handleAction(e, row)}
-        />
+        isSmall
+          ?
+            <div />
+          :
+            <Icon
+              icon="fa-add"
+              alt="add"
+              action={e => handleAction(e, row)}
+            />
       }
       <Reference
         to={url}
         classes={['outline']}
         placeholder={value}
       />
-    </>
+    </div>
   )
 
   return (
@@ -260,7 +252,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             data.map((row, idx) =>
               <div
                 key={idx}
-                className={style.row}
+                className={
+                  classNames(
+                    style.row,
+                    row.locked === '1' && style.locked
+                  )
+                }
               >
                 {
                   config.map(({ key }) =>
@@ -272,23 +269,17 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                     </div>
                   )
                 }
-                <div className={style.cell}>{renderActions(row.id)}</div>
+                <div className={style.cell}>{renderActions(row)}</div>
+                <div className={style.cell}>{renderLink('subagents', row.subagents, `${NAVIGATION.agents.link}/${row.id}`, handleAgent, row, row.create_subagents === '0')}</div>
+                <div className={style.cell}>{renderLink('shops', row.shops, `${NAVIGATION.shops.link}/${row.id}`, handleShop, row)}</div>
                 <div className={style.cell}>
-                  {
-                    renderLink(
-                      'subagents',
-                      row.shops,
-                      `${NAVIGATION.agents.link}/${row.id}`,
-                      handleAgent,
-                      2,
-                      row,
-                      row.create_subagents === '0'
-                    )
-                  }
+                  <Reference
+                    to={`${NAVIGATION.cashiers.link}/${row.id}`}
+                    classes={['outline']}
+                    placeholder={row.cashiers}
+                  />
                 </div>
-                <div className={style.cell}>{renderLink('shops', row.shops, `${NAVIGATION.shops.link}/${row.id}`, handleShop, 2, row)}</div>
-                <div className={style.cell}>{renderLink('cashiers', row.cashiers, `${NAVIGATION.cashiers.link}/${row.id}`, handleCashier, 4, row)}</div>
-                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.id}`, handlePlayer, 3, row)}</div>
+                <div className={style.cell}>{renderLink('players', row.players, `${NAVIGATION.players.link}/${row.id}`, handlePlayer, row)}</div>
               </div>
             )
           :

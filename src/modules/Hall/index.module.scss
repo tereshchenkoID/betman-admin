@@ -1,9 +1,0 @@
-@use 'scss/config' as *;
-
-.block {
-  @include size(100%);
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: rem(16px);
-}

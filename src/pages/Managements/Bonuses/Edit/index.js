@@ -46,10 +46,12 @@ const Edit = ({ id }) => {
 
   const INITIAL_FILTER = {
     id: null,
-    type: '-1',
-    status: '0',
+    type: -1,
+    status: 0,
     created: null,
     updated: null,
+    budget: '',
+    currency: -1,
     period: {
       type: -1,
       from: '',
@@ -119,30 +121,34 @@ const Edit = ({ id }) => {
 
     const formData = buildFormData(filter)
 
-    if (!isAdd) {
-      formData.append('id', filter.id)
-    }
+    const { data, error } = await request(REQUEST_TYPE.POST, `bonus/${isAdd ? 'add' : 'edit'}`, formData)
 
-    const json = await request(REQUEST_TYPE.POST, `bonus/${isAdd ? 'add' : 'edit'}`, formData)
-    setFilter(json?.data)
+    if (!error) {
+      setFilter(data)
 
-    if (isAdd) {
-      navigate(NAVIGATION.managements.bonuses.link)
+      if (isAdd) {
+        navigate(NAVIGATION.managements.bonuses.link)
+      }
     }
   }
 
   const handleLoad = async () => {
-    const json = await request(REQUEST_TYPE.GET, `bonus/${id}`)
-    setFilter(json?.data)
+    const { data } = await request(REQUEST_TYPE.GET, `bonus/${id}`)
+    setFilter(data)
+
+    handleComponents(data?.type)
   }
 
   const handleComponents = async (id) => {
-    const json = await request(REQUEST_TYPE.GET, `get_bonus_types/${id}`)
-    setComponents(json?.data.map(e => [e, settings.bonuses.components[e]]))
+    const { data } = await request(REQUEST_TYPE.GET, `get_bonus_types/${id}`)
+
+    setComponents(data.map(e => [e, settings.bonuses.components[e]]))
   }
 
   useEffect(() => {
-    if(!isAdd) handleLoad()
+    if(!isAdd) {
+      handleLoad()
+    }
   }, [])
 
   const bonusKey = component ? settings.bonuses.components[component] : null
@@ -186,6 +192,28 @@ const Edit = ({ id }) => {
                   onChange={value => handlePropsChange('status', value)}
                   isRequired={true}
                 />
+                <div className={style.grid}>
+                  <Field
+                    type={'number'}
+                    placeholder={t('budget')}
+                    data={filter.budget}
+                    onChange={value => handlePropsChange('budget', value)}
+                    isRequired={true}
+                  />
+                  <CustomSelect
+                    placeholder={t('currency')}
+                    options={[
+                      { value: -1, label: t('all') },
+                      ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+                        value: key,
+                        label: el.text
+                      }))
+                    ]}
+                    isRequired={true}
+                    data={filter.currency}
+                    onChange={value => handlePropsChange('currency', value)}
+                  />
+                </div>
                 <CustomSelect
                   placeholder={t('period')}
                   options={[

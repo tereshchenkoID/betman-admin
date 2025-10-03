@@ -1,12 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
-import { setAside } from 'store/actions/asideAction'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
 
-import { service } from 'constant/config'
+import { REQUEST_TYPE } from 'constant/config'
 
+import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
+import { buildFormData } from 'helpers/buildFormData'
+import { setCmd } from 'store/actions/cmdAction'
+import { setAside } from 'store/actions/asideAction'
 
 import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
@@ -17,6 +21,7 @@ import style from './index.module.scss'
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { request } = useApi()
 
   const handleDeposit = (e, row) => {
     dispatch(
@@ -44,11 +49,11 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handleCashierEdit = (e, row) => {
+  const handleEdit = (e, row) => {
     dispatch(
       setAside({
         meta: {
-          title: t('cashier_edit'),
+          title: t('edit'),
           cmd: 'account-cashier-edit',
           buttonRef: e.target,
         },
@@ -78,29 +83,35 @@ const Table = ({ data, config, sort, handleSortChange }) => {
 
     const value = row[key]
     switch (key) {
-      case 'locked':
-        return t(service.YES_NO[value])
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
         return value
           ?
             <div>
-              <ReadMore data={value} />
-              <div className={style.actions}>
-                <Icon
-                  classes={['success']}
-                  icon='fa-plus'
-                  alt='deposit'
-                  action={e => handleDeposit(e, row)}
-                />
-                <Icon
-                  classes={['warning']}
-                  icon='fa-minus'
-                  alt='withdraw'
-                  action={e => handleWithdrawal(e, row)}
-                />
-              </div>
+              {
+                row.unlimited_balance === '1'
+                  ?
+                    t('unlimited')
+                  :
+                    <>
+                      <ReadMore data={value} />
+                      <div className={style.actions}>
+                        <Icon
+                          classes={['success']}
+                          icon="fa-plus"
+                          alt="deposit"
+                          action={e => handleDeposit(e, row)}
+                        />
+                        <Icon
+                          classes={['warning']}
+                          icon="fa-minus"
+                          alt="withdraw"
+                          action={e => handleWithdrawal(e, row)}
+                        />
+                      </div>
+                    </>
+              }
             </div>
           :
             null
@@ -109,7 +120,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     }
   }
 
-  const handleConfirmed = (e, onChange, title) => {
+  const handleConfirmed = (e, row, onChange, title) => {
     dispatch(
       setAside({
         meta: {
@@ -117,35 +128,45 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'confirmed',
           buttonRef: e.target,
         },
-        action: (result) => onChange(result),
+        action: (result) => onChange(result, row),
       }),
     )
   }
 
-  const handleLocked = (e) => {
-    alert(`Locked ${e}`)
+  const handleLocked = async (e, row) => {
+    if (e === 1) {
+      const formData = buildFormData({ id: row.id, locked: row.locked === '1' ? '0' : '1' })
+      await request(REQUEST_TYPE.POST, 'cashier/locked', formData)
+    }
+    dispatch(setCmd('refresh-table'))
+    dispatch(setAside(null))
   }
 
-  const handleDelete = (e) => {
-    alert(`Delete ${e}`)
+  const handleDelete = async (e, row) => {
+    if (e === 1) {
+      const formData = buildFormData({ id: row.id })
+      await request(REQUEST_TYPE.POST, 'cashier/delete', formData)
+    }
+    dispatch(setCmd('refresh-table'))
+    dispatch(setAside(null))
   }
 
-  const renderActions = () => (
+  const renderActions = (row) => (
     <>
       <Icon
-        icon='fa-pencil'
-        alt='edit'
-        action={e => handleCashierEdit(e)}
+        icon="fa-pencil"
+        alt="edit"
+        action={e => handleEdit(e, row)}
       />
       <Icon
-        icon='fa-lock'
-        alt='locked'
-        action={e => handleConfirmed(e, handleLocked, 'locked_confirmed')}
+        icon={`${row.locked === '0' ? 'fa-lock' : 'fa-lock-open'}`}
+        alt={`${row.locked === '0' ? t('lock') : t('unlock')}`}
+        action={e => handleConfirmed(e, row, handleLocked, 'notification.locked_confirmed')}
       />
       <Icon
-        icon='fa-trash'
-        alt='delete'
-        action={e => handleConfirmed(e, handleDelete, 'delete_confirmed')}
+        icon="fa-trash"
+        alt="delete"
+        action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
       />
     </>
   )
@@ -186,7 +207,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             data.map((row, idx) =>
               <div
                 key={idx}
-                className={style.row}
+                className={
+                  classNames(
+                    style.row,
+                    row.locked === '1' && style.locked
+                  )
+                }
               >
                 {
                   config.map(({ key }) =>
@@ -198,7 +224,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
                     </div>
                   )
                 }
-                <div className={style.cell}>{renderActions()}</div>
+                <div className={style.cell}>{renderActions(row)}</div>
               </div>
             )
           :

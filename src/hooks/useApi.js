@@ -27,16 +27,16 @@ export const useApi = () => {
         const json = await apiFn(url, payload)
 
         if (json?.code === '0') {
-          notify(json, opts?.successMessage)
-          return json
+          notify(json, json.message || opts?.successMessage)
+          return { ...json, error: null }
         } else {
-          notify(json, opts?.errorMessage || t('notification.failed_request'))
-          return { data: null }
+          notify(json, json.error_message || opts?.errorMessage || t('notification.failed_request'))
+          return { data: null, error: json.error_message }
         }
       } catch (err) {
         notify({ code: '1', message: err?.message }, opts?.errorMessage)
         setError(err)
-        return { data: null }
+        return { data: null, error: err?.message }
       } finally {
         setLoading(false)
       }

@@ -1,136 +1,123 @@
-import React, { useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useState, Suspense, lazy, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import classNames from 'classnames'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
-import { setAside } from 'store/actions/asideAction'
+import { REQUEST_TYPE } from 'constant/config'
 
-import Field from 'components/Field'
+import { useApi } from 'hooks/useApi'
+import { setCmd } from 'store/actions/cmdAction'
+
 import Button from 'components/Button'
-import CustomSelect from "components/Select";
-import GeneratePassword from 'modules/GeneratePassword'
+import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const PlayerEdit = ({ data }) => {
-  const dispatch = useDispatch()
+const General = lazy(() => import('./General'))
+const Security = lazy(() => import('./Security'))
+
+const TABS = [
+  { key: 'general', component: General },
+  { key: 'security', component: Security }
+]
+
+const PlayerEdit = ({ mock }) => {
   const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
-    username: '',
-    password: '',
-    confirm_password: '',
-    balance: '0',
-    bonus: '',
-  }
-  const [filter, setFilter] = useState(initialValue)
+  const dispatch = useDispatch()
+  const { request, loading } = useApi()
+  const [active, setActive] = useState(0)
+  const [filter, setFilter] = useState(null)
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
+  const ActiveComponent = TABS[active].component
+
+  const handleLoad = async (key = TABS[active].key) => {
+    const { data, error } = await request(REQUEST_TYPE.GET, `player/edit/${key}/${mock?.id}`)
+
+    if (!error) {
+      setFilter(data)
+    }
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
-  }
-
-  const bonusOptions = useMemo(() => {
-    return Object.entries({
-      cashback: 'cashback',
-      bounceback: 'bounceback'
-    }).map(([key, label]) => ({
-      value: key,
-      label,
-    }))
-  }, [])
-
-  const handleSubmit = e => {
+  const handleSubmit = async (e, key = TABS[active].key) => {
     e.preventDefault()
 
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    // TODO change url
-    postData(`new-player`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
+    const { data, error } = await request(REQUEST_TYPE.POST, `player/edit/${key}/${mock?.id}`, formData)
 
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+    }
   }
 
+  useEffect(() => {
+    handleLoad()
+  }, [])
+
   return (
-    <form className={style.block} onSubmit={handleSubmit}>
-      <Debug data={filter} />
-      <Field
-        type={'text'}
-        placeholder={t('current_id')}
-        data={filter.id}
-        isRequired={true}
-        isDisabled={true}
-      />
-      <Field
-        type={'text'}
-        placeholder={t('username')}
-        data={filter.username}
-        onChange={value => handlePropsChange('username', value)}
-        isRequired={true}
-      />
-      <GeneratePassword
-        list={['password', 'confirm_password']}
-        data={filter}
-        action={setFilter}
-        filter={filter}
-        handlePropsChange={handlePropsChange}
-      />
-      <Field
-        type={'balance'}
-        placeholder={t('balance')}
-        data={filter.balance}
-        onChange={value => handlePropsChange('balance', value)}
-        isRequired={true}
-      />
-      <CustomSelect
-        placeholder={t('select_bonus')}
-        options={bonusOptions}
-        data={filter.bonus}
-        onChange={value => handlePropsChange('bonus', value)}
-      />
-      <div className={style.actions}>
-        <Button
-          type={'submit'}
-          classes={['primary']}
-          placeholder={t('create')}
-        />
-        <Button
-          type={'reset'}
-          placeholder={t('cancel')}
-          onChange={handleResetForm}
-        />
+    <div className={style.block}>
+      <div className={style.header}>
+        {
+          TABS.map((el, idx) =>
+            <button
+              key={idx}
+              type="button"
+              className={
+                classNames(
+                  style.link,
+                  active === idx && style.active
+                )
+              }
+              onClick={() => {
+                setActive(idx)
+                setFilter(null)
+                handleLoad(TABS[idx].key)
+              }}
+            >
+              {t(el.key)}
+            </button>
+          )
+        }
       </div>
-    </form>
+
+      <div className={style.body}>
+        <Debug data={filter} />
+
+        <form
+          className={style.form}
+          onSubmit={handleSubmit}
+        >
+          <Suspense fallback={<Loader type={'content'} />}>
+            {
+              (loading && !filter)
+                ?
+                  <Loader type="content" />
+                :
+                  <ActiveComponent
+                    data={{ key: TABS[active].key }}
+                    filter={filter}
+                    setFilter={setFilter}
+                  />
+            }
+          </Suspense>
+          <div className={style.actions}>
+            <Button
+              type={'submit'}
+              classes={['primary']}
+              placeholder={t('save')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleLoad}
+            />
+          </div>
+        </form>
+      </div>
+    </div>
   )
 }
 

@@ -2,8 +2,11 @@ import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import i18n from 'i18next'
 
+import { REQUEST_TYPE } from 'constant/config'
+
 import classNames from 'classnames'
 
+import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
@@ -11,6 +14,7 @@ import style from './index.module.scss'
 
 const Language = () => {
   const { auth, updateAuth } = useAuth()
+  const { request } = useApi()
   const { settings } = useSelector(state => state.settings)
   const [active, setActive] = useState(false)
   const blockRef = useRef(null)
@@ -28,12 +32,14 @@ const Language = () => {
     },
   )
 
-  const handleChange = (el) => {
+  const handleChange = async (el) => {
     updateAuth({ language: el })
     i18n.changeLanguage(el.code)
     sessionStorage.setItem('language', JSON.stringify(el))
     setActive(false)
-    // window.location.reload()
+
+    await request(REQUEST_TYPE.GET, `lang/${el.code}`)
+    window.location.reload()
   }
 
   return (

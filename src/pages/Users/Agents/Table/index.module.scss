@@ -9,7 +9,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(3, 1fr) repeat(2, rem(80px)) repeat(2, 1fr) repeat(4, rem(100px));
+  grid-template-columns: rem(80px) repeat(3, 1fr) rem(80px) repeat(2, 1fr) repeat(4, rem(100px));
 
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--primary);
@@ -24,6 +24,10 @@
         cursor: pointer;
       }
     }
+  }
+
+  &.locked {
+    opacity: 0.5;
   }
 }
 
@@ -45,4 +49,10 @@
 
   gap: rem(6px);
   margin-top: rem(4px);
+}
+
+.action {
+  display: grid;
+  grid-template-columns: rem(32px) 1fr;
+  gap: rem(4px);
 }

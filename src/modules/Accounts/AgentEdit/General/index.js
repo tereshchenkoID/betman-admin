@@ -65,7 +65,7 @@ const General = ({ filter, setFilter }) => {
         isRequired={true}
       />
       {
-        auth.unlimited_balance !== '1' &&
+        auth.unlimited_balance === '1' &&
         <Toggle
           placeholder={t('unlimited_balance')}
           data={filter?.unlimited_balance}
@@ -73,7 +73,7 @@ const General = ({ filter, setFilter }) => {
         />
       }
       {
-        auth.create_subagents !== '1' &&
+        auth.create_subagents === '1' &&
         <Toggle
           placeholder={t('create_subagents')}
           data={filter?.create_subagents}

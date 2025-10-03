@@ -1,115 +1,124 @@
-import React, { useMemo, useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
-import { setAside } from 'store/actions/asideAction'
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
+import { useAuth } from 'hooks/useAuth'
+import { useFilterState } from 'hooks/useFilterState'
+import { setCmd } from 'store/actions/cmdAction'
+import { useOptions } from 'hooks/useOptions'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
-import CustomSelect from "components/Select";
+import CustomSelect from 'components/Select'
+import Plate from 'components/Plate'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const Deposit = ({ data }) => {
+const Deposit = ({ mock }) => {
+  const { t} = useTranslation()
   const dispatch = useDispatch()
-  const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
+  const { request } = useApi()
+  const { auth } = useAuth()
+
+  const INITIAL_FILTER = {
+    id: mock.id,
+    bonus: -1,
+    credits: mock.credits,
+    currency: -1,
     amount: '',
-    bonus: '',
-  }
-  const [filter, setFilter] = useState(initialValue)
-
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
-  }
+  const {filter, setFilter, handlePropsChange} = useFilterState(INITIAL_FILTER)
 
-  const bonusOptions = useMemo(() => {
-    return Object.entries({
-      cashback: 'cashback',
-      bounceback: 'bounceback'
-    }).map(([key, label]) => ({
-      value: key,
-      label,
-    }))
-  }, [filter.bonusOptions])
+  const isValid = filter?.amount !== '' && Number(filter?.amount) > 0 && (
+    auth.unlimited_balance === '1' || Number(filter?.amount) <= Number(auth.credits[filter.currency])
+  )
 
-  const handleSubmit = e => {
+  // const { options: bonusOptions } = useOptions(
+  //   'agents_tree/',
+  //   el => ({ value: el.id, label: el.username }),
+  //   [{ value: -1, label: t('all') }]
+  // )
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (!isValid) return
+
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    // TODO change url
-    postData(`deposit`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
+    const { data, error } = await request(REQUEST_TYPE.POST, 'deposit/', formData)
 
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+    }
   }
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>
-      <Debug data={filter} />
+      <Debug data={filter}/>
       <Field
         type={'text'}
-        placeholder={t('current_id')}
-        data={filter.id}
+        placeholder={t('id')}
+        data={filter?.id}
         isRequired={true}
         isDisabled={true}
       />
-      <Field
-        type={'number'}
-        placeholder={t('amount')}
-        data={filter.amount}
-        onChange={value => handlePropsChange('amount', value)}
+      <CustomSelect
+        placeholder={t('credits')}
+        options={[
+          {value: -1, label: t('all')},
+          ...Object.entries(mock?.credits).map(([key, value]) => ({
+            value: key,
+            label: `${value} ${key}`
+          }))
+        ]}
+        data={filter?.currency}
+        onChange={value => {
+          handlePropsChange('currency', value)
+          handlePropsChange('amount', '')
+        }}
         isRequired={true}
       />
-      <CustomSelect
-        placeholder={t('select_bonus')}
-        options={bonusOptions}
-        data={filter.bonus}
-        onChange={value => handlePropsChange('bonus', value)}
-      />
+      {
+        filter?.currency !== -1 &&
+        <>
+          {
+            auth.unlimited_balance !== '1' && Number(filter?.amount) > Number(auth.credits[filter?.currency]) &&
+            <Plate data={t('notification.amount_greater_balance')} />
+          }
+          <Field
+            type={'number'}
+            placeholder={t('amount')}
+            data={filter?.amount}
+            onChange={value => handlePropsChange('amount', value)}
+            isRequired={true}
+          />
+        </>
+      }
+      {/*<CustomSelect*/}
+      {/*  placeholder={t('bonus')}*/}
+      {/*  options={bonusOptions}*/}
+      {/*  data={filter.bonus}*/}
+      {/*  onChange={value => handlePropsChange('bonus', value)}*/}
+      {/*/>*/}
       <div className={style.actions}>
         <Button
           type={'submit'}
           classes={['primary']}
           placeholder={t('deposit')}
+          isDisabled={!isValid}
         />
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleResetForm}
+          onChange={() => setFilter(INITIAL_FILTER)}
         />
       </div>
     </form>

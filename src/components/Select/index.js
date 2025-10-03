@@ -14,7 +14,8 @@ const CustomSelect = ({
   data,
   onChange,
   classes = [],
-  isRequired= false
+  isRequired= false,
+  isDisabled= false
 }) => {
   const { t } = useTranslation()
   const selectRef = useRef()
@@ -35,6 +36,7 @@ const CustomSelect = ({
       className={
         classNames(
           style.block,
+          isDisabled && style.disabled,
           classes && classes.map(el => style[el] || el),
         )
       }

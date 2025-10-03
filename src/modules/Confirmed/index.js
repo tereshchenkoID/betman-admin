@@ -5,7 +5,7 @@ import Button from 'components/Button'
 
 import style from './index.module.scss'
 
-const Confirmed = ({ data }) => {
+const Confirmed = ({ mock }) => {
   const { t } = useTranslation()
 
   return (
@@ -14,13 +14,13 @@ const Confirmed = ({ data }) => {
         <Button
           type={'button'}
           placeholder={t('no')}
-          onChange={() => data.action(0)}
+          onChange={() => mock.action(0)}
         />
         <Button
           type={'submit'}
           classes={['primary']}
           placeholder={t('yes')}
-          onChange={() => data.action(1)}
+          onChange={() => mock.action(1)}
         />
       </div>
     </div>

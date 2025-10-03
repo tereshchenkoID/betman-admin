@@ -1,8 +1,13 @@
 @use 'scss/config' as *;
 
-.block {
+.block,
+.grid {
   display: grid;
   gap: rem(16px);
+}
+
+.grid {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .actions {

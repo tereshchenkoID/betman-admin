@@ -1,0 +1,56 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  row-gap: rem(16px);
+}
+
+.item {
+  display: grid;
+  position: relative;
+  grid-template-columns: rem(65px) 1fr;
+  align-items: center;
+  gap: rem(16px);
+  border-bottom: rem(1px) solid var(--border);
+  padding-block: rem(10px);
+  padding-left: rem(20px);
+  font-size: rem(14px);
+
+  &.success {
+
+    .circle {
+      background-color: var(--green);
+    }
+  }
+
+  &.danger {
+
+    .circle {
+      background-color: var(--amber);
+    }
+  }
+
+  &.error {
+
+    .circle {
+      background-color: var(--red);
+    }
+  }
+}
+
+.line {
+  @include size(rem(8px), auto);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: rem(-1px);
+}
+
+.circle {
+  @include flex(center, center);
+  @include size(rem(65px));
+
+  border-radius: 50%;
+  background-color: var(--border);
+}

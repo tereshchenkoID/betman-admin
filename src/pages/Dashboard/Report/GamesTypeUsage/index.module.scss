@@ -1,0 +1,37 @@
+@use 'scss/config' as *;
+
+.block {
+  display: grid;
+  grid-template-columns: 1fr minmax(rem(200px), 50%);
+  align-items: center;
+  gap: rem(32px);
+  height: 100%;
+  overflow: hidden;
+}
+
+.chart {
+  @include flex($align-items: center);
+
+  height: 100%;
+  overflow: hidden;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: rem(15px) rem(50px) 1fr;
+  align-items: center;
+  gap: rem(8px);
+  padding-block: rem(10px);
+  border-bottom: rem(1px) solid var(--border);
+}
+
+.color {
+  @include size(rem(15px));
+
+  border: rem(1px) solid var(--border);
+  border-radius: 50%;
+}
+
+.name {
+  text-align: center;
+}

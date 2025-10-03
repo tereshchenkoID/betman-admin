@@ -14,13 +14,13 @@ import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Uploader from 'components/Uploader'
-import Tab from 'components/Tab'
-import Debug from 'modules/Debug'
-import Breadcrumbs from 'modules/Breadcrumbs'
-import Providers from 'modules/Providers'
-import JackpotCard from 'modules/JackpotCard'
 import CustomSelect from 'components/Select'
 import Redactor from 'components/Redactor'
+import Tab from 'components/Tab'
+import Breadcrumbs from 'modules/Breadcrumbs'
+import Providers from 'modules/Providers'
+import Debug from 'modules/Debug'
+import JackpotCard from './JackpotCard'
 
 import style from './index.module.scss'
 
@@ -33,6 +33,7 @@ const Edit = ({ id }) => {
   const { auth } = useAuth()
 
   const INITIAL_FILTER = {
+    id: null,
     image: '',
     visibility: 0,
     currency: '',
@@ -74,28 +75,29 @@ const Edit = ({ id }) => {
 
     const formData = buildFormData(filter)
 
-    if (!isAdd) {
-      formData.append('id', filter.id)
-    }
-
     formData.delete('games')
-    formData.append('games', JSON.stringify(filter.games.map(g => g.id)));
+    formData.append('games', JSON.stringify(filter.games.map(el => el)))
 
-    const json = await request(REQUEST_TYPE.POST, `jackpot/${isAdd ? 'add' : 'edit'}`, formData)
-    setFilter(json?.data)
+    const { data, error } = await request(REQUEST_TYPE.POST, `jackpot/${isAdd ? 'add' : 'edit'}`, formData)
 
-    if (isAdd) {
-      navigate(NAVIGATION.managements.banners.link)
+    if (!error) {
+      setFilter(data)
+
+      if (isAdd) {
+        navigate(NAVIGATION.managements.banners.link)
+      }
     }
   }
 
   const handleLoad = async () => {
-    const json = await request(REQUEST_TYPE.GET, `jackpot/${id}`)
-    setFilter(json?.data)
+    const { data } = await request(REQUEST_TYPE.GET, `jackpot/${id}`)
+    setFilter(data)
   }
 
   useEffect(() => {
-    if(!isAdd) handleLoad()
+    if(!isAdd) {
+      handleLoad()
+    }
   }, [])
 
   return (

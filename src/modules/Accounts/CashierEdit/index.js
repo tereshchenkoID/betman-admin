@@ -1,126 +1,123 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useState, Suspense, lazy, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import classNames from 'classnames'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
-import { setAside } from 'store/actions/asideAction'
+import { REQUEST_TYPE } from 'constant/config'
 
-import Field from 'components/Field'
+import { useApi } from 'hooks/useApi'
+import { setCmd } from 'store/actions/cmdAction'
+
 import Button from 'components/Button'
-import Toggle from 'components/Toggle'
-import GeneratePassword from 'modules/GeneratePassword'
+import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const CashierEdit = ({ data }) => {
-  const dispatch = useDispatch()
+const General = lazy(() => import('./General'))
+const Security = lazy(() => import('./Security'))
+
+const TABS = [
+  { key: 'general', component: General },
+  { key: 'security', component: Security }
+]
+
+const CashierEdit = ({ mock }) => {
   const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
-    name: '',
-    username: '',
-    password: '',
-    confirm_password: '',
-    shift_mode: '0'
-  }
-  const [filter, setFilter] = useState(initialValue)
+  const dispatch = useDispatch()
+  const { request, loading } = useApi()
+  const [active, setActive] = useState(0)
+  const [filter, setFilter] = useState(null)
 
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
+  const ActiveComponent = TABS[active].component
+
+  const handleLoad = async (key = TABS[active].key) => {
+    const { data, error } = await request(REQUEST_TYPE.GET, `cashier/edit/${key}/${mock?.id}`)
+
+    if (!error) {
+      setFilter(data)
+    }
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
-  }
-
-  // TODO change url
-  const handleSubmit = e => {
+  const handleSubmit = async (e, key = TABS[active].key) => {
     e.preventDefault()
 
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    postData(`new-cashier`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
+    const { data, error } = await request(REQUEST_TYPE.POST, `cashier/edit/${key}/${mock?.id}`, formData)
 
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+    }
   }
 
+  useEffect(() => {
+    handleLoad()
+  }, [])
+
   return (
-    <form className={style.block} onSubmit={handleSubmit}>
-      <Debug data={filter} />
-      <Field
-        type={'text'}
-        placeholder={t('current_id')}
-        data={filter.id}
-        isRequired={true}
-        isDisabled={true}
-      />
-      <Field
-        type={'text'}
-        placeholder={t('name')}
-        data={filter.name}
-        onChange={value => handlePropsChange('name', value)}
-        isRequired={true}
-      />
-      <Field
-        type={'text'}
-        placeholder={t('username')}
-        data={filter.login}
-        onChange={value => handlePropsChange('username', value)}
-        isRequired={true}
-      />
-      <GeneratePassword
-        list={['password', 'confirm_password']}
-        data={filter}
-        action={setFilter}
-        filter={filter}
-        handlePropsChange={handlePropsChange}
-      />
-      <Toggle
-        placeholder={t('shift_mode')}
-        data={filter.shift_mode}
-        onChange={value => handlePropsChange('shift_mode', value)}
-        isRequired={true}
-      />
-      <div className={style.actions}>
-        <Button
-          type={'submit'}
-          classes={['primary']}
-          placeholder={t('create')}
-        />
-        <Button
-          type={'reset'}
-          placeholder={t('cancel')}
-          onChange={handleResetForm}
-        />
+    <div className={style.block}>
+      <div className={style.header}>
+        {
+          TABS.map((el, idx) =>
+            <button
+              key={idx}
+              type="button"
+              className={
+                classNames(
+                  style.link,
+                  active === idx && style.active
+                )
+              }
+              onClick={() => {
+                setActive(idx)
+                setFilter(null)
+                handleLoad(TABS[idx].key)
+              }}
+            >
+              {t(el.key)}
+            </button>
+          )
+        }
       </div>
-    </form>
+
+      <div className={style.body}>
+        <Debug data={filter} />
+
+        <form
+          className={style.form}
+          onSubmit={handleSubmit}
+        >
+          <Suspense fallback={<Loader type={'content'} />}>
+            {
+              (loading && !filter)
+                ?
+                  <Loader type="content" />
+                :
+                  <ActiveComponent
+                    data={{ key: TABS[active].key }}
+                    filter={filter}
+                    setFilter={setFilter}
+                  />
+            }
+          </Suspense>
+          <div className={style.actions}>
+            <Button
+              type={'submit'}
+              classes={['primary']}
+              placeholder={t('save')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleLoad}
+            />
+          </div>
+        </form>
+      </div>
+    </div>
   )
 }
 

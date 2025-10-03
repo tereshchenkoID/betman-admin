@@ -31,18 +31,19 @@ const Edit = ({ id }) => {
   const { auth } = useAuth()
 
   const INITIAL_FILTER = {
+    id: null,
     image: '',
-    visibility: 0,
+    visibility: "0",
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         title: '',
         subtitle: '',
         alt: '',
         description: '',
-        visibility: 0,
+        visibility: "0",
         button: {
           text: '',
-          newtab: false,
+          newtab: "0",
           link: [],
         }
       }
@@ -68,25 +69,26 @@ const Edit = ({ id }) => {
 
     const formData = buildFormData(filter)
 
-    if (!isAdd) {
-      formData.append('id', filter.id)
-    }
+    const { data, error } = await request(REQUEST_TYPE.POST, `banner/${isAdd ? 'add' : 'edit'}`, formData)
 
-    const json = await request(REQUEST_TYPE.POST, `banner/${isAdd ? 'add' : 'edit'}`, formData)
-    setFilter(json?.data)
+    if (!error) {
+      setFilter(data)
 
-    if (isAdd) {
-      navigate(NAVIGATION.managements.banners.link)
+      if (isAdd) {
+        navigate(NAVIGATION.managements.banners.link)
+      }
     }
   }
 
   const handleLoad = async () => {
-    const json = await request(REQUEST_TYPE.GET, `banner/${id}`)
-    setFilter(json?.data)
+    const { data } = await request(REQUEST_TYPE.GET, `banner/${id}`)
+    setFilter(data)
   }
 
   useEffect(() => {
-    if(!isAdd) handleLoad()
+    if(!isAdd) {
+      handleLoad()
+    }
   }, [])
 
   return (

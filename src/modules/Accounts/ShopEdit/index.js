@@ -1,32 +1,61 @@
-import React, { useState, Suspense, lazy } from 'react'
+import React, { useState, Suspense, lazy, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
+import { setCmd } from 'store/actions/cmdAction'
+
+import Button from 'components/Button'
 import Loader from 'components/Loader'
+import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
 const General = lazy(() => import('./General'))
-const Websites = lazy(() => import('./Websites'))
-const Lobby = lazy(() => import('./Lobby'))
-const Bonuses = lazy(() => import('./Bonuses'))
-const Jackpots = lazy(() => import('./Jackpots'))
-const Game = lazy(() => import('./Game'))
+const Security = lazy(() => import('./Security'))
 
 const TABS = [
   { key: 'general', component: General },
-  { key: 'lobby', component: Lobby },
-  { key: 'websites', component: Websites },
-  { key: 'game', component: Game },
-  { key: 'bonuses', component: Bonuses },
-  { key: 'jackpots', component: Jackpots }
+  { key: 'security', component: Security }
 ]
 
-const ShopEdit = ({ data }) => {
+const ShopEdit = ({ mock }) => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { request, loading } = useApi()
   const [active, setActive] = useState(0)
+  const [filter, setFilter] = useState(null)
 
   const ActiveComponent = TABS[active].component
+
+  const handleLoad = async (key = TABS[active].key) => {
+    const { data, error } = await request(REQUEST_TYPE.GET, `shop/edit/${key}/${mock?.id}`)
+
+    if (!error) {
+      setFilter(data)
+    }
+  }
+
+  const handleSubmit = async (e, key = TABS[active].key) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('data', JSON.stringify(filter))
+
+    const { data, error } = await request(REQUEST_TYPE.POST, `shop/edit/${key}/${mock?.id}`, formData)
+
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+    }
+  }
+
+  useEffect(() => {
+    handleLoad()
+  }, [])
 
   return (
     <div className={style.block}>
@@ -35,13 +64,18 @@ const ShopEdit = ({ data }) => {
           TABS.map((el, idx) =>
             <button
               key={idx}
+              type="button"
               className={
                 classNames(
                   style.link,
                   active === idx && style.active
                 )
               }
-              onClick={() => setActive(idx)}
+              onClick={() => {
+                setActive(idx)
+                setFilter(null)
+                handleLoad(TABS[idx].key)
+              }}
             >
               {t(el.key)}
             </button>
@@ -50,9 +84,38 @@ const ShopEdit = ({ data }) => {
       </div>
 
       <div className={style.body}>
-        <Suspense fallback={<Loader />}>
-          <ActiveComponent data={{ type: data.type }} />
-        </Suspense>
+        <Debug data={filter} />
+
+        <form
+          className={style.form}
+          onSubmit={handleSubmit}
+        >
+          <Suspense fallback={<Loader type={'content'} />}>
+            {
+              (loading && !filter)
+                ?
+                  <Loader type="content" />
+                :
+                  <ActiveComponent
+                    data={{ key: TABS[active].key }}
+                    filter={filter}
+                    setFilter={setFilter}
+                  />
+            }
+          </Suspense>
+          <div className={style.actions}>
+            <Button
+              type={'submit'}
+              classes={['primary']}
+              placeholder={t('save')}
+            />
+            <Button
+              type={'reset'}
+              placeholder={t('cancel')}
+              onChange={handleLoad}
+            />
+          </div>
+        </form>
       </div>
     </div>
   )

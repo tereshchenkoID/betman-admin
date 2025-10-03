@@ -1,36 +1,30 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
-import { setAside } from 'store/actions/asideAction'
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
+import { setCmd } from 'store/actions/cmdAction'
+import {setAside} from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
-import CustomSelect from "components/Select";
 import Toggle from 'components/Toggle'
-import GeneratePassword from 'modules/GeneratePassword'
+import CustomSelect from 'components/Select'
+import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
+import GeneratePassword from 'modules/GeneratePassword'
 
 import style from './index.module.scss'
 
-const Shop = ({ data }) => {
-  const dispatch = useDispatch()
+const Shop = ({ mock }) => {
   const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
-    name: '',
-    username: '',
-    password: '',
-    confirm_password: '',
-    currency: '',
-    timeout: '0',
-    unlimited_balance: '0',
-    auto_print_receipts: '0',
-    logout_button_enabled: '0'
-  }
-  const [filter, setFilter] = useState(initialValue)
+  const dispatch = useDispatch()
+  const { settings } = useSelector(state => state.settings)
+  const { request } = useApi()
+  const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -39,79 +33,67 @@ const Shop = ({ data }) => {
     }))
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
+  const handleLoad = async () => {
+    const { data, error } = await request(REQUEST_TYPE.GET, `shop/add/general/${mock.id || 0}`)
+
+    if (!error) {
+      setFilter(data)
+    }
   }
 
-  const currencyOptions = useMemo(() => {
-    return Object.entries({
-      UAH: 'UAH',
-      USD: 'USD'
-    }).map(([key, label]) => ({
-      value: key,
-      label,
-    }))
-  }, [])
-
-  // TODO change url
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    postData(`new-show`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
+    const { data, error } = await request(REQUEST_TYPE.POST, 'shop/add/general/', formData)
 
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+      dispatch(setAside(null))
+    }
   }
+
+  useEffect(() => {
+    handleLoad()
+  }, [])
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
+
+  if (!filter) return <Loader type='content' />
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
-      <Field
-        type={'text'}
-        placeholder={t('current_id')}
-        data={filter.id}
-        isRequired={true}
+      <CustomSelect
+        placeholder={t('agents')}
+        options={agentsOptions}
+        data={filter?.parent}
+        onChange={value => handlePropsChange('parent', value)}
         isDisabled={true}
       />
       <Field
         type={'text'}
         placeholder={t('name')}
-        data={filter.name}
-        onChange={value => handlePropsChange('name', value)}
+        data={filter?.name}
+        onChange={(e) => handlePropsChange('name', e)}
         isRequired={true}
       />
       <Field
         type={'text'}
         placeholder={t('username')}
-        data={filter.username}
-        onChange={value => handlePropsChange('username', value)}
+        data={filter?.username}
+        onChange={(e) => handlePropsChange('username', e)}
         isRequired={true}
       />
       <GeneratePassword
-        list={['password', 'confirm_password']}
+        list={['password']}
         data={filter}
         action={setFilter}
         filter={filter}
@@ -119,30 +101,50 @@ const Shop = ({ data }) => {
       />
       <CustomSelect
         placeholder={t('currency')}
-        options={currencyOptions}
-        data={filter.currency}
-        onChange={value => handlePropsChange('currency', value)}
+        options={[
+          { value: -1, label: t('all') },
+          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+            value: key,
+            label: el.text
+          }))
+        ]}
+        data={filter?.currency}
+        onChange={(e) => handlePropsChange('currency', e)}
+        isRequired={true}
+      />
+      {
+        filter?.unlimited_balance &&
+        <Toggle
+          placeholder={t('unlimited_balance')}
+          data={filter?.unlimited_balance}
+          onChange={(e) => handlePropsChange('unlimited_balance', e)}
+        />
+      }
+      {
+        filter?.auto_print_receipts &&
+        <Toggle
+          placeholder={t('auto_print_receipts')}
+          data={filter?.auto_print_receipts}
+          onChange={(e) => handlePropsChange('auto_print_receipts', e)}
+        />
+      }
+      <Field
+        type={'text'}
+        placeholder={t('contact')}
+        data={filter?.contact}
+        onChange={(e) => handlePropsChange('contact', e)}
       />
       <Field
-        type={'number'}
-        placeholder={t('players_timeout')}
-        data={filter.timeout}
-        onChange={value => handlePropsChange('timeout', value)}
+        type={'email'}
+        placeholder={t('email')}
+        data={filter?.email}
+        onChange={(e) => handlePropsChange('email', e)}
       />
-      <Toggle
-        placeholder={t('unlimited_balance')}
-        data={filter.unlimited_balance}
-        onChange={(e) => handlePropsChange('unlimited_balance', e)}
-      />
-      <Toggle
-        placeholder={t('auto_print_receipts')}
-        data={filter.auto_print_receipts}
-        onChange={value => handlePropsChange('auto_print_receipts', value)}
-      />
-      <Toggle
-        placeholder={t('logout_button_enabled')}
-        data={filter.logout_button_enabled}
-        onChange={value => handlePropsChange('logout_button_enabled', value)}
+      <Field
+        type={'text'}
+        placeholder={t('phone')}
+        data={filter?.phone}
+        onChange={(e) => handlePropsChange('phone', e)}
       />
       <div className={style.actions}>
         <Button
@@ -153,7 +155,7 @@ const Shop = ({ data }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleResetForm}
+          onChange={handleLoad}
         />
       </div>
     </form>

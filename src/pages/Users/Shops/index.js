@@ -5,7 +5,9 @@ import { useParams } from 'react-router-dom'
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useSort } from 'hooks/useSort'
 import { useOptions } from 'hooks/useOptions'
+import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 
@@ -14,8 +16,8 @@ import Button from 'components/Button'
 import Field from 'components/Field'
 import Loader from 'components/Loader'
 import CustomSelect from 'components/Select'
-import Debug from 'modules/Debug'
 import Pagination from 'modules/Pagination'
+import Debug from 'modules/Debug'
 import Table from './Table'
 
 import style from './index.module.scss'
@@ -27,7 +29,6 @@ const CONFIG = [
   { key: 'full_name', text: 'full_name', sorted: true },
   { key: 'credits', text: 'credits' },
   { key: 'currency', text: 'currency' },
-  { key: 'locked', text: 'locked' },
   { key: 'date_created', text: 'date_created', sorted: true }
 ]
 
@@ -39,9 +40,7 @@ const Shops = () => {
   const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '' }
   const INITIAL_SORT = { key: null, direction: null }
 
-  const [filter, setFilter] = useState(INITIAL_FILTER)
   const [data, setData] = useState({})
-  const [sort, setSort] = useState(INITIAL_SORT)
   const [quantity, setQuantity] = useState(service.QUANTITY[20])
   const isSingle = agent
 
@@ -67,46 +66,13 @@ const Shops = () => {
     setData(await request(REQUEST_TYPE.POST, 'shops/', formData))
   }
 
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
+  const { sort, setSort, handleSortChange } = useSort(INITIAL_SORT, handleSubmit, filter)
+
   const handleResetForm = () => {
     setFilter(INITIAL_FILTER)
     setSort(INITIAL_SORT)
     handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
-  }
-
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
-
-  const handleSortChange = (fieldName, sorted) => {
-    if (!sorted) return
-
-    setSort((prev) => {
-      if (prev.key === fieldName) {
-        const nextDirection =
-          prev.direction === null
-            ? 'asc'
-            : prev.direction === 'asc' ? 'desc' : null;
-
-        const value = {
-          key: nextDirection ? fieldName : null,
-          direction: nextDirection,
-        }
-
-        handleSubmit(null, 0, filter, value)
-        return value
-      }
-
-      const value = {
-        key: fieldName,
-        direction: 'asc',
-      }
-
-      handleSubmit(null, 0, filter, value)
-      return value
-    })
   }
 
   const { options: agentsOptions } = useOptions(

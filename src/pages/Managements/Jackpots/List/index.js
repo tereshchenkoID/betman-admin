@@ -26,7 +26,7 @@ import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { q: '', visibility: -1 }
+const INITIAL_FILTER = { q: '', status: -1 }
 
 const List = () => {
   const { t } = useTranslation()
@@ -67,7 +67,7 @@ const List = () => {
   }
 
   const handleChange = async (el) => {
-    const formData = buildFormData({ ...el, visibility: el.visibility === '0' ? '1' : '0' })
+    const formData = buildFormData({ ...el, status: el.status === '0' ? '1' : '0' })
 
     await request(REQUEST_TYPE.POST, 'jackpot/edit', formData)
     handleSubmit(null, data?.pagination?.page)
@@ -80,7 +80,7 @@ const List = () => {
       page,
       quantity,
       q: nextFilter.q,
-      visibility: nextFilter.visibility
+      status: nextFilter.status
     })
 
     setData(await request(REQUEST_TYPE.POST, 'jackpots/', formData))
@@ -114,13 +114,13 @@ const List = () => {
               onChange={value => handlePropsChange('q', value)}
             />
             <CustomSelect
-              placeholder={t('visibility')}
+              placeholder={t('status')}
               options={[
                 { value: -1, label: t('all') },
                 ...convertOptions(service.YES_NO, t)
               ]}
-              data={filter['visibility']}
-              onChange={value => handlePropsChange('visibility', value)}
+              data={filter['status']}
+              onChange={value => handlePropsChange('status', value)}
             />
           </div>
           <div className={style.actions}>
@@ -182,7 +182,7 @@ const List = () => {
                     className={
                       classNames(
                         style.row,
-                        el.visibility === '0' && style.hidden
+                        el.status === '0' && style.hidden
                       )
                     }
                   >
@@ -206,8 +206,8 @@ const List = () => {
                     <div className={style.cell}>{getDate(el.dropped_at)}</div>
                     <div className={style.cell}>
                       <Icon
-                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
-                        alt={t('visibility')}
+                        icon={el.status === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        alt={t('status')}
                         action={() => handleChange(el)}
                       />
                       <Icon

@@ -1,31 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { postData } from 'helpers/api'
-import { setToastify } from 'store/actions/toastifyAction'
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
+import { setCmd } from 'store/actions/cmdAction'
 import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
 import Toggle from 'components/Toggle'
-import GeneratePassword from 'modules/GeneratePassword'
+import CustomSelect from 'components/Select'
+import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
+import GeneratePassword from 'modules/GeneratePassword'
 
 import style from './index.module.scss'
 
-const Cashier = ({ data }) => {
-  const dispatch = useDispatch()
+const Cashier = ({ mock }) => {
   const { t } = useTranslation()
-  const initialValue = {
-    id: data.id,
-    name: '',
-    username: '',
-    password: '',
-    confirm_password: '',
-    shift_mode: '0'
-  }
-  const [filter, setFilter] = useState(initialValue)
+  const dispatch = useDispatch()
+  const { settings } = useSelector(state => state.settings)
+  const { request } = useApi()
+  const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -34,79 +33,105 @@ const Cashier = ({ data }) => {
     }))
   }
 
-  const handleResetForm = () => {
-    setFilter(initialValue)
+  const handleLoad = async () => {
+    const { data, error } = await request(REQUEST_TYPE.GET, `cashier/add/general/${mock.id}`)
+
+    if (!error) {
+      setFilter(data)
+    }
   }
 
-  // TODO change url
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const formData = new FormData()
-    Object.entries(filter).map(([key, value]) => {
-      formData.append(key, value)
-      return true
-    })
+    formData.append('data', JSON.stringify(filter))
 
-    postData(`new-cashier`, formData).then(json => {
-      if (json.status === 'OK') {
-        dispatch(
-          setToastify({
-            type: 'success',
-            text: json.message,
-          }),
-        ).then(() => {
-          handleResetForm()
+    const { data, error } = await request(REQUEST_TYPE.POST, 'cashier/add/general/', formData)
 
-          dispatch(setAside(null))
-        })
-      } else {
-        dispatch(
-          setToastify({
-            type: 'error',
-            text: json.error_message,
-          }),
-        )
-      }
-    })
+    if (!error) {
+      setFilter(data)
+      dispatch(setCmd('refresh-table'))
+      dispatch(setAside(null))
+    }
   }
+
+  useEffect(() => {
+    handleLoad()
+  }, [])
+
+  const { options: shopsOptions } = useOptions(
+    `shops_tree/${mock.agent.id}`,
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }],
+    true
+  )
+
+  if (!filter) return <Loader type='content' />
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
-      <Field
-        type={'text'}
-        placeholder={t('current_id')}
-        data={filter.id}
-        isRequired={true}
-        isDisabled={true}
+      <CustomSelect
+        placeholder={t('shops')}
+        options={shopsOptions}
+        data={filter.parent}
+        onChange={value => handlePropsChange('parent', value)}
       />
       <Field
         type={'text'}
         placeholder={t('name')}
-        data={filter.name}
-        onChange={value => handlePropsChange('name', value)}
+        data={filter?.name}
+        onChange={(e) => handlePropsChange('name', e)}
         isRequired={true}
       />
       <Field
         type={'text'}
         placeholder={t('username')}
-        data={filter.login}
-        onChange={value => handlePropsChange('username', value)}
+        data={filter?.username}
+        onChange={(e) => handlePropsChange('username', e)}
         isRequired={true}
       />
       <GeneratePassword
-        list={['password', 'confirm_password']}
+        list={['password']}
         data={filter}
         action={setFilter}
         filter={filter}
         handlePropsChange={handlePropsChange}
       />
-      <Toggle
-        placeholder={t('shift_mode')}
-        data={filter.shift_mode}
-        onChange={value => handlePropsChange('shift_mode', value)}
+      <CustomSelect
+        placeholder={t('currency')}
+        options={[
+          { value: -1, label: t('all') },
+          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+            value: key,
+            label: el.text
+          }))
+        ]}
+        isDisabled={true}
+        data={filter?.currency}
+        onChange={() => {}}
         isRequired={true}
+      />
+      {
+        filter.shift_mode &&
+        <Toggle
+          placeholder={t('shift_mode')}
+          data={filter?.shift_mode}
+          onChange={(e) => handlePropsChange('shift_mode', e)}
+        />
+      }
+      <Field
+        type={'email'}
+        placeholder={t('email')}
+        data={filter?.email}
+        onChange={(e) => handlePropsChange('email', e)}
+      />
+      <Field
+        type={'text'}
+        placeholder={t('phone')}
+        data={filter?.phone}
+        onChange={(e) => handlePropsChange('phone', e)}
       />
       <div className={style.actions}>
         <Button
@@ -117,7 +142,7 @@ const Cashier = ({ data }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleResetForm}
+          onChange={handleLoad}
         />
       </div>
     </form>
