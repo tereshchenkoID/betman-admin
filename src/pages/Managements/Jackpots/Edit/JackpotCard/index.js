@@ -61,15 +61,10 @@ const JackpotCard = ({ data, currentTranslation }) => {
             <div
               key={idx}
               className={style.game}
-            >
-              <div
-                style={{
-                  backgroundImage: `url(/images/card.png)`,
-                }}
-                className={style.picture}
-              />
-              <h3 className={style.title}>{el.name}</h3>
-            </div>
+              style={{
+                backgroundImage: `url(/images/card.png)`,
+              }}
+            />
           )
         }
       </div>
