@@ -11,6 +11,10 @@
   @include flex(flex-end, center);
 
   gap: rem(16px);
+
+  &:not(:last-child) {
+    margin-bottom: rem(16px);
+  }
 }
 
 .paper {

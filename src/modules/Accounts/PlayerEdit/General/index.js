@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
+import { useOptions } from 'hooks/useOptions'
+
 import Field from 'components/Field'
 import CustomSelect from 'components/Select'
 
@@ -15,6 +17,12 @@ const General = ({ filter, setFilter }) => {
       [fieldName]: fieldValue,
     }))
   }
+
+  const { options: bonusesOptions } = useOptions(
+    'bonuses_list/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
 
   return (
     <>
@@ -47,11 +55,11 @@ const General = ({ filter, setFilter }) => {
         onChange={() => {}}
         isRequired={true}
       />
-      <Field
-        type={'text'}
-        placeholder={t('contact')}
-        data={filter?.contact}
-        onChange={(e) => handlePropsChange('contact', e)}
+      <CustomSelect
+        placeholder={t('bonuses')}
+        options={bonusesOptions}
+        data={filter?.bonuses}
+        onChange={value => handlePropsChange('bonuses', value)}
       />
       <Field
         type={'email'}

@@ -53,10 +53,10 @@ const Nav = () => {
           type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
           ...NAVIGATION.reports.financial,
         },
-        // {
-        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        //   ...NAVIGATION.reports.summary,
-        // },
+        {
+          type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
+          ...NAVIGATION.reports.games,
+        },
         // {
         //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
         //   ...NAVIGATION.reports.history,

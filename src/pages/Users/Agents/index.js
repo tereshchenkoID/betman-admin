@@ -42,7 +42,7 @@ const Agents = () => {
   const { request, loading } = useApi()
   const { cmd } = useSelector(state => state.cmd)
 
-  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '' }
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1 }
   const INITIAL_SORT = { key: null, direction: null }
 
   const [data, setData] = useState({})
@@ -82,7 +82,7 @@ const Agents = () => {
 
   useEffect(() => {
     handleSubmit(null, 0);
-  }, [quantity])
+  }, [quantity, agent])
 
   useEffect(() => {
     if (cmd === 'refresh-table') {

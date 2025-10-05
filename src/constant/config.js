@@ -30,6 +30,15 @@ export const NAVIGATION = {
   reports: {
     text: 'navigation.reports',
     icon: 'fa-solid fa-file',
+    financial: {
+      text: 'navigation.financial',
+      link: '/reports/financial',
+    },
+    games: {
+      text: 'navigation.games',
+      link: '/reports/games',
+    },
+
     summary: {
       text: 'navigation.summary',
       link: '/reports/summary',
@@ -37,10 +46,6 @@ export const NAVIGATION = {
     history: {
       text: 'navigation.history',
       link: '/reports/history',
-    },
-    financial: {
-      text: 'navigation.financial',
-      link: '/reports/financial',
     },
     payments: {
       text: 'navigation.payments',

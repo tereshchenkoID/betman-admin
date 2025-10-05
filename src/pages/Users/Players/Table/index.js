@@ -49,18 +49,18 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     )
   }
 
-  const handleInfo = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('details'),
-          cmd: 'account-player-info',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
-  }
+  // const handleInfo = (e, row) => {
+  //   dispatch(
+  //     setAside({
+  //       meta: {
+  //         title: t('details'),
+  //         cmd: 'account-player-info',
+  //         buttonRef: e.target,
+  //       },
+  //       ...row,
+  //     }),
+  //   )
+  // }
 
   const handleEdit = (e, row) => {
     dispatch(
@@ -130,6 +130,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       case 'date_created':
         return getDate(value, 'datetime')
       case 'credits':
+      case 'bonuses':
         return value
           ?
             <div>
@@ -160,17 +161,17 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           :
             null
       default:
-        return value
+        return <p>{value}</p>
     }
   }
 
   const renderActions = (row) => (
     <>
-      <Icon
-        icon="fa-info-circle"
-        alt="info"
-        action={e => handleInfo(e)}
-      />
+      {/*<Icon*/}
+      {/*  icon="fa-info-circle"*/}
+      {/*  alt="info"*/}
+      {/*  action={e => handleInfo(e)}*/}
+      {/*/>*/}
       <Icon
         icon="fa-pencil"
         alt="edit"

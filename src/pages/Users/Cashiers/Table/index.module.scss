@@ -8,7 +8,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(5, 1fr) rem(80px) repeat(2, 1fr);
+  grid-template-columns: rem(80px) repeat(5, 1fr) rem(140px);
 
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--primary);
@@ -26,7 +26,7 @@
   }
 
   &.locked {
-    opacity: 0.5;
+    color: var(--text-for-primary-disabled);
   }
 }
 

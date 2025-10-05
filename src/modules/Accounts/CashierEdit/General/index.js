@@ -1,14 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 
 import Toggle from 'components/Toggle'
 import Field from 'components/Field'
-import CustomSelect from 'components/Select'
 
 const General = ({ filter, setFilter }) => {
   const { t } = useTranslation()
-  const { settings } = useSelector(state => state.settings)
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({
@@ -34,25 +31,14 @@ const General = ({ filter, setFilter }) => {
         isDisabled={true}
         isRequired={true}
       />
-      <CustomSelect
-        placeholder={t('currency')}
-        options={[
-          { value: -1, label: t('all') },
-          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
-            value: key,
-            label: el.text
-          }))
-        ]}
-        isDisabled={true}
-        data={filter?.currency}
-        onChange={() => {}}
-        isRequired={true}
-      />
-      <Toggle
-        placeholder={t('shift_mode')}
-        data={filter?.shift_mode}
-        onChange={(e) => handlePropsChange('shift_mode', e)}
-      />
+      {
+        filter?.shift_mode &&
+        <Toggle
+          placeholder={t('shift_mode')}
+          data={filter?.shift_mode}
+          onChange={(e) => handlePropsChange('shift_mode', e)}
+        />
+      }
       <Field
         type={'email'}
         placeholder={t('email')}

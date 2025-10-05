@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
@@ -22,7 +22,6 @@ import style from './index.module.scss'
 const Cashier = ({ mock }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
   const [filter, setFilter] = useState(null)
 
@@ -99,22 +98,8 @@ const Cashier = ({ mock }) => {
         filter={filter}
         handlePropsChange={handlePropsChange}
       />
-      <CustomSelect
-        placeholder={t('currency')}
-        options={[
-          { value: -1, label: t('all') },
-          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
-            value: key,
-            label: el.text
-          }))
-        ]}
-        isDisabled={true}
-        data={filter?.currency}
-        onChange={() => {}}
-        isRequired={true}
-      />
       {
-        filter.shift_mode &&
+        filter?.shift_mode &&
         <Toggle
           placeholder={t('shift_mode')}
           data={filter?.shift_mode}
@@ -142,7 +127,7 @@ const Cashier = ({ mock }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleLoad}
+          onChange={() => handleLoad()}
         />
       </div>
     </form>

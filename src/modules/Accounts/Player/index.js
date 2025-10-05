@@ -33,7 +33,7 @@ const Player = ({ mock }) => {
   }
 
   const handleLoad = async () => {
-    const { data, error } = await request(REQUEST_TYPE.GET, `player/add/general/${mock.id || 0}`)
+    const { data, error } = await request(REQUEST_TYPE.GET, `player/add/general/${mock.agent?.id || mock.id || 0}`)
 
     if (!error) {
       setFilter(data)
@@ -61,6 +61,12 @@ const Player = ({ mock }) => {
 
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('all') }]
+  )
+
+  const { options: bonusesOptions } = useOptions(
+    'bonuses_list/',
     el => ({ value: el.id, label: el.username }),
     [{ value: -1, label: t('all') }]
   )
@@ -120,11 +126,11 @@ const Player = ({ mock }) => {
           isRequired={true}
         />
       </div>
-      <Field
-        type={'text'}
-        placeholder={t('contact')}
-        data={filter?.contact}
-        onChange={(e) => handlePropsChange('contact', e)}
+      <CustomSelect
+        placeholder={t('bonuses')}
+        options={bonusesOptions}
+        data={filter?.bonuses}
+        onChange={value => handlePropsChange('bonuses', value)}
       />
       <Field
         type={'email'}
@@ -147,7 +153,7 @@ const Player = ({ mock }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleLoad}
+          onChange={() => handleLoad()}
         />
       </div>
     </form>

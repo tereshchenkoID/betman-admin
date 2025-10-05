@@ -15,11 +15,12 @@ const UsersCashiers = lazy(() => import('pages/Users/Cashiers'))
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
 
-const ReportsSummary = lazy(() => import('pages/Reports/Summary'))
-const ReportsHistory = lazy(() => import('pages/Reports/History'))
 const ReportsFinancial = lazy(() => import('pages/Reports/Financial'))
-const ReportsPayments = lazy(() => import('pages/Reports/Payments'))
-const ReportsBonuses = lazy(() => import('pages/Reports/Bonuses'))
+const ReportsGames = lazy(() => import('pages/Reports/Games'))
+// const ReportsSummary = lazy(() => import('pages/Reports/Summary'))
+// const ReportsHistory = lazy(() => import('pages/Reports/History'))
+// const ReportsPayments = lazy(() => import('pages/Reports/Payments'))
+// const ReportsBonuses = lazy(() => import('pages/Reports/Bonuses'))
 
 const ManagementsPromos = lazy(() => import('pages/Managements/Promos'))
 const ManagementsBanners = lazy(() => import('pages/Managements/Banners'))
@@ -73,25 +74,30 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: NAVIGATION.reports.summary.link,
-        element: withSuspense(ReportsSummary),
-      },
-      {
-        path: NAVIGATION.reports.history.link,
-        element: withSuspense(ReportsHistory),
-      },
-      {
         path: NAVIGATION.reports.financial.link,
         element: withSuspense(ReportsFinancial),
       },
       {
-        path: NAVIGATION.reports.payments.link,
-        element: withSuspense(ReportsPayments),
+        path: NAVIGATION.reports.games.link,
+        element: withSuspense(ReportsGames),
       },
-      {
-        path: NAVIGATION.reports.bonuses.link,
-        element: withSuspense(ReportsBonuses),
-      },
+
+      // {
+      //   path: NAVIGATION.reports.summary.link,
+      //   element: withSuspense(ReportsSummary),
+      // },
+      // {
+      //   path: NAVIGATION.reports.history.link,
+      //   element: withSuspense(ReportsHistory),
+      // },
+      // {
+      //   path: NAVIGATION.reports.payments.link,
+      //   element: withSuspense(ReportsPayments),
+      // },
+      // {
+      //   path: NAVIGATION.reports.bonuses.link,
+      //   element: withSuspense(ReportsBonuses),
+      // },
       {
         path: NAVIGATION.login.link,
         element: (

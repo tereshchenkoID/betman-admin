@@ -17,7 +17,7 @@ const Node = ({ node }) => {
           {node.username}
         </Link>
         {
-          node?.child &&
+          node?.child?.length > 0 &&
           <div className={style.wrapper}>
             <div className={style.arrow} />
             <Node node={node.child}/>

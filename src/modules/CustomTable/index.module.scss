@@ -5,7 +5,6 @@
 
   position: relative;
   overflow: hidden;
-  padding: rem(16px);
 }
 
 .row {
@@ -36,6 +35,10 @@
 
   &.pointer {
     cursor: pointer;
+  }
+
+  &.default {
+    pointer-events: none;
   }
 }
 

@@ -107,7 +107,7 @@ const Agent = ({ mock }) => {
         isRequired={true}
       />
       {
-        auth.unlimited_balance === '1' &&
+        filter?.unlimited_balance && auth.unlimited_balance === '1' &&
         <Toggle
           placeholder={t('unlimited_balance')}
           data={filter?.unlimited_balance}
@@ -115,7 +115,7 @@ const Agent = ({ mock }) => {
         />
       }
       {
-        auth.create_subagents === '1' &&
+        filter?.create_subagents && auth.create_subagents === '1' &&
         <Toggle
           placeholder={t('create_subagents')}
           data={filter?.create_subagents}
@@ -156,7 +156,7 @@ const Agent = ({ mock }) => {
         <Button
           type={'reset'}
           placeholder={t('cancel')}
-          onChange={handleLoad}
+          onChange={() => handleLoad()}
         />
       </div>
     </form>

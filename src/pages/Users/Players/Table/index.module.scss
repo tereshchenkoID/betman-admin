@@ -9,7 +9,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(6, 1fr) rem(80px) 1fr 1fr;
+  grid-template-columns: rem(80px) repeat(7, 1fr) rem(80px) 1fr rem(120px);
 
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--primary);
@@ -27,7 +27,7 @@
   }
 
   &.locked {
-    opacity: 0.5;
+    color: var(--text-for-primary-disabled);
   }
 }
 
@@ -39,9 +39,14 @@
 .cell {
   gap: rem(4px);
   padding: rem(12px);
+  overflow: hidden;
 
   &:last-child {
     flex-wrap: nowrap;
+  }
+
+  p {
+    @include ellipsis();
   }
 }
 

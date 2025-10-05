@@ -31,7 +31,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           cmd: 'account-agent-edit',
           buttonRef: e.target,
         },
-        id: row.id,
+        ...row
+        // id: row.id,
       }),
     )
   }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
@@ -11,6 +12,8 @@ import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
+import { setCmd } from 'store/actions/cmdAction'
+import { setAside } from 'store/actions/asideAction'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -31,17 +34,20 @@ const CONFIG = [
   { key: 'phone', text: 'phone' },
   { key: 'email', text: 'email' },
   { key: 'credits', text: 'credits' },
+  { key: 'bonuses', text: 'bonuses' },
   { key: 'currency', text: 'currency' },
   { key: 'date_created', text: 'date_created', sorted: true }
 ]
 
 const Players = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { auth } = useAuth()
   const { agent, shop } = useParams()
   const { request, loading } = useApi()
+  const { cmd } = useSelector(state => state.cmd)
 
-  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '', shop: Number(shop) || '' }
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1, shop: Number(shop) || -1 }
   const INITIAL_SORT = { key: null, direction: null }
 
   const [data, setData] = useState({})
@@ -100,6 +106,13 @@ const Players = () => {
     handleSubmit(null, 0);
   }, [quantity])
 
+  useEffect(() => {
+    if (cmd === 'refresh-table') {
+      handleSubmit(null, data?.pagination?.page, filter, sort);
+      dispatch(setCmd(null))
+    }
+  }, [cmd])
+
   return (
     <>
       <Paper
@@ -118,7 +131,10 @@ const Players = () => {
               onChange={value => handlePropsChange('q', value)}
             />
             {
-              auth?.role === ACCOUNT_TYPE.AGENT &&
+              (
+                auth?.role === ACCOUNT_TYPE.ADMIN ||
+                auth?.role === ACCOUNT_TYPE.AGENT
+              ) &&
               <>
                 <CustomSelect
                   placeholder={t('agents')}
@@ -127,7 +143,7 @@ const Players = () => {
                   onChange={value => handlePropsChange('agent', value)}
                 />
                 {
-                  filter.agent !== '' &&
+                  filter.agent !== -1 &&
                   <CustomSelect
                     placeholder={t('shops')}
                     options={shopsOptions}
@@ -157,6 +173,24 @@ const Players = () => {
               type={'reset'}
               placeholder={t('cancel')}
               onChange={handleResetForm}
+            />
+          </div>
+          <div className={style.actions}>
+            <Button
+              classes={['primary']}
+              placeholder={t('add_player')}
+              onChange={(e) => {
+                dispatch(
+                  setAside({
+                    meta: {
+                      title: t('add_player'),
+                      cmd: 'account-player',
+                      buttonRef: e.target,
+                    },
+                    id: auth.agent_id
+                  }),
+                )
+              }}
             />
           </div>
         </form>

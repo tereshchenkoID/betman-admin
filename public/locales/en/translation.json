@@ -21,6 +21,7 @@
   "id_username": "ID or username",
   "full_name": "Full name",
   "credits": "Credits",
+  "bonuses": "Bonuses",
   "currency": "Currency",
   "agent": "Agent",
   "agents": "Agents",
@@ -120,6 +121,7 @@
   "unlimited_balance": "Unlimited balance",
   "create_subagents": "Create subagents",
   "add_agent": "Add agent",
+  "add_player": "Add player",
   "domain": "Domain",
   "security": "Security",
   "numbers": "Numbers",
@@ -186,6 +188,7 @@
     "jackpots": "Jackpots",
     "login": "Login",
     "reports": "Reports",
-    "managements": "Managements"
+    "managements": "Managements",
+    "games": "Games"
   }
 }

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { useSort } from 'hooks/useSort'
 import { useOptions } from 'hooks/useOptions'
+import { setCmd } from 'store/actions/cmdAction'
 import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
@@ -34,10 +36,12 @@ const CONFIG = [
 
 const Shops = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { agent } = useParams()
   const { request, loading } = useApi()
+  const { cmd } = useSelector(state => state.cmd)
 
-  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '' }
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1 }
   const INITIAL_SORT = { key: null, direction: null }
 
   const [data, setData] = useState({})
@@ -84,6 +88,13 @@ const Shops = () => {
   useEffect(() => {
     handleSubmit(null, 0);
   }, [quantity])
+
+  useEffect(() => {
+    if (cmd === 'refresh-table') {
+      handleSubmit(null, data?.pagination?.page, filter, sort);
+      dispatch(setCmd(null))
+    }
+  }, [cmd])
 
   return (
     <>

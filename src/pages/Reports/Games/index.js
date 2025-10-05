@@ -22,68 +22,46 @@ import style from './index.module.scss'
 
 const CONFIG = {
   detailed: [
-    { key: 'id', text: 'id', sorted: true },
-    { key: 'date', text: 'date', data: 'datetime' },
     { key: 'agent.username', text: 'agent' },
     { key: 'shop.username', text: 'shop' },
-    { key: 'cashier.username', text: 'cashier' },
-    { key: 'transaction', text: 'transaction', data: 'transaction' },
-    { key: 'amount', text: 'amount' },
-    { key: 'currency', text: 'currency' },
-  ],
-
-  currency: [
-    { key: 'period', text: 'period', data: 'period' },
-    { key: 'currency', text: 'currency' },
-    { key: 'credits.in', text: 'in' },
-    { key: 'credits.out', text: 'out' },
-    { key: 'credits.voucher', text: 'voucher' },
-    { key: 'credits.revenue', text: 'revenue' },
-  ],
-
-  shops: [
-    { key: 'period', text: 'period', data: 'period' },
-    { key: 'agent.username', text: 'agent' },
-    { key: 'shop.username', text: 'shop' },
-    { key: 'currency', text: 'currency' },
-    { key: 'credits.in', text: 'in' },
-    { key: 'credits.out', text: 'out' },
-    { key: 'credits.voucher', text: 'voucher' },
-    { key: 'credits.revenue', text: 'revenue' },
-  ],
-
-  players: [
-    { key: 'period', text: 'period', data: 'period' },
-    { key: 'agent.username', text: 'agent' },
     { key: 'player.username', text: 'player' },
+    { key: 'provider.username', text: 'provider' },
+    { key: 'game.username', text: 'game' },
     { key: 'currency', text: 'currency' },
-    { key: 'credits.in', text: 'in' },
-    { key: 'credits.out', text: 'out' },
-    { key: 'credits.bonus_in', text: 'bonus_in' },
-    { key: 'credits.bonus_out', text: 'bonus_out' },
+    { key: 'credits.stake', text: 'stake' },
+    { key: 'credits.win', text: 'win' },
     { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.rtp', text: 'rtp' },
+    { key: 'credits.rounds', text: 'rounds' },
   ],
 
-  cashiers: [
-    { key: 'period', text: 'period', data: 'period' },
+  providers: [
     { key: 'agent.username', text: 'agent' },
-    { key: 'shop.username', text: 'shop' },
-    { key: 'cashier.username', text: 'cashier' },
+    { key: 'provider.username', text: 'provider' },
     { key: 'currency', text: 'currency' },
-    { key: 'credits.in', text: 'in' },
-    { key: 'credits.out', text: 'out' },
-    { key: 'credits.bonus_in', text: 'bonus_in' },
-    { key: 'credits.bonus_out', text: 'bonus_out' },
+    { key: 'credits.stake', text: 'stake' },
+    { key: 'credits.win', text: 'win' },
     { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.rtp', text: 'rtp' },
+    { key: 'credits.rounds', text: 'rounds' },
+  ],
+
+  games: [
+    { key: 'agent.username', text: 'agent' },
+    { key: 'game.username', text: 'game' },
+    { key: 'currency', text: 'currency' },
+    { key: 'credits.stake', text: 'stake' },
+    { key: 'credits.win', text: 'win' },
+    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.rtp', text: 'rtp' },
+    { key: 'credits.rounds', text: 'rounds' },
   ],
 }
 
 const TABS = {
   '0': 'detailed',
-  '1': 'currency',
-  '2': 'shops',
-  '3': 'players',
-  '4': 'cashiers'
+  '1': 'providers',
+  '2': 'games',
 }
 
 const INITIAL_FILTER = {
@@ -93,7 +71,7 @@ const INITIAL_FILTER = {
   'date-to': getDate(new Date(), 'datetime-local'),
 }
 
-const Financial = () => {
+const Games = () => {
   const { t } = useTranslation()
   const { auth } = useAuth()
   const { request, loading } = useApi()
@@ -107,7 +85,7 @@ const Financial = () => {
     e && e.preventDefault()
 
     const formData = buildFormData(nextFilter)
-    setData(await request(REQUEST_TYPE.POST, `reports/financial/${TABS[active]}/`, formData))
+    setData(await request(REQUEST_TYPE.POST, `reports/games/${TABS[active]}/`, formData))
   }
 
   const { options: agentsOptions } = useOptions(
@@ -130,7 +108,7 @@ const Financial = () => {
   return (
     <div className={style.block}>
       <Paper
-        headline={t(NAVIGATION.reports.financial.text)}
+        headline={t(NAVIGATION.reports.games.text)}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}
@@ -210,4 +188,4 @@ const Financial = () => {
   )
 }
 
-export default Financial
+export default Games

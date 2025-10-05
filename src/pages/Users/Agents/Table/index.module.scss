@@ -27,7 +27,7 @@
   }
 
   &.locked {
-    opacity: 0.5;
+    color: var(--text-for-primary-disabled);
   }
 }
 

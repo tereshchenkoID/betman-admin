@@ -112,7 +112,7 @@ const ShopEdit = ({ mock }) => {
             <Button
               type={'reset'}
               placeholder={t('cancel')}
-              onChange={handleLoad}
+              onChange={() => handleLoad()}
             />
           </div>
         </form>

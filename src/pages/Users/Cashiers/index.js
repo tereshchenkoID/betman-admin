@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
@@ -11,6 +12,7 @@ import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
+import { setCmd } from 'store/actions/cmdAction'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -29,18 +31,18 @@ const CONFIG = [
   { key: 'shop.username', text: 'shop' },
   { key: 'username', text: 'username', sorted: true },
   { key: 'full_name', text: 'full_name', sorted: true },
-  { key: 'credits', text: 'credits' },
-  { key: 'currency', text: 'currency' },
   { key: 'date_created', text: 'date_created', sorted: true }
 ]
 
 const Cashiers = () => {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const { auth } = useAuth()
   const { agent, shop } = useParams()
   const { request, loading } = useApi()
+  const { cmd } = useSelector(state => state.cmd)
 
-  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || '', shop: Number(shop) || '' }
+  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1, shop: Number(shop) || -1 }
   const INITIAL_SORT = { key: null, direction: null }
 
   const [data, setData] = useState({})
@@ -99,6 +101,13 @@ const Cashiers = () => {
     handleSubmit(null, 0);
   }, [quantity])
 
+  useEffect(() => {
+    if (cmd === 'refresh-table') {
+      handleSubmit(null, data?.pagination?.page, filter, sort);
+      dispatch(setCmd(null))
+    }
+  }, [cmd])
+
   return (
     <>
       <Paper
@@ -117,7 +126,10 @@ const Cashiers = () => {
               onChange={value => handlePropsChange('q', value)}
             />
             {
-              auth?.role === ACCOUNT_TYPE.AGENT &&
+              (
+                auth?.role === ACCOUNT_TYPE.ADMIN ||
+                auth?.role === ACCOUNT_TYPE.AGENT
+              ) &&
               <>
                 <CustomSelect
                   placeholder={t('agents')}
@@ -126,7 +138,7 @@ const Cashiers = () => {
                   onChange={value => handlePropsChange('agent', value)}
                 />
                 {
-                  filter.agent !== '' &&
+                  filter.agent !== -1 &&
                   <CustomSelect
                     placeholder={t('shops')}
                     options={shopsOptions}

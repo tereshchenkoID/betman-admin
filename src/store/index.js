@@ -1,7 +1,6 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
-import cashierReducer from './reducers/cashierReducer'
 import settingsReducer from './reducers/settingsReducer'
 import toastifyReducer from './reducers/toastifyReducer'
 import asideReducer from './reducers/asideReducer'
@@ -9,7 +8,6 @@ import authReducer from './reducers/authReducer'
 import cmdReducer from './reducers/cmdReducer'
 
 const allReducer = combineReducers({
-  cashier: cashierReducer,
   settings: settingsReducer,
   toastify: toastifyReducer,
   aside: asideReducer,
