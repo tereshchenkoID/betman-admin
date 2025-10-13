@@ -9,13 +9,13 @@
   &.top {
     margin-bottom: rem(8px);
     padding-bottom: rem(8px);
-    border-bottom: rem(1px) solid var(--primary);
+    border-bottom: rem(1px) solid var(--border);
   }
 
   &.bottom {
     margin-top: rem(8px);
     padding-top: rem(8px);
-    border-top: rem(1px) solid var(--primary);
+    border-top: rem(1px) solid var(--border);
   }
 }
 

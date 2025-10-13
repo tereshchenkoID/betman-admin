@@ -1,0 +1,17 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex(center, center);
+}
+
+.form {
+  display: grid;
+  gap: rem(16px);
+  min-width: rem(450px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+}

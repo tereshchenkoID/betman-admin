@@ -10,7 +10,7 @@
 .row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(rem(50px), 1fr));
-  border-bottom: rem(1px) solid var(--primary);
+  border-bottom: rem(1px) solid var(--border);
   font-size: rem(12px);
 
   &:last-child {

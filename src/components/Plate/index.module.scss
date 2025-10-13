@@ -19,4 +19,12 @@
   &.error {
     color: var(--red);
   }
+
+  &.warning {
+    color: var(--amber);
+  }
+
+  &.info {
+    color: var(--blue);
+  }
 }

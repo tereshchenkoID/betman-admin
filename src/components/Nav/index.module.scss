@@ -6,8 +6,9 @@
   bottom: 0;
   transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
   z-index: $z-index-10;
-  border-right: rem(1px) solid var(--primary-hover);
-  background-color: var(--material);
+  background-color: #2a121c;
+  border-right: rem(1px) solid rgba(78, 58, 67, 0.64);
+  color: #fff;
   width: rem(56px);
   height: 100%;
   overflow: hidden;
@@ -15,6 +16,10 @@
   &.active {
     width: rem(320px);
   }
+}
+
+.divider {
+  background-color: rgba(78, 58, 67, 0.64);
 }
 
 .wrapper {
@@ -87,8 +92,9 @@
   }
 
   @include hover {
+
     &:hover {
-      background-color: var(--material-hover);
+      background-color: #3e2831;
 
       span {
         transform: translateX(rem(5px));
@@ -151,6 +157,6 @@
   @include transition;
   @include size(70%, rem(2px));
 
-  background-color: var(--text-for-material);
+  background-color: currentColor;
   margin-block: rem(2px);
 }

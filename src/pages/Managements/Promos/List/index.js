@@ -116,7 +116,7 @@ const List = ({ onEdit, onDelete }) => {
             <CustomSelect
               placeholder={t('visibility')}
               options={[
-                { value: -1, label: t('all') },
+                { value: -1, label: t('select_from_list') },
                 ...convertOptions(service.YES_NO, t)
               ]}
               data={filter['visibility']}
@@ -205,18 +205,20 @@ const List = ({ onEdit, onDelete }) => {
                     <div className={style.cell}>{getDate(el.date_created)}</div>
                     <div className={style.cell}>
                       <Icon
-                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
-                        alt={t('visibility')}
-                        action={() => handleChange(el)}
-                      />
-                      <Icon
                         icon='fa-pencil'
-                        alt={t('edit')}
+                        alt="edit"
                         action={() => navigate(`${NAVIGATION.managements.promos.link}/${el.id}`)}
                       />
                       <Icon
+                        classes={['warning']}
+                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        alt="visibility"
+                        action={() => handleChange(el)}
+                      />
+                      <Icon
+                        classes={['error']}
                         icon='fa-trash'
-                        alt={t('delete')}
+                        alt="delete"
                         action={(e) => handleConfirmed(e, el)}
                       />
                     </div>

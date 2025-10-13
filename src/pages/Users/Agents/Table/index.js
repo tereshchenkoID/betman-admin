@@ -169,7 +169,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           :
             null
       default:
-        return value
+        return value || '-'
     }
   }
 
@@ -181,11 +181,13 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         action={e => handleEdit(e, row)}
       />
       <Icon
+        classes={['warning']}
         icon={`${row.locked === '0' ? 'fa-lock' : 'fa-lock-open'}`}
-        alt={`${row.locked === '0' ? t('lock') : t('unlock')}`}
+        alt={`${row.locked === '0' ? "lock" : "unlock"}`}
         action={e => handleConfirmed(e, row, handleLocked, 'notification.locked_confirmed')}
       />
       <Icon
+        classes={['error']}
         icon="fa-trash"
         alt="delete"
         action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
@@ -201,6 +203,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
             <div />
           :
             <Icon
+              classes={['success']}
               icon="fa-add"
               alt="add"
               action={e => handleAction(e, row)}

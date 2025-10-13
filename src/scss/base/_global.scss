@@ -27,7 +27,7 @@ button {
 button,
 a,
 input {
-  color: var(--text-for-primary);
+  color: inherit;
 
   &:focus {
     outline: none;

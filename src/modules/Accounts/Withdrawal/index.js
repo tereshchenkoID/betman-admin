@@ -7,6 +7,7 @@ import { REQUEST_TYPE } from 'constant/config'
 import { useApi } from 'hooks/useApi'
 import { useFilterState } from 'hooks/useFilterState'
 import { setCmd } from 'store/actions/cmdAction'
+import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -28,7 +29,7 @@ const Withdrawal = ({ mock }) => {
   }
 
   const {filter, setFilter, handlePropsChange} = useFilterState(INITIAL_FILTER)
-  const isValid = filter.amount !== '' && Number(filter.amount) > 0 && Number(filter.amount) <= Number(filter.credits?.[filter.currency] ?? 0)
+  const isValid = filter?.amount !== '' && Number(filter?.amount) > 0 && Number(filter?.amount) <= Number(filter?.credits?.[filter?.currency] ?? 0)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -38,10 +39,11 @@ const Withdrawal = ({ mock }) => {
     const formData = new FormData()
     formData.append('data', JSON.stringify(filter))
 
-    const { data, error } = await request(REQUEST_TYPE.POST, 'deposit/', formData)
+    const { data, error } = await request(REQUEST_TYPE.POST, 'withdrawal/', formData)
 
     if (!error) {
-      setFilter(data)
+      dispatch(setAside(null))
+      // setFilter(data)
       dispatch(setCmd('refresh-table'))
     }
   }
@@ -52,20 +54,20 @@ const Withdrawal = ({ mock }) => {
       <Field
         type={'text'}
         placeholder={t('id')}
-        data={filter.id}
+        data={filter?.id}
         isRequired={true}
         isDisabled={true}
       />
       <CustomSelect
         placeholder={t('credits')}
         options={[
-          {value: -1, label: t('all')},
-          ...Object.entries(mock.credits).map(([key, value]) => ({
+          {value: -1, label: t('select_from_list')},
+          ...Object.entries(mock?.credits).map(([key, value]) => ({
             value: key,
             label: `${value} ${key}`
           }))
         ]}
-        data={filter.currency}
+        data={filter?.currency}
         onChange={value => {
           handlePropsChange('currency', value)
           handlePropsChange('amount', '')
@@ -73,11 +75,11 @@ const Withdrawal = ({ mock }) => {
         isRequired={true}
       />
       {
-        filter.currency !== -1 &&
+        filter?.currency !== -1 &&
         <Field
           type={'number'}
           placeholder={t('amount')}
-          data={filter.amount}
+          data={filter?.amount}
           onChange={value => handlePropsChange('amount', value)}
           isRequired={true}
         />

@@ -19,6 +19,7 @@
   "date_to": "Date to",
   "date_created": "Created date",
   "id_username": "ID or username",
+  "code": "Code",
   "full_name": "Full name",
   "credits": "Credits",
   "bonuses": "Bonuses",
@@ -116,6 +117,14 @@
   "to": "To",
   "max": "Max",
   "min": "Min",
+  "select_from_list": "Select from list",
+  "close_day": "Closed day",
+  "start_day": "Start day",
+  "open_shift": "Open shift",
+  "close_shift": "Close shift",
+  "open": "Open",
+  "close": "Close",
+  "closed_shift": "Closed shift",
   "percentage": "Percentage",
   "contact": "Contact name",
   "unlimited_balance": "Unlimited balance",
@@ -132,6 +141,7 @@
   "first_deposit": "First deposit",
   "any_deposit": "Any deposit",
   "lose": "Lose",
+  "ip_list": "Whitelist",
   "triggers": "Triggers",
   "generate_password": "Generate password",
   "unlimited": "Unlimited",
@@ -162,6 +172,10 @@
   "yesterday": "Yesterday",
   "last_week": "Last week",
   "last_month": "Last month",
+  "expired_date": "Expired date",
+  "voucher": "Voucher",
+  "wallet": "Wallet",
+  "wager": "Wager",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back",
@@ -169,7 +183,14 @@
     "failed_request": "Failed request",
     "delete_confirmed": "Are you sure you won't delete?",
     "locked_confirmed": "Are you sure you won't locked?",
-    "amount_greater_balance": "The amount is greater than the balance"
+    "amount_greater_balance": "The amount is greater than the balance",
+    "enter_code": "Enter the 12-digit code in the field below"
+  },
+  "voucher_status": {
+    "paid": "Paid",
+    "new": "New",
+    "expired": "Expired",
+    "cancelled": "Cancelled"
   },
   "navigation": {
     "home": "Home",

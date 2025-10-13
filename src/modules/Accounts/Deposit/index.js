@@ -8,6 +8,8 @@ import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
 import { useFilterState } from 'hooks/useFilterState'
 import { setCmd } from 'store/actions/cmdAction'
+import { setAside } from 'store/actions/asideAction'
+
 import { useOptions } from 'hooks/useOptions'
 
 import Field from 'components/Field'
@@ -35,13 +37,13 @@ const Deposit = ({ mock }) => {
   const {filter, setFilter, handlePropsChange} = useFilterState(INITIAL_FILTER)
 
   const isValid = filter?.amount !== '' && Number(filter?.amount) > 0 && (
-    auth.unlimited_balance === '1' || Number(filter?.amount) <= Number(auth.credits[filter.currency])
+    auth.unlimited_balance === '1' || Number(filter?.amount) <= Number(auth.credits[filter?.currency])
   )
 
   // const { options: bonusOptions } = useOptions(
   //   'agents_tree/',
   //   el => ({ value: el.id, label: el.username }),
-  //   [{ value: -1, label: t('all') }]
+  //   [{ value: -1, label: t('select_from_list') }]
   // )
 
   const handleSubmit = async (e) => {
@@ -55,7 +57,8 @@ const Deposit = ({ mock }) => {
     const { data, error } = await request(REQUEST_TYPE.POST, 'deposit/', formData)
 
     if (!error) {
-      setFilter(data)
+      dispatch(setAside(null))
+      // setFilter(data)
       dispatch(setCmd('refresh-table'))
     }
   }
@@ -73,7 +76,7 @@ const Deposit = ({ mock }) => {
       <CustomSelect
         placeholder={t('credits')}
         options={[
-          {value: -1, label: t('all')},
+          {value: -1, label: t('select_from_list')},
           ...Object.entries(mock?.credits).map(([key, value]) => ({
             value: key,
             label: `${value} ${key}`

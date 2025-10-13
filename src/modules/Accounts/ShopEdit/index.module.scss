@@ -7,7 +7,7 @@
 .header {
   @include flex(null, center);
 
-  border-bottom: rem(1px) solid var(--primary);
+  border-bottom: rem(1px) solid var(--border);
   background-clip: content-box;
   scroll-behavior: smooth;
   overscroll-behavior-inline: contain;

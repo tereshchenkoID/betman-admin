@@ -5,6 +5,7 @@ import { useAuth } from 'hooks/useAuth'
 import Clock from './Clock'
 import Language from './Language'
 import Account from './Account'
+import Theme from 'modules/Theme'
 
 import style from './index.module.scss'
 
@@ -26,6 +27,7 @@ const Header = () => {
           }
         </div>
       }
+      <Theme />
       <Language />
       <Account />
     </header>

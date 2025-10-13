@@ -9,7 +9,6 @@
 
     .tox {
       border-radius: var(--border-radius-4);
-      color: var(--text-for-material);
 
       &.tox-tinymce {
         border: 0;
@@ -19,8 +18,16 @@
         display: none;
       }
 
+      .tox-toolbar {
+
+        &__group {
+          cursor: pointer;
+          border-right-color: var(--border)!important;
+        }
+      }
+
       .tox-toolbar-overlord {
-        background-color: var(--material-hover);
+        background-color: var(--primary);
         border-bottom: rem(1px) solid var(--border);
       }
 
@@ -65,7 +72,8 @@
       .tox-edit-area {
 
         &__iframe {
-          background-color: var(--material-hover);
+          background-color: var(--primary);
+          //background-color: var(--material-hover);
         }
       }
 
@@ -74,7 +82,8 @@
       }
 
       .tox-toolbar {
-        background: var(--material-hover)!important;
+        background: var(--primary)!important;
+        //background: var(--material-hover)!important;
 
         &__primary,
         &__overflow {

@@ -65,7 +65,7 @@ const Agent = ({ mock }) => {
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
     el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('all') }]
+    [{ value: -1, label: t('select_from_list') }]
   )
 
   if (!filter) return <Loader type='content' />
@@ -74,7 +74,7 @@ const Agent = ({ mock }) => {
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
       <CustomSelect
-        placeholder={t('agents')}
+        placeholder={t('agent')}
         options={agentsOptions}
         data={filter?.parent}
         onChange={value => handlePropsChange('parent', value)}
@@ -96,7 +96,7 @@ const Agent = ({ mock }) => {
       <CustomSelect
         placeholder={t('currency')}
         options={[
-          { value: -1, label: t('all') },
+          { value: -1, label: t('select_from_list') },
           ...Object.entries(settings?.currencies).map(([key, el], index) => ({
             value: key,
             label: el.text

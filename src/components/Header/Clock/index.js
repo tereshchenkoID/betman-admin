@@ -21,7 +21,7 @@ const Clock = () => {
 
   return (
     <div className={style.block}>
-      <h6>{t('role')}: {role(auth.role)} ({auth.role})</h6>
+      <h6>{t('role')}: {role(auth.role)}</h6>
       <div>{time.toLocaleString()}</div>
     </div>
   )

@@ -9,13 +9,14 @@
   justify-content: center;
   margin-inline: rem(1px);
   border-radius: var(--border-radius-4);
-  color: var(--text-for-primary);
+  background-color: var(--primary);
   font-size: rem(20px);
 
   @include hover {
+
     &:hover {
-      background-color: var(--primary-hover);
-      color: var(--link);
+      background: var(--brand-hover);
+      color: var(--text-for-primary);
     }
   }
 
@@ -24,17 +25,30 @@
     pointer-events: none;
   }
 
-  &.primary {
-    background-color: var(--primary);
+  &.warning,
+  &.error,
+  &.success {
+    color: var(--text-for-primary);
   }
 
   &.warning {
     background-color: var(--amber);
 
     @include hover {
+
       &:hover {
         background-color: var(--amber-hover);
-        color: var(--text-for-primary);
+      }
+    }
+  }
+
+  &.error {
+    background-color: var(--red);
+
+    @include hover {
+
+      &:hover {
+        background-color: var(--red-hover);
       }
     }
   }
@@ -43,9 +57,9 @@
     background-color: var(--green);
 
     @include hover {
+
       &:hover {
         background-color: var(--green-hover);
-        color: var(--text-for-primary);
       }
     }
   }

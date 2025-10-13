@@ -129,8 +129,9 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     switch (key) {
       case 'date_created':
         return getDate(value, 'datetime')
-      case 'credits':
       case 'bonuses':
+        return  <ReadMore data={value} />
+      case 'credits':
         return value
           ?
             <div>
@@ -161,7 +162,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
           :
             null
       default:
-        return <p>{value}</p>
+        return value || '-'
     }
   }
 
@@ -178,11 +179,13 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         action={e => handleEdit(e, row)}
       />
       <Icon
+        classes={['warning']}
         icon={`${row.locked === '0' ? 'fa-lock' : 'fa-lock-open'}`}
-        alt={`${row.locked === '0' ? t('lock') : t('unlock')}`}
+        alt={`${row.locked === '0' ? "lock" : "unlock"}`}
         action={e => handleConfirmed(e, row, handleLocked, 'notification.locked_confirmed')}
       />
       <Icon
+        classes={['error']}
         icon="fa-trash"
         alt="delete"
         action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}

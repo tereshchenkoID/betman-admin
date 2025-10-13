@@ -3,7 +3,7 @@
 .block {
   @include flex(null, center);
 
-  border-bottom: rem(1px) solid var(--primary);
+  border-bottom: rem(1px) solid var(--border);
   height: rem(40px);
 }
 

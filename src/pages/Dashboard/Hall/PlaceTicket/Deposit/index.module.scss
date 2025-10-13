@@ -6,7 +6,7 @@
 }
 
 .actions {
-  @include flex(flex-end, center);
+  @include flex(flex-end);
 
   gap: rem(16px);
 }

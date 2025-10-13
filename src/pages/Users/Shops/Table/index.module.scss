@@ -9,9 +9,10 @@
 .row {
   display: grid;
   grid-template-columns: rem(80px) repeat(4, 1fr) rem(80px) repeat(2, 1fr) repeat(2, rem(100px));
+  position: relative;
 
   &:not(:last-child) {
-    border-bottom: rem(1px) solid var(--primary);
+    border-bottom: rem(1px) solid var(--border);
   }
 
   &:first-child {
@@ -26,7 +27,14 @@
   }
 
   &.locked {
-    color: var(--text-for-primary-disabled);
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      background-color: var(--primary);
+      opacity: 0.5;
+      content: '';
+    }
   }
 }
 

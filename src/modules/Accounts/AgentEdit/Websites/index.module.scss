@@ -9,7 +9,7 @@
   display: grid;
   grid-template-columns: rem(50px) 1fr auto auto;
   align-items: center;
-  border-bottom: rem(1px) solid var(--primary);
+  border-bottom: rem(1px) solid var(--border);
 }
 
 .cell {

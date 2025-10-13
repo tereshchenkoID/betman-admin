@@ -9,6 +9,7 @@ import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
+import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 
 import Paper from 'components/Paper'
@@ -57,37 +58,43 @@ const Edit = ({ id }) => {
       from: '',
       to: ''
     },
+    agent: -1,
     bonuses: {
       bonus: {
         enable: '0',
         percentage: '',
         max: '',
         currency: -1,
+        wager: ''
       },
       bonus_fixed: {
         enable: '0',
         amount: '',
         currency: -1,
+        wager: ''
       },
       free_spins: {
         enable: '0',
         numbers: '',
         stake_level: '',
         providers: [],
-        games: []
+        games: [],
+        wager: ''
       },
       risk_spins: {
         enable: '0',
         numbers: '',
         stake_level: '',
         providers: [],
-        games: []
+        games: [],
+        wager: ''
       },
       cashback: {
         enable: '0',
         percentage: '',
         min_loses: '',
-        max: ''
+        max: '',
+        wager: ''
       }
     },
     triggers: [],
@@ -145,6 +152,12 @@ const Edit = ({ id }) => {
     setComponents(data.map(e => [e, settings.bonuses.components[e]]))
   }
 
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
+
   useEffect(() => {
     if(!isAdd) {
       handleLoad()
@@ -186,6 +199,12 @@ const Edit = ({ id }) => {
               filter?.type !== -1 &&
               <>
                 <CustomSelect
+                  placeholder={t('agent')}
+                  options={agentsOptions}
+                  data={filter.agent}
+                  onChange={value => handlePropsChange('agent', value)}
+                />
+                <CustomSelect
                   placeholder={t('status')}
                   options={convertOptions(settings.bonuses.statuses, t)}
                   data={filter?.status}
@@ -203,7 +222,7 @@ const Edit = ({ id }) => {
                   <CustomSelect
                     placeholder={t('currency')}
                     options={[
-                      { value: -1, label: t('all') },
+                      { value: -1, label: t('select_from_list') },
                       ...Object.entries(settings?.currencies).map(([key, el], index) => ({
                         value: key,
                         label: el.text
@@ -217,7 +236,7 @@ const Edit = ({ id }) => {
                 <CustomSelect
                   placeholder={t('period')}
                   options={[
-                    { value: -1, label: t('all') },
+                    { value: -1, label: t('select_from_list') },
                     ...convertOptions(settings.bonuses.periods, t)
                   ]}
                   data={filter?.period?.type}

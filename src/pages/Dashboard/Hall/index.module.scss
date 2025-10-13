@@ -9,3 +9,9 @@
 .grid {
   grid-template-columns: repeat(4, 1fr);
 }
+
+.actions {
+  @include flex;
+
+  gap: rem(16px);
+}

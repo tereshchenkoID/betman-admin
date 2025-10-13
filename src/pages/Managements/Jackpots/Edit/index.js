@@ -8,6 +8,7 @@ import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 import { useFilterState } from 'hooks/useFilterState'
 import { useApi } from 'hooks/useApi'
 import { useAuth } from 'hooks/useAuth'
+import { useOptions } from 'hooks/useOptions'
 import { buildFormData } from 'helpers/buildFormData'
 
 import Paper from 'components/Paper'
@@ -46,6 +47,7 @@ const Edit = ({ id }) => {
     drop_interval: [],
     providers: [],
     games: [],
+    agent: -1,
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         name: '',
@@ -94,6 +96,12 @@ const Edit = ({ id }) => {
     setFilter(data)
   }
 
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
+
   useEffect(() => {
     if(!isAdd) {
       handleLoad()
@@ -119,6 +127,12 @@ const Edit = ({ id }) => {
             <Uploader
               data={filter?.image}
               onChange={(blob) => handlePropsChange('image', blob)}
+            />
+            <CustomSelect
+              placeholder={t('agent')}
+              options={agentsOptions}
+              data={filter.agent}
+              onChange={value => handlePropsChange('agent', value)}
             />
             {
               !loading &&
@@ -146,7 +160,7 @@ const Edit = ({ id }) => {
               <CustomSelect
                 placeholder={t('currency')}
                 options={[
-                  { value: -1, label: t('all') },
+                  { value: -1, label: t('select_from_list') },
                   ...Object.entries(settings?.currencies).map(([key, el], index) => ({
                     value: key,
                     label: el.text

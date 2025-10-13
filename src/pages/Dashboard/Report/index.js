@@ -93,7 +93,7 @@ const Report = () => {
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
     el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('all') }]
+    [{ value: -1, label: t('select_from_list') }]
   )
 
   return (
@@ -103,7 +103,7 @@ const Report = () => {
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
             <CustomSelect
-              placeholder={t('agents')}
+              placeholder={t('agent')}
               options={agentsOptions}
               data={filter?.agent}
               onChange={value => handlePropsChange('agent', value)}

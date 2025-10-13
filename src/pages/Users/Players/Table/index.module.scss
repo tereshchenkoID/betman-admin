@@ -9,10 +9,11 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(7, 1fr) rem(80px) 1fr rem(120px);
+  grid-template-columns: rem(80px) repeat(7, 1fr) rem(80px) 1fr rem(140px);
+  position: relative;
 
   &:not(:last-child) {
-    border-bottom: rem(1px) solid var(--primary);
+    border-bottom: rem(1px) solid var(--border);
   }
 
   &:first-child {
@@ -27,7 +28,14 @@
   }
 
   &.locked {
-    color: var(--text-for-primary-disabled);
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      background-color: var(--primary);
+      opacity: 0.5;
+      content: '';
+    }
   }
 }
 
@@ -39,10 +47,13 @@
 .cell {
   gap: rem(4px);
   padding: rem(12px);
-  overflow: hidden;
 
   &:last-child {
     flex-wrap: nowrap;
+  }
+
+  &:not(:nth-child(2)) {
+    overflow: hidden;
   }
 
   p {

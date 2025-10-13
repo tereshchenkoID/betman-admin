@@ -7,7 +7,7 @@
   bottom: 0;
   transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
   z-index: $z-index-10;
-  border-left: rem(1px) solid var(--primary);
+  border-left: rem(1px) solid var(--border);
   background-color: var(--material-hover);
   width: 0;
   overflow: hidden;

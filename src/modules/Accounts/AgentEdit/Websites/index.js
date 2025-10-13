@@ -63,6 +63,7 @@ const Websites = ({ filter, setFilter }) => {
             </div>
             <div className={style.cell}>
               <Icon
+                classes={['error']}
                 icon="fa-trash"
                 alt="delete"
                 action={() => handleRemove(idx)}
@@ -78,6 +79,7 @@ const Websites = ({ filter, setFilter }) => {
           }}
         >
           <Icon
+            classes={['success']}
             icon="fa-add"
             alt="add"
             action={() => handleAdd()}

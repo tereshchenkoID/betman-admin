@@ -4,7 +4,6 @@ import { useOutsideClick } from 'hooks/useOutsideClick'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { useAuth } from 'hooks/useAuth'
-import { getData } from 'helpers/api'
 import { role } from 'helpers/role'
 
 import style from './index.module.scss'
@@ -30,10 +29,7 @@ const Account = () => {
 
   const handleLogout = () => {
     setActive(false)
-    getData('logout/').then(json => {
-      deleteAuth()
-      window.location.reload()
-    })
+    deleteAuth()
   }
 
   return (
@@ -63,7 +59,7 @@ const Account = () => {
             <span>{t('username')}:</span> <strong>{auth.username}</strong>
           </div>
           <div className={style.text}>
-            <span>{t('role')}:</span> <strong>{role(auth.role)} ({auth.role})</strong>
+            <span>{t('role')}:</span> <strong>{role(auth.role)}</strong>
           </div>
           <ul className={style.ul}>
             <li>

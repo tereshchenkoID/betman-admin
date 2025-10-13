@@ -38,32 +38,6 @@ const Place = ({ info }) => {
     return () => clearInterval(interval)
   }, [isActive, info?.session_started])
 
-  const handlePlaceLogin = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('login'),
-          cmd: 'hall-place-login',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
-  }
-
-  const handlePlaceInfo = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('info'),
-          cmd: 'hall-place-info',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
-  }
-
   return (
     <div className={style.block}>
       <strong className={style.host}>{info?.host}</strong>
@@ -99,12 +73,30 @@ const Place = ({ info }) => {
             <Button
               classes={['primary']}
               placeholder={t('login')}
-              onClick={e => handlePlaceLogin(e, info)}
+              onClick={e =>  dispatch(
+                setAside({
+                  meta: {
+                    title: t('login'),
+                    cmd: 'hall-place-player',
+                    buttonRef: e.target,
+                  },
+                  ...info,
+                }),
+              )}
             />
             <Button
               classes={['tertiary']}
               placeholder={t('info')}
-              onClick={e => handlePlaceInfo(e, info)}
+              onClick={e => dispatch(
+                setAside({
+                  meta: {
+                    title: t('info'),
+                    cmd: 'hall-place-ticket',
+                    buttonRef: e.target,
+                  },
+                  ...info,
+                }),
+              )}
               isDisabled={!isActive}
             />
           </div>

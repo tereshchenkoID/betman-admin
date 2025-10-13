@@ -1,0 +1,88 @@
+@use 'scss/config' as *;
+
+.block {
+  position: relative;
+}
+
+.header {
+  @include flex(null, center);
+
+  border-bottom: rem(1px) solid var(--border);
+  background-clip: content-box;
+  scroll-behavior: smooth;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--material-hover) transparent;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: rem(8px);
+  height: rem(52px);
+
+  &::-webkit-scrollbar {
+    width: rem(15px);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    height: rem(5px);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: rem(5px) solid var(--material);
+    background-color: var(--primary);
+  }
+}
+
+.link {
+  @include flex(center, center);
+
+  position: relative;
+  flex-shrink: 0;
+  padding-inline: rem(10px);
+  min-width: rem(60px);
+  height: 100%;
+  text-transform: uppercase;
+  font-size: rem(14px);
+
+  &::after {
+    @include transition(width);
+    @include size(0, rem(2px));
+
+    position: absolute;
+    inset-inline: 0;
+    bottom: rem(-1px);
+    background-color: var(--link);
+    content: '';
+  }
+
+  &.active,
+  &:hover {
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &.active {
+    color: var(--link);
+    pointer-events: none;
+  }
+}
+
+.body {
+  padding-top: rem(20px);
+  min-height: rem(150px);
+  position: relative;
+}
+
+.form {
+  display: grid;
+  gap: rem(16px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+  position: relative;
+}

@@ -113,13 +113,13 @@ const Financial = () => {
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
     el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('all') }]
+    [{ value: -1, label: t('select_from_list') }]
   )
 
   const { options: shopsOptions } = useOptions(
     `shops_tree/${filter.agent}`,
     el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('all') }],
+    [{ value: -1, label: t('select_from_list') }],
     Boolean(filter.agent)
   )
 
@@ -145,7 +145,7 @@ const Financial = () => {
               ) &&
               <>
                 <CustomSelect
-                  placeholder={t('agents')}
+                  placeholder={t('agent')}
                   options={agentsOptions}
                   data={filter.agent}
                   onChange={value => handlePropsChange('agent', value)}
@@ -153,7 +153,7 @@ const Financial = () => {
                 {
                   filter.agent !== -1 &&
                   <CustomSelect
-                    placeholder={t('shops')}
+                    placeholder={t('shop')}
                     options={shopsOptions}
                     data={filter.shop}
                     onChange={value => handlePropsChange('shop', value)}

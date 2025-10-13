@@ -6,9 +6,10 @@ import classNames from 'classnames'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
-import { useApi } from 'hooks/useApi'
-import { useFilterState } from 'hooks/useFilterState'
 import { setAside } from 'store/actions/asideAction'
+import { useFilterState } from 'hooks/useFilterState'
+import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
 import { getDate } from 'helpers/getDate'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
@@ -26,7 +27,7 @@ import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { q: '', status: -1 }
+const INITIAL_FILTER = { q: '', status: -1, agent: -1 }
 
 const List = () => {
   const { t } = useTranslation()
@@ -80,11 +81,18 @@ const List = () => {
       page,
       quantity,
       q: nextFilter.q,
-      status: nextFilter.status
+      status: nextFilter.status,
+      agent: nextFilter.agent
     })
 
     setData(await request(REQUEST_TYPE.POST, 'jackpots/', formData))
   }, [filter, quantity])
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
 
   useEffect(() => {
     handleSubmit(null, 0);
@@ -114,9 +122,15 @@ const List = () => {
               onChange={value => handlePropsChange('q', value)}
             />
             <CustomSelect
+              placeholder={t('agent')}
+              options={agentsOptions}
+              data={filter.agent}
+              onChange={value => handlePropsChange('agent', value)}
+            />
+            <CustomSelect
               placeholder={t('status')}
               options={[
-                { value: -1, label: t('all') },
+                { value: -1, label: t('select_from_list') },
                 ...convertOptions(service.YES_NO, t)
               ]}
               data={filter['status']}
@@ -160,6 +174,7 @@ const List = () => {
             <div className={style.cell}>{t('id')}</div>
             <div className={style.cell}>{t('image')}</div>
             <div className={style.cell}>{t('title')}</div>
+            <div className={style.cell}>{t('agent')}</div>
             <div className={style.cell}>{t('amount')}</div>
             <div className={style.cell}>{t('dropped_at')}</div>
             <div className={style.cell} />
@@ -202,22 +217,25 @@ const List = () => {
                       </div>
                     </div>
                     <div className={style.cell}>{el.title}</div>
+                    <div className={style.cell}>{el.agent?.username || '-'}</div>
                     <div className={style.cell}>{el.amount} {el.currency}</div>
                     <div className={style.cell}>{getDate(el.dropped_at)}</div>
                     <div className={style.cell}>
                       <Icon
-                        icon={el.status === '0' ? 'fa-eye-slash' : 'fa-eye'}
-                        alt={t('status')}
-                        action={() => handleChange(el)}
-                      />
-                      <Icon
                         icon="fa-pencil"
-                        alt={t('edit')}
+                        alt="edit"
                         action={() => navigate(`${NAVIGATION.managements.jackpots.link}/${el.id}`)}
                       />
                       <Icon
+                        classes={['warning']}
+                        icon={el.status === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        alt="status"
+                        action={() => handleChange(el)}
+                      />
+                      <Icon
+                        classes={['error']}
                         icon="fa-trash"
-                        alt={t('delete')}
+                        alt="delete"
                         action={(e) => handleConfirmed(e, el)}
                       />
                     </div>

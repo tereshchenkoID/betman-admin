@@ -12,6 +12,97 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
     <title>WinUp Games</title>
+
+    <style>
+      [data-theme='dark'] {
+        --brand: #97195a;
+        --brand-hover: #be1270;
+        --brand-disabled: rgba(180, 21, 106, 0.24);
+        --text-for-brand: #fff;
+        --text-for-brand-disabled: rgba(255, 255, 255, 0.24);
+
+        --primary: rgba(78, 58, 67, 0.64);
+        --primary-hover: rgba(78, 58, 67, 0.88);
+        --primary-disabled: rgba(78, 58, 67, 0.4);
+        --text-for-primary: #fff;
+        --text-for-primary-disabled: rgba(255, 255, 255, 0.4);
+
+        --link: #f070a6;
+        --link-hover: #ea5398;
+        --link-disabled: #fbb2cd;
+
+        --material: #2a121c;
+        --material-hover: #3e2831;
+        --material-disabled: #3e2831;
+        --text-for-material: #fff;
+        --text-for-material-disabled: rgba(255, 255, 255, 0.4);
+
+        --tertiary: #fff;
+        --tertiary-hover: rgba(255, 255, 255, 0.32);
+        --tertiary-disabled: rgba(255, 255, 255, 0.1);
+
+        --sub-text: rgba(255, 255, 255, 0.68);
+
+        --bg: #0d0509;
+        --border: rgba(78, 58, 67, 0.64);
+      }
+
+      [data-theme='light'] {
+        --brand: #b81764;
+        --brand-hover: #9d1154;
+        --brand-disabled: rgba(184, 23, 100, 0.24);
+        --text-for-brand: #ffffff;
+        --text-for-brand-disabled: rgba(255, 255, 255, 0.4);
+
+        --primary: rgba(50, 50, 50, 0.2);
+        --primary-hover: rgba(50, 50, 50, 0.3);
+        --primary-disabled: rgba(50, 50, 50, 0.4);
+        --text-for-primary: #ffffff;
+        --text-for-primary-disabled: rgba(255, 255, 255, 0.4);
+
+        --link: #c22f6a;
+        --link-hover: #a7245b;
+        --link-disabled: #e8a1c1;
+
+        --material: #ffffff;
+        --material-hover: #f7f5f7;
+        --material-disabled: #f2f0f2;
+        --text-for-material: #1a1a1a;
+        --text-for-material-disabled: rgba(0, 0, 0, 0.4);
+
+        --tertiary: #f7f7f7;
+        --tertiary-hover: rgba(0, 0, 0, 0.06);
+        --tertiary-disabled: rgba(0, 0, 0, 0.04);
+
+        --sub-text: rgba(0, 0, 0, 0.6);
+
+        --bg: #eff1f2;
+        --border: rgba(39, 47, 53, 0.12);
+      }
+
+      :root {
+        --amber: #f38a28;
+        --amber-hover: #78421c;
+        --red: #c21e1c;
+        --red-hover: #930102;
+        --green: #007447;
+        --green-hover: #034f50;
+        --blue: #0867a4;
+        --blue-hover: #00498d;
+        --white: #fff;
+        --black: #000;
+      }
+    </style>
+
+    <script>
+      (() => {
+        try {
+          document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark')
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark')
+        }
+      })()
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

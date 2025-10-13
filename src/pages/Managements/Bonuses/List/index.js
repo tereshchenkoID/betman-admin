@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
 import { setAside } from 'store/actions/asideAction'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
@@ -24,7 +25,7 @@ import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { q: '', type: -1, status: -1 }
+const INITIAL_FILTER = { q: '', type: -1, status: -1, agent: -1 }
 
 const List = () => {
   const { t } = useTranslation()
@@ -79,11 +80,18 @@ const List = () => {
       quantity,
       q: nextFilter.q,
       type: nextFilter.type,
-      status: nextFilter.status
+      status: nextFilter.status,
+      agent: nextFilter.agent,
     })
 
     setData(await request(REQUEST_TYPE.POST, 'bonuses/', formData))
   }, [filter, quantity])
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
 
   useEffect(() => {
     handleSubmit(null, 0);
@@ -113,9 +121,15 @@ const List = () => {
               onChange={value => handlePropsChange('q', value)}
             />
             <CustomSelect
+              placeholder={t('agent')}
+              options={agentsOptions}
+              data={filter.agent}
+              onChange={value => handlePropsChange('agent', value)}
+            />
+            <CustomSelect
               placeholder={t('type')}
               options={[
-                { value: -1, label: t('all') },
+                { value: -1, label: t('select_from_list') },
                 ...convertOptions(settings.bonuses.types, t)
               ]}
               data={filter['type']}
@@ -124,7 +138,7 @@ const List = () => {
             <CustomSelect
               placeholder={t('status')}
               options={[
-                { value: -1, label: t('all') },
+                { value: -1, label: t('select_from_list') },
                 ...convertOptions(settings.bonuses.statuses, t)
               ]}
               data={filter['status']}
@@ -167,6 +181,7 @@ const List = () => {
           <div className={style.row}>
             <div className={style.cell}>{t('id')}</div>
             <div className={style.cell}>{t('title')}</div>
+            <div className={style.cell}>{t('agent')}</div>
             <div className={style.cell}>{t('budget')}</div>
             <div className={style.cell}>{t('type')}</div>
             <div className={style.cell}>{t('status')}</div>
@@ -196,18 +211,20 @@ const List = () => {
                   >
                     <div className={style.cell}>{el.id}</div>
                     <div className={style.cell}>{el.title}</div>
+                    <div className={style.cell}>{el.agent?.username || '-'}</div>
                     <div className={style.cell}>{el.budget} {el.currency}</div>
                     <div className={style.cell}>{t(settings.bonuses.types[el.type])}</div>
                     <div className={style.cell}>{t(settings.bonuses.statuses[el.status])}</div>
                     <div className={style.cell}>
                       <Icon
                         icon="fa-pencil"
-                        alt={t('edit')}
+                        alt="edit"
                         action={() => navigate(`${NAVIGATION.managements.bonuses.link}/${el.id}`)}
                       />
                       <Icon
+                        classes={['error']}
                         icon="fa-trash"
-                        alt={t('delete')}
+                        alt="delete"
                         action={(e) => handleConfirmed(e, el)}
                       />
                     </div>

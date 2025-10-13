@@ -30,7 +30,6 @@
   grid-column: 3;
   margin-top: rem(24px);
   font-size: rem(12px);
-  color: var(--sub-text);
   text-align: end;
 }
 
@@ -66,7 +65,7 @@
   aspect-ratio: 4 / 5;
   background-color: var(--material);
   background-size: cover;
-  border: rem(1px) solid var(--primary);
+  border: rem(1px) solid var(--border);
   border-radius: var(--border-radius-10);
   overflow: hidden;
 
@@ -94,7 +93,6 @@
 
 .currency {
   font-size: rem(20px);
-  color: var(--sub-text);
 }
 
 .eligible {
@@ -124,5 +122,5 @@
   text-align: center;
   font-size: rem(12px);
   margin-inline-end: rem(8px);
-  background-color: var(--primary-hover);
+  background-color: var(--primary);
 }

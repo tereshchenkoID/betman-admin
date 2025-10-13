@@ -1,0 +1,63 @@
+@import 'scss/config';
+
+.block {
+  @include flex($align-items: center);
+  @include size(rem(80px), rem(40px));
+
+  position: relative;
+  cursor: pointer;
+}
+
+.input {
+  display: none;
+
+  &:checked + {
+
+    .label {
+      background-color: var(--brand);
+      &::before {
+        transform: translateX(100%);
+      }
+    }
+  }
+}
+
+.icons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  position: absolute;
+  inset: 0;
+}
+
+.icon {
+  width: 100%;
+}
+
+.label {
+  @include flex;
+  @include transition;
+  @include size(100%);
+
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border: rem(1px) solid var(--border);
+  background-color: var(--primary);
+  border-radius: var(--border-radius-default);
+
+  &::before {
+    @include transition;
+    @include flex(center, center);
+
+    position: absolute;
+    inset-block: rem(2px);
+    inset-inline-start: rem(2px);
+    background-color: var(--material);
+    border-radius: inherit;
+    width: calc(50% - rem(2px));
+    transition: inherit;
+    content: '';
+  }
+}

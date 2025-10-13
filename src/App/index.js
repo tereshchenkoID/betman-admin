@@ -15,6 +15,7 @@ import { setAuth } from 'store/actions/authAction'
 import { setSettings } from 'store/actions/settingsAction'
 
 import { WebSocketProvider } from 'context/WebSocketProvider'
+import { ThemeProvider } from 'context/ThemeContext'
 
 import Login from 'pages/Login'
 import Home from 'pages/Home'
@@ -52,24 +53,26 @@ const App = () => {
   if (loading) return <Loader />
 
   return (
-    <div className={style.root}>
-      {
-        isAuth
-          ?
-            <WebSocketProvider>
-              <Home />
-            </WebSocketProvider>
-          :
-            <Login />
-      }
-      <Toastify />
-      <Tooltip
-        id={'tooltip'}
-        place={'left'}
-        className={style.tooltip}
-        classNameArrow={style.arrow}
-      />
-    </div>
+    <ThemeProvider>
+      <div className={style.root}>
+        {
+          isAuth
+            ?
+              <WebSocketProvider>
+                <Home />
+              </WebSocketProvider>
+            :
+              <Login />
+        }
+        <Toastify />
+        <Tooltip
+          id={'tooltip'}
+          place={'left'}
+          className={style.tooltip}
+          classNameArrow={style.arrow}
+        />
+      </div>
+    </ThemeProvider>
   )
 }
 

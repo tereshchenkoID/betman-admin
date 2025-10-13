@@ -82,7 +82,7 @@ const Shops = () => {
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
     el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('all') }]
+    [{ value: -1, label: t('select_from_list') }]
   )
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const Shops = () => {
               onChange={value => handlePropsChange('q', value)}
             />
             <CustomSelect
-              placeholder={t('agents')}
+              placeholder={t('agent')}
               options={agentsOptions}
               data={filter.agent}
               onChange={value => handlePropsChange('agent', value)}
@@ -122,7 +122,7 @@ const Shops = () => {
             <CustomSelect
               placeholder={t('locked')}
               options={[
-                { value: -1, label: t('all') },
+                { value: -1, label: t('select_from_list') },
                 ...convertOptions(service.YES_NO, t)
               ]}
               data={filter['locked']}

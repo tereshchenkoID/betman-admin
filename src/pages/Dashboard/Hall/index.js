@@ -12,7 +12,7 @@ import Button from 'components/Button'
 
 import style from './index.module.scss'
 
-const Hall = () => {
+const Hall = ({ active, setActive }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [data, setData] = useState([])
@@ -59,6 +59,27 @@ const Hall = () => {
                 }),
               )
             }}
+          />
+          <Button
+            classes={['primary']}
+            placeholder={t('wallet')}
+            onChange={(e) => {
+              dispatch(
+                setAside({
+                  meta: {
+                    title: t('wallet'),
+                    cmd: 'hall-place-ticket',
+                    buttonRef: e.target,
+                  },
+                  id: auth.agent_id
+                }),
+              )
+            }}
+          />
+          <Button
+            classes={['error']}
+            placeholder={t('close_day')}
+            onChange={() => setActive(false)}
           />
         </div>
         <div className={style.grid}>

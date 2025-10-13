@@ -1,17 +1,16 @@
 @use 'scss/config' as *;
 
 .block {
-  display: grid;
+  @include flex($align-items: center);
+
   position: sticky;
   top: 0;
-  grid-template-columns: 1fr repeat(3, auto);
-  align-items: center;
-  column-gap: rem(15px);
+  gap: rem(16px);
   padding-inline: rem(24px);
   margin-left: rem(56px);
   z-index: $z-index-10;
   background-color: var(--material);
-  border-bottom: rem(1px) solid var(--primary);
+  border-bottom: rem(1px) solid var(--border);
   min-height: rem(65px);
 }
 

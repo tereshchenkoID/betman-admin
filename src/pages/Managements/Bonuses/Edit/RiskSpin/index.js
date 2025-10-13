@@ -29,6 +29,13 @@ const RiskSpin = ({ data, action, active }) => {
           isRequired={true}
           min={0}
         />
+        <Field
+          type={'number'}
+          placeholder={t('wager')}
+          data={data.wager}
+          onChange={value => action(`${active}.wager`, value)}
+          isRequired={true}
+        />
       </div>
       <Providers
         providersSelected={data.providers}

@@ -62,7 +62,7 @@ const Cashier = ({ mock }) => {
   const { options: shopsOptions } = useOptions(
     `shops_tree/${mock.agent.id}`,
     el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('all') }],
+    [{ value: -1, label: t('select_from_list') }],
     true
   )
 
@@ -72,7 +72,7 @@ const Cashier = ({ mock }) => {
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter} />
       <CustomSelect
-        placeholder={t('shops')}
+        placeholder={t('shop')}
         options={shopsOptions}
         data={filter.parent}
         onChange={value => handlePropsChange('parent', value)}

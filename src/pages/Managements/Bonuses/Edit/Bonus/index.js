@@ -25,7 +25,7 @@ const Bonus = ({ data, action, active }) => {
      <CustomSelect
        placeholder={t('currency')}
        options={[
-         { value: -1, label: t('all') },
+         { value: -1, label: t('select_from_list') },
          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
            value: key,
            label: el.text
@@ -42,6 +42,13 @@ const Bonus = ({ data, action, active }) => {
        onChange={value => action(`${active}.max`, value)}
        isRequired={true}
        min={0}
+     />
+     <Field
+       type={'number'}
+       placeholder={t('wager')}
+       data={data.wager}
+       onChange={value => action(`${active}.wager`, value)}
+       isRequired={true}
      />
    </div>
   );

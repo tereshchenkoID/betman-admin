@@ -111,7 +111,7 @@ const Agents = () => {
             <CustomSelect
               placeholder={t('locked')}
               options={[
-                { value: -1, label: t('all') },
+                { value: -1, label: t('select_from_list') },
                 ...convertOptions(service.YES_NO, t)
               ]}
               data={filter['locked']}

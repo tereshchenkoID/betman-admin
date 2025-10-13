@@ -1,11 +1,11 @@
 import { useDispatch, useSelector} from 'react-redux'
 
+import { getData } from 'helpers/api'
 import { setAuth } from 'store/actions/authAction'
 
 export const useAuth = () => {
   const dispatch = useDispatch()
   const { auth } = useSelector(state => state.auth)
-  // const isAuth = auth.id && sessionStorage.getItem('authToken')
   const isAuth = auth.id
 
   const initAuth = (data) => {
@@ -19,6 +19,10 @@ export const useAuth = () => {
   const deleteAuth = () => {
     dispatch(setAuth(null))
     sessionStorage.removeItem('authToken')
+
+    getData('logout/').then(json => {
+      window.location.reload()
+    })
   }
 
   return {

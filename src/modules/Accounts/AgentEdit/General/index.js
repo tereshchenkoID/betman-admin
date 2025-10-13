@@ -24,7 +24,7 @@ const General = ({ filter, setFilter }) => {
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
     el => ({ value: String(el.id), label: el.username }),
-    [{ value: -1, label: t('all') }]
+    [{ value: -1, label: t('select_from_list') }]
   )
 
   return (
@@ -54,7 +54,7 @@ const General = ({ filter, setFilter }) => {
       <CustomSelect
         placeholder={t('currency')}
         options={[
-          { value: -1, label: t('all') },
+          { value: -1, label: t('select_from_list') },
           ...Object.entries(settings?.currencies).map(([key, el], index) => ({
             value: key,
             label: el.text

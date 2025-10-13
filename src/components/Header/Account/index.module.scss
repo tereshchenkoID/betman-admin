@@ -18,7 +18,15 @@
   @include size(rem(40px));
 
   border-radius: 50%;
-  background-color: var(--sub-text);
+  background-color: var(--primary);
+  color: var(--text-for-primary);
+
+  @include hover {
+
+    &:hover {
+      background: var(--brand-hover);
+    }
+  }
 }
 
 .wrapper {

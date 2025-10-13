@@ -1,0 +1,61 @@
+@import 'scss/config';
+
+.block {
+  position: relative;
+  height: fit-content;
+  max-width: rem(306px);
+}
+
+.button {
+  padding: rem(1);
+  border-radius: rem(16px);
+  position: relative;
+  width: 100%;
+  white-space: nowrap;
+  text-align: start;
+  word-break: break-all
+}
+
+.content {
+  @include flex($direction: column);
+
+  padding: rem(12px) rem(20px);
+  position: relative;
+  flex-grow: 1;
+  gap: rem(6px);
+  border-radius: rem(15px);
+  background: no-repeat radial-gradient(circle 17px at -4px 50%, transparent 99.9%, var(--primary)) top left -1px / 50% 100%, no-repeat radial-gradient(circle 17px at calc(100% + 4px) 50%, transparent 99.9%, var(--primary)) top right -1px / calc(50% + 2px) 100%;
+  z-index: $z-index-2;
+  height: rem(120px);
+  line-height: 1;
+}
+
+.amount {
+  margin-block: 0 auto;
+}
+
+.date {
+  font-size: rem(12px);
+}
+
+.label {
+  display: inline-flex;
+  margin-right: rem(5px);
+  font-size: rem(12px);
+  font-family: var(--font-family)!important;
+  min-width: rem(100px);
+}
+
+.status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateZ(-25deg);
+  font-size: rem(50px);
+  text-transform: uppercase;
+  font-weight: var(--typography-bold);
+  font-family: var(--font-family-alt);
+  white-space: nowrap;
+  opacity: 0.3;
+  color: var(--green);
+}

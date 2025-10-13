@@ -24,7 +24,7 @@
   }
 
   &:not(:last-child) {
-    border-bottom: rem(1px) solid var(--primary);
+    border-bottom: rem(1px) solid var(--border);
   }
 
   &.hidden {
@@ -63,5 +63,5 @@
 .picture {
   @include size(rem(100px), rem(40px));
 
-  background-color: var(--material-hover);
+  background-color: var(--primary);
 }

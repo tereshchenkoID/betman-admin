@@ -157,7 +157,7 @@ const Nav = () => {
         >
           <Logo />
         </div>
-        <hr/>
+        <hr className={style.divider} />
         <ul className={style.list}>
           {
             MENU.map((el, idx) =>
@@ -253,7 +253,7 @@ const Nav = () => {
               </li>
           )}
         </ul>
-        <hr/>
+        <hr className={style.divider} />
         <div className={style.setting}>
           <Icon
             icon={'fa-gear'}
@@ -261,7 +261,7 @@ const Nav = () => {
             action={(e) => handleOption(e)}
           />
         </div>
-        <hr/>
+        <hr className={style.divider} />
         <div className={style.action}>
           <button
             ref={buttonRef}

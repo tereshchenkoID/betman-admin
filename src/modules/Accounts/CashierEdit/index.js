@@ -16,10 +16,12 @@ import style from './index.module.scss'
 
 const General = lazy(() => import('./General'))
 const Security = lazy(() => import('./Security'))
+const IpList = lazy(() => import('./IpList'))
 
 const TABS = [
   { key: 'general', component: General },
-  { key: 'security', component: Security }
+  { key: 'security', component: Security },
+  { key: 'ip_list', component: IpList },
 ]
 
 const CashierEdit = ({ mock }) => {

@@ -116,7 +116,6 @@
 
         &__body {
           background-color: var(--material);
-          color: var(--text-for-material);
         }
       }
 
@@ -146,6 +145,14 @@
             &:not(.tox-collection__item--state-disabled) {
               background-color: var(--link-hover)!important;
             }
+          }
+        }
+
+        &__item-label {
+          color: currentColor;
+
+          * {
+            color: currentColor!important;
           }
         }
       }

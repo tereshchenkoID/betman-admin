@@ -10,7 +10,7 @@ import { hostname } from 'helpers/hostname'
 const WebSocketContext = createContext(null)
 
 export const WebSocketProvider = ({ children }) => {
-  const { auth, isAuth } = useAuth()
+  const { auth, deleteAuth, isAuth } = useAuth()
   const dispatch = useDispatch()
   const [lastMessage, setLastMessage] = useState(null)
 
@@ -39,6 +39,10 @@ export const WebSocketProvider = ({ children }) => {
           ...data,
           language: prev.language,
         }))
+      }
+
+      if (cmd === 'logout') {
+        deleteAuth()
       }
 
       if (cmd === 'set-credits' && topic === 'account') {
