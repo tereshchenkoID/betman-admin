@@ -17,15 +17,19 @@ import Password from 'components/Password'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { real_balance: '', password: '' }
-
 const Login = ({ active, setActive }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { auth } = useAuth()
+  const { auth, deleteAuth } = useAuth()
   const { request, error} = useApi()
-  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
   const isShift = auth.shift?.status === '1'
+
+  const INITIAL_FILTER = {
+    real_balance: isShift ? '' : (auth?.shift?.start_balance || ''),
+    password: ''
+  }
+
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -35,6 +39,10 @@ const Login = ({ active, setActive }) => {
 
     if (!error) {
       dispatch(setAuth(json))
+
+      if (isShift) {
+        deleteAuth()
+      }
     }
   }
 
@@ -51,6 +59,7 @@ const Login = ({ active, setActive }) => {
             data={filter.real_balance}
             onChange={value => handlePropsChange('real_balance', value)}
             isRequired={true}
+            isDisabled={!isShift}
           />
           <Password
             placeholder={t('password')}

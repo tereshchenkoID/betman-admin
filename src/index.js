@@ -7,8 +7,6 @@ import './i18n'
 
 import './scss/app.scss'
 
-import reportWebVitals from './reportWebVitals'
-
 import store from './store'
 
 import { router } from './router'
@@ -19,5 +17,3 @@ root.render(
     <RouterProvider router={router} />
   </Provider>,
 )
-
-reportWebVitals()

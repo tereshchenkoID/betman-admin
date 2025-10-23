@@ -10,8 +10,6 @@ import { useFilterState } from 'hooks/useFilterState'
 import { setCmd } from 'store/actions/cmdAction'
 import { setAside } from 'store/actions/asideAction'
 
-import { useOptions } from 'hooks/useOptions'
-
 import Field from 'components/Field'
 import Button from 'components/Button'
 import CustomSelect from 'components/Select'
@@ -24,7 +22,7 @@ const Deposit = ({ mock }) => {
   const { t} = useTranslation()
   const dispatch = useDispatch()
   const { request } = useApi()
-  const { auth } = useAuth()
+  const { auth, updateAuth } = useAuth()
 
   const INITIAL_FILTER = {
     id: mock.id,
@@ -40,12 +38,6 @@ const Deposit = ({ mock }) => {
     auth.unlimited_balance === '1' || Number(filter?.amount) <= Number(auth.credits[filter?.currency])
   )
 
-  // const { options: bonusOptions } = useOptions(
-  //   'agents_tree/',
-  //   el => ({ value: el.id, label: el.username }),
-  //   [{ value: -1, label: t('select_from_list') }]
-  // )
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -54,12 +46,15 @@ const Deposit = ({ mock }) => {
     const formData = new FormData()
     formData.append('data', JSON.stringify(filter))
 
-    const { data, error } = await request(REQUEST_TYPE.POST, 'deposit/', formData)
+    const { credits, error } = await request(REQUEST_TYPE.POST, 'deposit/', formData)
 
     if (!error) {
       dispatch(setAside(null))
-      // setFilter(data)
       dispatch(setCmd('refresh-table'))
+
+      if (credits) {
+        updateAuth({credits})
+      }
     }
   }
 
@@ -105,12 +100,6 @@ const Deposit = ({ mock }) => {
           />
         </>
       }
-      {/*<CustomSelect*/}
-      {/*  placeholder={t('bonus')}*/}
-      {/*  options={bonusOptions}*/}
-      {/*  data={filter.bonus}*/}
-      {/*  onChange={value => handlePropsChange('bonus', value)}*/}
-      {/*/>*/}
       <div className={style.actions}>
         <Button
           type={'submit'}

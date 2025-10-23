@@ -56,20 +56,14 @@ const Cashiers = () => {
       page,
       quantity,
       q: nextFilter.q,
-      locked: nextFilter.locked
+      locked: nextFilter.locked,
+      agent: filter.agent,
+      shop: filter.shop,
     })
 
     if (nextSort.direction) {
       formData.append('sort_key', nextSort.key)
       formData.append('sort_direction', nextSort.direction)
-    }
-
-    if (isSingle) {
-      formData.append('agent', agent)
-    }
-
-    if (shop) {
-      formData.append('shop', shop)
     }
 
     setData(await request(REQUEST_TYPE.POST, 'cashiers/', formData))

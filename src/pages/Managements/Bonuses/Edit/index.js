@@ -8,7 +8,6 @@ import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 
@@ -43,7 +42,6 @@ const Edit = ({ id }) => {
   const navigate = useNavigate()
   const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
-  const { auth } = useAuth()
 
   const INITIAL_FILTER = {
     id: null,
@@ -109,7 +107,7 @@ const Edit = ({ id }) => {
   }
 
   const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
-  const [active, setActive] = useState(auth?.language.code)
+  const [active, setActive] = useState(Object.values(settings?.site_languages)[0]?.code)
   const [component, setComponent] = useState(null)
   const [components, setComponents] = useState([])
   const currentTranslation = filter?.translations?.[active]
@@ -319,7 +317,7 @@ const Edit = ({ id }) => {
               action={setActive}
               options={Object.entries(
                 Object.fromEntries(
-                  Object.values(settings.languages).map((item, _) => [
+                  Object.values(settings.site_languages).map((item, _) => [
                     item.code,
                     item.code,
                   ])

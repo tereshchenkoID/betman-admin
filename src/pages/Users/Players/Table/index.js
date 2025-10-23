@@ -1,13 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
-import { REQUEST_TYPE } from 'constant/config'
+import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
+import { useAuth } from 'hooks/useAuth'
 import { buildFormData } from 'helpers/buildFormData'
 import { setCmd } from 'store/actions/cmdAction'
 import { setAside } from 'store/actions/asideAction'
@@ -22,6 +23,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { request } = useApi()
+  const { auth } = useAuth()
 
   const handleDeposit = (e, row) => {
     dispatch(
@@ -184,12 +186,15 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         alt={`${row.locked === '0' ? "lock" : "unlock"}`}
         action={e => handleConfirmed(e, row, handleLocked, 'notification.locked_confirmed')}
       />
-      <Icon
-        classes={['error']}
-        icon="fa-trash"
-        alt="delete"
-        action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
-      />
+      {
+        (auth.role !== ACCOUNT_TYPE['SHOP'] && auth.role !== ACCOUNT_TYPE['CASHIER']) &&
+        <Icon
+          classes={['error']}
+          icon="fa-trash"
+          alt="delete"
+          action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
+        />
+      }
     </>
   )
 

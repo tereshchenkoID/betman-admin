@@ -8,6 +8,7 @@ import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useFilterState } from 'hooks/useFilterState'
 import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
 import { getDate } from 'helpers/getDate'
@@ -26,9 +27,13 @@ import Breadcrumbs from 'modules/Breadcrumbs'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { q: '', visibility: -1 }
+const INITIAL_FILTER = {
+  q: '',
+  visibility: -1,
+  agent: -1,
+}
 
-const List = ({ onEdit, onDelete }) => {
+const List = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -67,6 +72,7 @@ const List = ({ onEdit, onDelete }) => {
       page,
       quantity,
       q: nextFilter.q,
+      agent: nextFilter.agent,
       visibility: nextFilter.visibility
     })
 
@@ -85,6 +91,12 @@ const List = ({ onEdit, onDelete }) => {
       }),
     )
   }
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
 
   useEffect(() => {
     handleSubmit(null, 0)
@@ -112,6 +124,12 @@ const List = ({ onEdit, onDelete }) => {
               placeholder={t('title')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
+            />
+            <CustomSelect
+              placeholder={t('agent')}
+              options={agentsOptions}
+              data={filter.agent}
+              onChange={value => handlePropsChange('agent', value)}
             />
             <CustomSelect
               placeholder={t('visibility')}
@@ -158,6 +176,7 @@ const List = ({ onEdit, onDelete }) => {
           <div className={style.row}>
             <div className={style.cell}>{t('id')}</div>
             <div className={style.cell}>{t('image')}</div>
+            <div className={style.cell}>{t('agent')}</div>
             <div className={style.cell}>{t('title')}</div>
             <div className={style.cell}>{t('category')}</div>
             <div className={style.cell}>{t('date_created')}</div>
@@ -200,6 +219,7 @@ const List = ({ onEdit, onDelete }) => {
                         }
                       </div>
                     </div>
+                    <div className={style.cell}>{el.agent?.username || t('all')}</div>
                     <div className={style.cell}>{el.title}</div>
                     <div className={style.cell}>{el.category}</div>
                     <div className={style.cell}>{getDate(el.date_created)}</div>

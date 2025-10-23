@@ -26,6 +26,7 @@ const ManagementsPromos = lazy(() => import('pages/Managements/Promos'))
 const ManagementsBanners = lazy(() => import('pages/Managements/Banners'))
 const ManagementsJackpots = lazy(() => import('pages/Managements/Jackpots'))
 const ManagementsBonuses = lazy(() => import('pages/Managements/Bonuses'))
+const ManagementsNotifications = lazy(() => import('pages/Managements/Notifications'))
 
 const NotFound = lazy(() => import('pages/NotFound'))
 
@@ -135,6 +136,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={['-1']}>
             {withSuspense(ManagementsBonuses)}
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: `${NAVIGATION.managements.notifications.link}/:notification?`,
+        element: (
+          <ProtectedRoute allowedRoles={['-1']}>
+            {withSuspense(ManagementsNotifications)}
           </ProtectedRoute>
         )
       },

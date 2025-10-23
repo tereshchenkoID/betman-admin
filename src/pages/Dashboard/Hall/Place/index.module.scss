@@ -6,6 +6,14 @@
   padding: rem(16px);
   background-color: var(--primary);
   border-radius: var(--border-radius-4);
+
+  &.active {
+    border: rem(2px) solid var(--red);
+
+    .icon {
+      color: var(--red);
+    }
+  }
 }
 
 .wrapper {
@@ -26,20 +34,20 @@
   font-size: rem(14px);
 }
 
-.actions {
+.grid {
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  justify-content: flex-start;
-  gap: rem(16px);
+  grid-template-columns: 1fr 1.5fr;
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(8px);
 }
 
 .icon {
   font-size: rem(60px);
   color: var(--green);
-
-  &.active {
-    color: var(--red);
-  }
 }
 
 .value {

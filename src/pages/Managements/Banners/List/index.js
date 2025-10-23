@@ -8,6 +8,7 @@ import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
 import { useFilterState } from 'hooks/useFilterState'
+import { useOptions } from 'hooks/useOptions'
 import { setAside } from 'store/actions/asideAction'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
@@ -25,7 +26,11 @@ import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { q: '', visibility: -1 }
+const INITIAL_FILTER = {
+  q: '',
+  visibility: -1,
+  agent: -1,
+}
 
 const List = () => {
   const { t } = useTranslation()
@@ -79,11 +84,18 @@ const List = () => {
       page,
       quantity,
       q: nextFilter.q,
+      agent: nextFilter.agent,
       visibility: nextFilter.visibility
     })
 
     setData(await request(REQUEST_TYPE.POST, 'banners/', formData))
   }, [filter, quantity])
+
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
 
   useEffect(() => {
     handleSubmit(null, 0);
@@ -111,6 +123,12 @@ const List = () => {
               placeholder={t('title')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
+            />
+            <CustomSelect
+              placeholder={t('agent')}
+              options={agentsOptions}
+              data={filter.agent}
+              onChange={value => handlePropsChange('agent', value)}
             />
             <CustomSelect
               placeholder={t('visibility')}
@@ -158,6 +176,7 @@ const List = () => {
           <div className={style.row}>
             <div className={style.cell}>{t('id')}</div>
             <div className={style.cell}>{t('image')}</div>
+            <div className={style.cell}>{t('agent')}</div>
             <div className={style.cell}>{t('title')}</div>
             <div className={style.cell}>{t('subtitle')}</div>
             <div className={style.cell}>{t('description')}</div>
@@ -170,7 +189,7 @@ const List = () => {
                 <div className={style.row}>
                 <div
                   className={style.empty}
-                  style={{ gridColumn: 'span 7' }}
+                  style={{ gridColumn: 'span 8' }}
                 >
                   {t('notification.no_matching_records_found')}
                 </div>
@@ -201,6 +220,7 @@ const List = () => {
                         }
                       </div>
                     </div>
+                    <div className={style.cell}>{el.agent?.username || t('all')}</div>
                     <div className={style.cell}>{el.title}</div>
                     <div className={style.cell}>{el.subtitle}</div>
                     <div className={style.cell}>{el.description}</div>

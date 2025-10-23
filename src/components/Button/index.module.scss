@@ -83,6 +83,7 @@
   }
 
   &.error {
+    color: var(--text-for-brand);
     background-color: var(--red);
 
     &:disabled,
@@ -94,6 +95,22 @@
 
       &:hover {
         background-color: var(--red-hover);
+      }
+    }
+  }
+
+  &.warning {
+    background-color: var(--amber);
+
+    &:disabled,
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    @include hover {
+
+      &:hover {
+        background-color: var(--amber-hover);
       }
     }
   }

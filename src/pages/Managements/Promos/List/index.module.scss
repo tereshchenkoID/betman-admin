@@ -9,7 +9,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) rem(200px) repeat(3, 1fr) rem(140px);
+  grid-template-columns: rem(80px) rem(200px) repeat(4, 1fr) rem(140px);
   align-items: center;
 
   &:first-child {

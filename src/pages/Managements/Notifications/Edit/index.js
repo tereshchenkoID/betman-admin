@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
@@ -10,14 +11,13 @@ import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 
+import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Uploader from 'components/Uploader'
-import Paper from 'components/Paper'
 import Tab from 'components/Tab'
-import Checkbox from 'components/Checkbox'
-import Redactor from 'components/Redactor'
 import CustomSelect from 'components/Select'
+import Redactor from 'components/Redactor'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import ImagePreview from 'modules/ImagePreview'
@@ -28,35 +28,26 @@ const Edit = ({ id }) => {
   const { t } = useTranslation()
   const isAdd = id === 'add'
   const navigate = useNavigate()
-  const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
+  const { settings } = useSelector(state => state.settings)
 
   const INITIAL_FILTER = {
     id: null,
     image: '',
-    visibility: 0,
     agent: -1,
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         title: '',
-        teaser: '',
+        text: '',
         description: '',
-        visibility: 0,
-        category: '',
-        button: {
-          text: '',
-          newtab: false,
-          link: [],
-        }
       }
       return acc
     }, {}),
   }
 
   const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
-
   const [active, setActive] = useState(Object.values(settings?.site_languages)[0]?.code)
-  const currentTranslation = filter.translations?.[active]
+  const currentTranslation = filter?.translations?.[active]
 
   const handleResetForm = () => {
     if(isAdd) {
@@ -72,19 +63,19 @@ const Edit = ({ id }) => {
 
     const formData = buildFormData(filter)
 
-    const { data, error } = await request(REQUEST_TYPE.POST, `promo/${isAdd ? 'add' : 'edit'}`, formData)
+    const { data, error } = await request(REQUEST_TYPE.POST, `message/${isAdd ? 'add' : 'edit'}`, formData)
 
     if (!error) {
       setFilter(data)
 
       if (isAdd) {
-        navigate(NAVIGATION.managements.promos.link)
+        navigate(NAVIGATION.managements.notifications.link)
       }
     }
   }
 
   const handleLoad = async () => {
-    const { data } = await request(REQUEST_TYPE.GET, `promo/${id}`)
+    const { data } = await request(REQUEST_TYPE.GET, `message/${id}`)
     setFilter(data)
   }
 
@@ -95,7 +86,9 @@ const Edit = ({ id }) => {
   )
 
   useEffect(() => {
-    if(!isAdd) handleLoad()
+    if(!isAdd) {
+      handleLoad()
+    }
   }, [])
 
   return (
@@ -103,15 +96,15 @@ const Edit = ({ id }) => {
       <Breadcrumbs
         data={[
           NAVIGATION.home,
-          NAVIGATION.managements.promos,
+          NAVIGATION.managements.notifications,
         ]}
-        current={{text: isAdd ? t('add') : `${t('edit')} ${id}`}}
+        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
       />
       <Paper
         classes={['sm']}
         headline={isAdd ? t('add') : `${t('edit')}: ${id}`}
       >
-        <Debug data={filter}/>
+        <Debug data={filter} />
         <div className={style.block}>
           <form className={style.form} onSubmit={handleSubmit}>
             <CustomSelect
@@ -121,9 +114,8 @@ const Edit = ({ id }) => {
               onChange={value => handlePropsChange('agent', value)}
             />
             <Uploader
-              data={filter.image}
+              data={filter?.image}
               onChange={(blob) => handlePropsChange('image', blob)}
-              maxHeight={'auto'}
             />
             <Tab
               data={active}
@@ -144,49 +136,17 @@ const Edit = ({ id }) => {
               onChange={value => handlePropsChange(`translations.${active}.title`, value)}
               isRequired={true}
             />
-            <Field
-              type={'text'}
-              placeholder={t('teaser')}
-              data={currentTranslation?.teaser}
-              onChange={value => handlePropsChange(`translations.${active}.teaser`, value)}
-              isRequired={true}
-            />
-            <div>
-              <Field
-                type={'text'}
-                placeholder={t('category')}
-                data={currentTranslation?.category}
-                onChange={value => handlePropsChange(`translations.${active}.category`, value)}
-                isRequired={true}
-              />
-              <p className={style.label}>Example: <strong>New, Top</strong></p>
-            </div>
             <Redactor
               key={active}
-              data={currentTranslation?.description}
-              action={(value) => handlePropsChange(`translations.${active}.description`, value)}
+              data={currentTranslation?.text}
+              action={(value) => handlePropsChange(`translations.${active}.text`, value)}
             />
-            <div className={style.grid}>
-              <Field
-                type={'text'}
-                placeholder={t('button_label')}
-                data={currentTranslation?.button.text}
-                onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
-              />
-              <div>
-                <Field
-                  type={'text'}
-                  placeholder={t('button_link')}
-                  data={currentTranslation?.button.link}
-                  onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
-                />
-                <p className={style.label}>Example: <strong>/promo/first-deposit</strong></p>
-              </div>
-            </div>
-            <Checkbox
-              placeholder={t('new_tab')}
-              data={currentTranslation?.button.newtab}
-              onChange={value => handlePropsChange(`translations.${active}.button.newtab`, value)}
+            <Field
+              type={'text'}
+              placeholder={t('description')}
+              data={currentTranslation?.description}
+              onChange={value => handlePropsChange(`translations.${active}.description`, value)}
+              isRequired={true}
             />
             <div className={style.actions}>
               <Button
@@ -203,42 +163,25 @@ const Edit = ({ id }) => {
           </form>
           <div>
             <p className={style.text}>{t('preview')}:</p>
-            <div className={style.promo}>
-              <div className={style.picture}>
+
+            <div className={style.notification}>
+              <div className={style.header}>
+                <h3 className={style.title}>{currentTranslation?.title}</h3>
+                <Button classes={['secondary', 'sm', 'square', style.close]}>
+                  <FontAwesomeIcon icon="fa-solid fa-times" />
+                </Button>
+              </div>
+              <div className={style.content}>
                 {
                   filter?.image &&
                   <ImagePreview
                     image={filter.image}
-                    width={320}
-                    height={128}
+                    className={style.picture}
                     alt={t('preview')}
                   />
                 }
-                {
-                  currentTranslation?.category !== '' &&
-                  <div className={style.categories}>
-                    {
-                      currentTranslation?.category.split(',').map((el, idx) =>
-                        <div
-                          key={idx}
-                          className={style.badge}
-                        >
-                          {el}
-                        </div>
-                      )
-                    }
-                  </div>
-                }
+                <div className={style.description} dangerouslySetInnerHTML={{ __html: currentTranslation?.text }} />
               </div>
-              <h1>{currentTranslation?.title}</h1>
-              <div dangerouslySetInnerHTML={{ __html: currentTranslation?.description }} />
-              {
-                currentTranslation?.button.text !== '' &&
-                <Button
-                  classes={['primary', 'sm', style.button]}
-                  placeholder={currentTranslation?.button.text}
-                />
-              }
             </div>
           </div>
         </div>

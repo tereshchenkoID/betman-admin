@@ -75,6 +75,10 @@ export const NAVIGATION = {
       text: 'navigation.bonuses',
       link: '/managements/bonuses'
     },
+    notifications: {
+      text: 'navigation.notification',
+      link: '/managements/notification'
+    },
   },
 
   login: {

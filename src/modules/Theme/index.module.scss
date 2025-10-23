@@ -6,6 +6,14 @@
 
   position: relative;
   cursor: pointer;
+
+  &.light {
+    .icon {
+      &:first-child {
+        color: var(--text-for-brand);
+      }
+    }
+  }
 }
 
 .input {
@@ -15,6 +23,7 @@
 
     .label {
       background-color: var(--brand);
+
       &::before {
         transform: translateX(100%);
       }

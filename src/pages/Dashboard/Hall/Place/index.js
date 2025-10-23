@@ -2,19 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import classNames from 'classnames'
 
+import { REQUEST_TYPE } from 'constant/config'
+
+import { useApi } from 'hooks/useApi'
 import { setAside } from 'store/actions/asideAction'
+import { buildFormData } from 'helpers/buildFormData'
 
 import Button from 'components/Button'
+import Icon from 'components/Icon'
+import ReadMore from 'modules/ReadMore'
 
 import style from './index.module.scss'
-
-import classNames from 'classnames'
 
 const Place = ({ info }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const { request } = useApi()
   const isActive = info?.status === '1'
   const isAlarm = Number(info?.rtp) > 100
   const isLose = Number(info?.profit) < 0
@@ -38,68 +44,87 @@ const Place = ({ info }) => {
     return () => clearInterval(interval)
   }, [isActive, info?.session_started])
 
+  const handleAlarm = async (data) => {
+    const formData = buildFormData(
+      {
+        id: data.player?.id,
+        alarm: data.alarm === '0' ? '1' : '0'
+      }
+    )
+    await request(REQUEST_TYPE.POST, 'player/alarm', formData)
+  }
+
   return (
-    <div className={style.block}>
+    <div
+      className={
+        classNames(
+          style.block,
+          isActive && style.active
+        )
+      }
+    >
       <strong className={style.host}>{info?.host}</strong>
       <div className={style.wrapper}>
         <div className={style.left}>
           <FontAwesomeIcon
             icon="fa-solid fa-computer"
-            className={
-              classNames(
-                style.icon,
-                isActive && style.active
-              )
-            }
+            className={style.icon}
           />
-          <Button
-            classes={['error']}
-            placeholder={t('alarm')}
-            onClick={() => alert('Alarm!')}
-            isDisabled={!isAlarm}
-          />
+          {
+            isActive &&
+            <Button
+              classes={[info?.alarm === '0' ? 'warning' : 'error']}
+              placeholder={t('alarm')}
+              onClick={() => handleAlarm(info)}
+              isDisabled={info?.alarm === '1'}
+            />
+          }
         </div>
         <div className={style.right}>
           {
             isActive &&
             <>
-              <p>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit}</strong> {info?.currency}</p>
-              <p>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp}</strong> %</p>
-              <p>{t('total_balance')}: <strong>{info?.balance.total}</strong> {info?.currency}</p>
-              <p>{t('session')}: <strong>{timer}</strong></p>
+              <div className={style.grid}>{t('player_id')}: <strong>{info?.player?.id}</strong></div>
+              <div className={style.grid}>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit}</strong> {info?.currency}</div>
+              <div className={style.grid}>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp}%</strong></div>
+              <div className={style.grid}>{t('session')}: <strong>{timer}</strong></div>
+              <div className={style.grid}>{t('balance')}: <ReadMore data={info?.credits} /></div>
+              <div className={style.actions}>
+                <Icon
+                  classes={['success']}
+                  icon="fa-plus"
+                  alt="deposit"
+                  action={(e) => dispatch(
+                    setAside({
+                      meta: {
+                        title: t('deposit'),
+                        cmd: 'account-deposit',
+                        buttonRef: e.target,
+                      },
+                      id: info?.player?.id,
+                      ...info,
+                    }),
+                  )}
+                />
+                <Icon
+                  classes={['warning']}
+                  icon="fa-minus"
+                  alt="withdraw"
+                  action={(e) => dispatch(
+                    setAside({
+                      meta: {
+                        title: t('withdrawal'),
+                        cmd: 'account-withdrawal',
+                        buttonRef: e.target,
+                      },
+                      id: info?.player?.id,
+                      ...info,
+                    }),
+                  )}
+                />
+              </div>
             </>
           }
-          <div className={style.actions}>
-            <Button
-              classes={['primary']}
-              placeholder={t('login')}
-              onClick={e =>  dispatch(
-                setAside({
-                  meta: {
-                    title: t('login'),
-                    cmd: 'hall-place-player',
-                    buttonRef: e.target,
-                  },
-                  ...info,
-                }),
-              )}
-            />
-            <Button
-              classes={['tertiary']}
-              placeholder={t('info')}
-              onClick={e => dispatch(
-                setAside({
-                  meta: {
-                    title: t('info'),
-                    cmd: 'hall-place-ticket',
-                    buttonRef: e.target,
-                  },
-                  ...info,
-                }),
-              )}
-              isDisabled={!isActive}
-            />
-          </div>
         </div>
       </div>
     </div>

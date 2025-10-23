@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
 import { setCmd } from 'store/actions/cmdAction'
 import { setAside } from 'store/actions/asideAction'
@@ -23,6 +24,7 @@ const Player = ({ mock }) => {
   const dispatch = useDispatch()
   const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
+  const { updateAuth } = useAuth()
   const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -46,12 +48,16 @@ const Player = ({ mock }) => {
     const formData = new FormData()
     formData.append('data', JSON.stringify(filter))
 
-    const { data, error } = await request(REQUEST_TYPE.POST, 'player/add/general/', formData)
+    const { data, credits, error } = await request(REQUEST_TYPE.POST, 'player/add/general/', formData)
 
     if (!error) {
       setFilter(data)
       dispatch(setCmd('refresh-table'))
       dispatch(setAside(null))
+
+      if (credits) {
+        updateAuth({credits})
+      }
     }
   }
 

@@ -193,7 +193,7 @@ const List = () => {
                 <div className={style.row}>
                 <div
                   className={style.empty}
-                  style={{ gridColumn: 'span 6' }}
+                  style={{ gridColumn: 'span 7' }}
                 >
                   {t('notification.no_matching_records_found')}
                 </div>
@@ -211,7 +211,7 @@ const List = () => {
                   >
                     <div className={style.cell}>{el.id}</div>
                     <div className={style.cell}>{el.title}</div>
-                    <div className={style.cell}>{el.agent?.username || '-'}</div>
+                    <div className={style.cell}>{el.agent?.username || t('all')}</div>
                     <div className={style.cell}>{el.budget} {el.currency}</div>
                     <div className={style.cell}>{t(settings.bonuses.types[el.type])}</div>
                     <div className={style.cell}>{t(settings.bonuses.statuses[el.status])}</div>

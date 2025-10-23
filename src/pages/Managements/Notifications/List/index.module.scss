@@ -9,7 +9,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) rem(200px) repeat(5, 1fr) rem(140px);
+  grid-template-columns: rem(80px) rem(200px) repeat(4, 1fr) rem(140px);
   align-items: center;
 
   &:first-child {
@@ -25,16 +25,6 @@
 
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--border);
-  }
-
-  &.hidden {
-
-    .cell {
-
-      &:not(:last-child) {
-        opacity: 0.5;
-      }
-    }
   }
 }
 

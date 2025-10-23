@@ -15,10 +15,10 @@ const NotFound = () => {
     <div className={style.block}>
       <Paper
         classes={['sm']}
-        headline={t('page_not_found')}
+        headline={t('notification.page_not_found')}
       >
         <div className={style.grid}>
-          <p>{t('text_not_found')}</p>
+          <p>{t('notification.text_not_found')}</p>
           <Reference
             to={NAVIGATION.home.link}
             classes={['primary']}

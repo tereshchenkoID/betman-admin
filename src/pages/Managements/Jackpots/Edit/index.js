@@ -7,7 +7,6 @@ import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
 import { useFilterState } from 'hooks/useFilterState'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
 import { buildFormData } from 'helpers/buildFormData'
 
@@ -31,7 +30,6 @@ const Edit = ({ id }) => {
   const navigate = useNavigate()
   const { request, loading } = useApi()
   const { settings } = useSelector(state => state.settings)
-  const { auth } = useAuth()
 
   const INITIAL_FILTER = {
     id: null,
@@ -60,7 +58,7 @@ const Edit = ({ id }) => {
 
   const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
-  const [active, setActive] = useState(auth?.language.code)
+  const [active, setActive] = useState(Object.values(settings?.site_languages)[0]?.code)
   const currentTranslation = filter?.translations?.[active]
 
   const handleResetForm = () => {
@@ -86,7 +84,7 @@ const Edit = ({ id }) => {
       setFilter(data)
 
       if (isAdd) {
-        navigate(NAVIGATION.managements.banners.link)
+        navigate(NAVIGATION.managements.jackpots.link)
       }
     }
   }
@@ -223,7 +221,7 @@ const Edit = ({ id }) => {
               action={setActive}
               options={Object.entries(
                 Object.fromEntries(
-                  Object.values(settings.languages).map((item, _) => [
+                  Object.values(settings.site_languages).map((item, _) => [
                     item.code,
                     item.code,
                   ])

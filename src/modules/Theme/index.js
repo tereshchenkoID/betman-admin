@@ -1,5 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import classNames from 'classnames'
 
 import { useTheme } from 'context/ThemeContext'
 
@@ -9,7 +10,14 @@ const Theme = () => {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <label className={style.block}>
+    <label
+      className={
+        classNames(
+          style.block,
+          style[theme]
+        )
+      }
+    >
       <input
         type="checkbox"
         className={style.input}

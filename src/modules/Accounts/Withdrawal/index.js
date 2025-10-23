@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useAuth } from 'hooks/useAuth'
 import { useFilterState } from 'hooks/useFilterState'
 import { setCmd } from 'store/actions/cmdAction'
 import { setAside } from 'store/actions/asideAction'
@@ -20,6 +21,7 @@ const Withdrawal = ({ mock }) => {
   const { t} = useTranslation()
   const dispatch = useDispatch()
   const { request } = useApi()
+  const { updateAuth } = useAuth()
 
   const INITIAL_FILTER = {
     id: mock.id,
@@ -39,12 +41,15 @@ const Withdrawal = ({ mock }) => {
     const formData = new FormData()
     formData.append('data', JSON.stringify(filter))
 
-    const { data, error } = await request(REQUEST_TYPE.POST, 'withdrawal/', formData)
+    const { credits, error } = await request(REQUEST_TYPE.POST, 'withdrawal/', formData)
 
     if (!error) {
       dispatch(setAside(null))
-      // setFilter(data)
       dispatch(setCmd('refresh-table'))
+
+      if (credits) {
+        updateAuth({credits})
+      }
     }
   }
 

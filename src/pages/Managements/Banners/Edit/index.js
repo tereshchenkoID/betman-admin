@@ -5,16 +5,17 @@ import { useSelector } from 'react-redux'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
-import { buildFormData } from 'helpers/buildFormData'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
+import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
+import { buildFormData } from 'helpers/buildFormData'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Uploader from 'components/Uploader'
 import Checkbox from 'components/Checkbox'
+import CustomSelect from 'components/Select'
 import Tab from 'components/Tab'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
@@ -28,12 +29,12 @@ const Edit = ({ id }) => {
   const navigate = useNavigate()
   const { request } = useApi()
   const { settings } = useSelector(state => state.settings)
-  const { auth } = useAuth()
 
   const INITIAL_FILTER = {
     id: null,
     image: '',
-    visibility: "0",
+    visibility: '0',
+    agent: -1,
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         title: '',
@@ -52,7 +53,7 @@ const Edit = ({ id }) => {
   }
 
   const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
-  const [active, setActive] = useState(auth?.language.code)
+  const [active, setActive] = useState(Object.values(settings?.site_languages)[0]?.code)
   const currentTranslation = filter?.translations?.[active]
 
   const handleResetForm = () => {
@@ -85,6 +86,12 @@ const Edit = ({ id }) => {
     setFilter(data)
   }
 
+  const { options: agentsOptions } = useOptions(
+    'agents_tree/',
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
+
   useEffect(() => {
     if(!isAdd) {
       handleLoad()
@@ -107,6 +114,12 @@ const Edit = ({ id }) => {
         <Debug data={filter} />
         <div className={style.block}>
           <form className={style.form} onSubmit={handleSubmit}>
+            <CustomSelect
+              placeholder={t('agent')}
+              options={agentsOptions}
+              data={filter.agent}
+              onChange={value => handlePropsChange('agent', value)}
+            />
             <Uploader
               data={filter?.image}
               onChange={(blob) => handlePropsChange('image', blob)}
@@ -116,7 +129,7 @@ const Edit = ({ id }) => {
               action={setActive}
               options={Object.entries(
                 Object.fromEntries(
-                  Object.values(settings.languages).map((item, _) => [
+                  Object.values(settings.site_languages).map((item, _) => [
                     item.code,
                     item.code,
                   ])

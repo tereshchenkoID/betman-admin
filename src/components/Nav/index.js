@@ -91,6 +91,10 @@ const Nav = () => {
         {
           type: [ACCOUNT_TYPE.ADMIN],
           ...NAVIGATION.managements.bonuses,
+        },
+        {
+          type: [ACCOUNT_TYPE.ADMIN],
+          ...NAVIGATION.managements.notifications,
         }
       ],
     }

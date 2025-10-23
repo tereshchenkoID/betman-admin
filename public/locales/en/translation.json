@@ -55,6 +55,7 @@
   "visibility": "Visibility",
   "description": "Description",
   "add": "Add",
+  "image": "Image",
   "upload_file": "Upload image",
   "text": "Text",
   "button_label": "Button label",
@@ -176,6 +177,7 @@
   "voucher": "Voucher",
   "wallet": "Wallet",
   "wager": "Wager",
+  "player_id": "Player id",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back",
@@ -184,7 +186,9 @@
     "delete_confirmed": "Are you sure you won't delete?",
     "locked_confirmed": "Are you sure you won't locked?",
     "amount_greater_balance": "The amount is greater than the balance",
-    "enter_code": "Enter the 12-digit code in the field below"
+    "enter_code": "Enter the 12-digit code in the field below",
+    "text_not_found": "Text not found",
+    "page_not_found": "Page not found"
   },
   "voucher_status": {
     "paid": "Paid",
@@ -210,6 +214,7 @@
     "login": "Login",
     "reports": "Reports",
     "managements": "Managements",
-    "games": "Games"
+    "games": "Games",
+    "notification": "Notifications"
   }
 }

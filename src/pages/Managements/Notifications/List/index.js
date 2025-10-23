@@ -2,32 +2,35 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import classNames from 'classnames'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
-import { setAside } from 'store/actions/asideAction'
-import { useFilterState } from 'hooks/useFilterState'
 import { useApi } from 'hooks/useApi'
+import { useFilterState } from 'hooks/useFilterState'
 import { useOptions } from 'hooks/useOptions'
+import { setAside } from 'store/actions/asideAction'
 import { getDate } from 'helpers/getDate'
-import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
 
 import Icon from 'components/Icon'
 import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
-import CustomSelect from 'components/Select'
 import Reference from 'components/Reference'
 import Loader from 'components/Loader'
+import CustomSelect from 'components/Select'
 import Pagination from 'modules/Pagination'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
-const INITIAL_FILTER = { q: '', status: -1, agent: -1 }
+const INITIAL_FILTER = {
+  q: '',
+  agent: -1,
+  'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
+  'date-to': getDate(new Date(), 'datetime-local'),
+}
 
 const List = () => {
   const { t } = useTranslation()
@@ -47,8 +50,7 @@ const List = () => {
   const handleDelete = async (type, el) => {
     if (type === 1) {
       const formData = buildFormData({ id: el.id })
-
-      await request(REQUEST_TYPE.POST, 'jackpot/delete', formData)
+      await request(REQUEST_TYPE.POST, 'message/delete', formData)
       handleSubmit(null, data?.pagination?.page)
     }
     dispatch(setAside(null))
@@ -67,11 +69,9 @@ const List = () => {
     )
   }
 
-  const handleChange = async (el) => {
-    const formData = buildFormData({ ...el, status: el.status === '0' ? '1' : '0' })
-
-    await request(REQUEST_TYPE.POST, 'jackpot/edit', formData)
-    handleSubmit(null, data?.pagination?.page)
+  const handleSend = async (el) => {
+    const formData = buildFormData({ id: el.id })
+    await request(REQUEST_TYPE.POST, 'message/send', formData)
   }
 
   const handleSubmit = useCallback(async (e, page = 0, nextFilter = filter) => {
@@ -81,11 +81,12 @@ const List = () => {
       page,
       quantity,
       q: nextFilter.q,
-      status: nextFilter.status,
-      agent: nextFilter.agent
+      agent: nextFilter.agent,
+      'date-from': nextFilter['date-from'],
+      'date-to': nextFilter['date-to']
     })
 
-    setData(await request(REQUEST_TYPE.POST, 'jackpots/', formData))
+    setData(await request(REQUEST_TYPE.POST, 'messages/', formData))
   }, [filter, quantity])
 
   const { options: agentsOptions } = useOptions(
@@ -104,10 +105,10 @@ const List = () => {
         data={[
           NAVIGATION.home,
         ]}
-        current={{text: NAVIGATION.managements.jackpots.text}}
+        current={{text: NAVIGATION.managements.notifications.text}}
       />
       <Paper
-        headline={t(NAVIGATION.managements.jackpots.text)}
+        headline={t(NAVIGATION.managements.notifications.text)}
         classes={['sm']}
         quantity={quantity}
         setQuantity={setQuantity}
@@ -127,14 +128,17 @@ const List = () => {
               data={filter.agent}
               onChange={value => handlePropsChange('agent', value)}
             />
-            <CustomSelect
-              placeholder={t('status')}
-              options={[
-                { value: -1, label: t('select_from_list') },
-                ...convertOptions(service.YES_NO, t)
-              ]}
-              data={filter['status']}
-              onChange={value => handlePropsChange('status', value)}
+            <Field
+              type='datetime-local'
+              placeholder={t('date_from')}
+              data={filter['date-from']}
+              onChange={value => handlePropsChange('date-from', value)}
+            />
+            <Field
+              type='datetime-local'
+              placeholder={t('date_to')}
+              data={filter['date-to']}
+              onChange={value => handlePropsChange('date-to', value)}
             />
           </div>
           <div className={style.actions}>
@@ -151,7 +155,7 @@ const List = () => {
           </div>
           <div className={style.actions}>
             <Reference
-              to={`${NAVIGATION.managements.jackpots.link}/add`}
+              to={`${NAVIGATION.managements.notifications.link}/add`}
               classes={['primary']}
               placeholder={t('add')}
             />
@@ -173,33 +177,28 @@ const List = () => {
           <div className={style.row}>
             <div className={style.cell}>{t('id')}</div>
             <div className={style.cell}>{t('image')}</div>
-            <div className={style.cell}>{t('title')}</div>
             <div className={style.cell}>{t('agent')}</div>
-            <div className={style.cell}>{t('amount')}</div>
-            <div className={style.cell}>{t('dropped_at')}</div>
+            <div className={style.cell}>{t('title')}</div>
+            <div className={style.cell}>{t('description')}</div>
+            <div className={style.cell}>{t('date_created')}</div>
             <div className={style.cell} />
           </div>
           {
             data.data?.length === 0
               ?
                 <div className={style.row}>
-                <div
-                  className={style.empty}
-                  style={{ gridColumn: 'span 7' }}
-                >
-                  {t('notification.no_matching_records_found')}
+                  <div
+                    className={style.empty}
+                    style={{ gridColumn: 'span 6' }}
+                  >
+                    {t('notification.no_matching_records_found')}
+                  </div>
                 </div>
-              </div>
               :
                 data?.data?.map((el, idx) =>
                   <div
                     key={idx}
-                    className={
-                      classNames(
-                        style.row,
-                        el.status === '0' && style.hidden
-                      )
-                    }
+                    className={style.row}
                   >
                     <div className={style.cell}>{el.id}</div>
                     <div className={style.cell}>
@@ -216,21 +215,21 @@ const List = () => {
                         }
                       </div>
                     </div>
-                    <div className={style.cell}>{el.title}</div>
                     <div className={style.cell}>{el.agent?.username || t('all')}</div>
-                    <div className={style.cell}>{el.amount} {el.currency}</div>
-                    <div className={style.cell}>{getDate(el.dropped_at)}</div>
+                    <div className={style.cell}>{el.title}</div>
+                    <div className={style.cell}>{el.description || '-'}</div>
+                    <div className={style.cell}>{getDate(el.date_created, 'datetime')}</div>
                     <div className={style.cell}>
                       <Icon
                         icon="fa-pencil"
                         alt="edit"
-                        action={() => navigate(`${NAVIGATION.managements.jackpots.link}/${el.id}`)}
+                        action={() => navigate(`${NAVIGATION.managements.notifications.link}/${el.id}`)}
                       />
                       <Icon
                         classes={['warning']}
-                        icon={el.status === '0' ? 'fa-eye-slash' : 'fa-eye'}
-                        alt="status"
-                        action={() => handleChange(el)}
+                        icon="fa-paper-plane"
+                        alt="resend"
+                        action={() => handleSend(el)}
                       />
                       <Icon
                         classes={['error']}

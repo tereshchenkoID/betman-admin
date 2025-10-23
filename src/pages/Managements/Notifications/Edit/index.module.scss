@@ -1,0 +1,77 @@
+@use 'scss/config' as *;
+
+.block,
+.form,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.block,
+.grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.text {
+  margin-bottom: rem(4px);
+}
+
+.notification {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  position: relative;
+  border-radius: var(--border-radius-16);
+  background-color: var(--material-hover);
+  overflow: hidden;
+  width: rem(560px);
+
+  .header {
+    @include flex(center, flex-start);
+
+    position: relative;
+    padding: rem(16px) rem(50px);
+  }
+
+  .content {
+    display: grid;
+    gap: rem(24px);
+    padding: rem(12px) rem(24px) rem(24px);
+    text-align: center;
+  }
+
+  .picture {
+    @include size(auto);
+
+    margin-inline: auto;
+    max-height: rem(120px);
+  }
+
+  .title {
+    text-transform: uppercase;
+    text-align: center;
+    font-style: italic;
+    font-family: var(--font-family-alt);
+    font-weight: var(--typography-bold);
+    font-size: rem(18px);
+  }
+
+  .description {
+    word-break: break-word;
+  }
+
+  .close {
+    @include size(rem(20px));
+
+    padding: 0;
+    position: absolute;
+    inset-inline-end: rem(12px);
+    pointer-events: none;
+    font-size: rem(16px);
+  }
+}
