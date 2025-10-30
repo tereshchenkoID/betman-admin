@@ -54,6 +54,15 @@ const Place = ({ info }) => {
     await request(REQUEST_TYPE.POST, 'player/alarm', formData)
   }
 
+  const handleLogout = async (data) => {
+    const formData = buildFormData(
+      {
+        id: data.player?.id,
+      }
+    )
+    await request(REQUEST_TYPE.POST, 'player/logout', formData)
+  }
+
   return (
     <div
       className={
@@ -72,12 +81,19 @@ const Place = ({ info }) => {
           />
           {
             isActive &&
-            <Button
-              classes={[info?.alarm === '0' ? 'warning' : 'error']}
-              placeholder={t('alarm')}
-              onClick={() => handleAlarm(info)}
-              isDisabled={info?.alarm === '1'}
-            />
+            <>
+              <Button
+                classes={[info?.alarm === '0' ? 'warning' : 'error']}
+                placeholder={t('alarm')}
+                onClick={() => handleAlarm(info)}
+                isDisabled={info?.alarm === '1'}
+              />
+              <Button
+                classes={['error']}
+                placeholder={t('logout')}
+                onClick={() => handleLogout(info)}
+              />
+            </>
           }
         </div>
         <div className={style.right}>

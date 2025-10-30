@@ -2,7 +2,7 @@
   "profit": "Profit",
   "rtp": "RTP",
   "total_balance": "Total balance",
-  "session": "Times left",
+  "session": "Started",
   "alarm": "Alarm",
   "info": "Info",
   "rows": "Rows",
@@ -197,6 +197,7 @@
     "cancelled": "Cancelled"
   },
   "navigation": {
+    "login": "Login",
     "home": "Home",
     "dashboard": "Dashboard",
     "agents": "Agents",
