@@ -10,7 +10,12 @@ import Field from 'components/Field'
 
 import style from './index.module.scss'
 
-const Providers = ({ providersSelected, gamesSelected, onChange }) => {
+const Providers = ({
+  providersUrl = 'providers/',
+  providersSelected,
+  gamesSelected,
+  onChange
+}) => {
   const { t } = useTranslation()
   const { request } = useApi()
 
@@ -20,7 +25,7 @@ const Providers = ({ providersSelected, gamesSelected, onChange }) => {
   const [gameSearch, setGameSearch] = useState('')
 
   const handleLoadProvider = async () => {
-    const res = await request(REQUEST_TYPE.GET, 'providers/')
+    const res = await request(REQUEST_TYPE.GET, providersUrl)
     setProviders(res?.data || [])
   }
 

@@ -38,6 +38,7 @@ const FreeSpin = ({ data, action, active }) => {
         />
       </div>
       <Providers
+        providersUrl={'freespin_providers/'}
         providersSelected={data.providers}
         gamesSelected={data.games}
         onChange={(field, value) => action(`${active}.${field}`, value)}

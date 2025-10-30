@@ -189,7 +189,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         classes={['error']}
         icon="fa-trash"
         alt="delete"
-        action={e => handleConfirmed(e, row, handleDelete, 'delete_confirmed')}
+        action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
       />
     </>
   )
