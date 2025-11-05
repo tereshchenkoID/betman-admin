@@ -37,7 +37,6 @@ const IpList = ({ filter, setFilter }) => {
     <div className={style.block}>
       <div className={style.row}>
         <div className={style.cell}>{t('ip_list')}</div>
-        <div className={style.cell}></div>
       </div>
       {
         filter?.map((el, idx) =>

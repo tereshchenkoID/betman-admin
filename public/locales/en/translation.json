@@ -178,6 +178,7 @@
   "wallet": "Wallet",
   "wager": "Wager",
   "player_id": "Player id",
+  "choose_games": "Choose games",
   "notification": {
     "no_matching_records_found": "No matching records found",
     "successfully_logged": "Welcome back",
@@ -212,7 +213,6 @@
     "promos": "Promos",
     "banners": "Banners",
     "jackpots": "Jackpots",
-    "login": "Login",
     "reports": "Reports",
     "managements": "Managements",
     "games": "Games",

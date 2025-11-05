@@ -10,6 +10,10 @@
   grid-template-columns: rem(50px) 1fr auto auto;
   align-items: center;
   border-bottom: rem(1px) solid var(--border);
+
+  &:nth-child(1) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cell {

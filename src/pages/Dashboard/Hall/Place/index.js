@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useAuth } from 'hooks/useAuth'
 import { setAside } from 'store/actions/asideAction'
 import { buildFormData } from 'helpers/buildFormData'
 
@@ -19,7 +20,7 @@ import style from './index.module.scss'
 const Place = ({ info }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-
+  const { auth } = useAuth()
   const { request } = useApi()
   const isActive = info?.status === '1'
   const isAlarm = Number(info?.rtp) > 100
@@ -101,8 +102,8 @@ const Place = ({ info }) => {
             isActive &&
             <>
               <div className={style.grid}>{t('player_id')}: <strong>{info?.player?.id}</strong></div>
-              <div className={style.grid}>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit}</strong> {info?.currency}</div>
-              <div className={style.grid}>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp}%</strong></div>
+              <div className={style.grid}>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit} <span>{auth?.currency?.code}</span></strong></div>
+              <div className={style.grid}>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp} <span>%</span></strong></div>
               <div className={style.grid}>{t('session')}: <strong>{timer}</strong></div>
               <div className={style.grid}>{t('balance')}: <ReadMore data={info?.credits} /></div>
               <div className={style.actions}>

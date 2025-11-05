@@ -75,6 +75,7 @@ const Edit = ({ id }) => {
         enable: '0',
         numbers: '',
         stake_level: '',
+        all_games: -1,
         providers: [],
         games: [],
         wager: ''
@@ -83,6 +84,7 @@ const Edit = ({ id }) => {
         enable: '0',
         numbers: '',
         stake_level: '',
+        all_games: -1,
         providers: [],
         games: [],
         wager: ''

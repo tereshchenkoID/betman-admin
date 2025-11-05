@@ -172,18 +172,20 @@ const Providers = ({
             data={allFilteredSelected ? '1' : '0'}
             onChange={handleToggleFilteredGames}
           />
-          {Object.entries(filteredGames).map(([provId, provGames]) =>
-            <React.Fragment key={provId}>
-              {provGames.map(game => (
-                <Checkbox
-                  key={game.id}
-                  placeholder={game.name}
-                  data={gamesSelected.includes(game.id) ? '1' : '0'}
-                  onChange={val => handleGame(game.id, val === '1')}
-                />
-              ))}
-            </React.Fragment>
-          )}
+          {
+            Object.entries(filteredGames).map(([provId, provGames]) =>
+              <React.Fragment key={provId}>
+                {provGames.map(game => (
+                  <Checkbox
+                    key={game.id}
+                    placeholder={game.name}
+                    data={gamesSelected.includes(game.id) ? '1' : '0'}
+                    onChange={val => handleGame(game.id, val === '1')}
+                  />
+                ))}
+              </React.Fragment>
+            )
+          }
         </div>
       </div>
     </div>

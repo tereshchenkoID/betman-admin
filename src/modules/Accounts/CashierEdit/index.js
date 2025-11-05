@@ -1,11 +1,12 @@
-import React, { useState, Suspense, lazy, useEffect } from 'react'
+import React, { useState, Suspense, lazy, useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 
-import { REQUEST_TYPE } from 'constant/config'
+import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
 
 import { useApi } from 'hooks/useApi'
+import { useAuth } from 'hooks/useAuth'
 import { setCmd } from 'store/actions/cmdAction'
 
 import Button from 'components/Button'
@@ -18,18 +19,26 @@ const General = lazy(() => import('./General'))
 const Security = lazy(() => import('./Security'))
 const IpList = lazy(() => import('./IpList'))
 
-const TABS = [
-  { key: 'general', component: General },
-  { key: 'security', component: Security },
-  { key: 'ip_list', component: IpList },
-]
-
 const CashierEdit = ({ mock }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const { auth } = useAuth()
   const { request, loading } = useApi()
   const [active, setActive] = useState(0)
   const [filter, setFilter] = useState(null)
+
+  const TABS = useMemo(() => {
+    const tabs = [
+      { key: 'general', component: General },
+      { key: 'security', component: Security },
+    ]
+
+    if (auth?.role !== ACCOUNT_TYPE.CASHIER) {
+      tabs.push({ key: 'ip_list', component: IpList })
+    }
+
+    return tabs
+  }, [auth?.role])
 
   const ActiveComponent = TABS[active].component
 

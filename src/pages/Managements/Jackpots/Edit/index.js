@@ -43,6 +43,7 @@ const Edit = ({ id }) => {
     min_stake: '',
     draw_interval: '',
     drop_interval: [],
+    all_games: -1,
     providers: [],
     games: [],
     agent: -1,
@@ -132,8 +133,19 @@ const Edit = ({ id }) => {
               data={filter.agent}
               onChange={value => handlePropsChange('agent', value)}
             />
+            <CustomSelect
+              placeholder={t('all_games')}
+              options={[{ value: -1, label: t('all_games')}, { value: 0, label: t('choose_games') }]}
+              data={filter.all_games}
+              onChange={value => {
+                handlePropsChange('all_games', value)
+                handlePropsChange('providers', [])
+                handlePropsChange('games', [])
+              }}
+              isRequired={true}
+            />
             {
-              !loading &&
+              (!loading && filter.all_games !== -1) &&
               <Providers
                 providersSelected={filter.providers}
                 gamesSelected={filter.games}

@@ -219,7 +219,7 @@ const List = () => {
                     <div className={style.cell}>{el.title}</div>
                     <div className={style.cell}>{el.agent?.username || t('all')}</div>
                     <div className={style.cell}>{el.amount} {el.currency}</div>
-                    <div className={style.cell}>{getDate(el.dropped_at)}</div>
+                    <div className={style.cell}>{el.dropped_at ? getDate(el.dropped_at) : '-'}</div>
                     <div className={style.cell}>
                       <Icon
                         icon="fa-pencil"

@@ -136,8 +136,8 @@
   "add_player": "Новий гравць",
   "domain": "Домен",
   "security": "Безпека",
-  "websites": "Сайти",  
-  "general": "Загальні",  
+  "websites": "Сайти",
+  "general": "Загальні",
   "numbers": "Номери",
   "stake_level": "Рівень ставки",
   "min_loses": "Мінімальні програші",
@@ -182,6 +182,7 @@
   "wallet": "Гаманець",
   "wager": "Вейджер",
   "player_id": "ID гравця",
+  "choose_games": "Вибрати ігри",
   "notification": {
     "no_matching_records_found": "Не знайдено відповідних записів",
     "successfully_logged": "Ласкаво просимо назад!",

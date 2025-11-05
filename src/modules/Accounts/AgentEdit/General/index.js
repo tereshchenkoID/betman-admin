@@ -2,6 +2,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
+import { ACCOUNT_TYPE } from 'constant/config'
+
 import { useOptions } from 'hooks/useOptions'
 import { useAuth } from 'hooks/useAuth'
 
@@ -9,7 +11,7 @@ import Toggle from 'components/Toggle'
 import Field from 'components/Field'
 import CustomSelect from 'components/Select'
 
-const General = ({ filter, setFilter }) => {
+const General = ({ mock, filter, setFilter }) => {
   const { t } = useTranslation()
   const { auth } = useAuth()
   const { settings } = useSelector(state => state.settings)
@@ -73,7 +75,7 @@ const General = ({ filter, setFilter }) => {
         />
       }
       {
-        auth.create_subagents === '1' &&
+        (auth?.role === ACCOUNT_TYPE.ADMIN || (auth.create_subagents === '1' && mock?.id !== auth?.id)) &&
         <Toggle
           placeholder={t('create_subagents')}
           data={filter?.create_subagents}

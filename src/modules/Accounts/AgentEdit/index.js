@@ -105,6 +105,7 @@ const AgentEdit = ({ mock }) => {
                   <Loader type="content" />
                 :
                   <ActiveComponent
+                    mock={mock}
                     data={{ key: TABS[active].key }}
                     filter={filter}
                     setFilter={setFilter}

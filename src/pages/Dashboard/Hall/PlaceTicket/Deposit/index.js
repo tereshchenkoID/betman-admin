@@ -65,7 +65,7 @@ const Deposit = () => {
           auth?.voucher?.deposit?.quickAmount.map((el, idx) =>
             <Button
               key={idx}
-              placeholder={`-${el} ${auth.currency.code}`}
+              placeholder={`${el} ${auth.currency.code}`}
               classes={['primary', style.number]}
               onChange={() => handlePropsChange('amount', el)}
             />
