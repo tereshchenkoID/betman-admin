@@ -105,7 +105,7 @@ const CustomTable = ({ data, config, loading, handleSubmit }) => {
                 }
                 onClick={() => handleSortChange(key)}
               >
-                <span>{text}</span>
+                <span>{t(text)}</span>
                 {
                   sorted &&
                   <FontAwesomeIcon

@@ -16,7 +16,7 @@ const Header = () => {
     <header className={style.block}>
       <Clock />
       {
-        auth.unlimited_balance !== '1' &&
+        (auth?.unlimited_balance !== '1' && auth?.credits) &&
         <div className={style.balance}>
           {
             Object.entries(auth?.credits).map(([key, value]) =>

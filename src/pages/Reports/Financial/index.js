@@ -24,36 +24,37 @@ const CONFIG = {
   detailed: [
     { key: 'id', text: 'id', sorted: true },
     { key: 'date', text: 'date', data: 'datetime' },
-    { key: 'agent.username', text: 'agent' },
-    { key: 'shop.username', text: 'shop' },
-    { key: 'cashier.username', text: 'cashier' },
+    { key: 'agent.username', text: 'agent_from' },
+    { key: 'shop.username', text: 'shop_to' },
     { key: 'transaction', text: 'transaction', data: 'transaction' },
     { key: 'amount', text: 'amount' },
     { key: 'currency', text: 'currency' },
   ],
 
   currency: [
-    { key: 'period', text: 'period', data: 'period' },
+    // { key: 'period', text: 'period', data: 'period' },
     { key: 'currency', text: 'currency' },
     { key: 'credits.in', text: 'in' },
     { key: 'credits.out', text: 'out' },
-    { key: 'credits.voucher', text: 'voucher' },
+    { key: 'credits.voucher_in', text: 'voucher_in' },
+    { key: 'credits.voucher_out', text: 'voucher_out' },
     { key: 'credits.revenue', text: 'revenue' },
   ],
 
   shops: [
-    { key: 'period', text: 'period', data: 'period' },
+    // { key: 'period', text: 'period', data: 'period' },
     { key: 'agent.username', text: 'agent' },
     { key: 'shop.username', text: 'shop' },
     { key: 'currency', text: 'currency' },
     { key: 'credits.in', text: 'in' },
     { key: 'credits.out', text: 'out' },
-    { key: 'credits.voucher', text: 'voucher' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.voucher_in', text: 'voucher_in' },
+    { key: 'credits.voucher_out', text: 'voucher_out' },
+    { key: 'credits.revenue', text: 'revenue' }
   ],
 
   players: [
-    { key: 'period', text: 'period', data: 'period' },
+    // { key: 'period', text: 'period', data: 'period' },
     { key: 'agent.username', text: 'agent' },
     { key: 'player.username', text: 'player' },
     { key: 'currency', text: 'currency' },
@@ -65,25 +66,34 @@ const CONFIG = {
   ],
 
   cashiers: [
+    { key: 'shift_id', text: 'shift_id' },
     { key: 'period', text: 'period', data: 'period' },
+    { key: 'start_balance', text: 'start_balance' },
+    { key: 'end_balance', text: 'end_balance' },
     { key: 'agent.username', text: 'agent' },
     { key: 'shop.username', text: 'shop' },
     { key: 'cashier.username', text: 'cashier' },
     { key: 'currency', text: 'currency' },
+    { key: 'credits.voucher_in', text: 'voucher_in' },
+    { key: 'credits.voucher_out', text: 'voucher_out' },
     { key: 'credits.in', text: 'in' },
     { key: 'credits.out', text: 'out' },
     { key: 'credits.bonus_in', text: 'bonus_in' },
     { key: 'credits.bonus_out', text: 'bonus_out' },
     { key: 'credits.revenue', text: 'revenue' },
   ],
-}
 
-const TABS = {
-  '0': 'detailed',
-  '1': 'currency',
-  '2': 'shops',
-  '3': 'players',
-  '4': 'cashiers'
+  vouchers: [
+    { key: 'agent.username', text: 'agent' },
+    { key: 'shop.username', text: 'shop' },
+    { key: 'cashier.username', text: 'cashier' },
+    { key: 'currency', text: 'currency' },
+    { key: 'code', text: 'code' },
+    { key: 'amount', text: 'amount' },
+    { key: 'type', text: 'type' },
+    { key: 'created', text: 'created', data: 'datetime' },
+    { key: 'used', text: 'used', data: 'datetime' },
+  ],
 }
 
 const INITIAL_FILTER = {
@@ -91,6 +101,15 @@ const INITIAL_FILTER = {
   'shop': -1,
   'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
   'date-to': getDate(new Date(), 'datetime-local'),
+}
+
+const OPTIONS = {
+  '0': 'detailed',
+  '1': 'currency',
+  '2': 'shops',
+  '3': 'players',
+  '4': 'cashiers',
+  '5': 'vouchers'
 }
 
 const Financial = () => {
@@ -103,10 +122,30 @@ const Financial = () => {
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(20)
 
-  const handleSubmit = async (e, nextFilter = filter) => {
+  const TABS = auth?.role === ACCOUNT_TYPE.CASHIER
+    ?
+      {
+       '0': OPTIONS['4'],
+       '1': OPTIONS['5']
+      }
+    :
+      OPTIONS
+
+  const handleSubmit = async (e, page = 0, nextFilter = filter) => {
     e && e.preventDefault()
 
-    const formData = buildFormData(nextFilter)
+    // const formData = buildFormData(nextFilter)
+
+    const formData = buildFormData({
+      page,
+      quantity,
+      q: nextFilter.q,
+      agent: nextFilter.agent,
+      shop: nextFilter.shop,
+      'date-from': nextFilter['date-from'],
+      'date-to': nextFilter['date-to'],
+    })
+
     setData(await request(REQUEST_TYPE.POST, `reports/financial/${TABS[active]}/`, formData))
   }
 
