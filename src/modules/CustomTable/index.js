@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTranslation } from 'react-i18next'
 
@@ -18,41 +17,29 @@ const getNestedValue = (obj, path) => {
   }, obj)
 }
 
-const CustomTable = ({ data, config, loading, handleSubmit }) => {
+const CustomTable = ({
+  data,
+  config,
+  loading,
+  handleSubmit,
+  sort,
+  handleSortChange
+}) => {
   const { t } = useTranslation()
-  const [sort, setSort] = useState({
-    key: null,
-    direction: null,
-  })
 
-  const handleSortChange = (fieldName) => {
-    setSort((prev) => {
-      if (prev.key === fieldName) {
-        const nextDirection =
-          prev.direction === null
-            ? 'asc'
-            : prev.direction === 'asc'
-              ? 'desc'
-              : null;
-
-        return {
-          key: nextDirection ? fieldName : null,
-          direction: nextDirection,
-        };
-      }
-
-      return {
-        key: fieldName,
-        direction: 'asc',
-      }
-    })
-
-    handleSubmit(null, 0)
-  }
-
-  const renderCell = (key, value, data, row) => {
+  const renderCell = (key, value, type, row) => {
     if (key.includes('.')) {
-      return getNestedValue(row, key)
+      value = getNestedValue(row, key)
+      return <div
+              className={
+                classNames(
+                  type === 'number' ? style.count : '',
+                  Number(value) < 0 ? style.down : style.up
+                )
+              }
+             >
+               {value}
+             </div>
     }
 
     if (value && typeof value === 'object' && !Array.isArray(value)) {
@@ -61,7 +48,7 @@ const CustomTable = ({ data, config, loading, handleSubmit }) => {
         .join(', ')
     }
 
-    switch (data) {
+    switch (type) {
       case 'period':
         return (
           <div>
@@ -76,6 +63,8 @@ const CustomTable = ({ data, config, loading, handleSubmit }) => {
         return getDate(value, 'datetime')
       case 'date':
         return getDate(value, 'date')
+      case 'number':
+        return <p className={style.count}>{data}, {value}</p>
       default:
         return value ?? '-'
     }
@@ -103,7 +92,7 @@ const CustomTable = ({ data, config, loading, handleSubmit }) => {
                     sorted ? style.pointer : style.default
                   )
                 }
-                onClick={() => handleSortChange(key)}
+                onClick={() => handleSortChange(key, sorted)}
               >
                 <span>{t(text)}</span>
                 {
@@ -141,12 +130,12 @@ const CustomTable = ({ data, config, loading, handleSubmit }) => {
                   className={style.row}
                 >
                   {
-                    config.map(({ key, data }) =>
+                    config.map(({ key, type }) =>
                       <div
                         key={key}
                         className={style.cell}
                       >
-                        {renderCell(key, el[key], data, el)}
+                        {renderCell(key, el[key], type, el)}
                       </div>
                     )
                   }

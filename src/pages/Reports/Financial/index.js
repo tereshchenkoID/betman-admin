@@ -6,6 +6,7 @@ import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE } from 'constant/config'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
 import { useAuth } from 'hooks/useAuth'
+import { useSort } from 'hooks/useSort'
 import { useFilterState } from 'hooks/useFilterState'
 import { getDate } from 'helpers/getDate'
 import { buildFormData } from 'helpers/buildFormData'
@@ -22,11 +23,11 @@ import style from './index.module.scss'
 
 const CONFIG = {
   detailed: [
-    { key: 'id', text: 'id', sorted: true },
-    { key: 'date', text: 'date', data: 'datetime' },
+    { key: 'id', text: 'id' },
+    { key: 'date', text: 'date', type: 'datetime' },
     { key: 'agent.username', text: 'agent_from' },
     { key: 'shop.username', text: 'shop_to' },
-    { key: 'transaction', text: 'transaction', data: 'transaction' },
+    { key: 'transaction', text: 'transaction' },
     { key: 'amount', text: 'amount' },
     { key: 'currency', text: 'currency' },
   ],
@@ -38,7 +39,7 @@ const CONFIG = {
     { key: 'credits.out', text: 'out' },
     { key: 'credits.voucher_in', text: 'voucher_in' },
     { key: 'credits.voucher_out', text: 'voucher_out' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true },
   ],
 
   shops: [
@@ -50,11 +51,11 @@ const CONFIG = {
     { key: 'credits.out', text: 'out' },
     { key: 'credits.voucher_in', text: 'voucher_in' },
     { key: 'credits.voucher_out', text: 'voucher_out' },
-    { key: 'credits.revenue', text: 'revenue' }
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true }
   ],
 
   players: [
-    // { key: 'period', text: 'period', data: 'period' },
+    // { key: 'period', text: 'period', type: 'period' },
     { key: 'agent.username', text: 'agent' },
     { key: 'player.username', text: 'player' },
     { key: 'currency', text: 'currency' },
@@ -62,12 +63,12 @@ const CONFIG = {
     { key: 'credits.out', text: 'out' },
     { key: 'credits.bonus_in', text: 'bonus_in' },
     { key: 'credits.bonus_out', text: 'bonus_out' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true },
   ],
 
   cashiers: [
     { key: 'shift_id', text: 'shift_id' },
-    { key: 'period', text: 'period', data: 'period' },
+    { key: 'period', text: 'period', type: 'period' },
     { key: 'start_balance', text: 'start_balance' },
     { key: 'end_balance', text: 'end_balance' },
     { key: 'agent.username', text: 'agent' },
@@ -80,7 +81,7 @@ const CONFIG = {
     { key: 'credits.out', text: 'out' },
     { key: 'credits.bonus_in', text: 'bonus_in' },
     { key: 'credits.bonus_out', text: 'bonus_out' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true },
   ],
 
   vouchers: [
@@ -91,16 +92,9 @@ const CONFIG = {
     { key: 'code', text: 'code' },
     { key: 'amount', text: 'amount' },
     { key: 'type', text: 'type' },
-    { key: 'created', text: 'created', data: 'datetime' },
-    { key: 'used', text: 'used', data: 'datetime' },
+    { key: 'created', text: 'created', type: 'datetime' },
+    { key: 'used', text: 'used', type: 'datetime' },
   ],
-}
-
-const INITIAL_FILTER = {
-  'agent': -1,
-  'shop': -1,
-  'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
-  'date-to': getDate(new Date(), 'datetime-local'),
 }
 
 const OPTIONS = {
@@ -112,11 +106,20 @@ const OPTIONS = {
   '5': 'vouchers'
 }
 
+const INITIAL_FILTER = {
+  'agent': -1,
+  'shop': -1,
+  'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
+  'date-to': getDate(new Date(), 'datetime-local'),
+}
+
+const INITIAL_SORT = { key: null, direction: null }
+
+
 const Financial = () => {
   const { t } = useTranslation()
   const { auth } = useAuth()
   const { request, loading } = useApi()
-  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const [active, setActive] = useState('0')
   const [data, setData] = useState({})
@@ -131,10 +134,8 @@ const Financial = () => {
     :
       OPTIONS
 
-  const handleSubmit = async (e, page = 0, nextFilter = filter) => {
+  const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
-
-    // const formData = buildFormData(nextFilter)
 
     const formData = buildFormData({
       page,
@@ -146,8 +147,16 @@ const Financial = () => {
       'date-to': nextFilter['date-to'],
     })
 
+    if (nextSort.direction) {
+      formData.append('sort_key', nextSort.key)
+      formData.append('sort_direction', nextSort.direction)
+    }
+
     setData(await request(REQUEST_TYPE.POST, `reports/financial/${TABS[active]}/`, formData))
   }
+
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
+  const { sort, setSort, handleSortChange } = useSort(INITIAL_SORT, handleSubmit, filter)
 
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
@@ -163,7 +172,8 @@ const Financial = () => {
   )
 
   useEffect(() => {
-    handleSubmit()
+    setSort(INITIAL_SORT)
+    handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
   }, [quantity, active])
 
   return (
@@ -224,7 +234,8 @@ const Financial = () => {
               placeholder={t('cancel')}
               onChange={() => {
                 setFilter(INITIAL_FILTER)
-                handleSubmit(null, INITIAL_FILTER)
+                setSort(INITIAL_SORT)
+                handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
               }}
             />
           </div>
@@ -243,6 +254,8 @@ const Financial = () => {
           config={CONFIG[TABS[active]]}
           loading={loading}
           handleSubmit={handleSubmit}
+          sort={sort}
+          handleSortChange={handleSortChange}
         />
       </Paper>
     </div>

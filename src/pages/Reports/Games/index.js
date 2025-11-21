@@ -6,6 +6,7 @@ import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE } from 'constant/config'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
 import { useAuth } from 'hooks/useAuth'
+import { useSort } from 'hooks/useSort'
 import { useFilterState } from 'hooks/useFilterState'
 import { getDate } from 'helpers/getDate'
 import { buildFormData } from 'helpers/buildFormData'
@@ -30,7 +31,7 @@ const CONFIG = {
     { key: 'currency', text: 'currency' },
     { key: 'credits.stake', text: 'stake' },
     { key: 'credits.win', text: 'win' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true },
     { key: 'credits.rtp', text: 'rtp' },
     { key: 'credits.rounds', text: 'rounds' },
   ],
@@ -41,7 +42,7 @@ const CONFIG = {
     { key: 'currency', text: 'currency' },
     { key: 'credits.stake', text: 'stake' },
     { key: 'credits.win', text: 'win' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true },
     { key: 'credits.rtp', text: 'rtp' },
     { key: 'credits.rounds', text: 'rounds' },
   ],
@@ -52,7 +53,7 @@ const CONFIG = {
     { key: 'currency', text: 'currency' },
     { key: 'credits.stake', text: 'stake' },
     { key: 'credits.win', text: 'win' },
-    { key: 'credits.revenue', text: 'revenue' },
+    { key: 'credits.revenue', text: 'revenue', type: 'number', sorted: true },
     { key: 'credits.rtp', text: 'rtp' },
     { key: 'credits.rounds', text: 'rounds' },
   ],
@@ -70,23 +71,40 @@ const INITIAL_FILTER = {
   'date-from': getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
   'date-to': getDate(new Date(), 'datetime-local'),
 }
+const INITIAL_SORT = { key: null, direction: null }
 
 const Games = () => {
   const { t } = useTranslation()
   const { auth } = useAuth()
   const { request, loading } = useApi()
-  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const [active, setActive] = useState('0')
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(20)
 
-  const handleSubmit = async (e, nextFilter = filter) => {
+  const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
 
-    const formData = buildFormData(nextFilter)
+    const formData = buildFormData({
+      page,
+      quantity,
+      q: nextFilter.q,
+      agent: nextFilter.agent,
+      shop: nextFilter.shop,
+      'date-from': nextFilter['date-from'],
+      'date-to': nextFilter['date-to'],
+    })
+
+    if (nextSort.direction) {
+      formData.append('sort_key', nextSort.key)
+      formData.append('sort_direction', nextSort.direction)
+    }
+
     setData(await request(REQUEST_TYPE.POST, `reports/games/${TABS[active]}/`, formData))
   }
+
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
+  const { sort, setSort, handleSortChange } = useSort(INITIAL_SORT, handleSubmit, filter)
 
   const { options: agentsOptions } = useOptions(
     'agents_tree/',
@@ -102,7 +120,8 @@ const Games = () => {
   )
 
   useEffect(() => {
-    handleSubmit()
+    setSort(INITIAL_SORT)
+    handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
   }, [quantity, active])
 
   return (
@@ -163,7 +182,8 @@ const Games = () => {
               placeholder={t('cancel')}
               onChange={() => {
                 setFilter(INITIAL_FILTER)
-                handleSubmit(null, INITIAL_FILTER)
+                setSort(INITIAL_SORT)
+                handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
               }}
             />
           </div>
@@ -182,6 +202,8 @@ const Games = () => {
           config={CONFIG[TABS[active]]}
           loading={loading}
           handleSubmit={handleSubmit}
+          sort={sort}
+          handleSortChange={handleSortChange}
         />
       </Paper>
     </div>

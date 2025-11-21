@@ -38,7 +38,9 @@ export const useApi = () => {
         setError(err)
         return { data: null, error: err?.message }
       } finally {
-        setLoading(false)
+        setTimeout(() => {
+          setLoading(false)
+        }, 500)
       }
     },
     [notify, t]

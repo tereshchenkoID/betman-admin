@@ -42,6 +42,13 @@
   }
 }
 
+.count {
+
+  &.down {
+    color: var(--red);
+  }
+}
+
 .empty {
   padding: rem(12px);
   text-align: center;

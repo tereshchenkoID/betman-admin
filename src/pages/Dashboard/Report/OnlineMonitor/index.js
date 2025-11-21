@@ -1,12 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
 import classNames from 'classnames'
 
 import { service } from 'constant/config'
 
-import { hexToRgba } from 'helpers/hexToRgba'
 import { fixed } from 'helpers/fixed'
+import { hexToRgba } from 'helpers/hexToRgba'
 
 import Paper from 'components/Paper'
 
@@ -53,10 +52,10 @@ const OnlineMonitor = ({ data }) => {
                   style={{ backgroundColor: hexToRgba(service.COLORS[idx], 0.5) }}
                 />
                 <div className={style.title}>
-                  <h4>{fixed(el)}</h4>
-                  <p>{data.settings.currency}</p>
+                  <h4>{fixed(el.amount)}</h4>
+                  <p>{el.currency}</p>
                 </div>
-                <h6>{t(`jackpot_${idx + 1}_contribution`)}</h6>
+                <h6>{el.name}</h6>
               </div>
             )
           }

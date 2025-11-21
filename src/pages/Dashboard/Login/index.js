@@ -17,11 +17,11 @@ import Password from 'components/Password'
 
 import style from './index.module.scss'
 
-const Login = ({ active, setActive }) => {
+const Login = ({ setActive }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { auth, deleteAuth } = useAuth()
-  const { request, error} = useApi()
+  const { request } = useApi()
   const isShift = auth.shift?.status === '1'
 
   const INITIAL_FILTER = {
@@ -35,10 +35,10 @@ const Login = ({ active, setActive }) => {
     e.preventDefault()
 
     const formData = buildFormData(filter)
-    const json = await request(REQUEST_TYPE.POST, `shifts/${isShift ? 'close' : 'open'}/`, formData)
+    const { data, error } = await request(REQUEST_TYPE.POST, `shifts/${isShift ? 'close' : 'open'}/`, formData)
 
     if (!error) {
-      dispatch(setAuth(json))
+      dispatch(setAuth(data))
 
       if (isShift) {
         deleteAuth()
