@@ -29,15 +29,15 @@ const OPTIONS = {
 const GamesReport = ({ data }) => {
   const { t } = useTranslation()
   const dataset = {
-    labels: data?.games?.map(game => game.name),
+    labels: data?.reports?.map(game => game.name),
     datasets: [
       {
         label: false,
-        data: data?.games?.map(game => game.report),
-        backgroundColor: data?.games?.map((_, idx) =>
+        data: data?.reports?.map(game => game.report),
+        backgroundColor: data?.reports?.map((_, idx) =>
           hexToRgba(service.COLORS[idx], 0.2),
         ),
-        borderColor: data?.games?.map((_, idx) => service.COLORS[idx]),
+        borderColor: data?.reports?.map((_, idx) => service.COLORS[idx]),
         borderWidth: 1,
       },
     ],
@@ -51,7 +51,7 @@ const GamesReport = ({ data }) => {
         </div>
         <div>
           {
-            data?.games?.map((el, idx) =>
+            data?.reports?.map((el, idx) =>
               <div
                 key={idx}
                 className={style.item}

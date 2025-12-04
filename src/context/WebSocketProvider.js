@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { ACCOUNT_TYPE } from 'constant/config'
+
 import { useAuth } from 'hooks/useAuth'
 import { useWebSocket } from 'hooks/useWebSocket'
 import { setAuth } from 'store/actions/authAction'
@@ -19,6 +21,10 @@ export const WebSocketProvider = ({ children }) => {
     onOpen: (socket) => {
       if (isAuth) {
         socket.send(JSON.stringify({ cmd: 'login', token: auth?.token }))
+
+        if(auth.role === ACCOUNT_TYPE.CASHIER) {
+          socket.send(JSON.stringify({ cmd: 'sub' }))
+        }
       }
     },
     onMessage: (message, socket) => {
@@ -30,10 +36,6 @@ export const WebSocketProvider = ({ children }) => {
       }
 
       if (cmd === 'login' && topic === 'account') {
-        // const { language, ...rest } = data
-        // console.log(rest)
-        // dispatch(setAuth(rest))
-
         dispatch(prev => ({
           ...prev,
           ...data,

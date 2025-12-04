@@ -21,18 +21,17 @@ const Dashboard = () => {
   return (
     <div className={style.block}>
       {
-        (auth.role === ACCOUNT_TYPE['SHOP'] || auth.role === ACCOUNT_TYPE['CASHIER']) &&
-        <>
-          {
-            active
-              ? <Hall active={active} setActive={setActive} />
-              : <Login active={active} setActive={setActive} />
-          }
-        </>
-      }
-      {
-        (auth.role === ACCOUNT_TYPE['ADMIN'] || auth.role === ACCOUNT_TYPE['AGENT']) &&
-        <Report />
+        (auth.role === ACCOUNT_TYPE['CASHIER'])
+          ?
+            <>
+              {
+                active
+                  ? <Hall active={active} setActive={setActive} />
+                  : <Login active={active} setActive={setActive} />
+              }
+            </>
+          :
+            <Report />
       }
     </div>
   )

@@ -64,6 +64,15 @@ const Place = ({ info }) => {
     await request(REQUEST_TYPE.POST, 'player/logout', formData)
   }
 
+  const handleLogin = async (data) => {
+    const formData = buildFormData(
+      {
+        id: data.host,
+      }
+    )
+    await request(REQUEST_TYPE.POST, 'player/login', formData)
+  }
+
   return (
     <div
       className={
@@ -81,66 +90,73 @@ const Place = ({ info }) => {
             className={style.icon}
           />
           {
-            isActive &&
-            <>
-              <Button
-                classes={[info?.alarm === '0' ? 'warning' : 'error']}
-                placeholder={t('alarm')}
-                onClick={() => handleAlarm(info)}
-                isDisabled={info?.alarm === '1'}
-              />
-              <Button
-                classes={['error']}
-                placeholder={t('logout')}
-                onClick={() => handleLogout(info)}
-              />
-            </>
+            isActive
+              ?
+                <>
+                  <Button
+                    classes={[info?.alarm === '0' ? 'warning' : 'error']}
+                    placeholder={t('alarm')}
+                    onClick={() => handleAlarm(info)}
+                    isDisabled={info?.alarm === '1'}
+                  />
+                  <Button
+                    classes={['error']}
+                    placeholder={t('logout')}
+                    onClick={() => handleLogout(info)}
+                  />
+                </>
+              :
+                <Button
+                  classes={['success']}
+                  placeholder={t('login')}
+                  onClick={() => handleLogin(info)}
+                />
           }
         </div>
         <div className={style.right}>
           {
             isActive &&
-            <>
-              <div className={style.grid}>{t('player_id')}: <strong>{info?.player?.id}</strong></div>
-              <div className={style.grid}>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit} <span>{auth?.currency?.code}</span></strong></div>
-              <div className={style.grid}>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp} <span>%</span></strong></div>
-              <div className={style.grid}>{t('session')}: <strong>{timer}</strong></div>
-              <div className={style.grid}>{t('balance')}: <ReadMore data={info?.credits} /></div>
-              <div className={style.actions}>
-                <Icon
-                  classes={['success']}
-                  icon="fa-plus"
-                  alt="deposit"
-                  action={(e) => dispatch(
-                    setAside({
-                      meta: {
-                        title: t('deposit'),
-                        cmd: 'account-deposit',
-                        buttonRef: e.target,
-                      },
-                      id: info?.player?.id,
-                      ...info,
-                    }),
-                  )}
-                />
-                <Icon
-                  classes={['warning']}
-                  icon="fa-minus"
-                  alt="withdraw"
-                  action={(e) => dispatch(
-                    setAside({
-                      meta: {
-                        title: t('withdrawal'),
-                        cmd: 'account-withdrawal',
-                        buttonRef: e.target,
-                      },
-                      id: info?.player?.id,
-                      ...info,
-                    }),
-                  )}
-                />
-              </div>
-            </>
+              <>
+                <div className={style.grid}>{t('player_id')}: <strong>{info?.player?.id}</strong></div>
+                <div className={style.grid}>{t('profit')}: <strong className={classNames(style.value, isLose && style.red)}>{info?.profit} <span>{auth?.currency?.code}</span></strong></div>
+                <div className={style.grid}>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp} <span>%</span></strong></div>
+                <div className={style.grid}>{t('session')}: <strong>{timer}</strong></div>
+                <div className={style.grid}>{t('balance')}: <ReadMore data={info?.credits} /></div>
+                <div className={style.actions}>
+                  <Icon
+                    classes={['success']}
+                    icon="fa-plus"
+                    alt="deposit"
+                    action={(e) => dispatch(
+                      setAside({
+                        meta: {
+                          title: t('deposit'),
+                          cmd: 'account-deposit',
+                          buttonRef: e.target,
+                        },
+                        id: info?.player?.id,
+                        ...info,
+                      }),
+                    )}
+                  />
+                  <Icon
+                    classes={['warning']}
+                    icon="fa-minus"
+                    alt="withdraw"
+                    action={(e) => dispatch(
+                      setAside({
+                        meta: {
+                          title: t('withdrawal'),
+                          cmd: 'account-withdrawal',
+                          buttonRef: e.target,
+                        },
+                        id: info?.player?.id,
+                        ...info,
+                      }),
+                    )}
+                  />
+                </div>
+              </>
           }
         </div>
       </div>

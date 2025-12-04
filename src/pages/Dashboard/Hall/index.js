@@ -6,13 +6,13 @@ import { useAuth } from 'hooks/useAuth'
 import { useWebSocketContext } from 'context/WebSocketProvider'
 import { setAside } from 'store/actions/asideAction'
 
-import Place from './Place'
 import Paper from 'components/Paper'
 import Button from 'components/Button'
+import Place from './Place'
 
 import style from './index.module.scss'
 
-const Hall = ({ active, setActive }) => {
+const Hall = ({ setActive }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [data, setData] = useState([])
@@ -20,8 +20,6 @@ const Hall = ({ active, setActive }) => {
   const { lastMessage, sendWhenReady } = useWebSocketContext()
 
   useEffect(() => {
-    sendWhenReady(JSON.stringify({ cmd: 'sub' }))
-
     return () => {
       sendWhenReady(JSON.stringify({ cmd: 'unsub' }))
     }
