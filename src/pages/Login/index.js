@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import i18n from 'i18next'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
-import { setToastify } from 'store/actions/toastifyAction'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { buildFormData } from 'helpers/buildFormData'
 
 import Field from 'components/Field'
@@ -21,11 +17,9 @@ import style from './index.module.scss'
 const INITIAL_FILTER = { username: '', password: '' }
 
 const Login = () => {
-  const dispatch = useDispatch()
   const { t } = useTranslation()
-  const { initAuth } = useAuth()
   const { request } = useApi()
-  const navigate = useNavigate()
+  const { setAuth } = useAuthStore()
 
   const [filter, setFilter] = useState(INITIAL_FILTER)
 
@@ -44,20 +38,13 @@ const Login = () => {
     e.preventDefault()
 
     const formData = buildFormData(filter)
-    const json = await request(REQUEST_TYPE.POST, 'login/', formData)
+    const { data, error } = await request(REQUEST_TYPE.POST, 'login/', formData, { isWrapped: true })
 
-    if (json.id) {
-      initAuth(json)
-      sessionStorage.setItem('authToken', JSON.stringify(json))
-      sessionStorage.setItem('language', JSON.stringify(json?.language))
-      i18n.changeLanguage(json?.language?.code)
-      dispatch(
-        setToastify({
-          type: 'success',
-          text: `${t('successfully_logged')} ${json?.username}!`
-        }),
-      )
-      navigate(NAVIGATION.home.link)
+    if (!error) {
+      setAuth(data).then(() => {
+        sessionStorage.setItem('language', JSON.stringify(data?.language?.code))
+        window.location.href = '/'
+      })
     }
   }
 

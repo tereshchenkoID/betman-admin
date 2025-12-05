@@ -16,7 +16,8 @@ export const useApi = () => {
       payload = null,
       opts = {
         errorMessage: t('notification.failed_request'),
-        successMessage: null
+        successMessage: null,
+        isWrapped: false
       }
     ) => {
       setLoading(true)
@@ -28,19 +29,21 @@ export const useApi = () => {
 
         if (json?.code === '0') {
           notify(json, json.message || opts?.successMessage)
+          if (opts.isWrapped)
+            return { data: json,  error: null }
           return { ...json, error: null }
         } else {
           notify(json, json.error_message || opts?.errorMessage || t('notification.failed_request'))
           return { data: null, error: json.error_message }
         }
       } catch (err) {
-        notify({ code: '1', message: err?.message }, opts?.errorMessage)
         setError(err)
         return { data: null, error: err?.message }
+        // notify({ code: '1', message: err?.message }, opts?.errorMessage)
+        // setError(err)
+        // return { data: null, error: err?.message }
       } finally {
-        setTimeout(() => {
-          setLoading(false)
-        }, 500)
+        setTimeout(() => setLoading(false), 500)
       }
     },
     [notify, t]

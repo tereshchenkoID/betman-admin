@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useAuth } from 'hooks/useAuth'
+import { useAuthStore } from 'stores/authStore'
 
 import Clock from './Clock'
 import Language from './Language'
@@ -10,7 +10,7 @@ import Theme from 'modules/Theme'
 import style from './index.module.scss'
 
 const Header = () => {
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
 
   return (
     <header className={style.block}>

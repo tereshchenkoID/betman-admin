@@ -1,16 +1,15 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import classNames from 'classnames'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
 import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
 import { buildFormData } from 'helpers/buildFormData'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Icon from 'components/Icon'
 import Reference from 'components/Reference'
@@ -20,99 +19,86 @@ import style from './index.module.scss'
 
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { request } = useApi()
+  const { setAside } = useAsideStore()
+  const { setCmd } = useCmdStore()
 
   const handleEdit = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('edit'),
-          cmd: 'account-agent-edit',
-          buttonRef: e.target,
-        },
-        ...row
-        // id: row.id,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('edit'),
+        cmd: 'account-agent-edit',
+        buttonRef: e.target,
+      },
+      ...row
+      // id: row.id,
+    })
   }
 
   const handleDeposit = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('deposit'),
-          cmd: 'account-deposit',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('deposit'),
+        cmd: 'account-deposit',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handleWithdrawal = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('withdrawal'),
-          cmd: 'account-withdrawal',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('withdrawal'),
+        cmd: 'account-withdrawal',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handleShop = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('shop'),
-          cmd: 'account-shop',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('shop'),
+        cmd: 'account-shop',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handleAgent = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('agent'),
-          cmd: 'account-agent',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('agent'),
+        cmd: 'account-agent',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handlePlayer = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('player'),
-          cmd: 'account-player',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('player'),
+        cmd: 'account-player',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handleConfirmed = (e, row, onChange, title) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t(title),
-          cmd: 'confirmed',
-          buttonRef: e.target,
-        },
-        action: (result) => onChange(result, row),
-      }),
-    )
+    setAside({
+      meta: {
+        title: t(title),
+        cmd: 'confirmed',
+        buttonRef: e.target,
+      },
+      action: (result) => onChange(result, row),
+    })
   }
 
   const handleLocked = async (e, row) => {
@@ -120,8 +106,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       const formData = buildFormData({ id: row.id, locked: row.locked === '1' ? '0' : '1' })
       await request(REQUEST_TYPE.POST, 'agent/locked', formData)
     }
-    dispatch(setCmd('refresh-table'))
-    dispatch(setAside(null))
+    setCmd('refresh-table')
+    setAside(null)
   }
 
   const handleDelete = async (e, row) => {
@@ -129,8 +115,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       const formData = buildFormData({ id: row.id })
       await request(REQUEST_TYPE.POST, 'agent/delete', formData)
     }
-    dispatch(setCmd('refresh-table'))
-    dispatch(setAside(null))
+    setCmd('refresh-table')
+    setAside(null)
   }
 
   const renderCell = (key, row) => {

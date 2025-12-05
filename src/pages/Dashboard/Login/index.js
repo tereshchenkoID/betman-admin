@@ -1,14 +1,12 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { buildFormData } from 'helpers/buildFormData'
 import { useFilterState } from 'hooks/useFilterState'
-import { setAuth } from 'store/actions/authAction'
 
 import Field from 'components/Field'
 import Paper from 'components/Paper'
@@ -19,8 +17,7 @@ import style from './index.module.scss'
 
 const Login = ({ setActive }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { auth, deleteAuth } = useAuth()
+  const { auth, setAuth, deleteAuth } = useAuthStore()
   const { request } = useApi()
   const isShift = auth.shift?.status === '1'
 
@@ -38,7 +35,7 @@ const Login = ({ setActive }) => {
     const { data, error } = await request(REQUEST_TYPE.POST, `shifts/${isShift ? 'close' : 'open'}/`, formData)
 
     if (!error) {
-      dispatch(setAuth(data))
+      setAuth(data)
 
       if (isShift) {
         deleteAuth()

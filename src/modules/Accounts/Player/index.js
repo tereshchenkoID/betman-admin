@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -21,10 +21,11 @@ import style from './index.module.scss'
 
 const Player = ({ mock }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
-  const { updateAuth } = useAuth()
+  const { settings } = useSettingsStore()
+  const { setAside } = useAsideStore()
+  const { setCmd } = useCmdStore()
+  const { updateAuth } = useAuthStore()
   const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -52,8 +53,8 @@ const Player = ({ mock }) => {
 
     if (!error) {
       setFilter(data)
-      dispatch(setCmd('refresh-table'))
-      dispatch(setAside(null))
+      setCmd('refresh-table')
+      setAside(null)
 
       if (credits) {
         updateAuth({credits})

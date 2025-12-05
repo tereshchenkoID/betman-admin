@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -21,8 +20,9 @@ import style from './index.module.scss'
 
 const Cashier = ({ mock }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { request } = useApi()
+  const { setAside } = useAsideStore()
+  const { setCmd } = useCmdStore()
   const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -50,8 +50,8 @@ const Cashier = ({ mock }) => {
 
     if (!error) {
       setFilter(data)
-      dispatch(setCmd('refresh-table'))
-      dispatch(setAside(null))
+      setCmd('refresh-table')
+      setAside(null)
     }
   }
 

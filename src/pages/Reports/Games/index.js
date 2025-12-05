@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next'
 
 import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
-import { useAuth } from 'hooks/useAuth'
 import { useSort } from 'hooks/useSort'
 import { useFilterState } from 'hooks/useFilterState'
 import { getDate } from 'helpers/getDate'
@@ -75,7 +75,7 @@ const INITIAL_SORT = { key: null, direction: null }
 
 const Games = () => {
   const { t } = useTranslation()
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
   const { request, loading } = useApi()
 
   const [active, setActive] = useState('0')

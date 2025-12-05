@@ -1,12 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
-
 import classNames from 'classnames'
 
 import { service } from 'constant/config'
 
-import { setAside } from 'store/actions/asideAction'
+import { useAsideStore } from 'stores/asideStore'
 import { convertOptions } from 'helpers/convertOptions'
 
 import Select from 'components/Select'
@@ -23,7 +21,7 @@ const Paper = ({
   setQuantity,
 }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
+  const { setAside } = useAsideStore()
 
   return (
     <div
@@ -43,7 +41,7 @@ const Paper = ({
               close &&
               <Icon
                 icon={'fa-times'}
-                action={() => dispatch(setAside(null))}
+                action={() => setAside(null)}
                 alt={'Close'}
               />
             }

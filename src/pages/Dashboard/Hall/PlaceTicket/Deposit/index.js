@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { useFilterState } from 'hooks/useFilterState'
 
 import Field from 'components/Field'
@@ -20,7 +20,7 @@ const INITIAL_FILTER = { amount: '' }
 const Deposit = () => {
   const { t} = useTranslation()
   const { request } = useApi()
-  const { auth, updateAuth } = useAuth()
+  const { auth, updateAuth } = useAuthStore()
   const [ticket, setTicket] = useState(null)
 
   const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)

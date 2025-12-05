@@ -1,25 +1,22 @@
 import React, { createContext, useContext, useState } from 'react'
-import { useDispatch } from 'react-redux'
 
 import { ACCOUNT_TYPE } from 'constant/config'
 
-import { useAuth } from 'hooks/useAuth'
+import { useAuthStore } from 'stores/authStore'
 import { useWebSocket } from 'hooks/useWebSocket'
-import { setAuth } from 'store/actions/authAction'
 
 import { hostname } from 'helpers/hostname'
 
 const WebSocketContext = createContext(null)
 
 export const WebSocketProvider = ({ children }) => {
-  const { auth, deleteAuth, isAuth } = useAuth()
-  const dispatch = useDispatch()
+  const { auth, setAuth, deleteAuth, updateAuth, isAuth } = useAuthStore()
   const [lastMessage, setLastMessage] = useState(null)
 
   const { socketRef, sendWhenReady } = useWebSocket({
     url: hostname('WSS_PROD'),
     onOpen: (socket) => {
-      if (isAuth) {
+      if (isAuth()) {
         socket.send(JSON.stringify({ cmd: 'login', token: auth?.token }))
 
         if(auth.role === ACCOUNT_TYPE.CASHIER) {
@@ -36,11 +33,7 @@ export const WebSocketProvider = ({ children }) => {
       }
 
       if (cmd === 'login' && topic === 'account') {
-        dispatch(prev => ({
-          ...prev,
-          ...data,
-          language: prev.language,
-        }))
+        updateAuth({data})
       }
 
       if (cmd === 'logout') {
@@ -48,7 +41,7 @@ export const WebSocketProvider = ({ children }) => {
       }
 
       if (cmd === 'set-credits' && topic === 'account') {
-        dispatch(setAuth({ ...auth, credits: data }))
+        setAuth({ ...auth, credits: data })
       }
     }
   })

@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import {useDispatch, useSelector} from 'react-redux'
 import classNames from 'classnames'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAsideStore } from 'stores/asideStore'
+
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
-import { setAside } from 'store/actions/asideAction'
 import { convertOptions } from 'helpers/convertOptions'
 import { buildFormData } from 'helpers/buildFormData'
 
@@ -30,9 +31,10 @@ const INITIAL_FILTER = { q: '', type: -1, status: -1, agent: -1 }
 const List = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const { request, loading } = useApi()
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
+  const { setAside } = useAsideStore()
+
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(service.QUANTITY[20])
   const [filter, setFilter] = useState(INITIAL_FILTER)
@@ -56,20 +58,18 @@ const List = () => {
       await request(REQUEST_TYPE.POST, 'bonus/delete', formData)
       handleSubmit(null, data?.pagination?.page)
     }
-    dispatch(setAside(null))
+    setAside(null)
   }
 
   const handleConfirmed = (e, el) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('notification.delete_confirmed'),
-          cmd: 'confirmed',
-          buttonRef: e.target,
-        },
-        action: (type) => handleDelete(type, el),
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('notification.delete_confirmed'),
+        cmd: 'confirmed',
+        buttonRef: e.target,
+      },
+      action: (type) => handleDelete(type, el),
+    })
   }
 
   const handleSubmit = useCallback(async (e, page = 0, nextFilter = filter) => {

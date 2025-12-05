@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css'
+import { useToastifyStore } from 'stores/toastifyStore'
 
 const Toastify = () => {
-  const { toastify } = useSelector(state => state.toastify)
+  const { toastify, clearToastify } = useToastifyStore()
 
   useEffect(() => {
     if (toastify) {
-      toast[toastify.type](toastify.text, {})
+      toast[toastify.type](toastify.text)
+      clearToastify()
     }
   }, [toastify])
 

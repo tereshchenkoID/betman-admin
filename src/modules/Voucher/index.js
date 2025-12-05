@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
 
-import { useAuth } from 'hooks/useAuth'
+import { useAuthStore } from 'stores/authStore'
 import { getDate } from 'helpers/getDate'
 
 import style from './index.module.scss'
 
 const Voucher = ({ data, isPaid }) => {
   const { t } = useTranslation()
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
 
   return (
     <div className={style.block}>

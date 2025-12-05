@@ -1,10 +1,10 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 
-import { useAuth } from 'hooks/useAuth'
+import { useAuthStore } from 'stores/authStore'
 
 const ProtectedRoute = ({ allowedRoles, children }) => {
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
 
   if (!allowedRoles.includes(auth?.role)) {
     return <Navigate to="/" replace />

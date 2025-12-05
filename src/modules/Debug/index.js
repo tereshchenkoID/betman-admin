@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { useSettingsStore } from 'stores/settingsStore'
 
 import classNames from 'classnames'
 
 import style from './index.module.scss'
 
 const Debug = ({ data }) => {
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
   const [active, setActive] = useState(false)
 
   if(settings.mode !== 'debug') return

@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
 import { useSort } from 'hooks/useSort'
-import { useAuth } from 'hooks/useAuth'
 import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -41,11 +40,11 @@ const CONFIG = [
 
 const Players = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
   const { agent, shop } = useParams()
   const { request, loading } = useApi()
-  const { cmd } = useSelector(state => state.cmd)
+  const { setAside } = useAsideStore()
+  const { cmd, setCmd } = useCmdStore()
 
   const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1, shop: Number(shop) || -1 }
   const INITIAL_SORT = { key: null, direction: null }
@@ -103,7 +102,7 @@ const Players = () => {
   useEffect(() => {
     if (cmd === 'refresh-table') {
       handleSubmit(null, data?.pagination?.page, filter, sort);
-      dispatch(setCmd(null))
+      setCmd(null)
     }
   }, [cmd])
 
@@ -174,16 +173,14 @@ const Players = () => {
               classes={['primary']}
               placeholder={t('add_player')}
               onChange={(e) => {
-                dispatch(
-                  setAside({
-                    meta: {
-                      title: t('add_player'),
-                      cmd: 'account-player',
-                      buttonRef: e.target,
-                    },
-                    id: auth.agent_id
-                  }),
-                )
+                setAside({
+                  meta: {
+                    title: t('add_player'),
+                    cmd: 'account-player',
+                    buttonRef: e.target,
+                  },
+                  id: auth.agent_id
+                })
               }}
             />
           </div>

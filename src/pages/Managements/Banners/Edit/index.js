@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 
+import { useSettingsStore } from 'stores/settingsStore'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
@@ -28,7 +28,7 @@ const Edit = ({ id }) => {
   const isAdd = id === 'add'
   const navigate = useNavigate()
   const { request } = useApi()
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
 
   const INITIAL_FILTER = {
     id: null,

@@ -1,12 +1,11 @@
 import React, { useState, Suspense, lazy, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useCmdStore } from 'stores/cmdStore'
 import { useApi } from 'hooks/useApi'
-import { setCmd } from 'store/actions/cmdAction'
 
 import Button from 'components/Button'
 import Loader from 'components/Loader'
@@ -24,8 +23,8 @@ const TABS = [
 
 const PlayerEdit = ({ mock }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { request, loading } = useApi()
+  const { setCmd } = useCmdStore()
   const [active, setActive] = useState(0)
   const [filter, setFilter] = useState(null)
 
@@ -49,7 +48,7 @@ const PlayerEdit = ({ mock }) => {
 
     if (!error) {
       setFilter(data)
-      dispatch(setCmd('refresh-table'))
+      setCmd('refresh-table')
     }
   }
 

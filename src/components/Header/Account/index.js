@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { useOutsideClick } from 'hooks/useOutsideClick'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { useAuth } from 'hooks/useAuth'
+import { useAuthStore } from 'stores/authStore'
 import { role } from 'helpers/role'
 
 import style from './index.module.scss'
 
 const Account = () => {
   const { t } = useTranslation()
-  const { auth, deleteAuth } = useAuth()
+  const { auth, deleteAuth } = useAuthStore()
   const blockRef = useRef(null)
   const buttonRef = useRef(null)
   const [active, setActive] = useState(false)

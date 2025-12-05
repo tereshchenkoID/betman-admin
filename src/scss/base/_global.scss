@@ -34,6 +34,19 @@ input {
   }
 }
 
+input,
+textarea {
+  caret-color: currentColor;
+
+  &::placeholder {
+    color: var(--text-for-material);
+  }
+
+  &:-webkit-autofill {
+    caret-color: var(--text-for-material)!important;
+  }
+}
+
 button,
 a {
   @include transition(all);

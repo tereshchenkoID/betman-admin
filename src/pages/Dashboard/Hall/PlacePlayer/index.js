@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAsideStore } from 'stores/asideStore'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
-import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -19,9 +19,9 @@ import style from './index.module.scss'
 
 const PlacePlayer = ({ mock }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { settings } = useSelector(state => state.settings)
   const { request } = useApi()
+  const { settings } = useSettingsStore()
+  const { setAside } = useAsideStore()
   const [filter, setFilter] = useState(null)
 
   const handlePropsChange = (fieldName, fieldValue) => {
@@ -49,7 +49,7 @@ const PlacePlayer = ({ mock }) => {
 
     if (!error) {
       setFilter(data)
-      dispatch(setAside(null))
+      setAside(null)
     }
   }
 

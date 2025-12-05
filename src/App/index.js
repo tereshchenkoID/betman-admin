@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import i18n from 'i18next'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -10,9 +10,8 @@ import { Tooltip } from 'react-tooltip'
 
 import 'react-tooltip/dist/react-tooltip.css'
 
-import { useAuth } from 'hooks/useAuth'
-import { setAuth } from 'store/actions/authAction'
-import { setSettings } from 'store/actions/settingsAction'
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAuthStore } from 'stores/authStore'
 
 import { WebSocketProvider } from 'context/WebSocketProvider'
 import { ThemeProvider } from 'context/ThemeContext'
@@ -25,21 +24,36 @@ import Loader from 'components/Loader'
 import style from './index.module.scss'
 
 const App = () => {
-  const dispatch = useDispatch()
-  const { isAuth } = useAuth()
+  const { setAuth, isAuth } = useAuthStore()
+  const { setSettings } = useSettingsStore()
   const [loading, setLoading] = useState(true)
+
+  const loadConfig = async () => {
+    const response = await fetch('/json/config.json')
+    const config = await response.json()
+    localStorage.setItem('config', JSON.stringify(config.hostnames))
+  }
+
+  const initStores = async () => {
+    const [settings, auth] = await Promise.all([
+      setSettings(),
+      setAuth(),
+    ])
+
+    return { settings, auth }
+  }
 
   useEffect(() => {
     const initApp = async () => {
       try {
-        const response = await fetch('/json/config.json')
-        const config = await response.json()
-        localStorage.setItem('config', JSON.stringify(config.hostnames))
+        await loadConfig()
+        const { settings, auth } = await initStores()
 
-        await Promise.all([
-          dispatch(setSettings()),
-          dispatch(setAuth()),
-        ])
+        if (settings && auth) {
+          const storedLanguage = JSON.parse(sessionStorage.getItem('language'))
+          const defaultLanguage = auth?.language?.code
+          i18n.changeLanguage(storedLanguage || defaultLanguage || 'ukr')
+        }
       } catch (err) {
         console.error('Init error:', err)
       } finally {
@@ -48,30 +62,28 @@ const App = () => {
     }
 
     initApp()
-  }, [dispatch])
+  }, [])
 
   if (loading) return <Loader />
 
   return (
     <ThemeProvider>
-      <div className={style.root}>
-        {
-          isAuth
-            ?
-              <WebSocketProvider>
-                <Home />
-              </WebSocketProvider>
-            :
-              <Login />
-        }
-        <Toastify />
-        <Tooltip
-          id={'tooltip'}
-          place={'left'}
-          className={style.tooltip}
-          classNameArrow={style.arrow}
-        />
-      </div>
+      {
+        isAuth()
+          ?
+          <WebSocketProvider>
+            <Home />
+          </WebSocketProvider>
+          :
+          <Login />
+      }
+      <Toastify />
+      <Tooltip
+        id={'tooltip'}
+        place={'left'}
+        className={style.tooltip}
+        classNameArrow={style.arrow}
+      />
     </ThemeProvider>
   )
 }

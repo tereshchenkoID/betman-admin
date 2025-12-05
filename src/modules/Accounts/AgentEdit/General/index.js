@@ -1,11 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 
 import { ACCOUNT_TYPE } from 'constant/config'
 
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAuthStore } from 'stores/authStore'
 import { useOptions } from 'hooks/useOptions'
-import { useAuth } from 'hooks/useAuth'
 
 import Toggle from 'components/Toggle'
 import Field from 'components/Field'
@@ -13,8 +13,8 @@ import CustomSelect from 'components/Select'
 
 const General = ({ mock, filter, setFilter }) => {
   const { t } = useTranslation()
-  const { auth } = useAuth()
-  const { settings } = useSelector(state => state.settings)
+  const { auth } = useAuthStore()
+  const { settings } = useSettingsStore()
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({

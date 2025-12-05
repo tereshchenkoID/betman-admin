@@ -1,14 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { useFilterState } from 'hooks/useFilterState'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -19,9 +18,10 @@ import style from './index.module.scss'
 
 const Withdrawal = ({ mock }) => {
   const { t} = useTranslation()
-  const dispatch = useDispatch()
   const { request } = useApi()
-  const { updateAuth } = useAuth()
+  const { setAside } = useAsideStore()
+  const { setCmd } = useCmdStore()
+  const { updateAuth } = useAuthStore()
 
   const INITIAL_FILTER = {
     id: mock.id,
@@ -44,8 +44,8 @@ const Withdrawal = ({ mock }) => {
     const { credits, error } = await request(REQUEST_TYPE.POST, 'withdrawal/', formData)
 
     if (!error) {
-      dispatch(setAside(null))
-      dispatch(setCmd('refresh-table'))
+      setAside(null)
+      setCmd('refresh-table')
 
       if (credits) {
         updateAuth({credits})

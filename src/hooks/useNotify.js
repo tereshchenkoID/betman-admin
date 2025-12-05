@@ -1,17 +1,13 @@
-import { useDispatch } from 'react-redux'
-
-import { setToastify } from 'store/actions/toastifyAction'
+import { useToastifyStore } from 'stores/toastifyStore'
 
 export const useNotify = () => {
-  const dispatch = useDispatch()
+  const { setToastify } = useToastifyStore()
 
   const notify = (json, message) => {
-    dispatch(
-      setToastify({
-        type: json?.code === '0' ? 'success' : 'error',
-        text: json?.message || message,
-      })
-    )
+    setToastify({
+      type: json?.code === '0' ? 'success' : 'error',
+      text: json?.message || message,
+    })
   }
 
   return { notify }

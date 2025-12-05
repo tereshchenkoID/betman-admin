@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useOutsideClick } from 'hooks/useOutsideClick'
@@ -8,8 +7,8 @@ import classNames from 'classnames'
 
 import { ACCOUNT_TYPE, NAVIGATION } from 'constant/config'
 
-import { setAside } from 'store/actions/asideAction'
-import { useAuth } from 'hooks/useAuth'
+import { useAsideStore } from 'stores/asideStore'
+import { useAuthStore } from 'stores/authStore'
 
 import Icon from 'components/Icon'
 import Logo from 'modules/Logo'
@@ -18,9 +17,9 @@ import style from './index.module.scss'
 
 const Nav = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { pathname } = useLocation()
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
+  const { setAside } = useAsideStore()
   const role = auth ? auth.role : null
 
   const MENU = [
@@ -115,16 +114,14 @@ const Nav = () => {
       [ACCOUNT_TYPE.PLAYER]: 'account-player-edit',
     }
 
-    dispatch(
-      setAside({
-        meta: {
-          title: t('edit'),
-          cmd: modules[role],
-          buttonRef: e.target,
-        },
-        id: auth.id,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('edit'),
+        cmd: modules[role],
+        buttonRef: e.target,
+      },
+      id: auth.id,
+    })
   }
 
   useOutsideClick(
@@ -184,7 +181,7 @@ const Nav = () => {
                           onClick={() => {
                             setActive(idx)
                             setShow(true)
-                            dispatch(setAside(null))
+                            setAside(null)
                           }}
                         >
                           <FontAwesomeIcon
@@ -214,7 +211,7 @@ const Nav = () => {
                                 onClick={() => {
                                   setShow(false)
                                   setActive(false)
-                                  dispatch(setAside(null))
+                                  setAside(null)
                                 }}
                               >
                                 {
@@ -244,7 +241,7 @@ const Nav = () => {
                         onClick={() => {
                           setShow(false)
                           setActive(false)
-                          dispatch(setAside(null))
+                          setAside(null)
                         }}
                       >
                         <FontAwesomeIcon
@@ -279,7 +276,7 @@ const Nav = () => {
             onClick={() => {
               setShow(!show)
               setActive(!active)
-              dispatch(setAside(null))
+              setAside(null)
             }}
             aria-label={'Toggle'}
             title={'Toggle'}

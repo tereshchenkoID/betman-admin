@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ACCOUNT_TYPE } from 'constant/config'
 
-import { useAuth } from 'hooks/useAuth'
+import { useAuthStore } from 'stores/authStore'
 
 import Hall from './Hall'
 import Report from './Report'
@@ -11,17 +11,17 @@ import Login from './Login'
 import style from './index.module.scss'
 
 const Dashboard = () => {
-  const { auth } = useAuth()
+  const { auth} = useAuthStore()
   const [active, setActive] = useState(false)
 
   useEffect(() => {
     setActive(auth.shift?.status === '1')
-  }, [auth.shift])
+  }, [auth?.shift])
 
   return (
     <div className={style.block}>
       {
-        (auth.role === ACCOUNT_TYPE['CASHIER'])
+        (auth?.role === ACCOUNT_TYPE['CASHIER'])
           ?
             <>
               {

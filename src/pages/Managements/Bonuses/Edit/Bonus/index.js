@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
+
+import { useSettingsStore } from 'stores/settingsStore'
 
 import Field from 'components/Field'
 import CustomSelect from 'components/Select'
@@ -9,7 +10,7 @@ import style from '../index.module.scss'
 
 const Bonus = ({ data, action, active }) => {
   const { t } = useTranslation()
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
 
   return (
    <div className={style.grid}>

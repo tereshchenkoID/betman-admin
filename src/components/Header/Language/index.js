@@ -1,21 +1,21 @@
 import React, { useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import classNames from 'classnames'
 import i18n from 'i18next'
 
 import { REQUEST_TYPE } from 'constant/config'
 
-import classNames from 'classnames'
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAuthStore } from 'stores/authStore'
 
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
 import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import style from './index.module.scss'
 
 const Language = () => {
-  const { auth, updateAuth } = useAuth()
+  const { auth, updateAuth } = useAuthStore()
   const { request } = useApi()
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
   const [active, setActive] = useState(false)
   const blockRef = useRef(null)
   const buttonRef = useRef(null)

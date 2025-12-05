@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 
+import { useSettingsStore } from 'stores/settingsStore'
 import { useOptions } from 'hooks/useOptions'
 
 import Field from 'components/Field'
@@ -9,7 +9,7 @@ import CustomSelect from 'components/Select'
 
 const General = ({ filter, setFilter }) => {
   const { t } = useTranslation()
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
 
   const handlePropsChange = (fieldName, fieldValue) => {
     setFilter(prevData => ({

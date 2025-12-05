@@ -1,16 +1,16 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { NAVIGATION } from 'constant/config'
 
-import { setAside } from 'store/actions/asideAction'
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAsideStore } from 'stores/asideStore'
 
 import style from './index.module.scss'
 
 const Logo = () => {
-  const dispatch = useDispatch()
-  const { settings } = useSelector(state => state.settings)
+  const { settings } = useSettingsStore()
+  const { setAside } = useAsideStore()
 
   return (
     <Link
@@ -18,7 +18,7 @@ const Logo = () => {
       rel="noreferrer"
       className={style.block}
       onClick={() => {
-        dispatch(setAside(null))
+        setAside(null)
       }}
     >
       <img

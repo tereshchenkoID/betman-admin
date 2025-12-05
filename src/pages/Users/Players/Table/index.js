@@ -1,17 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
 import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
 
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
 import { getDate } from 'helpers/getDate'
-import { useAuth } from 'hooks/useAuth'
 import { buildFormData } from 'helpers/buildFormData'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
@@ -21,34 +20,31 @@ import style from './index.module.scss'
 
 const Table = ({ data, config, sort, handleSortChange }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { request } = useApi()
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
+  const { setAside } = useAsideStore()
+  const { setCmd } = useCmdStore()
 
   const handleDeposit = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('deposit'),
-          cmd: 'account-deposit',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('deposit'),
+        cmd: 'account-deposit',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handleWithdrawal = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('withdrawal'),
-          cmd: 'account-withdrawal',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('withdrawal'),
+        cmd: 'account-withdrawal',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   // const handleInfo = (e, row) => {
@@ -65,29 +61,25 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   // }
 
   const handleEdit = (e, row) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t('edit'),
-          cmd: 'account-player-edit',
-          buttonRef: e.target,
-        },
-        ...row,
-      }),
-    )
+    setAside({
+      meta: {
+        title: t('edit'),
+        cmd: 'account-player-edit',
+        buttonRef: e.target,
+      },
+      ...row,
+    })
   }
 
   const handleConfirmed = (e, row, onChange, title) => {
-    dispatch(
-      setAside({
-        meta: {
-          title: t(title),
-          cmd: 'confirmed',
-          buttonRef: e.target,
-        },
-        action: (result) => onChange(result, row),
-      }),
-    )
+    setAside({
+      meta: {
+        title: t(title),
+        cmd: 'confirmed',
+        buttonRef: e.target,
+      },
+      action: (result) => onChange(result, row),
+    })
   }
 
   const handleLocked = async (e, row) => {
@@ -95,8 +87,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       const formData = buildFormData({ id: row.id, locked: row.locked === '1' ? '0' : '1' })
       await request(REQUEST_TYPE.POST, 'player/locked', formData)
     }
-    dispatch(setCmd('refresh-table'))
-    dispatch(setAside(null))
+    setCmd('refresh-table')
+    setAside(null)
   }
 
   const handleDelete = async (e, row) => {
@@ -104,8 +96,8 @@ const Table = ({ data, config, sort, handleSortChange }) => {
       const formData = buildFormData({ id: row.id })
       await request(REQUEST_TYPE.POST, 'player/delete', formData)
     }
-    dispatch(setCmd('refresh-table'))
-    dispatch(setAside(null))
+    setCmd('refresh-table')
+    setAside(null)
   }
 
   const renderCell = (key, row) => {

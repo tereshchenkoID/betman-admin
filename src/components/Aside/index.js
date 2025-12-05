@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react'
-import { useSelector } from 'react-redux'
-
 import classNames from 'classnames'
+
+import { useAsideStore } from 'stores/asideStore'
 
 import Paper from 'components/Paper'
 import Loader from "components/Loader"
@@ -48,7 +48,7 @@ const checkCmd = (cmd) => {
 }
 
 const Aside = () => {
-  const { aside } = useSelector(state => state.aside)
+  const { aside } = useAsideStore()
 
   return (
     <aside

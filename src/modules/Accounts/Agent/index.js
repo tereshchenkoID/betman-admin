@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useSettingsStore } from 'stores/settingsStore'
+import { useAsideStore } from 'stores/asideStore'
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
 import { useOptions } from 'hooks/useOptions'
-import { useAuth } from 'hooks/useAuth'
-import { setCmd } from 'store/actions/cmdAction'
-import { setAside } from 'store/actions/asideAction'
 
 import Field from 'components/Field'
 import Button from 'components/Button'
@@ -22,9 +22,10 @@ import style from './index.module.scss'
 
 const Agent = ({ mock }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { auth } = useAuth()
-  const { settings } = useSelector(state => state.settings)
+  const { auth} = useAuthStore()
+  const { settings } = useSettingsStore()
+  const { setAside } = useAsideStore()
+  const { setCmd } = useCmdStore()
   const { request } = useApi()
   const [filter, setFilter] = useState(null)
 
@@ -53,8 +54,8 @@ const Agent = ({ mock }) => {
 
     if (!error) {
       setFilter(data)
-      dispatch(setCmd('refresh-table'))
-      dispatch(setAside(null))
+      setCmd('refresh-table')
+      setAside(null)
     }
   }
 

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
 import { REQUEST_TYPE } from 'constant/config'
 
+import { useAsideStore } from 'stores/asideStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
-import { setAside } from 'store/actions/asideAction'
 import { buildFormData } from 'helpers/buildFormData'
 
 import Button from 'components/Button'
@@ -19,9 +18,9 @@ import style from './index.module.scss'
 
 const Place = ({ info }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { auth } = useAuth()
   const { request } = useApi()
+  const { auth } = useAuthStore()
+  const { setAside } = useAsideStore()
   const isActive = info?.status === '1'
   const isAlarm = Number(info?.rtp) > 100
   const isLose = Number(info?.profit) < 0
@@ -127,7 +126,7 @@ const Place = ({ info }) => {
                     classes={['success']}
                     icon="fa-plus"
                     alt="deposit"
-                    action={(e) => dispatch(
+                    action={(e) => {
                       setAside({
                         meta: {
                           title: t('deposit'),
@@ -136,14 +135,14 @@ const Place = ({ info }) => {
                         },
                         id: info?.player?.id,
                         ...info,
-                      }),
-                    )}
+                      })
+                    }}
                   />
                   <Icon
                     classes={['warning']}
                     icon="fa-minus"
                     alt="withdraw"
-                    action={(e) => dispatch(
+                    action={(e) => {
                       setAside({
                         meta: {
                           title: t('withdrawal'),
@@ -152,8 +151,8 @@ const Place = ({ info }) => {
                         },
                         id: info?.player?.id,
                         ...info,
-                      }),
-                    )}
+                      })
+                    }}
                   />
                 </div>
               </>

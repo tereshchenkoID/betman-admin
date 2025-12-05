@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
-import { useAuth } from 'hooks/useAuth'
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
 import { useSort } from 'hooks/useSort'
 import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
-import { setCmd } from 'store/actions/cmdAction'
 
 import Paper from 'components/Paper'
 import Button from 'components/Button'
@@ -36,11 +35,10 @@ const CONFIG = [
 
 const Cashiers = () => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { auth } = useAuth()
+  const { auth} = useAuthStore()
   const { agent, shop } = useParams()
   const { request, loading } = useApi()
-  const { cmd } = useSelector(state => state.cmd)
+  const { cmd, setCmd } = useCmdStore()
 
   const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1, shop: Number(shop) || -1 }
   const INITIAL_SORT = { key: null, direction: null }
@@ -98,7 +96,7 @@ const Cashiers = () => {
   useEffect(() => {
     if (cmd === 'refresh-table') {
       handleSubmit(null, data?.pagination?.page, filter, sort);
-      dispatch(setCmd(null))
+      setCmd(null)
     }
   }, [cmd])
 

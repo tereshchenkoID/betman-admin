@@ -1,23 +1,25 @@
-import { useRequest } from 'hooks/useRequest'
+import axios from 'axios'
 
-export const getData = async url => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { get } = useRequest(url)
+import { hostname } from "helpers/hostname"
 
+export const request = async (method, url, data = null, headers = {}) => {
   try {
-    return await get()
+    const res = await axios({
+      baseURL: `${hostname()}/${url}`,
+      method,
+      data,
+      headers,
+      withCredentials: true,
+    })
+    return res.data
   } catch (e) {
     console.log(e)
+    return e.response
   }
 }
 
-export const postData = async (url, data, headers) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { post } = useRequest(url, data, headers)
+export const getData = (url, headers) =>
+  request('get', url, null, headers)
 
-  try {
-    return await post()
-  } catch (e) {
-    console.log(e)
-  }
-}
+export const postData = (url, data, headers) =>
+  request('post', url, data, headers)

@@ -1,13 +1,12 @@
 import React, { useState, Suspense, lazy, useEffect, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 
 import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
 
+import { useCmdStore } from 'stores/cmdStore'
+import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
-import { useAuth } from 'hooks/useAuth'
-import { setCmd } from 'store/actions/cmdAction'
 
 import Button from 'components/Button'
 import Loader from 'components/Loader'
@@ -21,9 +20,9 @@ const IpList = lazy(() => import('./IpList'))
 
 const CashierEdit = ({ mock }) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
-  const { auth } = useAuth()
+  const { auth } = useAuthStore()
   const { request, loading } = useApi()
+  const { setCmd } = useCmdStore()
   const [active, setActive] = useState(0)
   const [filter, setFilter] = useState(null)
 
@@ -60,7 +59,7 @@ const CashierEdit = ({ mock }) => {
 
     if (!error) {
       setFilter(data)
-      dispatch(setCmd('refresh-table'))
+      setCmd('refresh-table')
     }
   }
 
