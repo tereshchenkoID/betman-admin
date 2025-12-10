@@ -21,7 +21,11 @@ $rem-px-only: false !default;
     $test-list: list.append($test-list, $item, space);
   }
 
-  @return if($test-list == $list, space, comma);
+  @if $test-list == $list {
+    @return space;
+  }
+
+  @return comma;
 }
 
 @mixin rem-baseline($zoom: 100%) {
@@ -35,22 +39,26 @@ $rem-px-only: false !default;
   @each $value in $values {
     @if meta.type-of($value) == 'number' and math.unit($value) == 'rem' and $to == 'px' {
       $result: list.append($result, ($value / 1rem) * $rem-baseline, $separator);
-    } 
+    }
     @else if meta.type-of($value) == 'number' and math.unit($value) == 'px' and $to == 'rem' {
       $result: list.append($result, math.div($value, $rem-baseline) * 1rem, $separator);
-    } 
+    }
     @else if meta.type-of($value) == 'list' {
       $value-separator: rem-separator($value);
       $value: rem-convert($to, $value...);
       $value: rem-separator($value, $value-separator);
       $result: list.append($result, $value, $separator);
-    } 
+    }
     @else {
       $result: list.append($result, $value, $separator);
     }
   }
 
-  @return if(list.length($result) == 1, list.nth($result, 1), $result);
+  @if list.length($result) == 1 {
+    @return list.nth($result, 1);
+  }
+
+  @return $result;
 }
 
 @function rem($values...) {

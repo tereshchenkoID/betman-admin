@@ -1,4 +1,4 @@
-@import 'scss/config';
+@use 'scss/config' as *;
 
 .block {
   @include flex($align-items: center);
