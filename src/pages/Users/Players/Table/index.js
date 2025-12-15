@@ -33,6 +33,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
         buttonRef: e.target,
       },
       ...row,
+      type: ACCOUNT_TYPE.PLAYER
     })
   }
 

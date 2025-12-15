@@ -142,14 +142,12 @@ const Edit = ({ id }) => {
                 placeholder={t('title')}
                 data={currentTranslation?.title}
                 onChange={value => handlePropsChange(`translations.${active}.title`, value)}
-                isRequired={true}
               />
               <Field
                 type={'text'}
                 placeholder={t('subtitle')}
                 data={currentTranslation?.subtitle}
                 onChange={value => handlePropsChange(`translations.${active}.subtitle`, value)}
-                isRequired={true}
               />
             </div>
             <Field
@@ -220,7 +218,7 @@ const Edit = ({ id }) => {
               <div className={style.content}>
                 <p className={style.title}>{currentTranslation?.title}</p>
                 <p className={style.subtitle}>{currentTranslation?.subtitle}</p>
-                <p className={style.description}>{currentTranslation?.alt}</p>
+                <p className={style.description}>{currentTranslation?.description}</p>
                 {
                   currentTranslation?.button.text !== '' &&
                   <Button

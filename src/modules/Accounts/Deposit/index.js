@@ -1,12 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { REQUEST_TYPE } from 'constant/config'
+import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
 
 import { useAsideStore } from 'stores/asideStore'
 import { useCmdStore } from 'stores/cmdStore'
 import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
+import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 
 import Field from 'components/Field'
@@ -58,6 +59,12 @@ const Deposit = ({ mock }) => {
     }
   }
 
+  const { options: bonusesOptions } = useOptions(
+    `bonuses_list/${mock.id}`,
+    el => ({ value: el.id, label: el.username }),
+    [{ value: -1, label: t('select_from_list') }]
+  )
+
   return (
     <form className={style.block} onSubmit={handleSubmit}>
       <Debug data={filter}/>
@@ -99,6 +106,15 @@ const Deposit = ({ mock }) => {
             isRequired={true}
           />
         </>
+      }
+      {
+        mock.type === ACCOUNT_TYPE.PLAYER &&
+        <CustomSelect
+          placeholder={t('bonuses')}
+          options={bonusesOptions}
+          data={filter?.bonuses}
+          onChange={value => handlePropsChange('bonuses', value)}
+        />
       }
       <div className={style.actions}>
         <Button
