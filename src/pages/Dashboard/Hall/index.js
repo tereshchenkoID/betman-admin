@@ -18,21 +18,18 @@ const Hall = ({ setActive }) => {
   const { setAside } = useAsideStore()
   const { lastMessage, sendWhenReady } = useWebSocketContext()
 
-  useEffect(() => {
-    return () => {
-      sendWhenReady(JSON.stringify({ cmd: 'unsub' }))
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     sendWhenReady(JSON.stringify({ cmd: 'unsub' }))
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (!lastMessage) return
 
     const { cmd, data, topic } = lastMessage
 
-    if (
-      (cmd === 'subscribed' && topic === 'workspace') ||
-      (cmd === 'update' && topic === 'workspace')
-    ) {
+    if ((cmd === 'subscribed' && topic === 'workspace') || (cmd === 'update' && topic === 'workspace')) {
       setData(data)
     }
   }, [lastMessage])

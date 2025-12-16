@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 
-import { REQUEST_TYPE } from 'constant/config'
+import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
 
 import { useAsideStore } from 'stores/asideStore'
 import { useAuthStore } from 'stores/authStore'
@@ -133,6 +133,7 @@ const Place = ({ info }) => {
                           cmd: 'account-deposit',
                           buttonRef: e.target,
                         },
+                        type: ACCOUNT_TYPE.PLAYER,
                         id: info?.player?.id,
                         ...info,
                       })

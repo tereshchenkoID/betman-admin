@@ -1,25 +1,5 @@
 @use '../config' as *;
 
-*,
-::after,
-::before {
-  box-sizing: border-box;
-}
-
-body {
-  @include smooth-font;
-
-  background-image: linear-gradient(180deg, var(--material) 0%, var(--bg) 30%);
-  min-width: rem(1366px);
-  min-height: 100dvh;
-  overflow-y: auto;
-  line-height: var(--line-height);
-  color: var(--text-for-material);
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  font-weight: var(--typography-thin);
-}
-
 button {
   @include reset-button;
 }

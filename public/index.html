@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/icons/favicon.ico" />
@@ -20,7 +20,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/icons/logo180.png">
     <link rel="apple-touch-icon" sizes="192x192" href="%PUBLIC_URL%/icons/logo192.png">
 
-    <meta name="theme-color" content="#000000" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="WinUp" />
@@ -110,6 +109,38 @@
         --blue-hover: #00498d;
         --white: #fff;
         --black: #000;
+      }
+
+      *,
+      ::after,
+      ::before {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-image: linear-gradient(180deg, var(--material) 0%, var(--bg) 30%);
+        min-width: 83.375rem;
+        min-height: 100dvh;
+        overflow-y: auto;
+        line-height: var(--line-height);
+        color: var(--text-for-material);
+        font-family: var(--font-family);
+        font-size: var(--font-size);
+        font-weight: var(--typography-thin);
+      }
+
+      noscript {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-for-primary);
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 0;
       }
     </style>
 
