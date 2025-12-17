@@ -19,7 +19,7 @@
 }
 
 .list {
-  @include scroll;
+  @include scroll-y;
 
   display: grid;
   align-content: flex-start;

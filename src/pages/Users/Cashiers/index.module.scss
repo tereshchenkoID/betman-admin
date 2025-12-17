@@ -16,3 +16,7 @@
 .paper {
   min-height: rem(150px);
 }
+
+.table {
+  @include scroll-x;
+}

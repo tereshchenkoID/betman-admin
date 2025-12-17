@@ -1,0 +1,35 @@
+@use 'scss/config' as *;
+
+.block {
+  width: 100%;
+
+  &.inverted {
+
+    .scale {
+      background-color: var(--primary-hover);
+    }
+  }
+}
+
+.header {
+  @include flex(space-between, center);
+
+  margin-bottom: rem(4px);
+  font-size: rem(12px);
+}
+
+.scale {
+  @include size(100%, rem(8px));
+
+  position: relative;
+  border-radius: var(--border-radius-default);
+  background-color: var(--material-disabled);
+  overflow: hidden;
+}
+
+.value {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  background-color: var(--brand-hover);
+}

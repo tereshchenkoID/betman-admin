@@ -138,7 +138,7 @@ const Shops = () => {
           </div>
         </form>
       </Paper>
-      <Paper>
+      <Paper classes={[style.paper]}>
         {
           loading &&
           <Loader type={'loading'} />
@@ -154,12 +154,14 @@ const Shops = () => {
           }
           {
             data?.code &&
-            <Table
-              data={data.data}
-              config={CONFIG}
-              sort={sort}
-              handleSortChange={handleSortChange}
-            />
+            <div className={style.table}>
+              <Table
+                data={data.data}
+                config={CONFIG}
+                sort={sort}
+                handleSortChange={handleSortChange}
+              />
+            </div>
           }
           {
             !isSingle &&

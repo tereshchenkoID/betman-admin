@@ -15,6 +15,7 @@ import { buildFormData } from 'helpers/buildFormData'
 import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
 import Tree from 'modules/Tree'
+import Scale from 'modules/Scale'
 
 import style from './index.module.scss'
 
@@ -121,11 +122,22 @@ const Table = ({ data, config, sort, handleSortChange }) => {
     }
 
     const value = row[key]
+
     switch (key) {
       case 'date_created':
         return getDate(value, 'datetime')
       case 'bonuses':
-        return  <ReadMore data={value} />
+        return  <>
+                  <ReadMore data={value?.amount} />
+                  {
+                    value.total_bets > 0 &&
+                    <Scale
+                      amount={value.total_bets}
+                      max={value.refund_sum}
+                      percentage={value.percentage}
+                    />
+                  }
+                </>
       case 'credits':
         return value
           ?

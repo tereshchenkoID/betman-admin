@@ -12,3 +12,11 @@
 
   gap: rem(16px);
 }
+
+.paper {
+  min-height: rem(150px);
+}
+
+.table {
+  @include scroll-x;
+}

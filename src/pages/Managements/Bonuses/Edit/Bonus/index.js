@@ -39,7 +39,7 @@ const Bonus = ({ data, action, active }) => {
      <Field
        type={'number'}
        placeholder={t('max')}
-       data={data.maximum}
+       data={data.max}
        onChange={value => action(`${active}.max`, value)}
        isRequired={true}
        min={0}

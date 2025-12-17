@@ -6,31 +6,12 @@
 
 .header {
   @include flex(null, center);
+  @include scroll-x;
 
   border-bottom: rem(1px) solid var(--border);
   background-clip: content-box;
-  scroll-behavior: smooth;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--material-hover) transparent;
-  overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: rem(8px);
   height: rem(52px);
-
-  &::-webkit-scrollbar {
-    width: rem(15px);
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-    height: rem(5px);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border: rem(5px) solid var(--material);
-    background-color: var(--primary);
-  }
 }
 
 .link {

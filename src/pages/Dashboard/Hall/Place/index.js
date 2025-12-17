@@ -13,6 +13,7 @@ import { buildFormData } from 'helpers/buildFormData'
 import Button from 'components/Button'
 import Icon from 'components/Icon'
 import ReadMore from 'modules/ReadMore'
+import Scale from 'modules/Scale'
 
 import style from './index.module.scss'
 
@@ -121,6 +122,19 @@ const Place = ({ info }) => {
                 <div className={style.grid}>{t('rtp')}: <strong className={classNames(style.value, isAlarm && style.red)}>{info?.rtp} <span>%</span></strong></div>
                 <div className={style.grid}>{t('session')}: <strong>{timer}</strong></div>
                 <div className={style.grid}>{t('balance')}: <ReadMore data={info?.credits} /></div>
+                <div className={style.grid}>
+                  {t('bonus')}: <ReadMore data={info?.bonuses.amount} />
+                </div>
+                {
+                  info?.bonuses.total_bets > 0 &&
+                  <Scale
+                    amount={info?.bonuses.total_bets}
+                    max={info?.bonuses.refund_sum}
+                    percentage={info?.bonuses.percentage}
+                    currency={auth?.currency?.code}
+                    isInverted={true}
+                  />
+                }
                 <div className={style.actions}>
                   <Icon
                     classes={['success']}

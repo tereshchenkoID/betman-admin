@@ -201,12 +201,14 @@ const Players = () => {
         }
         {
           data?.code &&
-          <Table
-            data={data.data}
-            config={CONFIG}
-            sort={sort}
-            handleSortChange={handleSortChange}
-          />
+          <div className={style.table}>
+            <Table
+              data={data.data}
+              config={CONFIG}
+              sort={sort}
+              handleSortChange={handleSortChange}
+            />
+          </div>
         }
         {
           !isSingle &&

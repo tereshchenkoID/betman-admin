@@ -1,6 +1,7 @@
 @use 'scss/config' as *;
 
 .block {
+  min-width: rem(1230px);
   width: 100%;
   overflow: hidden;
   font-size: rem(14px);
@@ -9,7 +10,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(3, 1fr) rem(80px) repeat(2, 1fr) repeat(4, rem(100px));
+  grid-template-columns: rem(80px) repeat(3, 1fr) rem(80px) 1fr rem(135px) repeat(4, rem(100px));
   position: relative;
 
   &:not(:last-child) {
