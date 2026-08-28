@@ -1,15 +1,17 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import { NAVIGATION } from 'src/constant/config'
+import { NAVIGATION } from 'constant/config'
 
 import App from 'App'
 import Loader from 'components/Loader'
+import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
 
+const Home = lazy(() => import('pages/Home'))
+const Login = lazy(() => import('pages/Login'))
 const UsersUsers = lazy(() => import('pages/Users/Users'))
 const UsersPlayers = lazy(() => import('pages/Users/Players'))
 const Dashboard = lazy(() => import('pages/Dashboard'))
-const Login = lazy(() => import('pages/Login'))
 const ReportsFinancial = lazy(() => import('pages/Reports/Financial'))
 const ReportsGames = lazy(() => import('pages/Reports/Games'))
 const ManagementsPromos = lazy(() => import('pages/Managements/Promos'))
@@ -39,84 +41,92 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
-        element: withSuspense(Dashboard)
+        element: <PublicRoute />,
+        children: [
+          {
+            path: NAVIGATION.login.link,
+            element: withSuspense(Login),
+          },
+        ],
       },
       {
-        path: NAVIGATION.users.link,
-        element: withSuspense(UsersUsers),
-      },
-      {
-        path: NAVIGATION.players.link,
-        element: withSuspense(UsersPlayers),
-      },
-      {
-        path: NAVIGATION.reports.financial.link,
-        element: withSuspense(ReportsFinancial),
-      },
-      {
-        path: NAVIGATION.reports.games.link,
-        element: withSuspense(ReportsGames),
-      },
-      {
-        path: NAVIGATION.login.link,
-        element: (
-          <PublicRoute>
-            {withSuspense(Login)}
-          </PublicRoute>
-        )
-      },
-      {
-        path: `${NAVIGATION.managements.promos.link}/:promo?`,
-        element: withSuspense(ManagementsPromos),
-      },
-      {
-        path: `${NAVIGATION.managements.quests.link}/:quest?`,
-        element: withSuspense(ManagementsQuests),
-      },
-      {
-        path: `${NAVIGATION.managements.banners.link}/:banner?`,
-        element: withSuspense(ManagementsBanners),
-      },
-      {
-        path: `${NAVIGATION.managements.challenges.link}/:challenge?`,
-        element: withSuspense(ManagementsChallenges),
-      },
-      {
-        path: `${NAVIGATION.managements.jackpots.link}/:jackpot?`,
-        element: withSuspense(ManagementsJackpots),
-      },
-      {
-        path: `${NAVIGATION.managements.bonuses.link}/:bonus?`,
-        element: withSuspense(ManagementsBonuses),
-      },
-      {
-        path: `${NAVIGATION.managements.notifications.link}/:notification?`,
-        element: withSuspense(ManagementsNotifications),
-      },
-      {
-        path: `${NAVIGATION.managements.modules.link}`,
-        element: withSuspense(ManagementsModules),
-      },
-      {
-        path: `${NAVIGATION.managements.pages.link}/:page?`,
-        element: withSuspense(ManagementsPages),
-      },
-      {
-        path: `${NAVIGATION.managements.wheels.link}/:wheel?`,
-        element: withSuspense(ManagementsWheels),
-      },
-      {
-        path: `${NAVIGATION.managements.tooltips.link}/:tooltip?`,
-        element: withSuspense(ManagementsTooltips),
-      },
-      {
-        path: `${NAVIGATION.managements.seo.link}/:seo?`,
-        element: withSuspense(ManagementsSeo),
-      },
-      {
-        path: '*',
-        element: withSuspense(NotFound),
+        element: <ProtectedRoute />,
+        children: [
+          {
+            element: withSuspense(Home),
+            children: [
+              { index: true, element: withSuspense(Dashboard) },
+              {
+                path: NAVIGATION.users.link,
+                element: withSuspense(UsersUsers),
+              },
+              {
+                path: NAVIGATION.players.link,
+                element: withSuspense(UsersPlayers),
+              },
+              {
+                path: NAVIGATION.reports.financial.link,
+                element: withSuspense(ReportsFinancial),
+              },
+              {
+                path: NAVIGATION.reports.games.link,
+                element: withSuspense(ReportsGames),
+              },
+              {
+                path: `${NAVIGATION.managements.promos.link}/:promo?`,
+                element: withSuspense(ManagementsPromos),
+              },
+              {
+                path: `${NAVIGATION.managements.quests.link}/:quest?`,
+                element: withSuspense(ManagementsQuests),
+              },
+              {
+                path: `${NAVIGATION.managements.banners.link}/:banner?`,
+                element: withSuspense(ManagementsBanners),
+              },
+              {
+                path: `${NAVIGATION.managements.challenges.link}/:challenge?`,
+                element: withSuspense(ManagementsChallenges),
+              },
+              {
+                path: `${NAVIGATION.managements.jackpots.link}/:jackpot?`,
+                element: withSuspense(ManagementsJackpots),
+              },
+              {
+                path: `${NAVIGATION.managements.bonuses.link}/:bonus?`,
+                element: withSuspense(ManagementsBonuses),
+              },
+              {
+                path: `${NAVIGATION.managements.notifications.link}/:notification?`,
+                element: withSuspense(ManagementsNotifications),
+              },
+              {
+                path: `${NAVIGATION.managements.modules.link}`,
+                element: withSuspense(ManagementsModules),
+              },
+              {
+                path: `${NAVIGATION.managements.pages.link}/:page?`,
+                element: withSuspense(ManagementsPages),
+              },
+              {
+                path: `${NAVIGATION.managements.wheels.link}/:wheel?`,
+                element: withSuspense(ManagementsWheels),
+              },
+              {
+                path: `${NAVIGATION.managements.tooltips.link}/:tooltip?`,
+                element: withSuspense(ManagementsTooltips),
+              },
+              {
+                path: `${NAVIGATION.managements.seo.link}/:seo?`,
+                element: withSuspense(ManagementsSeo),
+              },
+              {
+                path: '*',
+                element: withSuspense(NotFound),
+              },
+            ],
+          },
+        ],
       },
     ],
   },

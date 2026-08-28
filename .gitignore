@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+package-lock.json
+
 /.pnp
 .pnp.js
 
@@ -11,6 +13,7 @@
 # production
 /build
 /dist
+./stats.html
 
 # misc
 .DS_Store
@@ -25,6 +28,3 @@ yarn-error.log*
 
 /.idea
 /.vscode
-
-package-lock.json
-/node_modules/

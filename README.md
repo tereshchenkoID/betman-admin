@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# 🚀 Admin Betman
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Modern admin dashboard interface built with **React 18** and **Vite 8**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🛠 Tech Stack
 
-### `npm start`
+| Category | Technologies |
+|---|---|
+| **Core** | React 18, React Router v7, Zustand |
+| **Build Tool** | Vite 8 (Modern Sass compiler API) |
+| **Styling** | SCSS, Clsx |
+| **UI & Icons** | FontAwesome, React Select, React Toastify, React Tooltip |
+| **Data & Charts** | Axios, Chart.js, React-ChartJS-2 |
+| **Localization** | i18next (with browser detector & HTTP backend) |
+| **Utilities** | Anime.js, File-saver, React Barcode, TinyMCE |
 
-Runs the app in the development mode.\
-Open [http://localhost:3001](http://localhost:3001) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Make sure you have **Node.js** (v18+) and **npm** installed on your machine.
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Development Server
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000) with instant HMR (Hot Module Replacement).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📜 Available Scripts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Script | Description |
+|---|---|
+| `npm start` | Starts the Vite development server on port 3000 |
+| `npm run build` | Bundles and optimizes the application for production |
+| `npm run preview` | Serves the production build locally for verification |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 📁 Import Aliases
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Configured path aliases allow importing without relative paths (`../../`):
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Alias | Resolves to |
+|---|---|
+| `components` | `./src/components` |
+| `modules` | `./src/modules` |
+| `pages` | `./src/pages` |
+| `stores` | `./src/stores` |
+| `constant` | `./src/constant` |
+| `context` | `./src/context` |
+| `App` | `./src/App` |
+| `src` | `./src` |
+| `scss` | `./src/scss` |
 
-### Code Splitting
+**Example:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```js
+import Button from 'components/Button'
+import { useAuthStore } from 'stores/useAuthStore'
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## ⚡ Build & Code Splitting
 
-### Making a Progressive Web App
+Production builds use dynamic vendor chunking (`manualChunks`) to optimize caching and asset load times:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **`vendor-react`** — Core React libraries (`react`, `react-dom`, `react-router-dom`)
+- **`vendor-fa-*`** — Granular FontAwesome icon bundles (solid, brands, regular, core)
+- **`vendor-i18n`** — Localization runtime modules
+- **`vendor-others`** — Additional third-party dependencies

@@ -2,6 +2,7 @@
   "name": "admin-betman",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "vite",
     "build": "vite build",
@@ -39,6 +40,7 @@
   ],
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.1",
+    "rollup-plugin-visualizer": "^7.1.1",
     "vite": "^8.2.2"
   },
   "allowScripts": {

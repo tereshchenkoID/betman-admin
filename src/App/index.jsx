@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import i18n from 'i18next'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -14,16 +15,13 @@ import { useSettingsStore } from 'src/stores/settingsStore'
 import { useAuthStore } from 'src/stores/authStore'
 
 import { ThemeProvider } from 'context/ThemeContext'
-
-import Login from 'pages/Login'
-import Home from 'pages/Home'
 import Toastify from 'components/Toastify'
 import Loader from 'components/Loader'
 
 import style from './index.module.scss'
 
 const App = () => {
-  const { setAuth, isAuth } = useAuthStore()
+  const { setAuth } = useAuthStore()
   const { setSettings } = useSettingsStore()
   const [loading, setLoading] = useState(true)
 
@@ -34,7 +32,10 @@ const App = () => {
   }
 
   const initStores = async () => {
-    const [settings, auth] = await Promise.all([
+    const [
+      settings,
+      auth
+    ] = await Promise.all([
       setSettings(),
       setAuth(),
     ])
@@ -67,13 +68,7 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      {
-        isAuth()
-          ?
-            <Home />
-          :
-            <Login />
-      }
+      <Outlet />
       <Toastify />
       <Tooltip
         id={'tooltip'}

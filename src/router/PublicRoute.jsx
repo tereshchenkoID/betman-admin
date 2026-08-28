@@ -1,15 +1,14 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
+import { useAuthStore } from 'stores/authStore'
 
-import { useAuthStore } from 'src/stores/authStore'
+const PublicRoute = () => {
+  const { isAuth } = useAuthStore()
 
-const PublicRoute = ({ children }) => {
-  const { auth } = useAuthStore()
-
-  if (auth?.role) {
+  if (isAuth()) {
     return <Navigate to="/" replace />
   }
 
-  return children
+  return <Outlet />
 }
 
 export default PublicRoute
