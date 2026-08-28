@@ -1,1 +1,0 @@
-import{l as e}from"./vendor-react-Bu-Hg2gY.js";var t=e((e,t)=>({cmd:null,setCmd:t=>e({cmd:t})}));export{t};
