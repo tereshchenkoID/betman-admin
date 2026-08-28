@@ -1,0 +1,1 @@
+var e=(e,t=1)=>(e=e.replace(`#`,``),`rgba(${parseInt(e.substring(0,2),16)}, ${parseInt(e.substring(2,4),16)}, ${parseInt(e.substring(4,6),16)}, ${t})`);export{e as t};

@@ -1,0 +1,1 @@
+import{I as e}from"./vendor-others-BHTPruzo.js";var t=(e=`PROD`)=>JSON.parse(localStorage.getItem(`config`))?.[e]||null,n=async(n,r,i=null,a={})=>{try{return(await e({baseURL:`${t()}/${r}`,method:n,data:i,headers:a,withCredentials:!0})).data}catch(e){return console.log(e),e.response}},r=(e,t)=>n(`get`,e,null,t),i=(e,t,r)=>n(`post`,e,t,r);export{i as n,r as t};

@@ -1,0 +1,1 @@
+import{l as e}from"./vendor-react-Bu-Hg2gY.js";var t=e((e,t)=>({aside:null,setAside:t=>e({aside:t})}));export{t};

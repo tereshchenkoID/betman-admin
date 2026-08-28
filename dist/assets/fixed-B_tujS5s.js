@@ -1,0 +1,1 @@
+var e=(e,t=2)=>parseFloat(e).toFixed(t);export{e as t};

@@ -1,0 +1,1 @@
+import{c as e}from"./vendor-react-Bu-Hg2gY.js";import{t}from"./GeneratePassword-BN7PwpB_.js";var n=e(),r=({filter:e,setFilter:r,handlePropsChange:i})=>(0,n.jsx)(t,{list:[`new_password`],data:e,action:r,filter:e,handlePropsChange:i});export{r as default};

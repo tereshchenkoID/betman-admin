@@ -1,0 +1,6 @@
+import{r as e}from"./rolldown-runtime-hePW80VL.js";import{mt as t}from"./vendor-others-BHTPruzo.js";import{c as n,t as r}from"./vendor-react-Bu-Hg2gY.js";import{p as i}from"./index-Bq--9c9u.js";var a=e(t()),o={block:`_block_1e6fo_1`},s=n(),c=({data:e,action:t,height:n=300})=>{let c=(0,a.useRef)(null),{theme:l}=i();return(0,s.jsx)(`div`,{className:o.block,children:(0,s.jsx)(r,{apiKey:`jxjoq6sfxuinuz0hlwh6j0dnekusf2shb0fcnt6jyaydzabn`,onInit:(e,t)=>c.current=t,value:e,onEditorChange:t,init:{height:n,menubar:!1,skin:`tinymce-5`,content_style:`
+            body {
+              color: ${l===`light`?`#2a121c`:`#f2f2f2`};
+              line-height: 1.2;
+            }
+          `,plugins:[`image`,`link`,`advlist`,`autolink`,`lists`,`link`,`image`,`charmap`,`preview`,`anchor`,`searchreplace`,`visualblocks`,`code`,`fullscreen`,`insertdatetime`,`media`,`table`,`code`,`help`,`wordcount`],toolbar:`undo redo | blocks | link underline bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | image`,automatic_uploads:!0,file_picker_types:`image`,paste_data_images:!0,images_file_types:`jpg,jpeg,png,webp,gif`}},l)})};export{c as t};
