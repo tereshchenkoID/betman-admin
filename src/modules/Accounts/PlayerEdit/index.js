@@ -1,11 +1,12 @@
-import React, { useState, Suspense, lazy, useEffect } from 'react'
+import { useState, Suspense, lazy, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { REQUEST_TYPE } from 'constant/config'
 
 import { useCmdStore } from 'stores/cmdStore'
 import { useApi } from 'hooks/useApi'
+import { useFilterState } from 'hooks/useFilterState'
 
 import Button from 'components/Button'
 import Loader from 'components/Loader'
@@ -26,7 +27,7 @@ const PlayerEdit = ({ mock }) => {
   const { request, loading } = useApi()
   const { setCmd } = useCmdStore()
   const [active, setActive] = useState(0)
-  const [filter, setFilter] = useState(null)
+  const { filter, setFilter, handlePropsChange } = useFilterState(null)
 
   const ActiveComponent = TABS[active].component
 
@@ -65,7 +66,7 @@ const PlayerEdit = ({ mock }) => {
               key={idx}
               type="button"
               className={
-                classNames(
+                clsx(
                   style.link,
                   active === idx && style.active
                 )
@@ -99,6 +100,7 @@ const PlayerEdit = ({ mock }) => {
                     data={{ key: TABS[active].key }}
                     filter={filter}
                     setFilter={setFilter}
+                    handlePropsChange={handlePropsChange}
                   />
             }
           </Suspense>

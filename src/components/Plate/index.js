@@ -1,6 +1,4 @@
-import React from 'react'
-
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -9,7 +7,7 @@ const Plate = ({ data, type = 'error' }) => {
   return (
     <p
       className={
-        classNames(
+        clsx(
           style.block,
           style[type]
         )

@@ -9,8 +9,11 @@
 
 .block,
 .grid {
-  grid-template-columns: repeat(2, 1fr);
   align-items: flex-start;
+
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .actions {
@@ -71,4 +74,10 @@
 .label {
   margin-top: rem(4px);
   font-size: rem(12px);
+}
+
+.preview {
+  @include scroll-x;
+
+  width: 100%;
 }

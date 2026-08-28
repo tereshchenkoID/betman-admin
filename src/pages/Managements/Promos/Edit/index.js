@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -33,7 +33,6 @@ const Edit = ({ id }) => {
 
   const INITIAL_FILTER = {
     id: null,
-    image: '',
     visibility: 0,
     agent: -1,
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
@@ -41,6 +40,7 @@ const Edit = ({ id }) => {
         title: '',
         teaser: '',
         description: '',
+        image: '',
         visibility: 0,
         category: '',
         button: {
@@ -71,6 +71,12 @@ const Edit = ({ id }) => {
     e.preventDefault()
 
     const formData = buildFormData(filter)
+    Object.entries(filter.translations).forEach(([lang, langData]) => {
+      const currentImage = langData?.image
+      if (currentImage instanceof File || currentImage instanceof Blob) {
+        formData.append(`image_${lang}`, currentImage)
+      }
+    })
 
     const { data, error } = await request(REQUEST_TYPE.POST, `promo/${isAdd ? 'add' : 'edit'}`, formData)
 
@@ -120,11 +126,6 @@ const Edit = ({ id }) => {
               data={filter.agent}
               onChange={value => handlePropsChange('agent', value)}
             />
-            <Uploader
-              data={filter.image}
-              onChange={(blob) => handlePropsChange('image', blob)}
-              maxHeight={'auto'}
-            />
             <Tab
               data={active}
               action={setActive}
@@ -136,6 +137,10 @@ const Edit = ({ id }) => {
                   ])
                 )
               )}
+            />
+            <Uploader
+              data={currentTranslation?.image}
+              onChange={(blob) => handlePropsChange(`translations.${active}.image`, blob)}
             />
             <Field
               type={'text'}
@@ -170,22 +175,22 @@ const Edit = ({ id }) => {
               <Field
                 type={'text'}
                 placeholder={t('button_label')}
-                data={currentTranslation?.button.text}
+                data={currentTranslation?.button?.text}
                 onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
               />
               <div>
                 <Field
                   type={'text'}
                   placeholder={t('button_link')}
-                  data={currentTranslation?.button.link}
+                  data={currentTranslation?.button?.link}
                   onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
                 />
-                <p className={style.label}>Example: <strong>/promo/first-deposit</strong></p>
+                <p className={style.label}>Example: <strong>/promotions/first-deposit</strong></p>
               </div>
             </div>
             <Checkbox
               placeholder={t('new_tab')}
-              data={currentTranslation?.button.newtab}
+              data={currentTranslation?.button?.newtab}
               onChange={value => handlePropsChange(`translations.${active}.button.newtab`, value)}
             />
             <div className={style.actions}>
@@ -206,9 +211,9 @@ const Edit = ({ id }) => {
             <div className={style.promo}>
               <div className={style.picture}>
                 {
-                  filter?.image &&
+                  currentTranslation?.image &&
                   <ImagePreview
-                    image={filter.image}
+                    image={currentTranslation?.image}
                     width={320}
                     height={128}
                     alt={t('preview')}
@@ -218,7 +223,7 @@ const Edit = ({ id }) => {
                   currentTranslation?.category !== '' &&
                   <div className={style.categories}>
                     {
-                      currentTranslation?.category.split(',').map((el, idx) =>
+                      currentTranslation?.category?.split(',').map((el, idx) =>
                         <div
                           key={idx}
                           className={style.badge}
@@ -233,10 +238,13 @@ const Edit = ({ id }) => {
               <h1>{currentTranslation?.title}</h1>
               <div dangerouslySetInnerHTML={{ __html: currentTranslation?.description }} />
               {
-                currentTranslation?.button.text !== '' &&
+                (
+                  currentTranslation?.button?.text &&
+                  currentTranslation?.button?.text !== ''
+                ) &&
                 <Button
                   classes={['primary', 'sm', style.button]}
-                  placeholder={currentTranslation?.button.text}
+                  placeholder={currentTranslation?.button?.text}
                 />
               }
             </div>

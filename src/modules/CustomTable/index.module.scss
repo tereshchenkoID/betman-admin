@@ -2,9 +2,14 @@
 
 .block {
   @include flex($direction: column);
+  @include scroll-x;
 
   position: relative;
-  overflow: hidden;
+}
+
+.table {
+  min-width: rem(800px);
+  width: 100%;
 }
 
 .row {

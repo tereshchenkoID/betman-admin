@@ -1,6 +1,4 @@
-import React from 'react'
-
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -17,7 +15,7 @@ const Button = ({
     <button
       type={type}
       className={
-        classNames(
+        clsx(
           style.block,
           isDisabled && style.disabled,
           classes && classes.map(el => style[el] || el),

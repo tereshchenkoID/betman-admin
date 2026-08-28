@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ACCOUNT_TYPE, REQUEST_TYPE } from 'constant/config'
@@ -33,7 +32,7 @@ const Deposit = ({ mock }) => {
     amount: '',
   }
 
-  const {filter, setFilter, handlePropsChange} = useFilterState(INITIAL_FILTER)
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const isValid = filter?.amount !== '' && Number(filter?.amount) > 0 && (
     auth.unlimited_balance === '1' || Number(filter?.amount) <= Number(auth.credits[filter?.currency])

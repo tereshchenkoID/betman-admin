@@ -1,7 +1,7 @@
 @use 'scss/config' as *;
 
 .block {
-  min-width: rem(1550px);
+  min-width: rem(2860px);
   width: 100%;
   overflow: hidden;
   font-size: rem(14px);
@@ -10,8 +10,16 @@
 
 .row {
   display: grid;
-  grid-template-columns: rem(80px) repeat(6, 1fr) minmax(rem(200px), 1fr) rem(80px) 1fr rem(135px);
+  grid-template-columns: rem(110px) repeat(3, minmax(rem(140px), 1fr)) minmax(rem(200px), 1fr) repeat(3, minmax(rem(120px), 1fr)) rem(80px) repeat(11, minmax(rem(140px), 1fr)) rem(140px);
   position: relative;
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    background-color: var(--row-color);
+    opacity: 0.2;
+    content: '';
+  }
 
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--border);
@@ -24,29 +32,41 @@
     .cell {
 
       &:has(svg) {
+        @include flex(null, center, null, nowrap);
+
+        gap: rem(4px);
         cursor: pointer;
       }
     }
   }
 
   &.locked {
+    --row-color: var(--primary-disabled);
+  }
 
-    &::before {
-      position: absolute;
-      inset: 0;
-      background-color: var(--primary);
-      opacity: 0.5;
-      content: '';
-    }
+  &.normal_player {
+    --row-color: var(--green);
+  }
+
+  &.bonus_hunter {
+    --row-color: var(--amber);
+  }
+
+  &.high_risk_player,
+  &.scammer {
+    --row-color: var(--red);
+  }
+
+  &.vip_level_1,
+  &.vip_level_2,
+  &.vip_level_3 {
+    --row-color: var(--blue);
   }
 }
 
-.wrapper,
 .cell {
   @include flex(null, center, null, wrap);
-}
 
-.cell {
   gap: rem(4px);
   padding: rem(12px);
 
@@ -54,17 +74,9 @@
     flex-wrap: nowrap;
   }
 
-  &:not(:nth-child(2)) {
-    overflow: hidden;
-  }
-
   p {
-    @include ellipsis();
+    word-break: break-word;
   }
-}
-
-.wrapper {
-  gap: rem(8px);
 }
 
 .empty {
@@ -78,4 +90,19 @@
 
   gap: rem(6px);
   margin-top: rem(4px);
+}
+
+.value {
+
+  &.rejected {
+    color: var(--red);
+  }
+
+  &.pending_verification {
+    color: var(--blue);
+  }
+
+  &.verified {
+    color: var(--green);
+  }
 }

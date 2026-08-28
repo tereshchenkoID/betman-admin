@@ -1,7 +1,6 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -16,7 +15,7 @@ const Tab = ({ data, action, options }) => {
             type={'button'}
             key={key}
             className={
-              classNames(
+              clsx(
                 style.link,
                 data === key && style.active
               )

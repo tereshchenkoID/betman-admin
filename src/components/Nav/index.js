@@ -1,14 +1,15 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState, useMemo, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { useOutsideClick } from 'hooks/useOutsideClick'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+import clsx from 'clsx'
 
-import { ACCOUNT_TYPE, NAVIGATION } from 'constant/config'
+import { NAVIGATION } from 'constant/config'
 
 import { useAsideStore } from 'stores/asideStore'
 import { useAuthStore } from 'stores/authStore'
+
+import { useOutsideClick } from 'hooks/useOutsideClick'
 
 import Icon from 'components/Icon'
 import Logo from 'modules/Logo'
@@ -22,82 +23,44 @@ const Nav = () => {
   const { setAside } = useAsideStore()
   const role = auth ? auth.role : null
 
-  const MENU = [
-    {
-      show: true,
-      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT],
-      ...NAVIGATION.agents,
-    },
-    {
-      show: true,
-      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT],
-      ...NAVIGATION.shops,
-    },
-    {
-      show: true,
-      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP],
-      ...NAVIGATION.cashiers,
-    },
-    {
-      show: true,
-      type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.CASHIER],
-      ...NAVIGATION.players,
-    },
-    {
-      text: NAVIGATION.reports.text,
-      icon: NAVIGATION.reports.icon,
-      show: true,
-      submenu: [
-        {
-          type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-          ...NAVIGATION.reports.financial,
-        },
-        {
-          type: [ACCOUNT_TYPE.ADMIN, ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-          ...NAVIGATION.reports.games,
-        },
-        // {
-        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        //   ...NAVIGATION.reports.history,
-        // },
-        // {
-        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        //   ...NAVIGATION.reports.payments,
-        // },
-        // {
-        //   type: [ACCOUNT_TYPE.AGENT, ACCOUNT_TYPE.SHOP, ACCOUNT_TYPE.PLAYER, ACCOUNT_TYPE.CASHIER],
-        //   ...NAVIGATION.reports.bonuses,
-        // }
-      ],
-    },
-    {
-      text: NAVIGATION.managements.text,
-      icon: NAVIGATION.managements.icon,
-      show: role === ACCOUNT_TYPE.ADMIN,
-      submenu: [
-        {
-          type: [ACCOUNT_TYPE.ADMIN],
-          ...NAVIGATION.managements.promos,
-        },
-        {
-          type: [ACCOUNT_TYPE.ADMIN],
-          ...NAVIGATION.managements.banners,
-        },
-        {
-          type: [ACCOUNT_TYPE.ADMIN],
-          ...NAVIGATION.managements.jackpots,
-        },
-        {
-          type: [ACCOUNT_TYPE.ADMIN],
-          ...NAVIGATION.managements.bonuses,
-        },
-        {
-          type: [ACCOUNT_TYPE.ADMIN],
-          ...NAVIGATION.managements.notifications,
+  const MENU = useMemo(() => {
+    const userMenuConfig = auth?.menu
+    if (!userMenuConfig) return []
+
+    const dynamicMenu = []
+
+    Object.entries(userMenuConfig).forEach(([key, value]) => {
+      if (value === '1') {
+        if (NAVIGATION[key]) {
+          dynamicMenu.push({ show: true, ...NAVIGATION[key] })
         }
-      ],
-    }
-  ]
+      }
+      else if (typeof value === 'object' && value !== null && NAVIGATION[key]) {
+        const submenuItems = []
+
+        Object.entries(value).forEach(([subKey, isAllowed]) => {
+          if (isAllowed === '1') {
+            const subData = NAVIGATION[key][subKey]
+
+            if (subData) {
+              submenuItems.push({ ...subData })
+            }
+          }
+        })
+
+        if (submenuItems.length > 0) {
+          dynamicMenu.push({
+            show: true,
+            text: NAVIGATION[key].text,
+            icon: NAVIGATION[key].icon,
+            submenu: submenuItems,
+          })
+        }
+      }
+    })
+
+    return dynamicMenu
+  }, [auth?.menu])
 
   const [show, setShow] = useState(false)
   const [active, setActive] = useState(false)
@@ -105,24 +68,18 @@ const Nav = () => {
   const blockRef = useRef(null)
   const buttonRef = useRef(null)
 
-  const handleOption = (e) => {
-    const modules = {
-      [ACCOUNT_TYPE.ADMIN]: 'account-agent-edit',
-      [ACCOUNT_TYPE.AGENT]: 'account-agent-edit',
-      [ACCOUNT_TYPE.SHOP]: 'account-shop-edit',
-      [ACCOUNT_TYPE.CASHIER]: 'account-cashier-edit',
-      [ACCOUNT_TYPE.PLAYER]: 'account-player-edit',
-    }
+  const handleOption = useCallback((e) => {
+    if (!role || !auth?.id) return
 
     setAside({
       meta: {
         title: t('edit'),
-        cmd: modules[role],
+        cmd: 'user-edit',
         buttonRef: e.target,
       },
       id: auth.id,
     })
-  }
+  }, [role, auth?.id, t, setAside])
 
   useOutsideClick(
     blockRef,
@@ -142,7 +99,7 @@ const Nav = () => {
     <nav
       ref={blockRef}
       className={
-        classNames(
+        clsx(
           style.block,
           show && style.active
         )
@@ -166,7 +123,7 @@ const Nav = () => {
               <li
                 key={idx}
                 className={
-                  classNames(
+                  clsx(
                     style.item,
                     idx === active && style.active
                   )
@@ -175,7 +132,7 @@ const Nav = () => {
                 {
                   el.submenu
                     ?
-                      <>
+                    <>
                         <span
                           className={style.link}
                           onClick={() => {
@@ -194,72 +151,70 @@ const Nav = () => {
                             className={style.arrow}
                           />
                         </span>
-                        <div className={style.submenu}>
-                          {
-                            el.submenu.map((el_s, idx_s) =>
-                              el_s.type.includes(role) &&
-                              <Link
-                                key={idx_s}
-                                to={el_s.link}
-                                rel="noreferrer"
-                                className={
-                                  classNames(
-                                    style.link,
-                                    pathname === el_s.link && style.active,
-                                  )
-                                }
-                                onClick={() => {
-                                  setShow(false)
-                                  setActive(false)
-                                  setAside(null)
-                                }}
-                              >
-                                {
-                                  el_s.icon &&
-                                  <FontAwesomeIcon
-                                    icon={el_s.icon}
-                                    className={style.icon}
-                                  />
-                                }
-                                <span>{t(el_s.text)}</span>
-                              </Link>
-                            )
-                          }
-                        </div>
-                      </>
-                    :
-                      el.type.includes(role) &&
-                      <Link
-                        to={el.link}
-                        rel="noreferrer"
-                        className={
-                          classNames(
-                            style.link,
-                            pathname === el.link && style.active,
+                      <div className={style.submenu}>
+                        {
+                          el.submenu.map((el_s, idx_s) =>
+                            <Link
+                              key={idx_s}
+                              to={el_s.link}
+                              rel="noreferrer"
+                              className={
+                                clsx(
+                                  style.link,
+                                  pathname === el_s.link && style.active
+                                )
+                              }
+                              onClick={() => {
+                                setShow(false)
+                                setActive(false)
+                                setAside(null)
+                              }}
+                            >
+                              {
+                                el_s.icon &&
+                                <FontAwesomeIcon
+                                  icon={el_s.icon}
+                                  className={style.icon}
+                                />
+                              }
+                              <span>{t(el_s.text)}</span>
+                            </Link>
                           )
                         }
-                        onClick={() => {
-                          setShow(false)
-                          setActive(false)
-                          setAside(null)
-                        }}
-                      >
-                        <FontAwesomeIcon
-                          icon={el.icon}
-                          className={style.icon}
-                        />
-                        <span>{t(el.text)}</span>
-                      </Link>
+                      </div>
+                    </>
+                    :
+                    <Link
+                      to={el.link}
+                      rel="noreferrer"
+                      className={
+                        clsx(
+                          style.link,
+                          pathname === el.link && style.active
+                        )
+                      }
+                      onClick={() => {
+                        setShow(false)
+                        setActive(false)
+                        setAside(null)
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={el.icon}
+                        className={style.icon}
+                      />
+                      <span>{t(el.text)}</span>
+                    </Link>
                 }
               </li>
-          )}
+            )}
         </ul>
         <hr className={style.divider} />
         <div className={style.setting}>
           <Icon
             icon={'fa-gear'}
             alt="settings"
-            action={(e) => handleOption(e)}
+            action={handleOption}
           />
         </div>
         <hr className={style.divider} />
@@ -267,7 +222,7 @@ const Nav = () => {
           <button
             ref={buttonRef}
             className={
-              classNames(
+              clsx(
                 style.toggle,
                 show && style.active
               )

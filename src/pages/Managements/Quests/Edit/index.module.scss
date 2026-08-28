@@ -1,0 +1,88 @@
+@use 'scss/config' as *;
+
+.block,
+.form,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.block,
+.grid {
+  align-items: flex-start;
+
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.text {
+  margin-bottom: rem(4px);
+}
+
+.banner {
+  @include size(rem(190px), rem(240px));
+
+  position: relative;
+  border-radius: var(--border-radius-default);
+  background-color: var(--material-hover);
+  overflow: hidden;
+}
+
+.picture {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+
+.header {
+  @include flex(space-between, center);
+
+  position: absolute;
+  inset-block-start: rem(8px);
+  inset-inline: rem(8px);
+}
+
+.content {
+  display: grid;
+  gap: rem(8px);
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: rem(12px);
+  word-break: break-word;
+  line-height: 1;
+}
+
+.title {
+  font-size: rem(14px);
+  font-weight: var(--typography-bold);
+}
+
+.button {
+  @include size(100%, rem(32px));
+
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-inline: rem(12px);
+  border-radius: rem(1000px);
+  font-size: rem(12px);
+}
+
+.info {
+  padding: 0;
+  height: rem(24px);
+  text-transform: lowercase;
+  font-size: rem(12px)!important;
+}
+
+.label {
+  margin-top: rem(4px);
+  font-size: rem(12px);
+}

@@ -4,11 +4,6 @@
   position: relative;
 }
 
-.text,
-.link {
-  padding-inline: rem(12px);
-}
-
 .icon {
   font-size: rem(18px);
 }
@@ -30,15 +25,26 @@
 }
 
 .wrapper {
-  position: absolute;
-  top: calc(100% + rem(12px));
+  @include transition;
+  @include flex(null, null, column);
+
+  position: fixed;
+  inset-block: rem(64px) 0;
   right: 0;
   padding-top: rem(8px);
   z-index: $z-index-11;
-  border-radius: var(--border-radius-default);
   background-color: var(--material);
   border: rem(1px) solid var(--border);
+  transform: translateX(100%);
   width: rem(250px);
+
+  &.active {
+    transform: translateX(0);
+  }
+}
+
+.header {
+  padding-inline: rem(12px);
 }
 
 .text {
@@ -51,25 +57,34 @@
   }
 }
 
-.ul {
-  margin-top: rem(4px);
+.options {
+  padding: rem(4px) rem(12px);
+  border-block: rem(1px) solid var(--border);
+  margin-bottom: auto;
 }
 
-.link {
+.option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: rem(8px);
+
+  &:not(:last-child) {
+    margin-bottom: rem(4px);
+  }
+}
+
+.logout {
   @include flex(null, center);
 
-  padding-block: rem(8px);
+  padding: rem(12px);
   width: 100%;
+  border-top: rem(1px) solid var(--border);
 
   @include hover {
     &:hover {
       background-color: var(--primary);
       color: var(--link);
     }
-  }
-
-  &.active {
-    color: var(--link);
-    pointer-events: none;
   }
 }

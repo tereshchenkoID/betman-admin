@@ -1,0 +1,95 @@
+@use 'scss/config' as *;
+
+.grid {
+  --count: 1;
+
+  display: grid;
+  gap: rem(16px);
+  margin-bottom: rem(16px);
+  grid-template-columns: repeat(var(--count), 1fr);
+
+  @include mob-m {
+    --count: 2;
+  }
+
+  @include tab-l {
+    --count: 3;
+  }
+
+  @include desk-s {
+    --count: 4;
+  }
+}
+
+.table {
+  @include scroll-x;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: rem(80px) rem(100px) repeat(5, 1fr) rem(140px);
+  align-items: center;
+  width: 100%;
+  min-width: rem(1200px);
+
+  &:first-child {
+    font-size: rem(12px);
+    font-weight: var(--typography-medium);
+
+    .cell {
+      &:has(svg) {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: rem(1px) solid var(--border);
+  }
+
+  &.hidden {
+
+    .cell {
+
+      &:not(:last-child) {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.cell {
+  @include flex(null, center, null, wrap);
+
+  gap: rem(4px);
+  padding: rem(12px);
+}
+
+.actions {
+  @include flex(flex-end, center);
+
+  gap: rem(16px);
+
+  &:not(:last-child) {
+    margin-bottom: rem(16px);
+  }
+}
+
+.empty {
+  padding: rem(12px);
+  text-align: center;
+}
+
+.picture {
+  @include size(rem(40px), rem(50px));
+
+  background-color: var(--primary);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.link {
+  text-transform: capitalize;
+}

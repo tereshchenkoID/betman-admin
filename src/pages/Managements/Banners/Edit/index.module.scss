@@ -9,7 +9,11 @@
 
 .block,
 .grid {
-  grid-template-columns: repeat(2, 1fr);
+  align-items: flex-start;
+
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .actions {
@@ -34,6 +38,7 @@
 .picture {
   position: absolute;
   inset: 0;
+  object-fit: cover;
 }
 
 .content {

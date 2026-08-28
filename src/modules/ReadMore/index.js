@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -12,7 +12,7 @@ const ReadMore = ({ data }) => {
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           active && style.active
         )

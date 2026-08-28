@@ -22,6 +22,7 @@
   position: relative;
   padding-inline: rem(24px);
   min-width: rem(100px);
+  line-height: 1;
   height: rem(48px);
   gap: rem(8px);
   overflow: hidden;
@@ -46,6 +47,16 @@
   position: relative;
   width: fit-content;
   margin-top: rem(16px);
+  max-height: rem(300px);
+  //aspect-ratio: 1 / 1;
+
+  img {
+    object-fit: cover;
+  }
+
+  @include desk-s {
+    max-height: 100%;
+  }
 }
 
 .close {

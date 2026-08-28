@@ -1,7 +1,7 @@
 @use 'sass:math';
-@use 'mixins/transition' as *;
 
 @forward 'functions';
+@forward 'mixins/transition';
 @forward 'mixins/flexbox';
 @forward 'mixins/size';
 @forward 'mixins/word-break';
@@ -18,3 +18,4 @@
 @forward 'mixins/smooth-font';
 @forward 'mixins/scroll';
 @forward 'mixins/hover';
+@forward 'mixins/breakpoints';

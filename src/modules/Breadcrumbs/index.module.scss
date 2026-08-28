@@ -1,7 +1,7 @@
 @use 'scss/config' as *;
 
 .block {
-  @include flex($align-items: center);
+  @include flex(null, center, null, wrap);
 
   gap: rem(8px);
   margin-bottom: rem(16px);
@@ -10,7 +10,6 @@
 
 .link {
   @include hover {
-
     &:hover {
       color: var(--link-hover);
     }

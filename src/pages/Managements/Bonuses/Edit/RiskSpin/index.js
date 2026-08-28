@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Field from 'components/Field'
@@ -19,7 +18,6 @@ const RiskSpin = ({ data, action, active }) => {
           onChange={value => action(`${active}.numbers`, value)}
           isRequired={true}
           min={0}
-          max={100}
         />
         <Field
           type={'number'}

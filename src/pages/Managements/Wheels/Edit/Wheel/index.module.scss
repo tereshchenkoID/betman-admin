@@ -1,0 +1,109 @@
+@use 'scss/config' as *;
+
+.block {
+  @include flex(center, center);
+
+  width: 100%;
+  max-width: rem(520px);
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.frame {
+  @include size(100%);
+
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: rem(16px) solid var(--material-hover);
+  background-color: var(--material-hover);
+  box-shadow: 0 0 rem(10px) rgba(0, 0, 0, 0.3);
+
+  &::after {
+    @include size(90%);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: inherit;
+    box-shadow: inset 0 0 rem(10px) rgba(0, 0, 0, 0.7);
+    content: '';
+  }
+}
+
+.wheel {
+  @include size(100%);
+
+  position: relative;
+  border-radius: 50%;
+  border: rem(2px) solid var(--text-for-material);
+  will-change: transform;
+  transition: none;
+}
+
+.amount {
+  @include flex(center);
+
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  transform-origin: bottom center;
+  padding-top: 10%;
+  pointer-events: none;
+  height: 50%;
+}
+
+.label {
+  @include flex(null, center, column);
+
+  gap: var(--gap-4);
+  max-width: 80%;
+  line-height: 1;
+  font-size: rem(18px);
+}
+
+.line {
+  @include size(rem(2px), 50%);
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background: var(--text-for-material);
+  transform-origin: bottom center;
+}
+
+.indicator {
+  @include size(rem(40px));
+  @include flex(center, center);
+
+  position: absolute;
+  top: 0;
+  transform: translateY(-25%);
+  z-index: $z-index-2;
+
+  &::before {
+    @include size(0);
+
+    border-left: rem(20px) solid transparent;
+    border-right: rem(20px) solid transparent;
+    border-top: rem(40px) solid var(--material-hover);
+    filter: drop-shadow(0 rem(4px) rem(4px) rgba(0, 0, 0, 0.5));
+    content: '';
+  }
+}
+
+.spin {
+  @include flex(center, center);
+  @include transition;
+  @include size(20%);
+
+  position: absolute;
+  z-index: $z-index-1;
+  border-radius: 50%;
+  border: rem(8px) solid var(--text-for-material);
+  background-color: var(--material-hover);
+  box-shadow: 0 rem(5px) rem(15px) rgba(0, 0, 0, 0.5);
+  font-size: rem(16px);
+  cursor: not-allowed;
+}

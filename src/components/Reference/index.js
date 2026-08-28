@@ -1,7 +1,6 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -18,7 +17,7 @@ const Reference = ({
     <Link
       to={to}
       className={
-        classNames(
+        clsx(
           style.block,
           isDisabled && style.disabled,
           classes && classes.map(el => style[el] || el),

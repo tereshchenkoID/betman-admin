@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import i18n from 'i18next'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -13,7 +13,6 @@ import 'react-tooltip/dist/react-tooltip.css'
 import { useSettingsStore } from 'stores/settingsStore'
 import { useAuthStore } from 'stores/authStore'
 
-import { WebSocketProvider } from 'context/WebSocketProvider'
 import { ThemeProvider } from 'context/ThemeContext'
 
 import Login from 'pages/Login'
@@ -71,11 +70,9 @@ const App = () => {
       {
         isAuth()
           ?
-          <WebSocketProvider>
             <Home />
-          </WebSocketProvider>
           :
-          <Login />
+            <Login />
       }
       <Toastify />
       <Tooltip

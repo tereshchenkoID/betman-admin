@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -273,13 +273,15 @@ const Edit = ({ id }) => {
               />
             </div>
           </form>
-          <JackpotCard
-            data={{
-              ...filter,
-              translations: currentTranslation
-            }}
-            currentTranslation={currentTranslation}
-          />
+          <div className={style.preview}>
+            <JackpotCard
+              data={{
+                ...filter,
+                translations: currentTranslation
+              }}
+              currentTranslation={currentTranslation}
+            />
+          </div>
         </div>
       </Paper>
     </>

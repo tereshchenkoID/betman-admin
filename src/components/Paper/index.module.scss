@@ -40,19 +40,30 @@
 }
 
 .headline {
-  @include flex(space-between, center);
+  @include flex(space-between, center, null, wrap);
+
+  gap: rem(16px);
 }
 
 .option {
   flex-shrink: 0;
-  width: rem(200px);
+
+  @include tab-l {
+    min-width: rem(140px);
+  }
 }
 
 .hr {
-  margin-block: rem(24px);
+  margin-block: rem(16px);
+
+  @include tab-l {
+    margin-block: rem(24px);
+  }
 }
 
 .body {
+  width: 100%;
+  display: grid;
   position: relative;
   flex-grow: 1;
   min-height: rem(120px);

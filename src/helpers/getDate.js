@@ -1,4 +1,6 @@
 export const getDate = (date, type) => {
+  if (!date) return '-'
+
   const data = new Date(Number(date))
 
   const year = data.getFullYear().toString().padStart(4, '0')

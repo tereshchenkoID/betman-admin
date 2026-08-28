@@ -1,8 +1,7 @@
-import React, { useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
-
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import Skeleton from 'modules/Skeleton'
 
@@ -34,7 +33,7 @@ const CustomSelect = ({
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           isDisabled && style.disabled,
           classes && classes.map(el => style[el] || el),

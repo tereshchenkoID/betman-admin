@@ -6,6 +6,7 @@
   @include size(100%, var(--select-height));
 
   position: relative;
+  line-height: 1;
 
   &.disabled {
     opacity: 0.5;

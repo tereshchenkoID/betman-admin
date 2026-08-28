@@ -1,6 +1,6 @@
-import React from 'react'
-
 import { useAuthStore } from 'stores/authStore'
+
+import { useBreakpoints } from 'hooks/useBreakpoints'
 
 import Clock from './Clock'
 import Language from './Language'
@@ -11,10 +11,14 @@ import style from './index.module.scss'
 
 const Header = () => {
   const { auth } = useAuthStore()
+  const bp = useBreakpoints()
 
   return (
     <header className={style.block}>
-      <Clock />
+      {
+        bp.bp768 &&
+        <Clock />
+      }
       {
         (auth?.unlimited_balance !== '1' && auth?.credits) &&
         <div className={style.balance}>
@@ -27,8 +31,13 @@ const Header = () => {
           }
         </div>
       }
-      <Theme />
-      <Language />
+      {
+        bp.bp1280 &&
+        <>
+          <Theme />
+          <Language />
+        </>
+      }
       <Account />
     </header>
   )

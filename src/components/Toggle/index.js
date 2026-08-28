@@ -1,6 +1,4 @@
-import React from 'react'
-
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -14,7 +12,7 @@ const Toggle = ({
   return (
     <label
       className={
-        classNames(
+        clsx(
           style.block,
           classes && classes.map(el => style[el]),
         )

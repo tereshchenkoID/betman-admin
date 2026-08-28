@@ -1,28 +1,20 @@
 {
-  "short_name": "winup_games",
-  "name": "WinUp games",
+  "name": "Betman",
+  "short_name": "Betman",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "theme_color": "#000000",
   "background_color": "#2a121c",
+  "theme_color": "#0490a8",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "images/icons/logo192.png",
+      "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": "images/icons/logo512.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "maskable"
+      "sizes": "512x512"
     }
   ]
 }

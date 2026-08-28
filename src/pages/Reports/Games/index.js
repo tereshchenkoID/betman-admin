@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE } from 'constant/config'
@@ -121,7 +121,7 @@ const Games = () => {
 
   useEffect(() => {
     setSort(INITIAL_SORT)
-    handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
+    handleSubmit(null, 0, filter, INITIAL_SORT)
   }, [quantity, active])
 
   return (

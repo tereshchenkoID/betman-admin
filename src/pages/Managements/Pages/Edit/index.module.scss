@@ -1,0 +1,104 @@
+@use 'scss/config' as *;
+
+.block,
+.form,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.block,
+.grid {
+  align-items: flex-start;
+
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.text {
+  margin-bottom: rem(4px);
+}
+
+.label {
+  margin-block: rem(4px) rem(8px);
+  font-size: rem(12px);
+}
+
+.description {
+  @include flex($direction: column);
+
+  gap: rem(8px);
+
+  * {
+    color: var(--text-for-material)!important;
+  }
+
+  h1 {
+    font-size: rem(32px);
+  }
+
+  h2 {
+    font-size: rem(20px);
+  }
+
+  h3 {
+    font-size: rem(18px);
+  }
+
+  h4 {
+    font-size: rem(16px);
+  }
+
+  h5 {
+    font-size: rem(14px);
+  }
+
+  h6 {
+    font-size: rem(12px);
+  }
+
+  img {
+    margin-bottom: rem(12px);
+    width: revert-layer;
+    height: revert-layer;
+    max-width: 100%;
+  }
+
+  ul {
+    padding-inline-start: rem(8px);
+  }
+
+  li {
+    position: relative;
+    padding-inline-start: rem(16px);
+
+    &::before {
+      @include size(rem(4px));
+
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: rem(11px);
+      border-radius: 50%;
+      background-color: var(--link);
+      content: '';
+    }
+  }
+
+  a {
+    display: initial;
+    text-decoration: underline;
+
+    @include hover {
+      &:hover {
+        color: var(--link)!important;
+      }
+    }
+  }
+}

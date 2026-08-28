@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Button from 'components/Button'
@@ -38,16 +38,17 @@ const GeneratePassword = ({
 
   return (
     <div className={style.block}>
-      {list.map((el, idx) => (
-        <Password
-          key={idx}
-          placeholder={t(el)}
-          data={filter[el]}
-          onChange={value => handlePropsChange(el, value)}
-          password={password}
-          isRequired={true}
-        />
-      ))}
+      {
+        list.map((el, idx) =>
+          <Password
+            key={idx}
+            placeholder={t(el)}
+            data={filter?.[el]}
+            onChange={value => handlePropsChange(el, value)}
+            password={password}
+            isRequired={true}
+          />
+      )}
       <div className={style.actions}>
         <Button
           type={'button'}

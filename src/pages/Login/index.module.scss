@@ -3,12 +3,18 @@
 .block {
   @include flex(center, center);
   @include size(100%, 100vh);
+
+  padding: rem(16px);
+}
+
+.wrapper {
+  max-width: rem(420px);
+  width: 100%;
 }
 
 .form {
   display: grid;
   gap: rem(16px);
-  min-width: rem(450px);
 }
 
 .actions {

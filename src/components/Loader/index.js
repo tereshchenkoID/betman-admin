@@ -1,5 +1,4 @@
-import React from 'react'
-import classNames from "classnames"
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -7,7 +6,7 @@ const Loader = ({ type = 'default' }) => {
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           style[type]
         )

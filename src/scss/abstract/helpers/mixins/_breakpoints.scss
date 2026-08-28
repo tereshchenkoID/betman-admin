@@ -1,0 +1,43 @@
+@use 'scss/abstract/variables/breakpoints' as *;
+
+@mixin desk-m {
+  @media screen and (min-width: #{$screen-desk-m}) {
+    @content;
+  }
+}
+
+@mixin desk-s {
+  @media screen and (min-width: #{$screen-desk-s}) {
+    @content;
+  }
+}
+
+@mixin tab-l {
+  @media screen and (min-width: #{$screen-tab-l}) {
+    @content;
+  }
+}
+
+@mixin tab-m {
+  @media screen and (min-width: #{$screen-tab-m}) {
+    @content;
+  }
+}
+
+@mixin tab-s {
+  @media screen and (min-width: #{$screen-tab-s}) {
+    @content;
+  }
+}
+
+@mixin mob-m {
+  @media screen and (min-width: #{$screen-mob-m}) {
+    @content;
+  }
+}
+
+@mixin mob-s {
+  @media screen and (min-width: #{$screen-mob-s}) {
+    @content;
+  }
+}

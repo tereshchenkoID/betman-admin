@@ -9,8 +9,11 @@
 
 .block,
 .grid {
-  grid-template-columns: repeat(2, 1fr);
   align-items: flex-start;
+
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .actions {

@@ -3,6 +3,7 @@
 .block {
   position: relative;
   min-width: rem(80px);
+  width: fit-content;
   text-transform: uppercase;
   font-size: rem(14px);
 

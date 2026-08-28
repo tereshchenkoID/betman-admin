@@ -39,7 +39,7 @@
         color: var(--text-for-material);
 
         &--disabled {
-          background-color: var(--material-disabled)!important;
+          background-color: var(--material)!important;
           opacity: 0.5;
           pointer-events: none;
         }
@@ -62,7 +62,6 @@
         }
 
         @include hover {
-
           &:hover {
             background-color: var(--link);
           }
@@ -73,7 +72,6 @@
 
         &__iframe {
           background-color: var(--primary);
-          //background-color: var(--material-hover);
         }
       }
 
@@ -83,7 +81,6 @@
 
       .tox-toolbar {
         background: var(--primary)!important;
-        //background: var(--material-hover)!important;
 
         &__primary,
         &__overflow {

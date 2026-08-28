@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
@@ -6,6 +5,7 @@ import { NAVIGATION, REQUEST_TYPE } from 'constant/config'
 import { useAuthStore } from 'stores/authStore'
 import { useApi } from 'hooks/useApi'
 import { buildFormData } from 'helpers/buildFormData'
+import { useFilterState } from 'hooks/useFilterState'
 
 import Field from 'components/Field'
 import Paper from 'components/Paper'
@@ -20,15 +20,7 @@ const Login = () => {
   const { t } = useTranslation()
   const { request } = useApi()
   const { setAuth } = useAuthStore()
-
-  const [filter, setFilter] = useState(INITIAL_FILTER)
-
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
 
   const handleResetForm = () => {
     setFilter(INITIAL_FILTER)
@@ -52,7 +44,7 @@ const Login = () => {
     <div className={style.block}>
       <Paper
         headline={t(NAVIGATION.login.text)}
-        classes={['sm']}
+        classes={['sm', style.wrapper]}
       >
         <form className={style.form} onSubmit={handleSubmit}>
           <Field

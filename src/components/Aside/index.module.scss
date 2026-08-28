@@ -4,14 +4,14 @@
   @include transition;
 
   position: fixed;
-  top: rem(65px);
-  right: 0;
-  bottom: 0;
+  inset-block: rem(65px) 0;
+  inset-inline-end: 0;
   z-index: $z-index-11;
   border-left: rem(1px) solid var(--border);
   background-color: var(--material);
   transform: translateX(100%);
-  width: rem(520px);
+  max-width: rem(520px);
+  width: 100%;
   overflow: hidden;
 
   &.active {

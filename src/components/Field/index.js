@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -26,7 +26,7 @@ const Field = ({
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           isDisabled && style.disabled,
           classes && classes.map(el => style[el] || el),

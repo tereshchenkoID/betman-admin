@@ -1,0 +1,114 @@
+@use 'scss/config' as *;
+
+.block,
+.form,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.block,
+.grid {
+  align-items: flex-start;
+
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.text {
+  margin-bottom: rem(4px);
+}
+
+.banner {
+  //@include size(rem(320px), rem(128px));
+  //
+  //position: relative;
+  //border-radius: var(--border-radius-default);
+  //background-color: var(--material-hover);
+  //overflow: hidden;
+
+  position: relative;
+  min-height: rem(150px);
+  border-radius: var(--border-radius-default);
+  background-color: var(--material-hover);
+  overflow: hidden;
+}
+
+.wrapper {
+  @include size(100%);
+
+  display: grid;
+  align-items: center;
+  position: relative;
+  gap: rem(32px);
+  padding: rem(16px);
+  background-color: inherit;
+
+  @include tab-s {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.picture {
+  order: 1;
+  max-width: rem(400px);
+  margin-inline: auto;
+
+  @include tab-s {
+    order: 2;
+  }
+}
+
+
+.content {
+  @include flex(space-between, center, column);
+
+  gap: rem(2px);
+  order: 2;
+  text-align: center;
+
+  @include tab-s {
+    order: 1;
+    align-items: start;
+    text-align: start;
+  }
+}
+
+.button {
+  margin-top: rem(12px);
+  min-width: rem(120px);
+  min-height: rem(44px);
+  border-radius: rem(100px);
+}
+
+.title,
+.subtitle {
+  text-transform: uppercase;
+  font-family: var(--font-family-alt);
+  font-weight: var(--typography-bold);
+  line-height: 1.3;
+}
+
+.subtitle {
+  color: var(--yellow);
+
+  @include tab-s {
+    font-size: rem(32px);
+  }
+}
+
+.description {
+  font-size: rem(14px);
+}
+
+.label {
+  margin-top: rem(4px);
+  font-size: rem(12px);
+}

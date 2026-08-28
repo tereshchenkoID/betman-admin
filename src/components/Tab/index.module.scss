@@ -2,6 +2,7 @@
 
 .block {
   @include flex(null, center);
+  @include scroll-x;
 
   border-bottom: rem(1px) solid var(--border);
   height: rem(40px);

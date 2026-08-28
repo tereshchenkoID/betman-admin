@@ -1,6 +1,5 @@
-import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { useTheme } from 'context/ThemeContext'
 
@@ -12,7 +11,7 @@ const Theme = () => {
   return (
     <label
       className={
-        classNames(
+        clsx(
           style.block,
           style[theme]
         )

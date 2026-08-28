@@ -1,32 +1,32 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import { NAVIGATION } from 'constant/config'
 
 import App from 'App'
 import Loader from 'components/Loader'
-import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
 
-const UsersAgents = lazy(() => import('pages/Users/Agents'))
-const UsersShops = lazy(() => import('pages/Users/Shops'))
+const UsersUsers = lazy(() => import('pages/Users/Users'))
 const UsersPlayers = lazy(() => import('pages/Users/Players'))
-const UsersCashiers = lazy(() => import('pages/Users/Cashiers'))
 
 const Dashboard = lazy(() => import('pages/Dashboard'))
 const Login = lazy(() => import('pages/Login'))
 
 const ReportsFinancial = lazy(() => import('pages/Reports/Financial'))
 const ReportsGames = lazy(() => import('pages/Reports/Games'))
-// const ReportsSummary = lazy(() => import('pages/Reports/Summary'))
-// const ReportsHistory = lazy(() => import('pages/Reports/History'))
-// const ReportsPayments = lazy(() => import('pages/Reports/Payments'))
-// const ReportsBonuses = lazy(() => import('pages/Reports/Bonuses'))
 
 const ManagementsPromos = lazy(() => import('pages/Managements/Promos'))
+const ManagementsQuests = lazy(() => import('pages/Managements/Quests'))
 const ManagementsBanners = lazy(() => import('pages/Managements/Banners'))
+const ManagementsChallenges = lazy(() => import('pages/Managements/Challenges'))
 const ManagementsJackpots = lazy(() => import('pages/Managements/Jackpots'))
 const ManagementsBonuses = lazy(() => import('pages/Managements/Bonuses'))
 const ManagementsNotifications = lazy(() => import('pages/Managements/Notifications'))
+const ManagementsPages = lazy(() => import('pages/Managements/Pages'))
+const ManagementsModules = lazy(() => import('pages/Managements/Modules'))
+const ManagementsWheels = lazy(() => import('pages/Managements/Wheels'))
+const ManagementsTooltips = lazy(() => import('pages/Managements/Tooltips'))
+const ManagementsSeo = lazy(() => import('pages/Managements/Seo'))
 
 const NotFound = lazy(() => import('pages/NotFound'))
 
@@ -43,36 +43,12 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: withSuspense(Dashboard) },
       {
-        path: `${NAVIGATION.agents.link}/:agent?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1', '0', '1']}>
-            {withSuspense(UsersAgents)}
-          </ProtectedRoute>
-        ),
+        path: NAVIGATION.users.link,
+        element: withSuspense(UsersUsers),
       },
       {
-        path: `${NAVIGATION.shops.link}/:agent?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1', '0', '1']}>
-            {withSuspense(UsersShops)}
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: `${NAVIGATION.players.link}/:agent?/:shop?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1', '0', '1', '2']}>
-            {withSuspense(UsersPlayers)}
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: `${NAVIGATION.cashiers.link}/:agent?/:shop?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1', '0', '1', '2']}>
-            {withSuspense(UsersCashiers)}
-          </ProtectedRoute>
-        ),
+        path: NAVIGATION.players.link,
+        element: withSuspense(UsersPlayers),
       },
       {
         path: NAVIGATION.reports.financial.link,
@@ -82,23 +58,6 @@ export const router = createBrowserRouter([
         path: NAVIGATION.reports.games.link,
         element: withSuspense(ReportsGames),
       },
-
-      // {
-      //   path: NAVIGATION.reports.summary.link,
-      //   element: withSuspense(ReportsSummary),
-      // },
-      // {
-      //   path: NAVIGATION.reports.history.link,
-      //   element: withSuspense(ReportsHistory),
-      // },
-      // {
-      //   path: NAVIGATION.reports.payments.link,
-      //   element: withSuspense(ReportsPayments),
-      // },
-      // {
-      //   path: NAVIGATION.reports.bonuses.link,
-      //   element: withSuspense(ReportsBonuses),
-      // },
       {
         path: NAVIGATION.login.link,
         element: (
@@ -109,43 +68,51 @@ export const router = createBrowserRouter([
       },
       {
         path: `${NAVIGATION.managements.promos.link}/:promo?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1']}>
-            {withSuspense(ManagementsPromos)}
-          </ProtectedRoute>
-        )
+        element: withSuspense(ManagementsPromos),
+      },
+      {
+        path: `${NAVIGATION.managements.quests.link}/:quest?`,
+        element: withSuspense(ManagementsQuests),
       },
       {
         path: `${NAVIGATION.managements.banners.link}/:banner?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1']}>
-            {withSuspense(ManagementsBanners)}
-          </ProtectedRoute>
-        )
+        element: withSuspense(ManagementsBanners),
+      },
+      {
+        path: `${NAVIGATION.managements.challenges.link}/:challenge?`,
+        element: withSuspense(ManagementsChallenges),
       },
       {
         path: `${NAVIGATION.managements.jackpots.link}/:jackpot?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1']}>
-            {withSuspense(ManagementsJackpots)}
-          </ProtectedRoute>
-        )
+        element: withSuspense(ManagementsJackpots),
       },
       {
         path: `${NAVIGATION.managements.bonuses.link}/:bonus?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1']}>
-            {withSuspense(ManagementsBonuses)}
-          </ProtectedRoute>
-        )
+        element: withSuspense(ManagementsBonuses),
       },
       {
         path: `${NAVIGATION.managements.notifications.link}/:notification?`,
-        element: (
-          <ProtectedRoute allowedRoles={['-1']}>
-            {withSuspense(ManagementsNotifications)}
-          </ProtectedRoute>
-        )
+        element: withSuspense(ManagementsNotifications),
+      },
+      {
+        path: `${NAVIGATION.managements.modules.link}`,
+        element: withSuspense(ManagementsModules),
+      },
+      {
+        path: `${NAVIGATION.managements.pages.link}/:page?`,
+        element: withSuspense(ManagementsPages),
+      },
+      {
+        path: `${NAVIGATION.managements.wheels.link}/:wheel?`,
+        element: withSuspense(ManagementsWheels),
+      },
+      {
+        path: `${NAVIGATION.managements.tooltips.link}/:tooltip?`,
+        element: withSuspense(ManagementsTooltips),
+      },
+      {
+        path: `${NAVIGATION.managements.seo.link}/:seo?`,
+        element: withSuspense(ManagementsSeo),
       },
       {
         path: '*',

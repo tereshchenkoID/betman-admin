@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "admin-winup",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -12,7 +12,7 @@
     "animejs": "^3.2.2",
     "axios": "^1.7.9",
     "chart.js": "^4.4.4",
-    "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
     "i18next": "^23.12.2",
     "i18next-browser-languagedetector": "^8.0.0",

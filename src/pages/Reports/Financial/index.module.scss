@@ -3,13 +3,28 @@
 .block {
   display: grid;
   gap: rem(16px);
+  overflow: hidden;
 }
 
 .filter {
+  --count: 1;
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: rem(16px);
   margin-bottom: rem(16px);
+  grid-template-columns: repeat(var(--count), 1fr);
+
+  @include mob-m {
+    --count: 2;
+  }
+
+  @include tab-l {
+    --count: 3;
+  }
+
+  @include desk-s {
+    --count: 4;
+  }
 }
 
 .actions {

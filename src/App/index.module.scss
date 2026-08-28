@@ -48,6 +48,7 @@
       &__input-container {
         margin: 0;
         flex-grow: 1;
+        color: var(--text-for-material)!important;
       }
 
       &__indicator-separator {
@@ -108,14 +109,14 @@
     }
   }
 
+  // Editor
   .tox {
-
     &.tox-silver-sink {
 
       .tox-tooltip {
-
         &__body {
           background-color: var(--material);
+          color: var(--text-for-material);
         }
       }
 
@@ -127,9 +128,9 @@
       }
 
       .tox-collection {
-
         &__group {
           padding-block: 0;
+          background-color: var(--material-hover);
         }
 
         &__item {
@@ -149,26 +150,112 @@
         }
 
         &__item-label {
-          color: currentColor;
+          color: var(--text-for-material);
 
           * {
             color: currentColor!important;
           }
         }
-      }
 
-      .tox-toolbar {
-
-        &__group {
-          cursor: pointer;
+        &__item-checkmark {
+          color: var(--text-for-material);
         }
       }
 
-      .tox-tooltip {
+      .tox-toolbar {
+        &__group {
+          cursor: pointer;
+          background-color: var(--material-hover);
+          border-color: var(--border) !important;
+          gap: rem(1px);
+        }
 
-        &__body {
-          background-color: var(--material);
+        &__overflow {
+          border: rem(1px) solid var(--material)!important;
+        }
+      }
+
+      .tox-dialog {
+        background-color: var(--material);
+        box-shadow: none;
+        border: 0;
+        color: var(--text-for-material);
+
+        &__footer,
+        &__header {
+          color: inherit;
+          background-color: inherit;
+          border-color: var(--material-hover);
+        }
+      }
+
+      .tox-icon,
+      .tox-label {
+        color: var(--text-for-material);
+      }
+
+      .tox-listboxfield,
+      .tox-textfield {
+        background-color: var(--material-hover);
+        box-shadow: none;
+        border-color: transparent;
+        color: var(--text-for-material);
+        border-radius: 3px;
+
+        .tox-listbox--select {
+          background-color: var(--material-hover);
+          border: 0;
           color: var(--text-for-material);
+
+          &:focus {
+            background-color: var(--material-hover);
+            border-color: var(--link);
+            outline: none;
+          }
+        }
+
+        &:focus {
+          background-color: var(--material-hover);
+          border-color: var(--link);
+          outline: none;
+        }
+      }
+
+      .tox-listbox {
+        &__select-chevron {
+          svg {
+            fill: var(--text-for-material);
+          }
+        }
+      }
+
+      .tox-dialog-wrap {
+        &__backdrop {
+          background-color: rgba(0, 0, 0, 0.75);
+        }
+      }
+
+      .tox-button--naked {
+        border: 0;
+
+        @include hover {
+          &:hover {
+            background-color: var(--primary-hover)!important;
+          }
+        }
+      }
+
+      .tox-tbtn {
+        background-color: var(--material)!important;
+
+        svg {
+          fill: var(--text-for-material)!important;
+        }
+
+        @include hover {
+          &:hover {
+            background: var(--link)!important;
+          }
         }
       }
     }

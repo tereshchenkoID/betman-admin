@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { ACCOUNT_TYPE } from 'constant/config'
 import { useAuthStore } from 'stores/authStore'
-import { role } from 'helpers/role'
 
 import style from './index.module.scss'
 
@@ -21,7 +21,7 @@ const Clock = () => {
 
   return (
     <div className={style.block}>
-      <h6>{t('role')}: {role(auth?.role)}</h6>
+      <h6>{t('role')}: {t(`account_types.${ACCOUNT_TYPE[auth?.role]}`)}</h6>
       <div>{time.toLocaleString()}</div>
     </div>
   )

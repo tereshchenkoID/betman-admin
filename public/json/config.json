@@ -1,6 +1,5 @@
 {
   "hostnames": {
-    "PROD": "https://webapi.winup.games",
-    "WSS_PROD": "wss://ws.netgames.club"
+    "PROD": "https://testapi.betman.club"
   }
 }

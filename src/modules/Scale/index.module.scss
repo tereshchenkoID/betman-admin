@@ -12,17 +12,18 @@
 }
 
 .header {
-  @include flex(space-between, center);
+  @include flex(null, center);
 
   margin-bottom: rem(4px);
   font-size: rem(12px);
+  gap: rem(4px);
 }
 
 .scale {
-  @include size(100%, rem(8px));
+  @include size(100%, rem(12px));
 
   position: relative;
-  border-radius: var(--border-radius-default);
+  border-radius: var(--border-radius-2);
   background-color: var(--material-disabled);
   overflow: hidden;
 }
@@ -32,4 +33,11 @@
   inset-block: 0;
   inset-inline-start: 0;
   background-color: var(--brand-hover);
+}
+
+.percent {
+  @include absolute-center;
+
+  font-size: rem(8px);
+  z-index: $z-index-1;
 }

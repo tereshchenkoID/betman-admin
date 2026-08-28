@@ -1,7 +1,6 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -18,7 +17,7 @@ const Icon = ({
     <button
       type={'button'}
       className={
-        classNames(
+        clsx(
           style.block,
           disabled && style.disabled,
           classes && classes.map(el => style[el] || el),

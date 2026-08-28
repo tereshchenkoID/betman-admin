@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { useSettingsStore } from 'stores/settingsStore'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -17,7 +17,7 @@ const Debug = ({ data }) => {
     <div className={style.block}>
       <button
         type="button"
-        className={classNames(style.button, active && style.active)}
+        className={clsx(style.button, active && style.active)}
         onClick={() => setActive(!active)}
       >
         Debug

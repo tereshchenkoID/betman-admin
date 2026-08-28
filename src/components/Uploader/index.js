@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -90,7 +90,8 @@ const Uploader = ({
         />
       </div>
 
-      {previewUrl && (
+      {
+        previewUrl &&
         <div className={style.preview} style={{ maxHeight }}>
           <img src={previewUrl} alt="Preview" />
           <Button
@@ -100,7 +101,7 @@ const Uploader = ({
             <FontAwesomeIcon icon="fa-solid fa-times" />
           </Button>
         </div>
-      )}
+      }
     </div>
   )
 }

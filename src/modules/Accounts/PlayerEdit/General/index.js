@@ -1,28 +1,9 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useSettingsStore } from 'stores/settingsStore'
-import { useOptions } from 'hooks/useOptions'
-
 import Field from 'components/Field'
-import CustomSelect from 'components/Select'
 
-const General = ({ filter, setFilter }) => {
+const General = ({ filter, handlePropsChange }) => {
   const { t } = useTranslation()
-  const { settings } = useSettingsStore()
-
-  const handlePropsChange = (fieldName, fieldValue) => {
-    setFilter(prevData => ({
-      ...prevData,
-      [fieldName]: fieldValue,
-    }))
-  }
-
-  const { options: bonusesOptions } = useOptions(
-    'bonuses_list/',
-    el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('select_from_list') }]
-  )
 
   return (
     <>
@@ -40,26 +21,6 @@ const General = ({ filter, setFilter }) => {
         onChange={(e) => handlePropsChange('username', e)}
         isDisabled={true}
         isRequired={true}
-      />
-      <CustomSelect
-        placeholder={t('currency')}
-        options={[
-          { value: -1, label: t('select_from_list') },
-          ...Object.entries(settings?.currencies).map(([key, el], index) => ({
-            value: key,
-            label: el.text
-          }))
-        ]}
-        isDisabled={true}
-        data={filter?.currency}
-        onChange={() => {}}
-        isRequired={true}
-      />
-      <CustomSelect
-        placeholder={t('bonuses')}
-        options={bonusesOptions}
-        data={filter?.bonuses}
-        onChange={value => handlePropsChange('bonuses', value)}
       />
       <Field
         type={'email'}

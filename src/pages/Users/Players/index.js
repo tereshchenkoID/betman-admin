@@ -1,16 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
 
-import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
+import {
+  ACCESS_TYPE,
+  NAVIGATION,
+  REQUEST_TYPE,
+  VERIFICATION_TYPE,
+  RISK_TYPE,
+  service, ACCOUNT_LEVEl
+} from 'constant/config'
 
 import { useAsideStore } from 'stores/asideStore'
+import { useSettingsStore } from 'stores/settingsStore'
 import { useCmdStore } from 'stores/cmdStore'
 import { useAuthStore } from 'stores/authStore'
+
 import { useApi } from 'hooks/useApi'
 import { useSort } from 'hooks/useSort'
-import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
+import { getDate } from 'helpers/getDate'
 import { buildFormData } from 'helpers/buildFormData'
 import { convertOptions } from 'helpers/convertOptions'
 
@@ -27,31 +35,50 @@ import style from './index.module.scss'
 
 const CONFIG = [
   { key: 'id', text: 'id', sorted: true },
-  { key: 'agent.username', text: 'agent' },
-  { key: 'username', text: 'username', sorted: true },
-  { key: 'full_name', text: 'full_name', sorted: true },
+  { key: 'username', text: 'username' },
+  { key: 'full_name', text: 'full_name' },
   { key: 'phone', text: 'phone' },
   { key: 'email', text: 'email' },
+  { key: 'access', text: 'access', sorted: true },
   { key: 'credits', text: 'credits' },
   { key: 'bonuses', text: 'bonuses' },
-  { key: 'currency', text: 'currency' },
-  { key: 'date_created', text: 'date_created', sorted: true }
+  { key: 'currency', text: 'currency', sorted: true },
+  { key: 'date_created', text: 'date_created', sorted: true },
+  { key: 'kyc', text: 'kyc', sorted: true },
+  { key: 'risk_level', text: 'risk', sorted: true },
+  { key: 'date_last_stake', text: 'date_last_stake' },
+  { key: 'average_rate', text: 'average_rate' },
+  { key: 'total_deposit', text: 'total_deposit' },
+  { key: 'total_withdrawal', text: 'total_withdrawal' },
+  { key: 'registration_source', text: 'registration_source', sorted: true },
+  { key: 'affiliate_id', text: 'affiliate_id' },
+  { key: 'turnover', text: 'turnover' },
+  { key: 'rtp', text: 'rtp' },
 ]
 
 const Players = () => {
   const { t } = useTranslation()
-  const { auth } = useAuthStore()
-  const { agent, shop } = useParams()
+  const { settings } = useSettingsStore()
   const { request, loading } = useApi()
+  const { auth } = useAuthStore()
   const { setAside } = useAsideStore()
   const { cmd, setCmd } = useCmdStore()
 
-  const INITIAL_FILTER = { q: '', locked: -1, agent: Number(agent) || -1, shop: Number(shop) || -1 }
+  const INITIAL_FILTER = {
+    q: '',
+    access: -1,
+    currency: -1,
+    verification: -1,
+    risk_level: -1,
+    last_stake_from: getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
+    last_stake_to: getDate(new Date(), 'datetime-local'),
+    last_deposit_from: getDate(new Date().setHours(0, 0, 0, 0), 'datetime-local'),
+    last_deposit_to: getDate(new Date(), 'datetime-local'),
+  }
   const INITIAL_SORT = { key: null, direction: null }
 
   const [data, setData] = useState({})
   const [quantity, setQuantity] = useState(service.QUANTITY[20])
-  const isSingle = agent || shop
 
   const handleSubmit = async (e, page = 0, nextFilter = filter, nextSort = sort) => {
     e && e.preventDefault()
@@ -60,9 +87,14 @@ const Players = () => {
       page,
       quantity,
       q: nextFilter.q,
-      locked: nextFilter.locked,
-      agent: filter.agent,
-      shop: filter.shop,
+      access: nextFilter.locked,
+      currency: nextFilter.currency,
+      verification: nextFilter.verification,
+      risk_level: nextFilter.risk_level,
+      last_stake_from: nextFilter.last_stake_from,
+      last_stake_to: nextFilter.last_stake_to,
+      last_deposit_from: nextFilter.last_deposit_from,
+      last_deposit_to: nextFilter.last_deposit_to,
     })
 
     if (nextSort.direction) {
@@ -82,19 +114,6 @@ const Players = () => {
     handleSubmit(null, 0, INITIAL_FILTER, INITIAL_SORT)
   }
 
-  const { options: agentsOptions } = useOptions(
-    'agents_tree/',
-    el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('select_from_list') }]
-  )
-
-  const { options: shopsOptions } = useOptions(
-    `shops_tree/${filter.agent}`,
-    el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('select_from_list') }],
-    Boolean(filter.agent)
-  )
-
   useEffect(() => {
     handleSubmit(null, 0);
   }, [quantity])
@@ -111,8 +130,8 @@ const Players = () => {
       <Paper
         headline={t(NAVIGATION.players.text)}
         classes={['sm']}
-        quantity={!isSingle && quantity}
-        setQuantity={!isSingle && setQuantity}
+        quantity={quantity}
+        setQuantity={setQuantity}
       >
         <Debug data={{...filter, ...sort}} />
         <form onSubmit={handleSubmit}>
@@ -123,37 +142,68 @@ const Players = () => {
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
             />
-            {
-              (
-                auth?.role === ACCOUNT_TYPE.ADMIN ||
-                auth?.role === ACCOUNT_TYPE.AGENT
-              ) &&
-              <>
-                <CustomSelect
-                  placeholder={t('agent')}
-                  options={agentsOptions}
-                  data={filter.agent}
-                  onChange={value => handlePropsChange('agent', value)}
-                />
-                {
-                  filter.agent !== -1 &&
-                  <CustomSelect
-                    placeholder={t('shop')}
-                    options={shopsOptions}
-                    data={filter.shop}
-                    onChange={value => handlePropsChange('shop', value)}
-                  />
-                }
-              </>
-            }
             <CustomSelect
-              placeholder={t('locked')}
+              placeholder={t('verification')}
               options={[
                 { value: -1, label: t('select_from_list') },
-                ...convertOptions(service.YES_NO, t)
+                ...convertOptions(VERIFICATION_TYPE, t)
               ]}
-              data={filter['locked']}
-              onChange={value => handlePropsChange('locked', value)}
+              data={filter['verification']}
+              onChange={value => handlePropsChange('verification', value)}
+            />
+            <CustomSelect
+              placeholder={t('risk')}
+              options={[
+                { value: -1, label: t('select_from_list') },
+                ...convertOptions(RISK_TYPE, t)
+              ]}
+              data={filter['risk_level']}
+              onChange={value => handlePropsChange('risk_level', value)}
+            />
+            <CustomSelect
+              placeholder={t('currency')}
+              options={[
+                { value: -1, label: t('select_from_list') },
+                ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+                  value: key,
+                  label: el.text
+                }))
+              ]}
+              data={filter?.currency}
+              onChange={value => handlePropsChange('currency', value)}
+            />
+            <CustomSelect
+              placeholder={t('access')}
+              options={[
+                { value: -1, label: t('select_from_list') },
+                ...convertOptions(ACCESS_TYPE, t)
+              ]}
+              data={filter['access']}
+              onChange={value => handlePropsChange('access', value)}
+            />
+            <Field
+              type='datetime-local'
+              placeholder={t('last_stake_from')}
+              data={filter['last_stake_from']}
+              onChange={value => handlePropsChange('last_stake_from', value)}
+            />
+            <Field
+              type='datetime-local'
+              placeholder={t('last_stake_to')}
+              data={filter['last_stake_to']}
+              onChange={value => handlePropsChange('last_stake_to', value)}
+            />
+            <Field
+              type='datetime-local'
+              placeholder={t('last_deposit_from')}
+              data={filter['last_deposit_from']}
+              onChange={value => handlePropsChange('last_deposit_from', value)}
+            />
+            <Field
+              type='datetime-local'
+              placeholder={t('last_deposit_to')}
+              data={filter['last_deposit_to']}
+              onChange={value => handlePropsChange('last_deposit_to', value)}
             />
           </div>
           <div className={style.actions}>
@@ -168,22 +218,28 @@ const Players = () => {
               onChange={handleResetForm}
             />
           </div>
-          <div className={style.actions}>
-            <Button
-              classes={['primary']}
-              placeholder={t('add_player')}
-              onChange={(e) => {
-                setAside({
-                  meta: {
-                    title: t('add_player'),
-                    cmd: 'account-player',
-                    buttonRef: e.target,
-                  },
-                  id: auth.agent_id
-                })
-              }}
-            />
-          </div>
+          {
+            (
+              auth?.role === ACCOUNT_LEVEl.ADMIN ||
+              auth?.role === ACCOUNT_LEVEl.MANAGER ||
+              auth?.role === ACCOUNT_LEVEl.SUPPORT
+            ) &&
+            <div className={style.actions}>
+              <Button
+                classes={['primary']}
+                placeholder={t('add_player')}
+                onChange={(e) => {
+                  setAside({
+                    meta: {
+                      title: t('add_player'),
+                      cmd: 'player-add',
+                      buttonRef: e.target,
+                    }
+                  })
+                }}
+              />
+            </div>
+          }
         </form>
       </Paper>
       <Paper classes={[style.paper]}>
@@ -191,14 +247,11 @@ const Players = () => {
           loading &&
           <Loader type={'loading'} />
         }
-        {
-          !isSingle &&
-          <Pagination
-            position='top'
-            pagination={data.pagination}
-            handleSubmit={handleSubmit}
-          />
-        }
+        <Pagination
+          position='top'
+          pagination={data.pagination}
+          handleSubmit={handleSubmit}
+        />
         {
           data?.code &&
           <div className={style.table}>
@@ -210,14 +263,11 @@ const Players = () => {
             />
           </div>
         }
-        {
-          !isSingle &&
-          <Pagination
-            position='bottom'
-            pagination={data.pagination}
-            handleSubmit={handleSubmit}
-          />
-        }
+        <Pagination
+          position='bottom'
+          pagination={data.pagination}
+          handleSubmit={handleSubmit}
+        />
       </Paper>
     </>
   )

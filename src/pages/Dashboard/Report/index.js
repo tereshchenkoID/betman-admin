@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, useEffect, useState} from 'react'
+import {lazy, Suspense, useEffect, useState} from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -21,7 +21,6 @@ import { convertOptions } from 'helpers/convertOptions'
 import { useApi } from 'hooks/useApi'
 import { buildFormData } from 'helpers/buildFormData'
 import { getDate } from 'helpers/getDate'
-import { useOptions } from 'hooks/useOptions'
 import { useFilterState } from 'hooks/useFilterState'
 
 import Debug from 'modules/Debug'
@@ -68,7 +67,7 @@ const SECTIONS = [
   { component: RtpControl, height: 600 },
 ]
 
-const Report = () => {
+const Dashboard = () => {
   const { t } = useTranslation()
   const { request } = useApi()
   const [result, setResult] = useState({})
@@ -90,24 +89,12 @@ const Report = () => {
     handleSubmit()
   }, [])
 
-  const { options: agentsOptions } = useOptions(
-    'agents_tree/',
-    el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('select_from_list') }]
-  )
-
   return (
     <>
       <Paper headline={t('navigation.dashboard')} classes={['sm']}>
         <Debug data={filter} />
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
-            <CustomSelect
-              placeholder={t('agent')}
-              options={agentsOptions}
-              data={filter?.agent}
-              onChange={value => handlePropsChange('agent', value)}
-            />
             <CustomSelect
               placeholder={t('timeframe')}
               options={convertOptions(TIMEFRAMES, t)}
@@ -171,4 +158,4 @@ const Report = () => {
   )
 }
 
-export default Report
+export default Dashboard

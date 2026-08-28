@@ -1,0 +1,53 @@
+@use 'scss/config' as *;
+
+.block {
+  @include tab-l {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.block,
+.form,
+.grid {
+  display: grid;
+  gap: rem(16px);
+}
+
+.block,
+.grid {
+  align-items: flex-start;
+}
+
+.actions {
+  @include flex(flex-end);
+
+  gap: rem(16px);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 3fr 1fr auto;
+  align-items: center;
+  gap: rem(16px);
+}
+
+.grid {
+  align-items: center;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.text {
+  margin-bottom: rem(16px);
+}
+
+.notification {
+  text-align: right;
+  color: var(--green);
+
+  &.error {
+    color: var(--red);
+  }
+}

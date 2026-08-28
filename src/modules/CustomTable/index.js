@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { getDate } from 'helpers/getDate'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import Pagination from 'modules/Pagination'
 import Loader from 'components/Loader'
@@ -32,7 +32,7 @@ const CustomTable = ({
       value = getNestedValue(row, key)
       return <div
               className={
-                classNames(
+                clsx(
                   type === 'number' ? style.count : '',
                   Number(value) < 0 ? style.down : style.up
                 )
@@ -87,7 +87,7 @@ const CustomTable = ({
               <div
                 key={key}
                 className={
-                  classNames(
+                  clsx(
                     style.cell,
                     sorted ? style.pointer : style.default
                   )

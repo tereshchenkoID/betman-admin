@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useSettingsStore } from 'stores/settingsStore'
@@ -21,7 +20,6 @@ const BonusFixed = ({ data, action, active }) => {
        onChange={value => action(`${active}.amount`, value)}
        isRequired={true}
        min={0}
-       max={100}
      />
      <CustomSelect
        placeholder={t('currency')}

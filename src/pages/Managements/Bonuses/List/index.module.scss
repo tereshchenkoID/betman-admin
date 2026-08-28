@@ -1,16 +1,36 @@
 @use 'scss/config' as *;
 
 .grid {
+  --count: 1;
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: rem(16px);
   margin-bottom: rem(16px);
+  grid-template-columns: repeat(var(--count), 1fr);
+
+  @include mob-m {
+    --count: 2;
+  }
+
+  @include tab-l {
+    --count: 3;
+  }
+
+  @include desk-s {
+    --count: 4;
+  }
+}
+
+.table {
+  @include scroll-x;
 }
 
 .row {
   display: grid;
   grid-template-columns: rem(80px) repeat(5, 1fr) rem(100px);
   align-items: center;
+  width: 100%;
+  min-width: rem(1200px);
 
   &:first-child {
     font-size: rem(12px);

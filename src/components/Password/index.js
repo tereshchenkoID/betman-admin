@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -28,7 +28,7 @@ const Password = ({
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           classes && classes.map(el => style[el]),
         )

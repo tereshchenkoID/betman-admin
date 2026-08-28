@@ -2,6 +2,7 @@
 
 .block {
   display: grid;
+  align-items: flex-start;
   gap: rem(16px);
 }
 

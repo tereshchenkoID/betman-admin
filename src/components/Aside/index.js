@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from 'react'
-import classNames from 'classnames'
+import { lazy, Suspense } from 'react'
+import clsx from 'clsx'
 
 import { useAsideStore } from 'stores/asideStore'
 
@@ -8,38 +8,25 @@ import Loader from "components/Loader"
 
 import style from './index.module.scss'
 
-const Agent = lazy(() => import('modules/Accounts/Agent'))
-const AgentEdit = lazy(() => import('modules/Accounts/AgentEdit'))
+const UserAdd = lazy(() => import('modules/Accounts/UserAdd'))
+const UserEdit = lazy(() => import('modules/Accounts/UserEdit'))
+const PlayerAdd = lazy(() => import('modules/Accounts/PlayerAdd'))
+const PlayerEdit = lazy(() => import('modules/Accounts/PlayerEdit'))
+
 const Deposit = lazy(() => import('modules/Accounts/Deposit'))
 const Withdrawal = lazy(() => import('modules/Accounts/Withdrawal'))
-const Shop = lazy(() => import('modules/Accounts/Shop'))
-const Player = lazy(() => import('modules/Accounts/Player'))
-const Cashier = lazy(() => import('modules/Accounts/Cashier'))
-const PlayerInfo = lazy(() => import('modules/Accounts/PlayerInfo'))
-const PlayerEdit = lazy(() => import('modules/Accounts/PlayerEdit'))
-const CashierEdit = lazy(() => import('modules/Accounts/CashierEdit'))
-const ShopEdit = lazy(() => import('modules/Accounts/ShopEdit'))
 const Confirmed = lazy(() => import('modules/Confirmed'))
-const PlaceInfo = lazy(() => import('pages/Dashboard/Hall/PlaceInfo'))
-const PlacePlayer = lazy(() => import('pages/Dashboard/Hall/PlacePlayer'))
-const PlaceTicket = lazy(() => import('pages/Dashboard/Hall/PlaceTicket'))
 
 const components = {
+  'user-add': UserAdd,
+  'user-edit': UserEdit,
+  'player-add': PlayerAdd,
+  'player-edit': PlayerEdit,
+
+
   'account-deposit': Deposit,
   'account-withdrawal': Withdrawal,
-  'account-agent': Agent,
-  'account-shop': Shop,
-  'account-player': Player,
-  'account-cashier': Cashier,
-  'account-player-info': PlayerInfo,
-  'account-agent-edit': AgentEdit,
-  'account-shop-edit': ShopEdit,
-  'account-cashier-edit': CashierEdit,
-  'account-player-edit': PlayerEdit,
   'confirmed': Confirmed,
-  'hall-place-ticket': PlaceTicket,
-  'hall-place-info': PlaceInfo,
-  'hall-place-player': PlacePlayer,
 }
 
 const checkCmd = (cmd) => {
@@ -53,7 +40,7 @@ const Aside = () => {
   return (
     <aside
       className={
-        classNames(
+        clsx(
           style.block,
           aside && style.active
         )

@@ -1,6 +1,5 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { service } from 'constant/config'
 
@@ -26,7 +25,7 @@ const Paper = ({
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           classes && classes.map(el => style[el] || el),
         )

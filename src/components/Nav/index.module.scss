@@ -6,8 +6,8 @@
   bottom: 0;
   transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
   z-index: $z-index-10;
-  background-color: #2a121c;
-  border-right: rem(1px) solid rgba(78, 58, 67, 0.64);
+  background-color: #031b1f;
+  border-right: rem(1px) solid var(--border);
   color: #fff;
   width: rem(56px);
   height: 100%;
@@ -19,7 +19,7 @@
 }
 
 .divider {
-  background-color: rgba(78, 58, 67, 0.64);
+  background-color: var(--border);
 }
 
 .wrapper {
@@ -94,7 +94,8 @@
   @include hover {
 
     &:hover {
-      background-color: #3e2831;
+      background-color: var(--brand-hover);
+      color: var(--text-for-brand);
 
       span {
         transform: translateX(rem(5px));

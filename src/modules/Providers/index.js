@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'constant/config'

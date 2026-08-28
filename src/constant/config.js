@@ -7,25 +7,15 @@ export const NAVIGATION = {
     text: 'navigation.dashboard',
     link: '/',
   },
-  agents: {
-    text: 'navigation.agents',
-    icon: 'fa-solid fa-users',
-    link: '/users/agents',
-  },
-  shops: {
-    text: 'navigation.shops',
-    icon: 'fa-solid fa-shop',
-    link: '/users/shops',
-  },
-  cashiers: {
-    text: 'navigation.cashiers',
-    icon: 'fa-solid fa-cash-register',
-    link: '/users/cashiers',
+  users: {
+    text: 'navigation.users',
+    icon: 'fa-solid fa-user',
+    link: '/users',
   },
   players: {
     text: 'navigation.players',
     icon: 'fa-solid fa-users',
-    link: '/users/players',
+    link: '/players',
   },
   reports: {
     text: 'navigation.reports',
@@ -38,7 +28,6 @@ export const NAVIGATION = {
       text: 'navigation.games',
       link: '/reports/games',
     },
-
     summary: {
       text: 'navigation.summary',
       link: '/reports/summary',
@@ -67,6 +56,14 @@ export const NAVIGATION = {
       text: 'navigation.banners',
       link: '/managements/banners'
     },
+    challenges: {
+      text: 'navigation.challenges',
+      link: '/managements/challenges'
+    },
+    quests: {
+      text: 'navigation.quests',
+      link: '/managements/quests'
+    },
     jackpots: {
       text: 'navigation.jackpots',
       link: '/managements/jackpots'
@@ -76,23 +73,73 @@ export const NAVIGATION = {
       link: '/managements/bonuses'
     },
     notifications: {
-      text: 'navigation.notification',
-      link: '/managements/notification'
+      text: 'navigation.notifications',
+      link: '/managements/notifications'
+    },
+    pages: {
+      text: 'navigation.pages',
+      link: '/managements/pages'
+    },
+    wheels: {
+      text: 'navigation.wheels',
+      link: '/managements/wheels',
+    },
+    modules: {
+      text: 'navigation.modules',
+      link: '/managements/modules'
+    },
+    tooltips: {
+      text: 'navigation.tooltips',
+      link: '/managements/tooltips'
+    },
+    seo: {
+      text: 'navigation.seo',
+      link: '/managements/seo'
     },
   },
-
   login: {
     text: 'navigation.login',
     link: '/login'
   }
 };
 
+export const ACCOUNT_LEVEl = {
+  'ADMIN': '0',
+  'MANAGER': '1',
+  'FINANCIAL': '2',
+  'SUPPORT': '3',
+  'MARKETING': '4'
+}
+
 export const ACCOUNT_TYPE = {
-  'ADMIN':    '-1',
-  'AGENT':    '0',
-  'SHOP':     '1',
-  'CASHIER':  '2',
-  'PLAYER':   '3'
+  0: 'admin',
+  1: 'manager',
+  2: 'financial',
+  3: 'support',
+  4: 'marketing'
+}
+
+export const ACCESS_TYPE = {
+  0: 'denied',
+  1: 'allowed'
+}
+
+export const VERIFICATION_TYPE = {
+  0: 'not_verified',
+  1: 'pending_verification',
+  2: 'rejected',
+  3: 'verified'
+}
+
+export const RISK_TYPE = {
+  0: 'new_player',
+  1: 'normal_player',
+  2: 'bonus_hunter',
+  3: 'high_risk_player',
+  4: 'scammer',
+  5: 'vip_level_1',
+  6: 'vip_level_2',
+  7: 'vip_level_3',
 }
 
 export const TIMEFRAMES = {

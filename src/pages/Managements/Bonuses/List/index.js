@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'constant/config'
 
@@ -203,7 +203,7 @@ const List = () => {
                   <div
                     key={idx}
                     className={
-                      classNames(
+                      clsx(
                         style.row,
                         el.status === '0' && style.hidden
                       )

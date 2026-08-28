@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,6 +28,7 @@ import RiskSpin from './RiskSpin'
 import Cashback from './Cashback'
 
 import style from './index.module.scss'
+import Uploader from "../../../../components/Uploader";
 
 const BONUS_COMPONENTS = {
   0: Bonus,
@@ -98,11 +99,14 @@ const Edit = ({ id }) => {
         wager: ''
       }
     },
+    promocode: '',
+    life_time: '',
     triggers: [],
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         name: '',
         title: '',
+        image: '',
         description: '',
       }
       return acc
@@ -128,6 +132,12 @@ const Edit = ({ id }) => {
     e.preventDefault()
 
     const formData = buildFormData(filter)
+    Object.entries(filter.translations).forEach(([lang, langData]) => {
+      const currentImage = langData?.image
+      if (currentImage instanceof File || currentImage instanceof Blob) {
+        formData.append(`image_${lang}`, currentImage)
+      }
+    })
 
     const { data, error } = await request(REQUEST_TYPE.POST, `bonus/${isAdd ? 'add' : 'edit'}`, formData)
 
@@ -232,6 +242,20 @@ const Edit = ({ id }) => {
                     isRequired={true}
                     data={filter.currency}
                     onChange={value => handlePropsChange('currency', value)}
+                  />
+                </div>
+                <div className={style.grid}>
+                  <Field
+                    type={'text'}
+                    placeholder={t('promocode')}
+                    data={filter.promocode}
+                    onChange={value => handlePropsChange('promocode', value)}
+                  />
+                  <Field
+                    type={'number'}
+                    placeholder={t('life_time')}
+                    data={filter.life_time}
+                    onChange={value => handlePropsChange('life_time', value)}
                   />
                 </div>
                 <CustomSelect
@@ -343,10 +367,15 @@ const Edit = ({ id }) => {
                 isRequired={true}
               />
             </div>
+            <Uploader
+              data={currentTranslation?.image}
+              onChange={(blob) => handlePropsChange(`translations.${active}.image`, blob)}
+            />
             <Redactor
               key={active}
               data={currentTranslation?.description}
-              action={(value) => handlePropsChange(`translations.${active}.description`, value)} />
+              action={(value) => handlePropsChange(`translations.${active}.description`, value)}
+            />
             <div className={style.actions}>
               <Button
                 type={'submit'}

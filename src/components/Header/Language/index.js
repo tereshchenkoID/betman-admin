@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import classNames from 'classnames'
+import { useRef, useState } from 'react'
+import clsx from 'clsx'
 import i18n from 'i18next'
 
 import { REQUEST_TYPE } from 'constant/config'
@@ -46,7 +46,7 @@ const Language = () => {
     <div
       ref={blockRef}
       className={
-        classNames(
+        clsx(
           style.block,
           Object.values(settings?.languages).length <= 1 && style.disabled,
           active && style.active

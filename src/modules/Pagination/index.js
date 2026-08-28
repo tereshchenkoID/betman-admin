@@ -1,7 +1,6 @@
-import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -16,7 +15,7 @@ const Pagination = ({
   return (
     <div
       className={
-        classNames(
+        clsx(
           style.block,
           style[position]
         )
@@ -26,7 +25,7 @@ const Pagination = ({
         type={'button'}
         aria-label="Pagination start"
         className={
-          classNames(
+          clsx(
             style.action,
             pagination.page === '0' && style.disabled,
           )
@@ -42,7 +41,7 @@ const Pagination = ({
         type={'button'}
         aria-label="Pagination previous"
         className={
-          classNames(
+          clsx(
             style.action,
             pagination.page === '0' && style.disabled,
           )
@@ -59,7 +58,7 @@ const Pagination = ({
         type={'button'}
         aria-label="Pagination next"
         className={
-          classNames(
+          clsx(
             style.action,
             pagination.page === pagination.pages && style.disabled
           )
@@ -75,7 +74,7 @@ const Pagination = ({
         type={'button'}
         aria-label="Pagination end"
         className={
-          classNames(
+          clsx(
             style.action,
             pagination.page === pagination.pages && style.disabled
           )

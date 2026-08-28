@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'constant/config'
@@ -30,7 +29,7 @@ const Withdrawal = ({ mock }) => {
     amount: '',
   }
 
-  const {filter, setFilter, handlePropsChange} = useFilterState(INITIAL_FILTER)
+  const { filter, setFilter, handlePropsChange } = useFilterState(INITIAL_FILTER)
   const isValid = filter?.amount !== '' && Number(filter?.amount) > 0 && Number(filter?.amount) <= Number(filter?.credits?.[filter?.currency] ?? 0)
 
   const handleSubmit = async (e) => {
