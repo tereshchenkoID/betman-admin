@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { getData } from 'helpers/api'
+import { getData } from 'src/helpers/api'
 
 export const useSettingsStore = create((set, get) => ({
   settings: {},

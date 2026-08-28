@@ -1,4 +1,4 @@
-import { useToastifyStore } from 'stores/toastifyStore'
+import { useToastifyStore } from 'src/stores/toastifyStore'
 
 export const useNotify = () => {
   const { setToastify } = useToastifyStore()

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { hostname } from "helpers/hostname"
+import { hostname } from "src/helpers/hostname"
 
 export const request = async (method, url, data = null, headers = {}) => {
   try {

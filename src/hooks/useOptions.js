@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getData } from 'helpers/api'
+import { getData } from 'src/helpers/api'
 
 export const useOptions = (endpoint, mapper, defaultOptions = [], enabled = true) => {
   const [options, setOptions] = useState([])
