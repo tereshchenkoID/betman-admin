@@ -1,5 +1,5 @@
 {
-  "name": "admin-winup",
+  "name": "admin-betman",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -39,20 +39,5 @@
   },
   "browserslist": [
     "last 4 versions"
-  ],
-  "devDependencies": {
-    "eslint": "^8.57.1",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "postcss": "^8.4.41",
-    "prettier": "^3.3.3",
-    "stylelint": "^16.8.0",
-    "stylelint-config-concentric-order": "^5.2.0",
-    "stylelint-config-recommended-scss": "^14.0.0",
-    "stylelint-config-sass-guidelines": "^11.1.0",
-    "stylelint-config-standard-scss": "^13.1.0",
-    "stylelint-order": "^6.0.4"
-  }
+  ]
 }
