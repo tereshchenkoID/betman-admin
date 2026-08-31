@@ -21,6 +21,7 @@ import Redactor from 'components/Redactor'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import ImagePreview from 'modules/ImagePreview'
+import Inner from 'modules/Inner'
 
 import style from './index.module.scss'
 
@@ -180,7 +181,7 @@ const Edit = ({ id }) => {
                     alt={t('preview')}
                   />
                 }
-                <div className={style.description} dangerouslySetInnerHTML={{ __html: currentTranslation?.text }} />
+                <Inner data={currentTranslation?.text} />
               </div>
             </div>
           </div>

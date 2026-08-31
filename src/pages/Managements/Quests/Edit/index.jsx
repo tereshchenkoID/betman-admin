@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
@@ -168,7 +169,6 @@ const Edit = ({ id }) => {
               placeholder={t('title')}
               data={currentTranslation?.title}
               onChange={value => handlePropsChange(`translations.${active}.title`, value)}
-              isRequired={true}
             />
             <div className={style.grid}>
               <Field
@@ -212,7 +212,14 @@ const Edit = ({ id }) => {
           </form>
           <div>
             <p className={style.text}>{t('preview')}:</p>
-            <div className={style.banner}>
+            <div
+              className={
+                clsx(
+                  style.banner,
+                  currentTranslation?.visibility === '0' && style.disabled
+                )
+              }
+            >
               {
                 currentTranslation?.image &&
                 <ImagePreview
@@ -232,10 +239,7 @@ const Edit = ({ id }) => {
               <div className={style.content}>
                 <p className={style.title}>{currentTranslation?.title}</p>
                 {
-                  (
-                    currentTranslation?.button?.text &&
-                    currentTranslation?.button?.text !== ''
-                  ) &&
+                  currentTranslation?.button?.text !== '' &&
                   <Button
                     classes={['primary', style.button]}
                     placeholder={currentTranslation?.button.text}

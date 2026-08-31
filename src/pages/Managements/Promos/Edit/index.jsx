@@ -21,6 +21,7 @@ import CustomSelect from 'components/Select'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import ImagePreview from 'modules/ImagePreview'
+import Inner from 'modules/Inner/index.jsx'
 
 import style from './index.module.scss'
 
@@ -214,29 +215,11 @@ const Edit = ({ id }) => {
                   currentTranslation?.image &&
                   <ImagePreview
                     image={currentTranslation?.image}
-                    width={320}
-                    height={128}
                     alt={t('preview')}
                   />
                 }
-                {
-                  currentTranslation?.category !== '' &&
-                  <div className={style.categories}>
-                    {
-                      currentTranslation?.category?.split(',').map((el, idx) =>
-                        <div
-                          key={idx}
-                          className={style.badge}
-                        >
-                          {el}
-                        </div>
-                      )
-                    }
-                  </div>
-                }
               </div>
-              <h1>{currentTranslation?.title}</h1>
-              <div dangerouslySetInnerHTML={{ __html: currentTranslation?.description }} />
+              <Inner data={currentTranslation?.description} />
               {
                 (
                   currentTranslation?.button?.text &&

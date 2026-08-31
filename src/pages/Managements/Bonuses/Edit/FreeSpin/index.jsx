@@ -34,6 +34,13 @@ const FreeSpin = ({ data, action, active }) => {
           onChange={value => action(`${active}.wager`, value)}
           isRequired={true}
         />
+        <Field
+          type={'number'}
+          placeholder={t('max_payout')}
+          data={data.max_payout}
+          onChange={value => action(`${active}.max_payout`, value)}
+          isRequired={true}
+        />
       </div>
       <Providers
         providersUrl={'freespin_providers/'}

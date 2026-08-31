@@ -21,6 +21,7 @@ import Breadcrumbs from 'modules/Breadcrumbs'
 import CustomSelect from 'components/Select'
 import Redactor from 'components/Redactor'
 import Checkbox from 'components/Checkbox'
+import Uploader from 'components/Uploader'
 import Bonus from './Bonus'
 import FreeSpin from './FreeSpin'
 import BonusFixed from './BonusFixed'
@@ -28,7 +29,6 @@ import RiskSpin from './RiskSpin'
 import Cashback from './Cashback'
 
 import style from './index.module.scss'
-import Uploader from "../../../../components/Uploader";
 
 const BONUS_COMPONENTS = {
   0: Bonus,
@@ -65,12 +65,14 @@ const Edit = ({ id }) => {
         percentage: '',
         max: '',
         currency: -1,
+        max_payout: '',
         wager: ''
       },
       bonus_fixed: {
         enable: '0',
         amount: '',
         currency: -1,
+        max_payout: '',
         wager: ''
       },
       free_spins: {
@@ -80,6 +82,7 @@ const Edit = ({ id }) => {
         all_games: -1,
         providers: [],
         games: [],
+        max_payout: '',
         wager: ''
       },
       risk_spins: {
@@ -89,6 +92,7 @@ const Edit = ({ id }) => {
         all_games: -1,
         providers: [],
         games: [],
+        max_payout: '',
         wager: ''
       },
       cashback: {
@@ -96,6 +100,7 @@ const Edit = ({ id }) => {
         percentage: '',
         min_loses: '',
         max: '',
+        max_payout: '',
         wager: ''
       }
     },

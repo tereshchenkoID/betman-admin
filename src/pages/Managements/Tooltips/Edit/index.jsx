@@ -19,6 +19,7 @@ import Tab from 'components/Tab'
 import Redactor from 'components/Redactor'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
+import Inner from 'modules/Inner'
 
 import style from './index.module.scss'
 
@@ -175,8 +176,7 @@ const Edit = ({ id }) => {
           </form>
           <div>
             <p className={style.text}>{t('preview')}:</p>
-            <h2 className={style.title}>{currentTranslation?.title}</h2>
-            <div className={style.description} dangerouslySetInnerHTML={{ __html: currentTranslation?.description }} />
+            <Inner data={currentTranslation?.description} />
           </div>
         </div>
       </Paper>

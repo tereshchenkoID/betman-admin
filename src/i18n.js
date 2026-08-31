@@ -8,7 +8,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: JSON.parse(sessionStorage.getItem('language')) || 'ukr',
+    fallbackLng: JSON.parse(sessionStorage.getItem('language')) || 'en',
     debug: false,
     detection: {
       order: ['queryString', 'cookie'],

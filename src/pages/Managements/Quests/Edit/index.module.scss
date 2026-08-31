@@ -27,17 +27,33 @@
 }
 
 .banner {
-  @include size(rem(190px), rem(240px));
+  @include size(rem(190px), auto);
 
   position: relative;
   border-radius: var(--border-radius-default);
-  background-color: var(--material-hover);
+  background-color: var(--material);
   overflow: hidden;
+  padding-bottom: rem(44px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: calc(50% - rem(44px));
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 70%, rgba(0, 0, 0, 0) 100%);
+    z-index: $z-index-1;
+  }
+
+  &.disabled {
+    .picture {
+      opacity: 0.7;
+    }
+  }
 }
 
 .picture {
-  position: absolute;
-  inset: 0;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -52,12 +68,11 @@
 .content {
   display: grid;
   gap: rem(8px);
+  padding: 0 rem(12px) rem(12px);
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
-  padding: rem(12px);
-  word-break: break-word;
-  line-height: 1;
+  z-index: $z-index-1;
 }
 
 .title {

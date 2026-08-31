@@ -36,7 +36,6 @@ const Edit = ({ id }) => {
     agent: -1,
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
-        link: '',
         title: '',
         subtitle: '',
         alt: '',
@@ -47,6 +46,7 @@ const Edit = ({ id }) => {
           text: '',
           newtab: "0",
           link: [],
+          auth_link: []
         }
       }
       return acc
@@ -143,12 +143,6 @@ const Edit = ({ id }) => {
               data={currentTranslation?.image}
               onChange={(blob) => handlePropsChange(`translations.${active}.image`, blob)}
             />
-            <Field
-              type={'text'}
-              placeholder={t('link')}
-              data={currentTranslation?.link}
-              onChange={value => handlePropsChange(`translations.${active}.link`, value)}
-            />
             <div className={style.grid}>
               <Field
                 type={'text'}
@@ -175,21 +169,29 @@ const Edit = ({ id }) => {
               data={currentTranslation?.description}
               onChange={value => handlePropsChange(`translations.${active}.description`, value)}
             />
+            <Field
+              type={'text'}
+              placeholder={t('button_label')}
+              data={currentTranslation?.button?.text}
+              onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
+            />
             <div className={style.grid}>
-              <Field
-                type={'text'}
-                placeholder={t('button_label')}
-                data={currentTranslation?.button?.text}
-                onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
-              />
               <div>
                 <Field
                   type={'text'}
-                  placeholder={t('button_link')}
+                  placeholder={t('link')}
                   data={currentTranslation?.button?.link}
                   onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
                 />
                 <p className={style.label}>Example: <strong>/promotions/first-deposit</strong></p>
+              </div>
+              <div>
+                <Field
+                  type={'text'}
+                  placeholder={t('link_auth')}
+                  data={currentTranslation?.button?.auth_link}
+                  onChange={value => handlePropsChange(`translations.${active}.button.auth_link`, value)}
+                />
               </div>
             </div>
             <Checkbox

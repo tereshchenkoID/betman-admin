@@ -1,0 +1,12 @@
+@use 'scss/config' as *;
+
+.button {
+  @include size(rem(32px));
+
+  padding: rem(8px);
+  z-index: $z-index-1;
+}
+
+.icon {
+  font-size: rem(14px);
+}

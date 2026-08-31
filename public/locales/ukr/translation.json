@@ -107,6 +107,9 @@
   "tournaments_bonus": "Бонус за турніри",
   "refer_friend_bonus": "Бонус за друга",
   "exclusive_bonus": "Ексклюзивний бонус",
+  "wheel_bonus":  "Бонус колеса",
+  "quest_bonus":  "Бонус завдань",
+  "accept_invite_bonus":  "Бонус запрошень",
   "combi_bonus": "Комбі-бонус",
   "period": "Період",
   "lifetime": "Тривалість",
@@ -198,6 +201,7 @@
   "rounds": "Раунди",
   "date": "Дата",
   "link": "Посилання",
+  "link_auth": "Посилання для зареэстрованого гравця",
   "alias": "Аліас",
   "sector": "Cектор",
   "сhose_language": "Оберіть мову",
@@ -233,6 +237,7 @@
   "off": "з",
   "promocode": "Промокод",
   "life_time": "Час життя",
+  "max_payout": "Макс. сумма виплати",
   "notification": {
     "no_matching_records_found": "Не знайдено відповідних записів",
     "successfully_logged": "Ласкаво просимо назад!",
@@ -245,7 +250,8 @@
     "enter_code": "Введіть 12-значний код у поле нижче",
     "text_not_found": "Текст не знайдено",
     "page_not_found": "Сторінку не знайдено",
-    "total_win_percent": "Загальний процент виграшу перевищує 100%"
+    "total_win_percent": "Загальний процент виграшу перевищує 100%",
+    "redactor_h1": "Першим рядком має бути заголовок H1"
   },
   "voucher_status": {
     "paid": "Виплачено",

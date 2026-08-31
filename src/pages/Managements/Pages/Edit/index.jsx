@@ -19,6 +19,8 @@ import Tab from 'components/Tab'
 import Redactor from 'components/Redactor'
 import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
+import Inner from 'modules/Inner'
+import Back from 'modules/Back/index.jsx'
 
 import style from './index.module.scss'
 
@@ -92,6 +94,11 @@ const Edit = ({ id }) => {
     [{ value: -1, label: t('select_from_list') }]
   )
 
+  const startsWithH1 = (htmlContent) => {
+    if (!htmlContent) return false
+    return /^\s*<h1[\s>]/i.test(htmlContent)
+  }
+
   useEffect(() => {
     if(!isAdd) {
       handleLoad()
@@ -163,6 +170,7 @@ const Edit = ({ id }) => {
               onChange={value => handlePropsChange(`translations.${active}.title`, value)}
               isRequired={true}
             />
+            <p className={style.notification}>{t('notification.redactor_h1')}</p>
             <Redactor
               key={active}
               data={currentTranslation?.description}
@@ -188,8 +196,14 @@ const Edit = ({ id }) => {
             </div>
           </form>
           <div>
-            <p className={style.text}>{t('preview')}:</p>
-            <div className={style.description} dangerouslySetInnerHTML={{ __html: currentTranslation?.description }} />
+            <p className={style.label}>{t('preview')}:</p>
+            <div className={style.preview}>
+              {
+                startsWithH1(currentTranslation?.description) &&
+                <Back classes={style.back} />
+              }
+              <Inner data={currentTranslation?.description } />
+            </div>
           </div>
         </div>
       </Paper>

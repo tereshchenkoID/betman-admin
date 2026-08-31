@@ -3,10 +3,9 @@
 :root {
   --font-size: 16px;
   --font-family: 'Roboto', sans-serif;
-  --font-family-alt: 'Roboto Condensed', sans-serif;
+  --font-family-alt: 'Barlow Condensed', sans-serif;
   --line-height: 1.5;
-  --typography-thin: 300;
-  --typography-medium: 500;
+  --typography-regular: 400;
   --typography-bold: 700;
 }
 
@@ -17,7 +16,8 @@ h4,
 h5,
 h6 {
   margin: 0;
-  font-weight: var(--typography-medium);
+  font-weight: var(--typography-bold);
+  font-family: var(--font-family-alt);
   line-height: 1;
 }
 

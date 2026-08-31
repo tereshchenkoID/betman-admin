@@ -33,90 +33,18 @@
   overflow: hidden;
   margin-inline: auto;
   max-width: rem(800px);
-
-  img {
-    margin: 0 0 rem(16px);
-  }
-
-  img {
-    border-radius: var(--border-radius-6);
-  }
-
-  h1 {
-    margin-bottom: rem(24px);
-    font-style: italic;
-  }
-
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin-bottom: rem(16px);
-  }
-
-  ul,
-  ol {
-    margin-block: rem(12px);
-    padding-inline-start: rem(32px);
-    list-style: unset;
-    line-height: rem(24px);
-  }
-
-  li {
-    list-style: unset;
-  }
-
-  table {
-    margin-bottom: rem(16px);
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    font-size: rem(14px);
-  }
-
-  td {
-    padding: rem(8px) rem(16px);
-    border: 1px solid var(--material-hover);
-  }
-
-  p {
-    margin-block: rem(12px);
-    line-height: rem(24px);
-  }
-
-  a {
-    display: inline;
-    color: var(--link);
-  }
 }
 
 .picture {
   position: relative;
+  margin-bottom: rem(16px);
+  border-radius: rem(6px);
+  aspect-ratio: 16 / 8;
+  object-fit: cover;
 }
 
-.categories {
-  @include flex(flex-end, center);
-
-  position: absolute;
-  top: rem(8px);
-  right: rem(8px);
-  gap: rem(4px);
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  overflow: hidden;
-  border-radius: var(--border-radius-full);
-  padding-inline: rem(8px);
-  height: rem(24px);
-  font-size: rem(14px);
-  text-transform: uppercase;
-  text-align: center;
-  background-color: var(--primary-hover);
+.button {
+  margin-top: rem(16px);
 }
 
 .label {

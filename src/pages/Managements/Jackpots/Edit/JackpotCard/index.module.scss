@@ -80,10 +80,7 @@
 }
 
 .number {
-  font-feature-settings: "tnum";
-  font-variant-numeric: tabular-nums;
   font-size: rem(32px);
-  font-style: italic;
 }
 
 .amount {
@@ -94,6 +91,7 @@
 
 .currency {
   font-size: rem(20px);
+  opacity: 0.6;
 }
 
 .eligible {
