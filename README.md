@@ -9,12 +9,12 @@ Modern admin dashboard interface built with **React 18** and **Vite 8**.
 | Category | Technologies |
 |---|---|
 | **Core** | React 18, React Router v7, Zustand |
-| **Build Tool** | Vite 8 (Modern Sass compiler API) |
+| **Build Tool** | Vite 8 |
 | **Styling** | SCSS, Clsx |
 | **UI & Icons** | FontAwesome, React Select, React Toastify, React Tooltip |
 | **Data & Charts** | Axios, Chart.js, React-ChartJS-2 |
 | **Localization** | i18next (with browser detector & HTTP backend) |
-| **Utilities** | Anime.js, File-saver, React Barcode, TinyMCE |
+| **Utilities** | TinyMCE |
 
 ---
 
