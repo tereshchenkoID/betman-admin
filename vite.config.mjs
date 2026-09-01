@@ -37,8 +37,13 @@ export default defineConfig({
     chunkSizeWarningLimit: 1500,
     rolldownOptions: {
       output: {
+        strictExecutionOrder: true,
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            if (id.includes('tinymce') || id.includes('@tinymce')) {
+              return 'vendor-tinymce'
+            }
+
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
               return 'vendor-react'
             }
@@ -52,6 +57,10 @@ export default defineConfig({
               return 'vendor-i18n'
             }
             return 'vendor-others'
+          }
+
+          if (id.includes('/modules/Redactor/')) {
+            return 'vendor-tinymce'
           }
         },
       },
