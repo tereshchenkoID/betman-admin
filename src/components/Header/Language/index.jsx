@@ -35,7 +35,7 @@ const Language = () => {
   const handleChange = async (el) => {
     updateAuth({ language: el })
     i18n.changeLanguage(el.code)
-    sessionStorage.setItem('language', JSON.stringify(el))
+    sessionStorage.setItem('language', JSON.stringify(el.code))
     setActive(false)
 
     await request(REQUEST_TYPE.GET, `lang/${el.code}`)

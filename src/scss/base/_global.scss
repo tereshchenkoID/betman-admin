@@ -68,7 +68,7 @@ hr {
   @include size(100%, rem(1px));
 
   display: block;
-  border: 0;
+  border: 0!important;
   margin-block: 0;
   background-color: var(--border);
 }

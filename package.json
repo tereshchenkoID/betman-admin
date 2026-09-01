@@ -30,6 +30,7 @@
     "react-toastify": "^11.1.0",
     "react-tooltip": "^6.0.8",
     "sass": "^1.78.0",
+    "tinymce": "^8.9.0",
     "zustand": "^5.0.15"
   },
   "browserslist": [

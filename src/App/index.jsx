@@ -52,7 +52,7 @@ const App = () => {
         if (settings && auth) {
           const storedLanguage = JSON.parse(sessionStorage.getItem('language'))
           const defaultLanguage = auth?.language?.code
-          i18n.changeLanguage(storedLanguage || defaultLanguage || 'ukr')
+          i18n.changeLanguage(storedLanguage || defaultLanguage || 'en')
         }
       } catch (err) {
         console.error('Init error:', err)

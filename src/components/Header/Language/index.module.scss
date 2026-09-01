@@ -20,24 +20,37 @@
   }
 }
 
-.selected {
+.selected,
+.link {
   @include transition;
   @include flex(space-between, center);
   @include size(100%, rem(40px));
 
   position: relative;
   padding-inline: rem(16px) rem(8px);
-  border: rem(1px) solid var(--border);
-  background-color: var(--primary);
   border-radius: var(--border-radius-default);
   cursor: pointer;
   min-width: rem(60px);
   overflow: hidden;
   gap: rem(5px);
+}
+
+.selected {
+  border: rem(1px) solid var(--border);
+  background-color: var(--primary);
 
   @include hover {
     &:hover {
       border-color: var(--link);
+    }
+  }
+}
+
+.link {
+  @include hover {
+    &:hover {
+      background-color: var(--primary);
+      color: var(--link);
     }
   }
 }
@@ -56,10 +69,11 @@
 }
 
 .link {
-  @include flex(null, center);
+  @include flex(space-between, center);
   @include size(100%, 36px);
 
-  padding: rem(5px) rem(16px);
+  padding-block: rem(5px);
+  padding-inline: rem(16px) rem(8px);
   text-transform: uppercase;
   gap: rem(12px);
 
