@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 
 import { useTheme } from 'context/ThemeContext'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
 import style from './index.module.scss'
 
@@ -12,12 +13,13 @@ const Redactor = ({
 }) => {
   const editorRef = useRef(null)
   const { theme } = useTheme()
+  const { settings } = useSettingsStore()
 
   return (
     <div className={style.block}>
       <Editor
         key={theme}
-        apiKey='hvvtnnsiqp3mdkg1r06vy2yxyebr9usp0fv6wboajjtfgyao'
+        apiKey={settings?.tiny_key}
         onInit={(_evt, editor) => editorRef.current = editor}
         value={data}
         onEditorChange={action}
