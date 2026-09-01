@@ -17,7 +17,7 @@ const Redactor = ({
     <div className={style.block}>
       <Editor
         key={theme}
-        apiKey='jxjoq6sfxuinuz0hlwh6j0dnekusf2shb0fcnt6jyaydzabn'
+        apiKey='hvvtnnsiqp3mdkg1r06vy2yxyebr9usp0fv6wboajjtfgyao'
         onInit={(_evt, editor) => editorRef.current = editor}
         value={data}
         onEditorChange={action}
