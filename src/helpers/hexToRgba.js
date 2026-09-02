@@ -1,4 +1,6 @@
 const hexToRgba = (hex, opacity = 1) => {
+  if (!hex) return null
+
   hex = hex.replace('#', '')
 
   const r = parseInt(hex.substring(0, 2), 16)

@@ -14,11 +14,6 @@ export const useAuthStore = create((set, get) => ({
 
     const data = await getData('authSession/')
 
-    if (typeof window !== 'undefined') {
-      const language = JSON.parse(localStorage.getItem('language'))
-      if (language) data.language = language
-    }
-
     set({ auth: data })
     return data
   },

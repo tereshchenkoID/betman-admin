@@ -1,21 +1,20 @@
 import i18n from 'i18next'
 import Backend from 'i18next-http-backend'
-import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
+
+import { LANGUAGE } from 'constant/config'
 
 i18n
   .use(Backend)
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: JSON.parse(sessionStorage.getItem('language')) || 'en',
+    fallbackLng: JSON.parse(sessionStorage.getItem('language')) || LANGUAGE,
     debug: false,
-    detection: {
-      order: ['queryString', 'cookie'],
-      cache: ['cookie'],
-    },
     interpolation: {
       escapeValue: false,
+    },
+    react: {
+      useSuspense: false,
     },
   })
 

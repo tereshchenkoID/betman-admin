@@ -9,6 +9,8 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 
 import { Tooltip } from 'react-tooltip'
 
+import { LANGUAGE } from 'constant/config'
+
 import 'react-tooltip/dist/react-tooltip.css'
 
 import { useSettingsStore } from 'src/stores/settingsStore'
@@ -52,9 +54,10 @@ const App = () => {
         if (settings && auth) {
           const storedLanguage = JSON.parse(sessionStorage.getItem('language'))
           const defaultLanguage = auth?.language?.code
-          i18n.changeLanguage(storedLanguage || defaultLanguage || 'en')
+          await i18n.changeLanguage(storedLanguage || defaultLanguage || LANGUAGE)
         }
       } catch (err) {
+        await i18n.changeLanguage('en')
         console.error('Init error:', err)
       } finally {
         setLoading(false)

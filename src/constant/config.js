@@ -166,7 +166,6 @@ export const service = {
     '#4bc0c0',
     '#8e5d4e',
     '#9b59b6',
-    '#ff6384',
     '#2ecc71',
     '#e67e22',
     '#34495e',
@@ -174,7 +173,22 @@ export const service = {
     '#e74c3c',
     '#1abc9c',
     '#95a5a6',
-    '#d35400'
+    '#d35400',
+    '#3498db',
+    '#a29bfe',
+    '#fd79a8',
+    '#00cec9',
+    '#6c5ce7',
+    '#fdcb6e',
+    '#e17055',
+    '#00b894',
+    '#ff7675',
+    '#0984e3',
+    '#b2bec3',
+    '#81ecec',
+    '#55efc4',
+    '#636e72',
+    '#16a085'
   ],
 
   YES_NO: {
@@ -193,3 +207,5 @@ export const service = {
     1: 'disable',
   }
 }
+
+export const LANGUAGE = 'en'
