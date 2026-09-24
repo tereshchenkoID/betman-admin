@@ -3,21 +3,21 @@ import { useTranslation } from 'react-i18next'
 
 import { ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useAuthStore } from 'src/stores/authStore'
+import { buildFormData } from 'src/helpers/buildFormData'
+import { getDate } from 'src/helpers/getDate'
 import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
 import { useOptions } from 'src/hooks/useOptions'
 import { useSort } from 'src/hooks/useSort'
-import { useFilterState } from 'src/hooks/useFilterState'
-import { getDate } from 'src/helpers/getDate'
-import { buildFormData } from 'src/helpers/buildFormData'
+import { useAuthStore } from 'src/stores/authStore'
 
-import Debug from 'modules/Debug'
 import Button from 'components/Button'
-import Paper from 'components/Paper'
 import Field from 'components/Field'
-import Tab from 'components/Tab'
+import Paper from 'components/Paper'
 import CustomSelect from 'components/Select'
+import Tab from 'components/Tab'
 import CustomTable from 'modules/CustomTable'
+import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
@@ -159,13 +159,13 @@ const Games = () => {
               </>
             }
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('date_from')}
               data={filter['date-from']}
               onChange={value => handlePropsChange('date-from', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('date_to')}
               data={filter['date-to']}
               onChange={value => handlePropsChange('date-to', value)}

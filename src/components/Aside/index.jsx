@@ -3,8 +3,8 @@ import clsx from 'clsx'
 
 import { useAsideStore } from 'src/stores/asideStore'
 
+import Loader from 'components/Loader'
 import Paper from 'components/Paper'
-import Loader from "components/Loader"
 
 import style from './index.module.scss'
 

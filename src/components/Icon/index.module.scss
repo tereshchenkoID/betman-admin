@@ -4,16 +4,15 @@
   @include size(rem(32px));
 
   display: inline-flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
   margin-inline: rem(1px);
   border-radius: var(--border-radius-4);
   background-color: var(--primary);
   font-size: rem(20px);
 
   @include hover {
-
     &:hover {
       background: var(--brand-hover);
       color: var(--text-for-primary);
@@ -35,7 +34,6 @@
     background-color: var(--amber);
 
     @include hover {
-
       &:hover {
         background-color: var(--amber-hover);
       }
@@ -46,7 +44,6 @@
     background-color: var(--red);
 
     @include hover {
-
       &:hover {
         background-color: var(--red-hover);
       }
@@ -57,7 +54,6 @@
     background-color: var(--green);
 
     @include hover {
-
       &:hover {
         background-color: var(--green-hover);
       }

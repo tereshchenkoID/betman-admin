@@ -1,9 +1,7 @@
 @use 'scss/config' as *;
 
 .block {
-
   &.active {
-
     .list {
       -webkit-line-clamp: unset;
     }
@@ -16,9 +14,9 @@
 
 .button {
   margin-top: rem(5px);
-  text-align: right;
-  color: var(--link);
   font-weight: var(--typography-medium);
+  text-align: end;
+  color: var(--link);
 
   @include hover {
     &:hover {

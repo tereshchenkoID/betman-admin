@@ -4,20 +4,20 @@ import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'src/constant/config'
 
+import { buildFormData } from 'src/helpers/buildFormData'
+import { convertOptions } from 'src/helpers/convertOptions'
 import { useApi } from 'src/hooks/useApi'
 import { useFilterState } from 'src/hooks/useFilterState'
-import { convertOptions } from 'src/helpers/convertOptions'
-import { buildFormData } from 'src/helpers/buildFormData'
 
-import Icon from 'components/Icon'
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
-import CustomSelect from 'components/Select'
+import Icon from 'components/Icon'
 import Loader from 'components/Loader'
-import Pagination from 'modules/Pagination'
+import Paper from 'components/Paper'
+import CustomSelect from 'components/Select'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import Debug from 'modules/Debug'
+import Pagination from 'modules/Pagination'
 
 import style from './index.module.scss'
 
@@ -61,7 +61,7 @@ const List = () => {
   }, [filter, quantity])
 
   useEffect(() => {
-    handleSubmit(null, 0);
+    handleSubmit(null, 0)
   }, [quantity])
 
   return (
@@ -70,7 +70,7 @@ const List = () => {
         data={[
           NAVIGATION.home,
         ]}
-        current={{text: NAVIGATION.managements.modules.text}}
+        current={{ text: NAVIGATION.managements.modules.text }}
       />
       <Paper
         headline={t(NAVIGATION.managements.modules.text)}
@@ -82,7 +82,7 @@ const List = () => {
         <form onSubmit={(e) => handleSubmit(e, 0)}>
           <div className={style.grid}>
             <Field
-              type='text'
+              type="text"
               placeholder={t('alias')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
@@ -118,7 +118,7 @@ const List = () => {
           <Loader type={'loading'} />
         }
         <Pagination
-          position='top'
+          position="top"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -157,7 +157,7 @@ const List = () => {
                     <div className={style.cell}>
                       <Icon
                         classes={['warning']}
-                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        icon={el.visibility === '0' ? 'eye-off' : 'eye'}
                         alt="visibility"
                         action={() => handleChange(el)}
                       />
@@ -167,7 +167,7 @@ const List = () => {
           }
         </div>
         <Pagination
-          position='bottom'
+          position="bottom"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -176,4 +176,4 @@ const List = () => {
   )
 }
 
-export default List;
+export default List

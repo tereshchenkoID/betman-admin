@@ -4,23 +4,23 @@ import { useNavigate } from 'react-router-dom'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
+import { buildFormData } from 'src/helpers/buildFormData'
+import { getDate } from 'src/helpers/getDate'
 import { useApi } from 'src/hooks/useApi'
 import { useFilterState } from 'src/hooks/useFilterState'
 import { useOptions } from 'src/hooks/useOptions'
-import { getDate } from 'src/helpers/getDate'
-import { buildFormData } from 'src/helpers/buildFormData'
+import { useAsideStore } from 'src/stores/asideStore'
 
-import Icon from 'components/Icon'
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
-import Reference from 'components/Reference'
+import Icon from 'components/Icon'
 import Loader from 'components/Loader'
+import Paper from 'components/Paper'
+import Reference from 'components/Reference'
 import CustomSelect from 'components/Select'
-import Pagination from 'modules/Pagination'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import Debug from 'modules/Debug'
+import Pagination from 'modules/Pagination'
 
 import style from './index.module.scss'
 
@@ -95,7 +95,7 @@ const List = () => {
   )
 
   useEffect(() => {
-    handleSubmit(null, 0);
+    handleSubmit(null, 0)
   }, [quantity])
 
   return (
@@ -104,7 +104,7 @@ const List = () => {
         data={[
           NAVIGATION.home,
         ]}
-        current={{text: NAVIGATION.managements.wheels.text}}
+        current={{ text: NAVIGATION.managements.wheels.text }}
       />
       <Paper
         headline={t(NAVIGATION.managements.wheels.text)}
@@ -116,7 +116,7 @@ const List = () => {
         <form onSubmit={(e) => handleSubmit(e, 0)}>
           <div className={style.grid}>
             <Field
-              type='text'
+              type="text"
               placeholder={t('title')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
@@ -128,13 +128,13 @@ const List = () => {
               onChange={value => handlePropsChange('agent', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('date_from')}
               data={filter['date-from']}
               onChange={value => handlePropsChange('date-from', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('date_to')}
               data={filter['date-to']}
               onChange={value => handlePropsChange('date-to', value)}
@@ -168,7 +168,7 @@ const List = () => {
           <Loader type={'loading'} />
         }
         <Pagination
-          position='top'
+          position="top"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -203,19 +203,19 @@ const List = () => {
                     <div className={style.cell}>{getDate(el.date_created, 'datetime')}</div>
                     <div className={style.cell}>
                       <Icon
-                        icon="fa-pencil"
+                        icon="pencil"
                         alt="edit"
                         action={() => navigate(`${NAVIGATION.managements.wheels.link}/${el.id}`)}
                       />
                       <Icon
                         classes={['warning']}
-                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        icon={el.visibility === '0' ? 'eye-off' : 'eye'}
                         alt="visibility"
                         action={() => handleChange(el)}
                       />
                       <Icon
                         classes={['error']}
-                        icon="fa-trash"
+                        icon="trash"
                         alt="delete"
                         action={(e) => handleConfirmed(e, el)}
                       />
@@ -225,7 +225,7 @@ const List = () => {
           }
         </div>
         <Pagination
-          position='bottom'
+          position="bottom"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -234,4 +234,4 @@ const List = () => {
   )
 }
 
-export default List;
+export default List

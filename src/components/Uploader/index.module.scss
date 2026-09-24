@@ -19,15 +19,15 @@
   @include flex(center, center);
   @include transition;
 
+  gap: rem(8px);
   position: relative;
   padding-inline: rem(24px);
   min-width: rem(100px);
-  line-height: 1;
   height: rem(48px);
-  gap: rem(8px);
-  overflow: hidden;
-  text-align: center;
   background-color: var(--primary);
+  overflow: hidden;
+  line-height: 1;
+  text-align: center;
   cursor: pointer;
 
   &:active,
@@ -36,7 +36,6 @@
   }
 
   @include hover {
-
     &:hover {
       background-color: var(--primary-hover);
     }
@@ -45,10 +44,11 @@
 
 .preview {
   position: relative;
-  width: fit-content;
   margin-top: rem(16px);
+  width: fit-content;
   max-height: rem(300px);
-  //aspect-ratio: 1 / 1;
+
+  // aspect-ratio: 1 / 1;
 
   img {
     object-fit: cover;
@@ -66,6 +66,6 @@
   top: rem(-8px);
   right: rem(-8px);
   padding: rem(5px);
-  min-width: 0;
   border-radius: var(--border-radius-2);
+  min-width: 0;
 }

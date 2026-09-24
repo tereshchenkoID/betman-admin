@@ -1,27 +1,27 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
+import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
 import { useSettingsStore } from 'src/stores/settingsStore'
 
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
-import { useFilterState } from 'src/hooks/useFilterState'
-import { buildFormData } from 'src/helpers/buildFormData'
-
-import Paper from 'components/Paper'
 import Button from 'components/Button'
-import Field from 'components/Field'
-import CustomSelect from 'components/Select'
 import Checkbox from 'components/Checkbox'
+import Field from 'components/Field'
 import Icon from 'components/Icon'
-import Tab from 'components/Tab'
+import Paper from 'components/Paper'
 import Redactor from 'components/Redactor'
-import Debug from 'modules/Debug'
+import CustomSelect from 'components/Select'
+import Tab from 'components/Tab'
 import Breadcrumbs from 'modules/Breadcrumbs'
+import Debug from 'modules/Debug'
+
 import Wheel from './Wheel'
 
 import style from './index.module.scss'
@@ -221,7 +221,7 @@ const Edit = ({ id }) => {
                   />
                   <Icon
                     classes={['error']}
-                    icon="fa-trash"
+                    icon="trash"
                     alt="delete"
                     action={() => handleRemove(idx)}
                   />
@@ -233,7 +233,7 @@ const Edit = ({ id }) => {
               <div style={{ gridArea: '1 / 3' }}>
                 <Icon
                   classes={['success']}
-                  icon="fa-add"
+                  icon="plus"
                   alt="add"
                   action={handleAdd}
                   disabled={filter.data?.length >= MAX_SECTORS}

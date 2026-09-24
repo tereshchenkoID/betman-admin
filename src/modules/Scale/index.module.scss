@@ -1,10 +1,18 @@
 @use 'scss/config' as *;
 
+.scale {
+  @include size(100%, rem(12px));
+
+  position: relative;
+  border-radius: var(--border-radius-2);
+  background-color: var(--material-disabled);
+  overflow: hidden;
+}
+
 .block {
   width: 100%;
 
   &.inverted {
-
     .scale {
       background-color: var(--primary-hover);
     }
@@ -14,18 +22,9 @@
 .header {
   @include flex(null, center);
 
+  gap: rem(4px);
   margin-bottom: rem(4px);
   font-size: rem(12px);
-  gap: rem(4px);
-}
-
-.scale {
-  @include size(100%, rem(12px));
-
-  position: relative;
-  border-radius: var(--border-radius-2);
-  background-color: var(--material-disabled);
-  overflow: hidden;
 }
 
 .value {
@@ -38,6 +37,6 @@
 .percent {
   @include absolute-center;
 
-  font-size: rem(8px);
   z-index: $z-index-1;
+  font-size: rem(8px);
 }

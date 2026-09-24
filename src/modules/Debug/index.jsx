@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import clsx from 'clsx'
+import { ChevronDown } from 'lucide-react'
 
 import { useSettingsStore } from 'src/stores/settingsStore'
-
-import clsx from 'clsx'
 
 import style from './index.module.scss'
 
@@ -21,14 +20,12 @@ const Debug = ({ data }) => {
         onClick={() => setActive(!active)}
       >
         Debug
-        <FontAwesomeIcon
-          icon="fa-solid fa-angle-down"
-          className={style.icon}
-        />
+        <ChevronDown size="14" className={style.icon} />
       </button>
-      {active && (
+      {
+        active &&
         <pre className={style.pre}>{JSON.stringify(data, null, 2)}</pre>
-      )}
+      }
     </div>
   )
 }

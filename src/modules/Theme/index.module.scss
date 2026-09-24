@@ -1,5 +1,37 @@
 @use 'scss/config' as *;
 
+.icon {
+  width: 100%;
+}
+
+.label {
+  @include flex;
+  @include transition;
+  @include size(100%);
+
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border: rem(1px) solid var(--border);
+  border-radius: var(--border-radius-default);
+  background-color: var(--primary);
+  transform: translateY(-50%);
+
+  &::before {
+    @include transition;
+    @include flex(center, center);
+
+    position: absolute;
+    inset-block: rem(2px);
+    inset-inline-start: rem(2px);
+    border-radius: inherit;
+    width: calc(50% - rem(2px));
+    background-color: var(--material);
+    transition: inherit;
+    content: '';
+  }
+}
+
 .block {
   @include flex($align-items: center);
   @include size(rem(80px), rem(40px));
@@ -20,7 +52,6 @@
   display: none;
 
   &:checked + {
-
     .label {
       background-color: var(--brand);
 
@@ -37,36 +68,4 @@
   align-items: center;
   position: absolute;
   inset: 0;
-}
-
-.icon {
-  width: 100%;
-}
-
-.label {
-  @include flex;
-  @include transition;
-  @include size(100%);
-
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  border: rem(1px) solid var(--border);
-  background-color: var(--primary);
-  border-radius: var(--border-radius-default);
-
-  &::before {
-    @include transition;
-    @include flex(center, center);
-
-    position: absolute;
-    inset-block: rem(2px);
-    inset-inline-start: rem(2px);
-    background-color: var(--material);
-    border-radius: inherit;
-    width: calc(50% - rem(2px));
-    transition: inherit;
-    content: '';
-  }
 }

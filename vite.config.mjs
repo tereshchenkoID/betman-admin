@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { defineConfig } from 'vite'
+
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [
@@ -13,6 +14,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      '@': path.resolve(import.meta.dirname, './src'),
       components: path.resolve(import.meta.dirname, './src/components'),
       modules: path.resolve(import.meta.dirname, './src/modules'),
       pages: path.resolve(import.meta.dirname, './src/pages'),
@@ -43,15 +45,8 @@ export default defineConfig({
             if (id.includes('tinymce') || id.includes('@tinymce')) {
               return 'vendor-tinymce'
             }
-
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
               return 'vendor-react'
-            }
-            if (id.includes('@fortawesome')) {
-              if (id.includes('free-solid-svg-icons')) return 'vendor-fa-solid'
-              if (id.includes('free-brands-svg-icons')) return 'vendor-fa-brands'
-              if (id.includes('free-regular-svg-icons')) return 'vendor-fa-regular'
-              return 'vendor-fa-core'
             }
             if (id.includes('i18next')) {
               return 'vendor-i18n'

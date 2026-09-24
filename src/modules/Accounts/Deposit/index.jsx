@@ -2,23 +2,23 @@ import { useTranslation } from 'react-i18next'
 
 import { ACCOUNT_TYPE, REQUEST_TYPE } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
-import { useCmdStore } from 'src/stores/cmdStore'
-import { useAuthStore } from 'src/stores/authStore'
 import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
 import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useAsideStore } from 'src/stores/asideStore'
+import { useAuthStore } from 'src/stores/authStore'
+import { useCmdStore } from 'src/stores/cmdStore'
 
-import Field from 'components/Field'
 import Button from 'components/Button'
-import CustomSelect from 'components/Select'
+import Field from 'components/Field'
 import Plate from 'components/Plate'
+import CustomSelect from 'components/Select'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
 const Deposit = ({ mock }) => {
-  const { t} = useTranslation()
+  const { t } = useTranslation()
   const { request } = useApi()
   const { setAside } = useAsideStore()
   const { setCmd } = useCmdStore()
@@ -53,7 +53,7 @@ const Deposit = ({ mock }) => {
       setCmd('refresh-table')
 
       if (credits) {
-        updateAuth({credits})
+        updateAuth({ credits })
       }
     }
   }
@@ -77,7 +77,7 @@ const Deposit = ({ mock }) => {
       <CustomSelect
         placeholder={t('credits')}
         options={[
-          {value: -1, label: t('select_from_list')},
+          { value: -1, label: t('select_from_list') },
           ...Object.entries(mock?.credits).map(([key, value]) => ({
             value: key,
             label: `${value} ${key}`

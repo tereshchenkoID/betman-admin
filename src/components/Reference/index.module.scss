@@ -4,31 +4,31 @@
   @include size(fit-content, rem(38px));
 
   display: inline-flex;
-  position: relative;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  position: relative;
   padding-inline: rem(20px);
   border-radius: var(--border-radius-default);
   min-width: rem(100px);
   overflow: hidden;
+  font-size: rem(14px);
+  line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
-  line-height: 1.2;
-  color: currentColor;
-  font-size: rem(14px);
+  color: currentcolor;
 
   &.disabled {
     pointer-events: none;
   }
 
   &.primary {
-    color: var(--text-for-brand);
     background: var(--brand);
+    color: var(--text-for-brand);
 
     &:disabled,
     &.disabled {
-      color: var(--text-for-brand-disabled);
       background: var(--brand-disabled);
+      color: var(--text-for-brand-disabled);
     }
 
     &:active,
@@ -37,7 +37,6 @@
     }
 
     @include hover {
-
       &:hover {
         background: var(--brand-hover);
       }
@@ -60,7 +59,6 @@
     }
 
     @include hover {
-
       &:hover {
         background-color: var(--primary-hover);
       }
@@ -76,7 +74,6 @@
     }
 
     @include hover {
-
       &:hover {
         background-color: var(--tertiary-hover);
       }
@@ -87,22 +84,21 @@
     padding-inline: rem(4px);
     min-width: unset;
     height: auto;
-    color: var(--link);
     text-decoration: underline;
+    color: var(--link);
 
     @include hover {
-
       &:hover {
-        color: var(--link-hover);
         text-decoration: none;
+        color: var(--link-hover);
       }
     }
   }
 
   &.square {
-    height: 100%;
     aspect-ratio: 1 / 1;
     min-width: auto;
+    height: 100%;
     font-size: rem(18px);
   }
 }

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-import Header from 'components/Header'
 import Aside from 'components/Aside'
+import Header from 'components/Header'
 import Nav from 'components/Nav'
 
 import style from './index.module.scss'

@@ -3,13 +3,35 @@
 .block {
   @include flex($align-items: center);
 
+  gap: rem(8px);
   position: relative;
   cursor: pointer;
-  gap: rem(8px);
 
   &.disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+}
+
+.item {
+  @include size(rem(50px), rem(28px));
+  @include transition(background-color);
+
+  position: relative;
+  border-radius: rem(50px);
+  background-color: var(--primary);
+  cursor: pointer;
+
+  &::after {
+    @include transition(transform);
+    @include size(rem(24px));
+
+    position: absolute;
+    top: rem(2px);
+    left: rem(2px);
+    border-radius: 50%;
+    background: var(--link);
+    content: '';
   }
 }
 
@@ -28,29 +50,7 @@
   }
 }
 
-.item {
-  @include size(rem(50px), rem(28px));
-  @include transition(background-color);
-
-  border-radius: rem(50px);
-  background-color: var(--primary);
-  position: relative;
-  cursor: pointer;
-
-  &::after {
-    @include transition(transform);
-    @include size(rem(24px));
-
-    position: absolute;
-    top: rem(2px);
-    left: rem(2px);
-    border-radius: 50%;
-    background: var(--link);
-    content: '';
-  }
-}
-
 .label {
-  margin-left: rem(3px);
+  margin-inline-start: rem(3px);
   color: var(--red);
 }

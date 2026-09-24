@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNotify } from 'src/hooks/useNotify'
+
 import { getData, postData } from 'src/helpers/api'
+import { useNotify } from 'src/hooks/useNotify'
 
 export const useApi = () => {
   const { notify } = useNotify()

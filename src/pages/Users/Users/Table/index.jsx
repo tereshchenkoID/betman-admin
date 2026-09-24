@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
+import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from 'lucide-react'
 
 import {
   ACCESS_TYPE,
@@ -9,13 +9,12 @@ import {
   REQUEST_TYPE
 } from 'src/constant/config'
 
-import { useAuthStore } from 'src/stores/authStore'
-import { useAsideStore } from 'src/stores/asideStore'
-import { useCmdStore } from 'src/stores/cmdStore'
-
-import { useApi } from 'src/hooks/useApi'
-import { getDate } from 'src/helpers/getDate'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { getDate } from 'src/helpers/getDate'
+import { useApi } from 'src/hooks/useApi'
+import { useAsideStore } from 'src/stores/asideStore'
+import { useAuthStore } from 'src/stores/authStore'
+import { useCmdStore } from 'src/stores/cmdStore'
 
 import Icon from 'components/Icon'
 
@@ -85,24 +84,36 @@ const Table = ({ data, config, sort, handleSortChange }) => {
   const renderActions = (row) => (
     <>
       <Icon
-        icon="fa-pencil"
+        icon="pencil"
         alt="edit"
         action={e => handleEdit(e, row)}
       />
       <Icon
         classes={['warning']}
-        icon={`${row.access === '0' ? 'fa-lock-open' : 'fa-lock'}`}
-        alt={`${row.access === '0' ? "unlock" : "lock"}`}
-        action={e => handleConfirmed(e, row, handleLocked, `notification.${row.access === '0' ? "unlocked_confirmed" : "locked_confirmed"}`)}
+        icon={`${row.access === '0' ? 'lock-open' : 'lock'}`}
+        alt={`${row.access === '0' ? 'unlock' : 'lock'}`}
+        action={e => handleConfirmed(e, row, handleLocked, `notification.${row.access === '0' ? 'unlocked_confirmed' : 'locked_confirmed'}`)}
       />
       <Icon
         classes={['error']}
-        icon="fa-trash"
+        icon="trash"
         alt="delete"
         action={e => handleConfirmed(e, row, handleDelete, 'notification.delete_confirmed')}
       />
     </>
   )
+
+  const renderSortIcon = (key) => {
+    if (sort.key !== key) {
+      return <ArrowUpDown size="14" />
+    }
+
+    return sort.direction === 'asc'
+      ?
+      <ArrowUpWideNarrow size="14" />
+      :
+      <ArrowDownWideNarrow size="14" />
+  }
 
   return (
     <div className={style.block}>
@@ -117,16 +128,7 @@ const Table = ({ data, config, sort, handleSortChange }) => {
               <span>{t(text)}</span>
               {
                 sorted &&
-                <FontAwesomeIcon
-                  className={style.sort}
-                  icon={`fa-solid ${
-                    sort.key === key
-                      ? sort.direction === 'asc'
-                        ? 'fa-arrow-up-wide-short'
-                        : 'fa-arrow-down-wide-short'
-                      : 'fa-sort'
-                  }`}
-                />
+                renderSortIcon(key)
               }
             </div>
           )

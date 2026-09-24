@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Plus, X } from 'lucide-react'
 
 import Button from 'components/Button'
 
@@ -77,7 +77,7 @@ const Uploader = ({
     <div className={style.block}>
       <div className={style.upload}>
         <label htmlFor={id} className={style.label}>
-          <FontAwesomeIcon icon="fa-solid fa-plus" />
+          <Plus size="20"/>
           <span>{t('upload_file')}</span>
         </label>
         <input
@@ -98,7 +98,7 @@ const Uploader = ({
             classes={['primary', style.close]}
             onChange={handleRemove}
           >
-            <FontAwesomeIcon icon="fa-solid fa-times" />
+            <X size="20"/>
           </Button>
         </div>
       }

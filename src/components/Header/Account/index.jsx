@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useOutsideClick } from 'src/hooks/useOutsideClick'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
+import { UserRound } from 'lucide-react'
 
 import { ACCOUNT_TYPE } from 'src/constant/config'
 
+import { useOutsideClick } from 'src/hooks/useOutsideClick'
 import { useAuthStore } from 'src/stores/authStore'
 
-import Theme from 'modules/Theme'
 import Language from 'components/Header/Language'
+import Theme from 'modules/Theme'
 
 import style from './index.module.scss'
 
@@ -49,10 +49,7 @@ const Account = () => {
         onClick={() => setActive(!active)}
         aria-label={'Toggle'}
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-user"
-          className={style.icon}
-        />
+        <UserRound size="20" />
       </button>
       <div
         className={

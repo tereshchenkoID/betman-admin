@@ -2,11 +2,11 @@
 
 .block {
   position: relative;
-  background-color: var(--bg);
+  margin-bottom: rem(24px);
   border: rem(1px) solid var(--primary-hover);
   border-radius: var(--border-radius-10);
+  background-color: var(--bg);
   color: var(--text-for-material);
-  margin-bottom: rem(24px);
 }
 
 .button {
@@ -17,7 +17,6 @@
   width: 100%;
 
   &.active {
-
     .icon {
       transform: rotateZ(180deg);
     }
@@ -26,8 +25,6 @@
 
 .icon {
   @include transition;
-
-  font-size: rem(14px);
 }
 
 .pre {

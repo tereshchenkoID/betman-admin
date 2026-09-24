@@ -2,21 +2,21 @@ import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
-import { useCmdStore } from 'src/stores/cmdStore'
-import { useAuthStore } from 'src/stores/authStore'
 import { useApi } from 'src/hooks/useApi'
 import { useFilterState } from 'src/hooks/useFilterState'
+import { useAsideStore } from 'src/stores/asideStore'
+import { useAuthStore } from 'src/stores/authStore'
+import { useCmdStore } from 'src/stores/cmdStore'
 
-import Field from 'components/Field'
 import Button from 'components/Button'
+import Field from 'components/Field'
 import CustomSelect from 'components/Select'
 import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
 const Withdrawal = ({ mock }) => {
-  const { t} = useTranslation()
+  const { t } = useTranslation()
   const { request } = useApi()
   const { setAside } = useAsideStore()
   const { setCmd } = useCmdStore()
@@ -47,7 +47,7 @@ const Withdrawal = ({ mock }) => {
       setCmd('refresh-table')
 
       if (credits) {
-        updateAuth({credits})
+        updateAuth({ credits })
       }
     }
   }
@@ -65,7 +65,7 @@ const Withdrawal = ({ mock }) => {
       <CustomSelect
         placeholder={t('credits')}
         options={[
-          {value: -1, label: t('select_from_list')},
+          { value: -1, label: t('select_from_list') },
           ...Object.entries(mock?.credits).map(([key, value]) => ({
             value: key,
             label: `${value} ${key}`

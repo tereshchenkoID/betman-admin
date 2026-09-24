@@ -2,17 +2,17 @@
 
 .block {
   position: relative;
-  overflow: hidden;
   padding: rem(4px) rem(8px);
+  border: rem(1px) solid currentcolor;
   border-radius: var(--border-radius-8);
-  border: rem(1px) solid currentColor;
+  overflow: hidden;
   font-size: rem(12px);
 
   &::before {
     position: absolute;
     inset: 0;
+    background-color: currentcolor;
     opacity: 0.1;
-    background-color: currentColor;
     content: '';
   }
 

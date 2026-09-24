@@ -49,7 +49,7 @@ const RiskSpin = ({ data, action, active }) => {
         onChange={(field, value) => action(`${active}.${field}`, value)}
       />
     </>
-  );
-};
+  )
+}
 
-export default RiskSpin;
+export default RiskSpin

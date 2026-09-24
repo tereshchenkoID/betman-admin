@@ -1,10 +1,21 @@
 @use 'scss/config' as *;
 
 .block {
-  min-width: rem(1320px);
   width: 100%;
+  min-width: rem(1320px);
   overflow: hidden;
   font-size: rem(14px);
+}
+
+.cell {
+  @include flex(null, center, null, wrap);
+
+  gap: rem(4px);
+  padding: rem(12px);
+
+  &:last-child {
+    flex-wrap: nowrap;
+  }
 }
 
 .row {
@@ -21,7 +32,6 @@
     font-weight: var(--typography-medium);
 
     .cell {
-
       &:has(svg) {
         @include flex(null, center, null, nowrap);
 
@@ -32,7 +42,6 @@
   }
 
   &.locked {
-
     &::before {
       position: absolute;
       inset: 0;
@@ -40,17 +49,6 @@
       opacity: 0.2;
       content: '';
     }
-  }
-}
-
-.cell {
-  @include flex(null, center, null, wrap);
-
-  gap: rem(4px);
-  padding: rem(12px);
-
-  &:last-child {
-    flex-wrap: nowrap;
   }
 }
 

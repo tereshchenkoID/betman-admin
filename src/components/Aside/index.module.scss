@@ -6,13 +6,13 @@
   position: fixed;
   inset-block: rem(65px) 0;
   inset-inline-end: 0;
-  z-index: $z-index-11;
-  border-left: rem(1px) solid var(--border);
-  background-color: var(--material);
-  transform: translateX(100%);
-  max-width: rem(520px);
   width: 100%;
+  max-width: rem(520px);
+  background-color: var(--material);
   overflow: hidden;
+  z-index: $z-index-11;
+  transform: translateX(100%);
+  border-left: rem(1px) solid var(--border);
 
   &.active {
     transform: translateX(0);

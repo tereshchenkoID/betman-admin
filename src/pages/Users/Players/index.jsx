@@ -3,32 +3,32 @@ import { useTranslation } from 'react-i18next'
 
 import {
   ACCESS_TYPE,
+  ACCOUNT_LEVEl,
   NAVIGATION,
   REQUEST_TYPE,
-  VERIFICATION_TYPE,
   RISK_TYPE,
-  service, ACCOUNT_LEVEl
+  service,   VERIFICATION_TYPE
 } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useCmdStore } from 'src/stores/cmdStore'
-import { useAuthStore } from 'src/stores/authStore'
-
-import { useApi } from 'src/hooks/useApi'
-import { useSort } from 'src/hooks/useSort'
-import { useFilterState } from 'src/hooks/useFilterState'
-import { getDate } from 'src/helpers/getDate'
 import { buildFormData } from 'src/helpers/buildFormData'
 import { convertOptions } from 'src/helpers/convertOptions'
+import { getDate } from 'src/helpers/getDate'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useSort } from 'src/hooks/useSort'
+import { useAsideStore } from 'src/stores/asideStore'
+import { useAuthStore } from 'src/stores/authStore'
+import { useCmdStore } from 'src/stores/cmdStore'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Loader from 'components/Loader'
+import Paper from 'components/Paper'
 import CustomSelect from 'components/Select'
 import Debug from 'modules/Debug'
 import Pagination from 'modules/Pagination'
+
 import Table from './Table'
 
 import style from './index.module.scss'
@@ -115,12 +115,12 @@ const Players = () => {
   }
 
   useEffect(() => {
-    handleSubmit(null, 0);
+    handleSubmit(null, 0)
   }, [quantity])
 
   useEffect(() => {
     if (cmd === 'refresh-table') {
-      handleSubmit(null, data?.pagination?.page, filter, sort);
+      handleSubmit(null, data?.pagination?.page, filter, sort)
       setCmd(null)
     }
   }, [cmd])
@@ -133,11 +133,11 @@ const Players = () => {
         quantity={quantity}
         setQuantity={setQuantity}
       >
-        <Debug data={{...filter, ...sort}} />
+        <Debug data={{ ...filter, ...sort }} />
         <form onSubmit={handleSubmit}>
           <div className={style.grid}>
             <Field
-              type='text'
+              type="text"
               placeholder={t('id_username')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
@@ -164,7 +164,7 @@ const Players = () => {
               placeholder={t('currency')}
               options={[
                 { value: -1, label: t('select_from_list') },
-                ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+                ...Object.entries(settings?.currencies).map(([key, el], _) => ({
                   value: key,
                   label: el.text
                 }))
@@ -182,25 +182,25 @@ const Players = () => {
               onChange={value => handlePropsChange('access', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('last_stake_from')}
               data={filter['last_stake_from']}
               onChange={value => handlePropsChange('last_stake_from', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('last_stake_to')}
               data={filter['last_stake_to']}
               onChange={value => handlePropsChange('last_stake_to', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('last_deposit_from')}
               data={filter['last_deposit_from']}
               onChange={value => handlePropsChange('last_deposit_from', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('last_deposit_to')}
               data={filter['last_deposit_to']}
               onChange={value => handlePropsChange('last_deposit_to', value)}
@@ -248,7 +248,7 @@ const Players = () => {
           <Loader type={'loading'} />
         }
         <Pagination
-          position='top'
+          position="top"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -264,7 +264,7 @@ const Players = () => {
           </div>
         }
         <Pagination
-          position='bottom'
+          position="bottom"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />

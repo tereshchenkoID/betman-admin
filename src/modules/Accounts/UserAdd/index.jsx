@@ -3,14 +3,13 @@ import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'src/constant/config'
 
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
 import { useAsideStore } from 'src/stores/asideStore'
 import { useCmdStore } from 'src/stores/cmdStore'
 
-import { useApi } from 'src/hooks/useApi'
-import { useFilterState } from 'src/hooks/useFilterState'
-
-import Field from 'components/Field'
 import Button from 'components/Button'
+import Field from 'components/Field'
 import Loader from 'components/Loader'
 import Debug from 'modules/Debug'
 import GeneratePassword from 'modules/GeneratePassword'
@@ -52,7 +51,7 @@ const UserAdd = ({ mock }) => {
     handleLoad()
   }, [])
 
-  if (!filter) return <Loader type='content' />
+  if (!filter) return <Loader type="content" />
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>

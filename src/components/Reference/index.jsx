@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-
 import clsx from 'clsx'
 
 import style from './index.module.scss'

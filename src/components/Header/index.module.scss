@@ -3,15 +3,15 @@
 .block {
   @include flex($align-items: center);
 
+  gap: rem(16px);
   position: sticky;
   top: 0;
-  gap: rem(16px);
+  margin-inline-start: rem(56px);
   padding-inline: rem(24px);
-  margin-left: rem(56px);
-  z-index: $z-index-10;
-  background-color: var(--material);
-  border-bottom: rem(1px) solid var(--border);
   min-height: rem(65px);
+  background-color: var(--material);
+  z-index: $z-index-10;
+  border-bottom: rem(1px) solid var(--border);
 }
 
 .balance {

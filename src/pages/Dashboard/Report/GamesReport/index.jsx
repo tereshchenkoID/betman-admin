@@ -1,11 +1,10 @@
-import { useTranslation } from 'react-i18next'
-
 import { Doughnut } from 'react-chartjs-2'
+import { useTranslation } from 'react-i18next'
 
 import { service } from 'src/constant/config'
 
-import { hexToRgba } from 'src/helpers/hexToRgba'
 import { fixed } from 'src/helpers/fixed'
+import { hexToRgba } from 'src/helpers/hexToRgba'
 
 import Paper from 'components/Paper'
 

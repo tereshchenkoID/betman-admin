@@ -3,11 +3,11 @@ import clsx from 'clsx'
 
 import { service } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
 import { convertOptions } from 'src/helpers/convertOptions'
+import { useAsideStore } from 'src/stores/asideStore'
 
-import Select from 'components/Select'
 import Icon from 'components/Icon'
+import Select from 'components/Select'
 
 import style from './index.module.scss'
 
@@ -39,7 +39,7 @@ const Paper = ({
             {
               close &&
               <Icon
-                icon={'fa-times'}
+                icon={'x'}
                 action={() => setAside(null)}
                 alt={'Close'}
               />

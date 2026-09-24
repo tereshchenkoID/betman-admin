@@ -9,17 +9,17 @@ export const NAVIGATION = {
   },
   users: {
     text: 'navigation.users',
-    icon: 'fa-solid fa-user',
+    icon: 'User',
     link: '/users',
   },
   players: {
     text: 'navigation.players',
-    icon: 'fa-solid fa-users',
+    icon: 'users',
     link: '/players',
   },
   reports: {
     text: 'navigation.reports',
-    icon: 'fa-solid fa-file',
+    icon: 'file-text',
     financial: {
       text: 'navigation.financial',
       link: '/reports/financial',
@@ -47,7 +47,7 @@ export const NAVIGATION = {
   },
   managements: {
     text: 'navigation.managements',
-    icon: 'fa-solid fa-bars-progress',
+    icon: 'sliders-horizontal',
     promos: {
       text: 'navigation.promos',
       link: '/managements/promos'
@@ -101,7 +101,7 @@ export const NAVIGATION = {
     text: 'navigation.login',
     link: '/login'
   }
-};
+}
 
 export const ACCOUNT_LEVEl = {
   'ADMIN': '0',

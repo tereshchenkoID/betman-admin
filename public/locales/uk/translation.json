@@ -238,6 +238,7 @@
   "promocode": "Промокод",
   "life_time": "Час життя",
   "max_payout": "Макс. сумма виплати",
+  "image_numbers": "Картинок",
   "notification": {
     "no_matching_records_found": "Не знайдено відповідних записів",
     "successfully_logged": "Ласкаво просимо назад!",

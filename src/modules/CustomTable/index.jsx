@@ -1,12 +1,11 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTranslation } from 'react-i18next'
+import clsx from 'clsx'
+import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from 'lucide-react'
 
 import { getDate } from 'src/helpers/getDate'
 
-import clsx from 'clsx'
-
-import Pagination from 'modules/Pagination'
 import Loader from 'components/Loader'
+import Pagination from 'modules/Pagination'
 
 import style from './index.module.scss'
 
@@ -70,13 +69,25 @@ const CustomTable = ({
     }
   }
 
+  const renderSortIcon = (key) => {
+    if (sort.key !== key) {
+      return <ArrowUpDown size="14" />
+    }
+
+    return sort.direction === 'asc'
+      ?
+      <ArrowUpWideNarrow size="14" />
+      :
+      <ArrowDownWideNarrow size="14" />
+  }
+
   return (
     <div className={style.block}>
       {
         loading && <Loader type={'content'} />
       }
       <Pagination
-        position='top'
+        position="top"
         pagination={data.pagination}
         handleSubmit={handleSubmit}
       />
@@ -97,16 +108,7 @@ const CustomTable = ({
                 <span>{t(text)}</span>
                 {
                   sorted &&
-                  <FontAwesomeIcon
-                    className={style.sort}
-                    icon={`fa-solid ${
-                      sort.key === key
-                        ? sort.direction === 'asc'
-                          ? 'fa-arrow-up-wide-short'
-                          : 'fa-arrow-down-wide-short'
-                        : 'fa-sort'
-                    }`}
-                  />
+                  renderSortIcon(key)
                 }
               </div>
             )
@@ -144,7 +146,7 @@ const CustomTable = ({
         }
       </div>
       <Pagination
-        position='bottom'
+        position="bottom"
         pagination={data.pagination}
         handleSubmit={handleSubmit}
       />

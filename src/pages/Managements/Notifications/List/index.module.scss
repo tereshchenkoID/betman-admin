@@ -4,9 +4,9 @@
   --count: 1;
 
   display: grid;
+  grid-template-columns: repeat(var(--count), 1fr);
   gap: rem(16px);
   margin-bottom: rem(16px);
-  grid-template-columns: repeat(var(--count), 1fr);
 
   @include mob-m {
     --count: 2;
@@ -23,6 +23,13 @@
 
 .table {
   @include scroll-x;
+}
+
+.cell {
+  @include flex(null, center, null, wrap);
+
+  gap: rem(4px);
+  padding: rem(12px);
 }
 
 .row {
@@ -46,13 +53,6 @@
   &:not(:last-child) {
     border-bottom: rem(1px) solid var(--border);
   }
-}
-
-.cell {
-  @include flex(null, center, null, wrap);
-
-  gap: rem(4px);
-  padding: rem(12px);
 }
 
 .actions {

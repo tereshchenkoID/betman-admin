@@ -22,11 +22,11 @@
 
 .item {
   display: grid;
-  position: relative;
   grid-template-columns: rem(65px) 1fr;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: rem(16px);
+  position: relative;
   padding-block: rem(4px);
   min-height: rem(65px);
   font-size: rem(14px);

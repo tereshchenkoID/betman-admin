@@ -11,11 +11,11 @@
   h4,
   h5,
   h6 {
-    text-transform: unset;
     margin-bottom: rem(4px);
+    font-weight: var(--typography-regular);
+    text-transform: unset;
     font-optical-sizing: auto;
     font-style: normal;
-    font-weight: var(--typography-regular);
     filter: drop-shadow(rem(1px) rem(2px) 0 var(--material-hover));
   }
 
@@ -31,8 +31,8 @@
   img {
     margin-bottom: rem(12px);
     width: revert-layer;
-    height: revert-layer;
     max-width: 100%;
+    height: revert-layer;
   }
 
   ul {
@@ -47,8 +47,8 @@
       @include size(rem(4px));
 
       position: absolute;
-      inset-inline-start: 0;
       inset-block-start: rem(9px);
+      inset-inline-start: 0;
       border-radius: 50%;
       background-color: var(--link);
       content: '';

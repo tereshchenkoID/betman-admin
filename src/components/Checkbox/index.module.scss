@@ -1,18 +1,27 @@
 @use 'scss/config' as *;
 
+.item {
+  @include transition(all);
+  @include size(rem(20px));
+
+  flex-shrink: 0;
+  border: rem(1px) solid var(--border);
+  border-radius: var(--border-radius-default);
+  background-color: var(--primary);
+}
+
 .block {
   @include flex;
 
+  gap: rem(8px);
   position: relative;
   cursor: pointer;
-  gap: rem(8px);
 
   &.disabled {
     pointer-events: none;
   }
 
   @include hover {
-
     &:hover {
       .item {
         border-color: var(--link);
@@ -32,17 +41,7 @@
   }
 }
 
-.item {
-  @include transition(all);
-  @include size(rem(20px));
-
-  border: rem(1px) solid var(--border);
-  border-radius: var(--border-radius-default);
-  background-color: var(--primary);
-  flex-shrink: 0;
-}
-
 .label {
-  margin-left: rem(3px);
+  margin-inline-start: rem(3px);
   color: var(--red);
 }

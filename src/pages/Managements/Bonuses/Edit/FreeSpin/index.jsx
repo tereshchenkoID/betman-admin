@@ -49,7 +49,7 @@ const FreeSpin = ({ data, action, active }) => {
         onChange={(field, value) => action(`${active}.${field}`, value)}
       />
     </>
-  );
-};
+  )
+}
 
-export default FreeSpin;
+export default FreeSpin

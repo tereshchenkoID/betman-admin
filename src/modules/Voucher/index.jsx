@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
-import { useAuthStore } from 'src/stores/authStore'
 import { getDate } from 'src/helpers/getDate'
+import { useAuthStore } from 'src/stores/authStore'
 
 import style from './index.module.scss'
 

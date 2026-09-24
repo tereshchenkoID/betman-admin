@@ -1,6 +1,6 @@
-import { useTranslation } from "react-i18next"
+import { useTranslation } from 'react-i18next'
 
-import { NAVIGATION } from "src/constant/config"
+import { NAVIGATION } from 'src/constant/config'
 
 import Paper from 'components/Paper'
 import Reference from 'components/Reference'

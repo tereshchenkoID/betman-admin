@@ -2,14 +2,14 @@ import { useTranslation } from 'react-i18next'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useAuthStore } from 'src/stores/authStore'
-import { useApi } from 'src/hooks/useApi'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
 import { useFilterState } from 'src/hooks/useFilterState'
+import { useAuthStore } from 'src/stores/authStore'
 
+import Button from 'components/Button'
 import Field from 'components/Field'
 import Paper from 'components/Paper'
-import Button from 'components/Button'
 import Password from 'components/Password'
 
 import style from './index.module.scss'

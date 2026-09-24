@@ -1,14 +1,22 @@
 @use 'scss/config' as *;
 
+.body {
+  display: grid;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+  min-height: rem(120px);
+}
+
 .block {
   @include transition;
   @include flex($direction: column);
 
   position: relative;
-  border-radius: var(--border-radius-default);
-  background-color: var(--material);
   padding: rem(16px);
+  border-radius: var(--border-radius-default);
   height: 100%;
+  background-color: var(--material);
 
   &:not(.transparent) {
     border-bottom: rem(2px) solid var(--border);
@@ -26,8 +34,8 @@
 
   &.transparent {
     border-radius: unset;
-    box-shadow: unset;
     background-color: transparent;
+    box-shadow: unset;
   }
 
   &.sm {
@@ -59,12 +67,4 @@
   @include tab-l {
     margin-block: rem(24px);
   }
-}
-
-.body {
-  width: 100%;
-  display: grid;
-  position: relative;
-  flex-grow: 1;
-  min-height: rem(120px);
 }

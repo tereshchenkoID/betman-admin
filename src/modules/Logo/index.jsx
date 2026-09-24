@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 
 import { NAVIGATION } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
 import { useAsideStore } from 'src/stores/asideStore'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
 import style from './index.module.scss'
 

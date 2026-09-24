@@ -1,15 +1,34 @@
 @use 'scss/config' as *;
 
 .block {
-  min-width: rem(2860px);
   width: 100%;
+  min-width: rem(2860px);
   overflow: hidden;
   font-size: rem(14px);
 }
 
+.cell {
+  @include flex(null, center, null, wrap);
+
+  gap: rem(4px);
+  padding: rem(12px);
+
+  &:last-child {
+    flex-wrap: nowrap;
+  }
+
+  p {
+    word-break: break-word;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
 .row {
   display: grid;
-  grid-template-columns: rem(110px) repeat(3, minmax(rem(140px), 1fr)) minmax(rem(200px), 1fr) repeat(3, minmax(rem(120px), 1fr)) rem(80px) repeat(11, minmax(rem(140px), 1fr)) rem(140px);
+  grid-template-columns: rem(110px) repeat(3, minmax(rem(140px), 1fr)) minmax(rem(200px), 1fr) repeat(3, minmax(rem(120px), 1fr)) rem(100px) repeat(11, minmax(rem(140px), 1fr)) rem(140px);
   position: relative;
 
   &::before {
@@ -17,6 +36,7 @@
     inset: 0;
     background-color: var(--row-color);
     opacity: 0.2;
+    pointer-events: none;
     content: '';
   }
 
@@ -29,7 +49,6 @@
     font-weight: var(--typography-medium);
 
     .cell {
-
       &:has(svg) {
         @include flex(null, center, null, nowrap);
 
@@ -63,24 +82,9 @@
   }
 }
 
-.cell {
-  @include flex(null, center, null, wrap);
-
-  gap: rem(4px);
-  padding: rem(12px);
-
-  &:last-child {
-    flex-wrap: nowrap;
-  }
-
-  p {
-    word-break: break-word;
-  }
-}
-
 .empty {
-  padding-inline: rem(12px);
   padding-top: rem(12px);
+  padding-inline: rem(12px);
   text-align: center;
 }
 
@@ -92,7 +96,6 @@
 }
 
 .value {
-
   &.rejected {
     color: var(--red);
   }

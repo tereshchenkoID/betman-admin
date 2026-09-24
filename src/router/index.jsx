@@ -1,11 +1,14 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
+
 import { NAVIGATION } from 'constant/config'
 
-import App from 'App'
 import Loader from 'components/Loader'
+
 import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
+
+import App from 'App'
 
 const Home = lazy(() => import('pages/Home'))
 const Login = lazy(() => import('pages/Login'))

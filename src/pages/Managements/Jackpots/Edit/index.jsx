@@ -4,22 +4,23 @@ import { useNavigate } from 'react-router-dom'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useFilterState } from 'src/hooks/useFilterState'
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
-import Uploader from 'components/Uploader'
-import CustomSelect from 'components/Select'
+import Paper from 'components/Paper'
 import Redactor from 'components/Redactor'
+import CustomSelect from 'components/Select'
 import Tab from 'components/Tab'
+import Uploader from 'components/Uploader'
 import Breadcrumbs from 'modules/Breadcrumbs'
-import Providers from 'modules/Providers'
 import Debug from 'modules/Debug'
+import Providers from 'modules/Providers'
+
 import JackpotCard from './JackpotCard'
 
 import style from './index.module.scss'
@@ -114,7 +115,7 @@ const Edit = ({ id }) => {
           NAVIGATION.home,
           NAVIGATION.managements.jackpots,
         ]}
-        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+        current={{ text: isAdd ? 'add' : `${t('edit')} ${id}` }}
       />
       <Paper
         classes={['sm']}
@@ -135,7 +136,7 @@ const Edit = ({ id }) => {
             />
             <CustomSelect
               placeholder={t('all_games')}
-              options={[{ value: -1, label: t('all_games')}, { value: 0, label: t('choose_games') }]}
+              options={[{ value: -1, label: t('all_games') }, { value: 0, label: t('choose_games') }]}
               data={filter.all_games}
               onChange={value => {
                 handlePropsChange('all_games', value)
@@ -171,7 +172,7 @@ const Edit = ({ id }) => {
                 placeholder={t('currency')}
                 options={[
                   { value: -1, label: t('select_from_list') },
-                  ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+                  ...Object.entries(settings?.currencies).map(([key, el], _) => ({
                     value: key,
                     label: el.text
                   }))
@@ -285,7 +286,7 @@ const Edit = ({ id }) => {
         </div>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

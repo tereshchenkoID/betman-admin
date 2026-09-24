@@ -4,22 +4,21 @@ import { useNavigate } from 'react-router-dom'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
-import { useFilterState } from 'src/hooks/useFilterState'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
-import Field from 'components/Field'
-import Uploader from 'components/Uploader'
 import Checkbox from 'components/Checkbox'
+import Field from 'components/Field'
+import MultiUploader from 'components/MultiUploader'
+import Paper from 'components/Paper'
 import CustomSelect from 'components/Select'
 import Tab from 'components/Tab'
-import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
-import ImagePreview from 'modules/ImagePreview'
+import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
@@ -40,11 +39,11 @@ const Edit = ({ id }) => {
         subtitle: '',
         alt: '',
         description: '',
-        image: '',
-        visibility: "0",
+        image: [],
+        visibility: '0',
         button: {
           text: '',
-          newtab: "0",
+          newtab: '0',
           link: [],
           auth_link: []
         }
@@ -71,10 +70,13 @@ const Edit = ({ id }) => {
 
     const formData = buildFormData(filter)
     Object.entries(filter.translations).forEach(([lang, langData]) => {
-      const currentImage = langData?.image
-      if (currentImage instanceof File || currentImage instanceof Blob) {
-        formData.append(`image_${lang}`, currentImage)
-      }
+      const images = langData?.image || []
+
+      images.forEach((img, index) => {
+        if (img instanceof File || img instanceof Blob) {
+          formData.append(`image_${lang}_${index}`, img)
+        }
+      })
     })
 
     const { data, error } = await request(REQUEST_TYPE.POST, `banner/${isAdd ? 'add' : 'edit'}`, formData)
@@ -112,21 +114,23 @@ const Edit = ({ id }) => {
           NAVIGATION.home,
           NAVIGATION.managements.banners,
         ]}
-        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+        current={{ text: isAdd ? 'add' : `${t('edit')} ${id}` }}
       />
       <Paper
         classes={['sm']}
         headline={isAdd ? t('add') : `${t('edit')}: ${id}`}
       >
         <Debug data={filter} />
-        <div className={style.block}>
-          <form className={style.form} onSubmit={handleSubmit}>
+        <form className={style.block} onSubmit={handleSubmit}>
+          <div className={style.wrapper}>
             <CustomSelect
               placeholder={t('agent')}
               options={agentsOptions}
               data={filter.agent}
               onChange={value => handlePropsChange('agent', value)}
             />
+          </div>
+          <div className={style.wrapper}>
             <Tab
               data={active}
               action={setActive}
@@ -139,118 +143,94 @@ const Edit = ({ id }) => {
                 )
               )}
             />
-            <Uploader
-              data={currentTranslation?.image}
-              onChange={(blob) => handlePropsChange(`translations.${active}.image`, blob)}
-            />
-            <div className={style.grid}>
-              <Field
-                type={'text'}
-                placeholder={t('title')}
-                data={currentTranslation?.title}
-                onChange={value => handlePropsChange(`translations.${active}.title`, value)}
-              />
-              <Field
-                type={'text'}
-                placeholder={t('subtitle')}
-                data={currentTranslation?.subtitle}
-                onChange={value => handlePropsChange(`translations.${active}.subtitle`, value)}
+          </div>
+          <div className={style.wrapper}>
+            <div className={style.form}>
+              <MultiUploader
+                data={currentTranslation?.image}
+                onChange={(blob) => handlePropsChange(`translations.${active}.image`, blob)}
               />
             </div>
-            <Field
-              type={'text'}
-              placeholder={t('text')}
-              data={currentTranslation?.alt}
-              onChange={value => handlePropsChange(`translations.${active}.alt`, value)}
-            />
-            <Field
-              type={'text'}
-              placeholder={t('description')}
-              data={currentTranslation?.description}
-              onChange={value => handlePropsChange(`translations.${active}.description`, value)}
-            />
-            <Field
-              type={'text'}
-              placeholder={t('button_label')}
-              data={currentTranslation?.button?.text}
-              onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
-            />
-            <div className={style.grid}>
-              <div>
+            <div className={style.form}>
+              <div className={style.grid}>
                 <Field
                   type={'text'}
-                  placeholder={t('link')}
-                  data={currentTranslation?.button?.link}
-                  onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
+                  placeholder={t('title')}
+                  data={currentTranslation?.title}
+                  onChange={value => handlePropsChange(`translations.${active}.title`, value)}
                 />
-                <p className={style.label}>Example: <strong>/promotions/first-deposit</strong></p>
-              </div>
-              <div>
                 <Field
                   type={'text'}
-                  placeholder={t('link_auth')}
-                  data={currentTranslation?.button?.auth_link}
-                  onChange={value => handlePropsChange(`translations.${active}.button.auth_link`, value)}
+                  placeholder={t('subtitle')}
+                  data={currentTranslation?.subtitle}
+                  onChange={value => handlePropsChange(`translations.${active}.subtitle`, value)}
                 />
               </div>
-            </div>
-            <Checkbox
-              placeholder={t('new_tab')}
-              data={currentTranslation?.button?.newtab}
-              onChange={value => handlePropsChange(`translations.${active}.button.newtab`, value)}
-            />
-            <Checkbox
-              placeholder={t('visibility')}
-              data={currentTranslation?.visibility}
-              onChange={value => handlePropsChange(`translations.${active}.visibility`, value)}
-            />
-            <div className={style.actions}>
-              <Button
-                type={'submit'}
-                classes={['primary']}
-                placeholder={t('save')}
+              <Field
+                type={'text'}
+                placeholder={t('text')}
+                data={currentTranslation?.alt}
+                onChange={value => handlePropsChange(`translations.${active}.alt`, value)}
               />
-              <Button
-                type={'reset'}
-                placeholder={t('cancel')}
-                onChange={handleResetForm}
+              <Field
+                type={'text'}
+                placeholder={t('description')}
+                data={currentTranslation?.description}
+                onChange={value => handlePropsChange(`translations.${active}.description`, value)}
               />
-            </div>
-          </form>
-          <div>
-            <p className={style.text}>{t('preview')}:</p>
-            <div className={style.banner}>
-              {
-                currentTranslation?.image &&
-                <ImagePreview
-                  image={currentTranslation?.image}
-                  className={style.picture}
-                  width={320}
-                  height={128}
-                  alt={t('preview')}
-                />
-              }
-              <div className={style.content}>
-                <p className={style.title}>{currentTranslation?.title}</p>
-                <p className={style.subtitle}>{currentTranslation?.subtitle}</p>
-                <p className={style.description}>{currentTranslation?.description}</p>
-                {
-                  (
-                    currentTranslation?.button?.text &&
-                    currentTranslation?.button?.text !== ''
-                  ) &&
-                  <Button
-                    classes={['primary', 'sm', style.button]}
-                    placeholder={currentTranslation?.button?.text}
+              <Field
+                type={'text'}
+                placeholder={t('button_label')}
+                data={currentTranslation?.button?.text}
+                onChange={value => handlePropsChange(`translations.${active}.button.text`, value)}
+              />
+              <div className={style.grid}>
+                <div>
+                  <Field
+                    type={'text'}
+                    placeholder={t('link')}
+                    data={currentTranslation?.button?.link}
+                    onChange={value => handlePropsChange(`translations.${active}.button.link`, value)}
                   />
-                }
+                  <p className={style.label}>Example: <strong>/promotions/first-deposit</strong></p>
+                </div>
+                <div>
+                  <Field
+                    type={'text'}
+                    placeholder={t('link_auth')}
+                    data={currentTranslation?.button?.auth_link}
+                    onChange={value => handlePropsChange(`translations.${active}.button.auth_link`, value)}
+                  />
+                </div>
+              </div>
+              <Checkbox
+                placeholder={t('new_tab')}
+                data={currentTranslation?.button?.newtab}
+                onChange={value => handlePropsChange(`translations.${active}.button.newtab`, value)}
+              />
+              <Checkbox
+                placeholder={t('visibility')}
+                data={currentTranslation?.visibility}
+                onChange={value => handlePropsChange(`translations.${active}.visibility`, value)}
+              />
+              <div className={style.actions}>
+                <Button
+                  type={'submit'}
+                  classes={['primary']}
+                  placeholder={t('save')}
+                />
+                <Button
+                  type={'reset'}
+                  placeholder={t('cancel')}
+                  onChange={handleResetForm}
+                />
               </div>
             </div>
           </div>
-        </div>
+        </form>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

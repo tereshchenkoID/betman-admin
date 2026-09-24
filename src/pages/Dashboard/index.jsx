@@ -1,33 +1,34 @@
-import {lazy, Suspense, useEffect, useState} from 'react'
-import { useTranslation } from 'react-i18next'
-
 import {
-  Chart as ChartJS,
-  PointElement,
+  lazy, Suspense, useEffect, useState 
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import {
   ArcElement,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
-  LineElement,
 } from 'chart.js'
 
 import { REQUEST_TYPE, TIMEFRAMES } from 'src/constant/config'
 
-import { getTimeframeFrom, getTimeframeTo } from 'src/helpers/getTimeframe'
-import { convertOptions } from 'src/helpers/convertOptions'
-import { useApi } from 'src/hooks/useApi'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { convertOptions } from 'src/helpers/convertOptions'
 import { getDate } from 'src/helpers/getDate'
+import { getTimeframeFrom, getTimeframeTo } from 'src/helpers/getTimeframe'
+import { useApi } from 'src/hooks/useApi'
 import { useFilterState } from 'src/hooks/useFilterState'
 
-import Debug from 'modules/Debug'
-import Field from 'components/Field'
 import Button from 'components/Button'
+import Field from 'components/Field'
 import Paper from 'components/Paper'
 import CustomSelect from 'components/Select'
+import Debug from 'modules/Debug'
 import Skeleton from 'modules/Skeleton'
 
 import style from './index.module.scss'

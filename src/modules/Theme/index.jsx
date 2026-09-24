@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import clsx from 'clsx'
+import { Moon, Sun } from 'lucide-react'
 
 import { useTheme } from 'context/ThemeContext'
 
@@ -25,14 +25,8 @@ const Theme = () => {
       />
       <span className={style.label} />
       <span className={style.icons}>
-        <FontAwesomeIcon
-          className={style.icon}
-          icon="fa-solid fa-moon"
-        />
-        <FontAwesomeIcon
-          className={style.icon}
-          icon="fa-solid fa-sun"
-        />
+        <Moon size="20" className={style.icon} />
+        <Sun size="20" className={style.icon} />
       </span>
     </label>
   )

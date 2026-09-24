@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
+
+import Sprite from '@/components/Sprite'
 
 import style from './index.module.scss'
 
@@ -9,6 +10,7 @@ const Icon = ({
   action,
   disabled = false,
   classes = [],
+  size = '20',
   alt
 }) => {
   const { t } = useTranslation()
@@ -27,7 +29,7 @@ const Icon = ({
       title={t(alt || 'icon')}
       aria-label={t(alt || 'icon')}
     >
-      <FontAwesomeIcon icon={`fa-solid ${icon}`} className={style.icon} />
+      <Sprite name={icon} size={size} />
     </button>
   )
 }

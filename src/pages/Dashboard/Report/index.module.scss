@@ -5,13 +5,12 @@
   gap: rem(16px);
 
   @include desk-s {
-    grid-template-rows: 1fr rem(500px) repeat(2, auto);
     grid-template-columns: repeat(2, 1fr) rem(400px);
+    grid-template-rows: 1fr rem(500px) repeat(2, auto);
     align-items: flex-start;
   }
 
   & > * {
-
     @include desk-s {
       &:nth-child(1) {
         grid-area: 1 / 1 / 2 / 3;

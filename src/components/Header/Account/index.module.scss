@@ -4,10 +4,6 @@
   position: relative;
 }
 
-.icon {
-  font-size: rem(18px);
-}
-
 .toggle {
   @include flex(center, center);
   @include size(rem(40px));
@@ -17,7 +13,6 @@
   color: var(--text-for-primary);
 
   @include hover {
-
     &:hover {
       background: var(--brand-hover);
     }
@@ -29,14 +24,14 @@
   @include flex(null, null, column);
 
   position: fixed;
-  inset-block: rem(64px) 0;
   right: 0;
+  inset-block: rem(64px) 0;
   padding-top: rem(8px);
-  z-index: $z-index-11;
-  background-color: var(--material);
   border: rem(1px) solid var(--border);
-  transform: translateX(100%);
   width: rem(250px);
+  background-color: var(--material);
+  z-index: $z-index-11;
+  transform: translateX(100%);
 
   &.active {
     transform: translateX(0);
@@ -48,8 +43,8 @@
 }
 
 .text {
-  opacity: 0.7;
   margin-bottom: rem(4px);
+  opacity: 0.7;
   font-size: rem(14px);
 
   span {
@@ -58,9 +53,9 @@
 }
 
 .options {
+  margin-bottom: auto;
   padding: rem(4px) rem(12px);
   border-block: rem(1px) solid var(--border);
-  margin-bottom: auto;
 }
 
 .option {

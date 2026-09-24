@@ -27,19 +27,19 @@
 }
 
 .promo {
-  padding: rem(16px) rem(16px);
-  background-color: var(--material-hover);
-  border-radius: var(--border-radius-10);
-  overflow: hidden;
   margin-inline: auto;
+  padding: rem(16px);
+  border-radius: var(--border-radius-10);
   max-width: rem(800px);
+  background-color: var(--material-hover);
+  overflow: hidden;
 }
 
 .picture {
   position: relative;
+  aspect-ratio: 16 / 8;
   margin-bottom: rem(16px);
   border-radius: rem(6px);
-  aspect-ratio: 16 / 8;
   object-fit: cover;
 }
 

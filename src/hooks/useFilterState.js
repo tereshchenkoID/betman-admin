@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export const useFilterState = (initialValue = {}) => {
   const [filter, setFilter] = useState(initialValue || null)

@@ -1,23 +1,22 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Editor } from '@tinymce/tinymce-react'
 
-import 'tinymce/tinymce'
-import 'tinymce/icons/default'
-import 'tinymce/themes/silver'
-import 'tinymce/models/dom'
+import { useTheme } from 'context/ThemeContext'
 
 import 'tinymce/skins/ui/tinymce-5/skin.min.css'
 import 'tinymce/skins/ui/tinymce-5/content.min.css'
 import 'tinymce/skins/content/default/content.min.css'
 
+import 'tinymce/tinymce'
+import 'tinymce/icons/default'
+import 'tinymce/themes/silver'
+import 'tinymce/models/dom'
 import './langs/uk.js'
 import './langs/ru.js'
 import './langs/fr_FR.js'
 import './langs/es.js'
 import './langs/pt_PT.js'
 import './langs/de.js'
-
 import 'tinymce/plugins/image'
 import 'tinymce/plugins/link'
 import 'tinymce/plugins/advlist'
@@ -35,8 +34,7 @@ import 'tinymce/plugins/media'
 import 'tinymce/plugins/table'
 import 'tinymce/plugins/help'
 import 'tinymce/plugins/wordcount'
-
-import { useTheme } from 'context/ThemeContext'
+import { Editor } from '@tinymce/tinymce-react'
 
 const TINYMCE_LANG_MAP = {
   en: undefined,
@@ -65,7 +63,7 @@ const Redactor = ({
     <div className={style.block}>
       <Editor
         key={`${theme}-${i18n.language}`}
-        licenseKey='gpl'
+        licenseKey="gpl"
         onInit={(_evt, editor) => editorRef.current = editor}
         value={data}
         onEditorChange={action}

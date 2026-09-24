@@ -4,7 +4,7 @@
   @include flex(flex-end, center);
 
   position: relative;
-  z-index: 1;
+  z-index: $z-index-1;
 
   &.top {
     margin-bottom: rem(8px);
@@ -27,7 +27,7 @@
   @include size(rem(42px));
 
   border-radius: var(--border-radius-default);
-  font-size: rem(14px);
+  line-height: 1;
 
   @include hover {
     &:hover {
@@ -39,10 +39,4 @@
     color: var(--primary-disabled);
     pointer-events: none;
   }
-}
-
-.icon {
-  @include transition;
-
-  color: currentColor;
 }

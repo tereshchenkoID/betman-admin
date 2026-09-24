@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 
 export const useOutsideClick = (elementRef, handler, { attached = true, meta = {} } = {}) => {
   useEffect(() => {
-    if (!attached) return;
+    if (!attached) return
 
     const handleClick = (e) => {
-      if (!elementRef.current) return;
+      if (!elementRef.current) return
 
-      if (meta.buttonRef?.current?.contains(e.target)) return;
+      if (meta.buttonRef?.current?.contains(e.target)) return
       if (!elementRef.current.contains(e.target)) {
         handler(false)
       }

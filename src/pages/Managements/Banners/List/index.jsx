@@ -5,23 +5,23 @@ import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
+import { buildFormData } from 'src/helpers/buildFormData'
+import { convertOptions } from 'src/helpers/convertOptions'
 import { useApi } from 'src/hooks/useApi'
 import { useFilterState } from 'src/hooks/useFilterState'
 import { useOptions } from 'src/hooks/useOptions'
-import { convertOptions } from 'src/helpers/convertOptions'
-import { buildFormData } from 'src/helpers/buildFormData'
+import { useAsideStore } from 'src/stores/asideStore'
 
-import Icon from 'components/Icon'
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
-import CustomSelect from 'components/Select'
-import Reference from 'components/Reference'
+import Icon from 'components/Icon'
 import Loader from 'components/Loader'
-import Pagination from 'modules/Pagination'
+import Paper from 'components/Paper'
+import Reference from 'components/Reference'
+import CustomSelect from 'components/Select'
 import Breadcrumbs from 'modules/Breadcrumbs'
 import Debug from 'modules/Debug'
+import Pagination from 'modules/Pagination'
 
 import style from './index.module.scss'
 
@@ -95,7 +95,7 @@ const List = () => {
   )
 
   useEffect(() => {
-    handleSubmit(null, 0);
+    handleSubmit(null, 0)
   }, [quantity])
 
   return (
@@ -104,7 +104,7 @@ const List = () => {
         data={[
           NAVIGATION.home,
         ]}
-        current={{text: NAVIGATION.managements.banners.text}}
+        current={{ text: NAVIGATION.managements.banners.text }}
       />
       <Paper
         headline={t(NAVIGATION.managements.banners.text)}
@@ -116,7 +116,7 @@ const List = () => {
         <form onSubmit={(e) => handleSubmit(e, 0)}>
           <div className={style.grid}>
             <Field
-              type='text'
+              type="text"
               placeholder={t('title')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
@@ -165,7 +165,7 @@ const List = () => {
           <Loader type={'loading'} />
         }
         <Pagination
-          position='top'
+          position="top"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -173,7 +173,7 @@ const List = () => {
           <div className={style.row}>
             <div className={style.cell}>{t('id')}</div>
             <div className={style.cell}>{t('image')}</div>
-            <div className={style.cell}>{t('agent')}</div>
+            <div className={style.cell}>{t('image_numbers')}</div>
             <div className={style.cell}>{t('title')}</div>
             <div className={style.cell}>{t('subtitle')}</div>
             <div className={style.cell}>{t('description')}</div>
@@ -217,26 +217,26 @@ const List = () => {
                         }
                       </div>
                     </div>
-                    <div className={style.cell}>{el.agent?.username || t('all')}</div>
-                    <div className={style.cell}>{el.title}</div>
-                    <div className={style.cell}>{el.subtitle}</div>
-                    <div className={style.cell}>{el.description}</div>
-                    <div className={style.cell}>{el.alt}</div>
+                    <div className={style.cell}>{el.count || '-'}</div>
+                    <div className={style.cell}>{el.title || '-'}</div>
+                    <div className={style.cell}>{el.subtitle || '-'}</div>
+                    <div className={style.cell}>{el.description || '-'}</div>
+                    <div className={style.cell}>{el.alt || '-'}</div>
                     <div className={style.cell}>
                       <Icon
-                        icon="fa-pencil"
+                        icon="pencil"
                         alt="edit"
                         action={() => navigate(`${NAVIGATION.managements.banners.link}/${el.id}`)}
                       />
                       <Icon
                         classes={['warning']}
-                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        icon={el.visibility === '0' ? 'eye-off' : 'eye'}
                         alt="visibility"
                         action={() => handleChange(el)}
                       />
                       <Icon
                         classes={['error']}
-                        icon="fa-trash"
+                        icon="trash"
                         alt="delete"
                         action={(e) => handleConfirmed(e, el)}
                       />
@@ -246,7 +246,7 @@ const List = () => {
           }
         </div>
         <Pagination
-          position='bottom'
+          position="bottom"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -255,4 +255,4 @@ const List = () => {
   )
 }
 
-export default List;
+export default List

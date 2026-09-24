@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import clsx from 'clsx'
 
 import { service } from 'src/constant/config'
-
-import clsx from 'clsx'
 
 import { fixed } from 'src/helpers/fixed'
 import { hexToRgba } from 'src/helpers/hexToRgba'

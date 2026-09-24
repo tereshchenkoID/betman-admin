@@ -9,37 +9,36 @@
   @include flex(null, center);
   @include scroll-x;
 
+  height: rem(52px);
+  overflow-y: hidden;
   border-bottom: rem(1px) solid var(--border);
   background-clip: content-box;
-  overflow-y: hidden;
-  height: rem(52px);
 }
 
 .link {
   @include flex(center, center);
 
-  position: relative;
   flex-shrink: 0;
+  position: relative;
   padding-inline: rem(10px);
   min-width: rem(60px);
   height: 100%;
-  text-transform: uppercase;
   font-size: rem(14px);
+  text-transform: uppercase;
 
   &::after {
     @include transition(width);
     @include size(0, rem(2px));
 
     position: absolute;
-    inset-inline: 0;
     bottom: rem(-1px);
+    inset-inline: 0;
     background-color: var(--link);
     content: '';
   }
 
   &.active,
   &:hover {
-
     &::after {
       width: 100%;
     }
@@ -53,10 +52,10 @@
 
 .body {
   display: grid;
-  grid-gap: rem(16px);
+  position: relative;
   padding-top: rem(20px);
   min-height: rem(150px);
-  position: relative;
+  grid-gap: rem(16px);
 }
 
 .form {

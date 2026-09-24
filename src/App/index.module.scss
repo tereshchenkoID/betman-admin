@@ -8,15 +8,22 @@
     cursor: pointer;
 
     .react-select {
+      &__indicator {
+        @include transition;
+        @include flex(center, center);
+        @include size(var(--select-height), 100%);
+
+        color: var(--text-for-material)!important;
+      }
 
       &__control {
-        padding-left: rem(16px);
+        padding-inline-start: rem(16px);
+        border: rem(1px) solid var(--border);
         border-radius: var(--border-radius-default);
+        height: 100%;
+        background-color: var(--primary);
         box-shadow: none;
         cursor: pointer;
-        border: rem(1px) solid var(--border);
-        background-color: var(--primary);
-        height: 100%;
 
         &:hover {
           border-color: var(--link);
@@ -27,9 +34,7 @@
         }
 
         &--menu-is-open {
-
           .react-select {
-
             &__indicator {
               transform: rotateZ(180deg);
             }
@@ -46,8 +51,8 @@
       }
 
       &__input-container {
-        margin: 0;
         flex-grow: 1;
+        margin: 0;
         color: var(--text-for-material)!important;
       }
 
@@ -59,25 +64,17 @@
         color: var(--text-for-material);
       }
 
-      &__indicator {
-        @include transition;
-        @include flex(center, center);
-        @include size(var(--select-height), 100%);
-
-        color: var(--text-for-material)!important;
-      }
-
       &__clear-indicator {
         display: none;
       }
 
       &__menu {
         margin-block: 0;
-        overflow: hidden;
-        border-radius: 0 0 var(--border-radius-default) var(--border-radius-default);
         border: rem(1px) solid var(--border);
-        box-shadow: unset;
+        border-radius: 0 0 var(--border-radius-default) var(--border-radius-default);
         background-color: var(--material-hover);
+        box-shadow: unset;
+        overflow: hidden;
         z-index: $z-index-2;
       }
 
@@ -88,8 +85,8 @@
       &__option {
         @include transition;
 
+        padding-inline-start: rem(16px);
         padding-block: rem(6px);
-        padding-left: rem(16px);
         cursor: pointer;
 
         &:hover {
@@ -112,7 +109,6 @@
   // Editor
   .tox {
     &.tox-silver-sink {
-
       .tox-tooltip {
         &__body {
           background-color: var(--material);
@@ -121,8 +117,8 @@
       }
 
       .tox-menu {
-        background-color: var(--material);
         border: 0;
+        background-color: var(--material);
         box-shadow: none;
         color: var(--text-for-material);
       }
@@ -153,7 +149,7 @@
           color: var(--text-for-material);
 
           * {
-            color: currentColor!important;
+            color: currentcolor!important;
           }
         }
 
@@ -164,10 +160,10 @@
 
       .tox-toolbar {
         &__group {
-          cursor: pointer;
-          background-color: var(--material-hover);
-          border-color: var(--border) !important;
           gap: rem(1px);
+          background-color: var(--material-hover);
+          cursor: pointer;
+          border-color: var(--border) !important;
         }
 
         &__overflow {
@@ -176,15 +172,15 @@
       }
 
       .tox-dialog {
+        border: 0;
         background-color: var(--material);
         box-shadow: none;
-        border: 0;
         color: var(--text-for-material);
 
         &__footer,
         &__header {
-          color: inherit;
           background-color: inherit;
+          color: inherit;
           border-color: var(--material-hover);
         }
       }
@@ -196,28 +192,28 @@
 
       .tox-listboxfield,
       .tox-textfield {
+        border-radius: 3px;
         background-color: var(--material-hover);
         box-shadow: none;
-        border-color: transparent;
         color: var(--text-for-material);
-        border-radius: 3px;
+        border-color: transparent;
 
         .tox-listbox--select {
-          background-color: var(--material-hover);
           border: 0;
+          background-color: var(--material-hover);
           color: var(--text-for-material);
 
           &:focus {
+            outline: none;
             background-color: var(--material-hover);
             border-color: var(--link);
-            outline: none;
           }
         }
 
         &:focus {
+          outline: none;
           background-color: var(--material-hover);
           border-color: var(--link);
-          outline: none;
         }
       }
 
@@ -231,7 +227,7 @@
 
       .tox-dialog-wrap {
         &__backdrop {
-          background-color: rgba(0, 0, 0, 0.75);
+          background-color: rgb(0 0 0 / 75%);
         }
       }
 
@@ -263,9 +259,9 @@
 }
 
 .tooltip {
-  background-color: var(--material-hover)!important;
   max-width: rem(320px);
-  color: var(--text-for-material)!important;
-  font-size: rem(12px)!important;
+  background-color: var(--material-hover)!important;
   z-index: $z-index-10;
+  font-size: rem(12px)!important;
+  color: var(--text-for-material)!important;
 }

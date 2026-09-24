@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { getData } from 'src/helpers/api'
 
 export const useOptions = (endpoint, mapper, defaultOptions = [], enabled = true) => {
@@ -22,7 +23,7 @@ export const useOptions = (endpoint, mapper, defaultOptions = [], enabled = true
         if (json) {
           let mapped = []
           mapped = Object.entries(json).map(([id, username]) =>
-            mapper({id: Number(id), username})
+            mapper({ id: Number(id), username })
           )
           setOptions([...defaultOptions, ...mapped])
         }

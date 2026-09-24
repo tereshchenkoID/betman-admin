@@ -33,12 +33,12 @@
 }
 
 .value {
-  padding-left: rem(23px);
+  padding-inline-start: rem(23px);
 }
 
 .color {
   @include size(rem(15px));
 
-  border-radius: 50%;
   border: rem(1px) solid var(--border);
+  border-radius: 50%;
 }

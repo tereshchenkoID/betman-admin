@@ -29,17 +29,16 @@
   top: rem(18px);
   left: rem(16px);
   padding-inline: rem(4px);
+  border: rem(1px) solid var(--border);
   border-radius: var(--border-radius-4);
   background-color: var(--material-disabled);
-  border: rem(1px) solid var(--border);
   transform: translateY(rem(-23px));
-  color: var(--text-for-material);
   font-size: rem(10px);
+  color: var(--text-for-material);
   pointer-events: none;
 
   span {
-    margin-left: rem(3px);
+    margin-inline-start: rem(3px);
     color: var(--red);
   }
 }
-

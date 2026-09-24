@@ -1,7 +1,6 @@
 import { useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import clsx from 'clsx'
+import { CalendarDays, X } from 'lucide-react'
 
 import style from './index.module.scss'
 
@@ -56,7 +55,7 @@ const Field = ({
         isDate
           ?
             <span className={style.remove}>
-              <FontAwesomeIcon icon="fa-regular fa-calendar-days" />
+              <CalendarDays size="20" />
             </span>
           :
             data &&
@@ -68,7 +67,7 @@ const Field = ({
                   onChange('')
                 }}
               >
-                <FontAwesomeIcon icon="fa-solid fa-xmark" />
+                <X size="20" />
               </button>
       }
     </div>

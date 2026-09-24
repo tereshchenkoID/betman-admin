@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ChevronRight } from 'lucide-react'
 
 import ImagePreview from 'modules/ImagePreview'
 
@@ -16,7 +16,7 @@ const JackpotCard = ({ data, currentTranslation }) => {
     <div
       className={style.block}
       style={{
-        backgroundImage: `url(/images/coins.webp)`,
+        backgroundImage: 'url(/images/coins.webp)',
       }}
     >
       <div className={style.logo}>
@@ -47,10 +47,7 @@ const JackpotCard = ({ data, currentTranslation }) => {
           {data.games?.length}
         </strong>
         <p>{t('all_games')}</p>
-        <FontAwesomeIcon
-          icon={'fa-solid fa-chevron-right'}
-          className={style.icon}
-        />
+        <ChevronRight size="20" />
       </NavLink>
       <div
         ref={listRef}
@@ -62,7 +59,7 @@ const JackpotCard = ({ data, currentTranslation }) => {
               key={idx}
               className={style.game}
               style={{
-                backgroundImage: `url(/images/card.png)`,
+                backgroundImage: 'url(/images/card.png)',
               }}
             />
           )

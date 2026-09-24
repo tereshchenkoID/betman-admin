@@ -1,25 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import i18n from 'i18next'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-
 import { Tooltip } from 'react-tooltip'
+
+import i18n from 'i18next'
 
 import { LANGUAGE } from 'constant/config'
 
-import 'react-tooltip/dist/react-tooltip.css'
-
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useAuthStore } from 'src/stores/authStore'
-
 import { ThemeProvider } from 'context/ThemeContext'
-import Toastify from 'components/Toastify'
-import Loader from 'components/Loader'
+import { useAuthStore } from 'src/stores/authStore'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
+import Loader from 'components/Loader'
+import Toastify from 'components/Toastify'
+
+import 'react-tooltip/dist/react-tooltip.css'
 import style from './index.module.scss'
 
 const App = () => {
@@ -84,4 +78,3 @@ const App = () => {
 }
 
 export default App
-library.add(fab, fas, far)

@@ -4,29 +4,29 @@ import { useNavigate } from 'react-router-dom'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-
 import { buildFormData } from 'src/helpers/buildFormData'
 import { convertOptions } from 'src/helpers/convertOptions'
 import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
 import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
-import Field from 'components/Field'
-import Tab from 'components/Tab'
-import Debug from 'modules/Debug'
-import Breadcrumbs from 'modules/Breadcrumbs'
-import CustomSelect from 'components/Select'
-import Redactor from 'components/Redactor'
 import Checkbox from 'components/Checkbox'
+import Field from 'components/Field'
+import Paper from 'components/Paper'
+import Redactor from 'components/Redactor'
+import CustomSelect from 'components/Select'
+import Tab from 'components/Tab'
 import Uploader from 'components/Uploader'
+import Breadcrumbs from 'modules/Breadcrumbs'
+import Debug from 'modules/Debug'
+
 import Bonus from './Bonus'
-import FreeSpin from './FreeSpin'
 import BonusFixed from './BonusFixed'
-import RiskSpin from './RiskSpin'
 import Cashback from './Cashback'
+import FreeSpin from './FreeSpin'
+import RiskSpin from './RiskSpin'
 
 import style from './index.module.scss'
 
@@ -191,7 +191,7 @@ const Edit = ({ id }) => {
           NAVIGATION.home,
           NAVIGATION.managements.bonuses,
         ]}
-        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+        current={{ text: isAdd ? 'add' : `${t('edit')} ${id}` }}
       />
       <Paper
         classes={['sm']}
@@ -239,7 +239,7 @@ const Edit = ({ id }) => {
                     placeholder={t('currency')}
                     options={[
                       { value: -1, label: t('select_from_list') },
-                      ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+                      ...Object.entries(settings?.currencies).map(([key, el], _) => ({
                         value: key,
                         label: el.text
                       }))
@@ -397,7 +397,7 @@ const Edit = ({ id }) => {
         </form>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

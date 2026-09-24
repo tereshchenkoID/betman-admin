@@ -40,7 +40,7 @@ export const useWebSocket = ({ url, onMessage, onOpen, onError, onClose, reconne
           const message = JSON.parse(event.data)
           savedOnMessage.current?.(message, socket)
         } catch (e) {
-          console.error('Invalid JSON:', event.data)
+          console.error('Invalid JSON:', e)
         }
       }
 
@@ -76,7 +76,7 @@ export const useWebSocket = ({ url, onMessage, onOpen, onError, onClose, reconne
     if (socket.readyState === WebSocket.OPEN) {
       socket.send(data)
     } else {
-      socket.addEventListener("open", () => socket.send(data), { once: true })
+      socket.addEventListener('open', () => socket.send(data), { once: true })
     }
   }
 

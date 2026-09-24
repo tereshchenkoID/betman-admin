@@ -1,20 +1,45 @@
-import { useRef, useState, useMemo, useCallback } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  useCallback, useMemo, useRef, useState
+} from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 
 import { NAVIGATION } from 'src/constant/config'
 
+import { useOutsideClick } from 'src/hooks/useOutsideClick'
 import { useAsideStore } from 'src/stores/asideStore'
 import { useAuthStore } from 'src/stores/authStore'
 
-import { useOutsideClick } from 'src/hooks/useOutsideClick'
-
 import Icon from 'components/Icon'
+import Sprite from 'components/Sprite'
 import Logo from 'modules/Logo'
 
 import style from './index.module.scss'
+
+export const NavLink = ({ icon, text, link, isActive, onClick }) => {
+  const { t } = useTranslation()
+
+  return (
+    <Link
+      to={link}
+      rel="noreferrer"
+      className={
+        clsx(
+          style.link,
+          isActive && style.active
+        )
+      }
+      onClick={onClick}
+    >
+      {
+        icon &&
+        <Sprite name={icon} />
+      }
+      <span>{t(text)}</span>
+    </Link>
+  )
+}
 
 const Nav = () => {
   const { t } = useTranslation()
@@ -34,17 +59,13 @@ const Nav = () => {
         if (NAVIGATION[key]) {
           dynamicMenu.push({ show: true, ...NAVIGATION[key] })
         }
-      }
-      else if (typeof value === 'object' && value !== null && NAVIGATION[key]) {
+      } else if (typeof value === 'object' && value !== null && NAVIGATION[key]) {
         const submenuItems = []
 
         Object.entries(value).forEach(([subKey, isAllowed]) => {
           if (isAllowed === '1') {
             const subData = NAVIGATION[key][subKey]
-
-            if (subData) {
-              submenuItems.push({ ...subData })
-            }
+            if (subData) submenuItems.push({ ...subData })
           }
         })
 
@@ -63,14 +84,24 @@ const Nav = () => {
   }, [auth?.menu])
 
   const [show, setShow] = useState(false)
-  const [active, setActive] = useState(false)
-
   const blockRef = useRef(null)
   const buttonRef = useRef(null)
+
+  const closeAll = useCallback(() => {
+    if (show) {
+      setShow(false)
+      setAside(null)
+    }
+
+    blockRef.current
+      ?.querySelectorAll('details[open]')
+      .forEach((el) => el.removeAttribute('open'))
+  }, [setAside, show])
 
   const handleOption = useCallback((e) => {
     if (!role || !auth?.id) return
 
+    setShow(false)
     setAside({
       meta: {
         title: t('edit'),
@@ -81,141 +112,66 @@ const Nav = () => {
     })
   }, [role, auth?.id, t, setAside])
 
-  useOutsideClick(
-    blockRef,
-    () => {
-      setShow(false)
-      setActive(false)
-    },
-    {
-      ...show,
-      meta: {
-        buttonRef: buttonRef,
-      },
-    },
-  )
+  useOutsideClick(blockRef, closeAll, { meta: { buttonRef } })
 
   return (
     <nav
       ref={blockRef}
-      className={
-        clsx(
-          style.block,
-          show && style.active
-        )
-      }
+      className={clsx(style.block, show && style.active)}
     >
       <div className={style.wrapper}>
-        <div
-          className={style.logo}
-          onClick={() => {
-            setShow(false)
-            setActive(false)
-          }}
-        >
+        <div className={style.logo} onClick={closeAll}>
           <Logo />
         </div>
         <hr className={style.divider} />
         <ul className={style.list}>
           {
             MENU.map((el, idx) =>
-              el.show &&
               <li
                 key={idx}
-                className={
-                  clsx(
-                    style.item,
-                    idx === active && style.active
-                  )
-                }
+                className={style.item}
               >
                 {
                   el.submenu
                     ?
-                    <>
-                        <span
+                      <details name="nav-accordion" className={style.details}>
+                        <summary
                           className={style.link}
-                          onClick={() => {
-                            setActive(idx)
-                            setShow(true)
-                            setAside(null)
-                          }}
+                          onClick={() => setShow(true)}
                         >
-                          <FontAwesomeIcon
-                            icon={el.icon}
-                            className={style.icon}
-                          />
+                          <Sprite name={el.icon} />
                           <span>{t(el.text)}</span>
-                          <FontAwesomeIcon
-                            icon="fa-solid fa-angle-down"
-                            className={style.arrow}
-                          />
-                        </span>
-                      <div className={style.submenu}>
-                        {
-                          el.submenu.map((el_s, idx_s) =>
-                            <Link
-                              key={idx_s}
-                              to={el_s.link}
-                              rel="noreferrer"
-                              className={
-                                clsx(
-                                  style.link,
-                                  pathname === el_s.link && style.active
-                                )
-                              }
-                              onClick={() => {
-                                setShow(false)
-                                setActive(false)
-                                setAside(null)
-                              }}
-                            >
-                              {
-                                el_s.icon &&
-                                <FontAwesomeIcon
-                                  icon={el_s.icon}
-                                  className={style.icon}
-                                />
-                              }
-                              <span>{t(el_s.text)}</span>
-                            </Link>
-                          )
-                        }
-                      </div>
-                    </>
+                          <Sprite name={'chevron-down'} className={style.arrow} />
+                        </summary>
+                        <div className={style.submenu}>
+                          {
+                            el.submenu.map((sub, subIdx) =>
+                              <NavLink
+                                key={subIdx}
+                                icon={sub.icon}
+                                text={sub.text}
+                                link={sub.link}
+                                isActive={pathname === sub.link}
+                                onClick={closeAll}
+                              />
+                            )}
+                        </div>
+                      </details>
                     :
-                    <Link
-                      to={el.link}
-                      rel="noreferrer"
-                      className={
-                        clsx(
-                          style.link,
-                          pathname === el.link && style.active
-                        )
-                      }
-                      onClick={() => {
-                        setShow(false)
-                        setActive(false)
-                        setAside(null)
-                      }}
-                    >
-                      <FontAwesomeIcon
+                      <NavLink
                         icon={el.icon}
-                        className={style.icon}
+                        text={el.text}
+                        link={el.link}
+                        isActive={pathname === el.link}
+                        onClick={closeAll}
                       />
-                      <span>{t(el.text)}</span>
-                    </Link>
                 }
               </li>
-            )}
+          )}
         </ul>
         <hr className={style.divider} />
         <div className={style.setting}>
-          <Icon
-            icon={'fa-gear'}
-            alt="settings"
-            action={handleOption}
-          />
+          <Icon icon={'settings'} alt="settings" action={handleOption} size="30" />
         </div>
         <hr className={style.divider} />
         <div className={style.action}>
@@ -229,9 +185,9 @@ const Nav = () => {
             }
             type={'button'}
             onClick={() => {
-              setShow(!show)
-              setActive(!active)
+              setShow((prev) => !prev)
               setAside(null)
+              show && closeAll()
             }}
             aria-label={'Toggle'}
             title={'Toggle'}

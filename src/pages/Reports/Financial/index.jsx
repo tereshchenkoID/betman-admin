@@ -3,19 +3,18 @@ import { useTranslation } from 'react-i18next'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useApi } from 'src/hooks/useApi'
-
-import { useSort } from 'src/hooks/useSort'
-import { useFilterState } from 'src/hooks/useFilterState'
-import { getDate } from 'src/helpers/getDate'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { getDate } from 'src/helpers/getDate'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useSort } from 'src/hooks/useSort'
 
-import Debug from 'modules/Debug'
 import Button from 'components/Button'
-import Paper from 'components/Paper'
 import Field from 'components/Field'
+import Paper from 'components/Paper'
 import Tab from 'components/Tab'
 import CustomTable from 'modules/CustomTable'
+import Debug from 'modules/Debug'
 
 import style from './index.module.scss'
 
@@ -115,13 +114,13 @@ const Financial = () => {
         <form onSubmit={handleSubmit}>
           <div className={style.filter}>
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('date_from')}
               data={filter['date-from']}
               onChange={value => handlePropsChange('date-from', value)}
             />
             <Field
-              type='datetime-local'
+              type="datetime-local"
               placeholder={t('date_to')}
               data={filter['date-to']}
               onChange={value => handlePropsChange('date-to', value)}

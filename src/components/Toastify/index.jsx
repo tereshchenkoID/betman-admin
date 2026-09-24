@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
+
 import { useToastifyStore } from 'src/stores/toastifyStore'
 
 const Toastify = () => {

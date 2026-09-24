@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-
 import clsx from 'clsx'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Eye, EyeOff } from 'lucide-react'
 
 import style from './index.module.scss'
 
@@ -58,9 +56,9 @@ const Password = ({
         {
           show
             ?
-              <FontAwesomeIcon icon="fa-solid fa-eye" />
+              <Eye size="20" />
             :
-              <FontAwesomeIcon icon="fa-solid fa-eye-slash" />
+              <EyeOff size="20" />
         }
       </button>
     </div>

@@ -49,7 +49,7 @@ const Bonus = ({ data, action, active }) => {
        isRequired={true}
      />
    </div>
-  );
-};
+  )
+}
 
-export default Bonus;
+export default Bonus

@@ -6,15 +6,15 @@ Modern admin dashboard interface built with **React 18** and **Vite 8**.
 
 ## 🛠 Tech Stack
 
-| Category | Technologies |
-|---|---|
-| **Core** | React 18, React Router v7, Zustand |
-| **Build Tool** | Vite 8 |
-| **Styling** | SCSS, Clsx |
-| **UI & Icons** | FontAwesome, React Select, React Toastify, React Tooltip |
-| **Data & Charts** | Axios, Chart.js, React-ChartJS-2 |
-| **Localization** | i18next (with browser detector & HTTP backend) |
-| **Utilities** | TinyMCE |
+| Category | Technologies                                        |
+|---|-----------------------------------------------------|
+| **Core** | React 18, React Router v7, Zustand                  |
+| **Build Tool** | Vite 8                                              |
+| **Styling** | SCSS, Clsx                                          |
+| **UI & Icons** | Lucide, React Select, React Toastify, React Tooltip |
+| **Data & Charts** | Axios, Chart.js, React-ChartJS-2                    |
+| **Localization** | i18next (with browser detector & HTTP backend)      |
+| **Utilities** | TinyMCE                                             |
 
 ---
 
@@ -80,6 +80,5 @@ import { useAuthStore } from 'stores/useAuthStore'
 Production builds use dynamic vendor chunking (`manualChunks`) to optimize caching and asset load times:
 
 - **`vendor-react`** — Core React libraries (`react`, `react-dom`, `react-router-dom`)
-- **`vendor-fa-*`** — Granular FontAwesome icon bundles (solid, brands, regular, core)
 - **`vendor-i18n`** — Localization runtime modules
 - **`vendor-others`** — Additional third-party dependencies

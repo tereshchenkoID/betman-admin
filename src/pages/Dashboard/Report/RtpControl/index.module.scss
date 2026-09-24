@@ -5,33 +5,38 @@
   row-gap: rem(16px);
 }
 
+.circle {
+  @include flex(center, center);
+  @include size(rem(65px));
+
+  border-radius: 50%;
+  background-color: var(--border);
+}
+
 .item {
   display: grid;
-  position: relative;
   grid-template-columns: rem(65px) 1fr;
   align-items: center;
   gap: rem(16px);
-  border-bottom: rem(1px) solid var(--border);
+  position: relative;
+  padding-inline-start: rem(20px);
   padding-block: rem(10px);
-  padding-left: rem(20px);
   font-size: rem(14px);
+  border-bottom: rem(1px) solid var(--border);
 
   &.success {
-
     .circle {
       background-color: var(--green);
     }
   }
 
   &.danger {
-
     .circle {
       background-color: var(--amber);
     }
   }
 
   &.error {
-
     .circle {
       background-color: var(--red);
     }
@@ -43,14 +48,6 @@
 
   position: absolute;
   top: 0;
-  left: 0;
   bottom: rem(-1px);
-}
-
-.circle {
-  @include flex(center, center);
-  @include size(rem(65px));
-
-  border-radius: 50%;
-  background-color: var(--border);
+  left: 0;
 }

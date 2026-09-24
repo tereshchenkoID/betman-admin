@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+
 import { getData } from 'src/helpers/api'
 
 export const useAuthStore = create((set, get) => ({

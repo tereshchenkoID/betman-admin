@@ -5,21 +5,21 @@ import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
-import { useFilterState } from 'src/hooks/useFilterState'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
-import Field from 'components/Field'
-import Uploader from 'components/Uploader'
 import Checkbox from 'components/Checkbox'
+import Field from 'components/Field'
+import Paper from 'components/Paper'
 import CustomSelect from 'components/Select'
 import Tab from 'components/Tab'
-import Debug from 'modules/Debug'
+import Uploader from 'components/Uploader'
 import Breadcrumbs from 'modules/Breadcrumbs'
+import Debug from 'modules/Debug'
 import ImagePreview from 'modules/ImagePreview'
 
 import style from './index.module.scss'
@@ -40,11 +40,11 @@ const Edit = ({ id }) => {
     translations: Object.values(settings.site_languages).reduce((acc, lang) => {
       acc[lang.code] = {
         title: '',
-        visibility: "0",
+        visibility: '0',
         image: '',
         button: {
           text: '',
-          newtab: "0",
+          newtab: '0',
           link: [],
         }
       }
@@ -99,7 +99,7 @@ const Edit = ({ id }) => {
   )
 
   const { options: bonusesOptions } = useOptions(
-    `bonuses_list/`,
+    'bonuses_list/',
     el => ({ value: el.id, label: el.username }),
     [{ value: -1, label: t('select_from_list') }]
   )
@@ -117,7 +117,7 @@ const Edit = ({ id }) => {
           NAVIGATION.home,
           NAVIGATION.managements.quests,
         ]}
-        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+        current={{ text: isAdd ? 'add' : `${t('edit')} ${id}` }}
       />
       <Paper
         classes={['sm']}
@@ -251,7 +251,7 @@ const Edit = ({ id }) => {
         </div>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

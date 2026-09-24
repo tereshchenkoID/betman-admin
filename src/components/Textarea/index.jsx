@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-
 import clsx from 'clsx'
 
 import style from './index.module.scss'

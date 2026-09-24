@@ -5,24 +5,24 @@ import clsx from 'clsx'
 
 import { NAVIGATION, REQUEST_TYPE, service } from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
-import { useFilterState } from 'src/hooks/useFilterState'
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
-import { convertOptions } from 'src/helpers/convertOptions'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { convertOptions } from 'src/helpers/convertOptions'
 import { getDate } from 'src/helpers/getDate'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useAsideStore } from 'src/stores/asideStore'
 
 import Button from 'components/Button'
-import Reference from 'components/Reference'
-import Paper from 'components/Paper'
 import Field from 'components/Field'
-import Loader from 'components/Loader'
-import CustomSelect from 'components/Select'
 import Icon from 'components/Icon'
+import Loader from 'components/Loader'
+import Paper from 'components/Paper'
+import Reference from 'components/Reference'
+import CustomSelect from 'components/Select'
+import Breadcrumbs from 'modules/Breadcrumbs'
 import Debug from 'modules/Debug'
 import Pagination from 'modules/Pagination'
-import Breadcrumbs from 'modules/Breadcrumbs'
 
 import style from './index.module.scss'
 
@@ -105,7 +105,7 @@ const List = () => {
         data={[
           NAVIGATION.home,
         ]}
-        current={{text: NAVIGATION.managements.promos.text}}
+        current={{ text: NAVIGATION.managements.promos.text }}
       />
       <Paper
         headline={t(NAVIGATION.managements.promos.text)}
@@ -117,7 +117,7 @@ const List = () => {
         <form onSubmit={(e) => handleSubmit(e, 0)}>
           <div className={style.grid}>
             <Field
-              type='text'
+              type="text"
               placeholder={t('title')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
@@ -165,7 +165,7 @@ const List = () => {
           <Loader type={'loading'} />
         }
         <Pagination
-          position='top'
+          position="top"
           pagination={data?.pagination}
           handleSubmit={handleSubmit}
         />
@@ -222,19 +222,19 @@ const List = () => {
                     <div className={style.cell}>{getDate(el.date_created)}</div>
                     <div className={style.cell}>
                       <Icon
-                        icon='fa-pencil'
+                        icon="pencil"
                         alt="edit"
                         action={() => navigate(`${NAVIGATION.managements.promos.link}/${el.id}`)}
                       />
                       <Icon
                         classes={['warning']}
-                        icon={el.visibility === '0' ? 'fa-eye-slash' : 'fa-eye'}
+                        icon={el.visibility === '0' ? 'eye-off' : 'eye'}
                         alt="visibility"
                         action={() => handleChange(el)}
                       />
                       <Icon
                         classes={['error']}
-                        icon='fa-trash'
+                        icon="trash"
                         alt="delete"
                         action={(e) => handleConfirmed(e, el)}
                       />
@@ -244,7 +244,7 @@ const List = () => {
           }
         </div>
         <Pagination
-          position='bottom'
+          position="bottom"
           pagination={data?.pagination}
           handleSubmit={handleSubmit}
         />

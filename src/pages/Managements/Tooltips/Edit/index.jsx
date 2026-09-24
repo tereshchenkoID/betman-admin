@@ -4,21 +4,21 @@ import { useNavigate } from 'react-router-dom'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
-import { useFilterState } from 'src/hooks/useFilterState'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
-import Field from 'components/Field'
 import Checkbox from 'components/Checkbox'
+import Field from 'components/Field'
+import Paper from 'components/Paper'
+import Redactor from 'components/Redactor'
 import CustomSelect from 'components/Select'
 import Tab from 'components/Tab'
-import Redactor from 'components/Redactor'
-import Debug from 'modules/Debug'
 import Breadcrumbs from 'modules/Breadcrumbs'
+import Debug from 'modules/Debug'
 import Inner from 'modules/Inner'
 
 import style from './index.module.scss'
@@ -39,7 +39,7 @@ const Edit = ({ id }) => {
       acc[lang.code] = {
         title: '',
         description: '',
-        visibility: "0",
+        visibility: '0',
       }
       return acc
     }, {}),
@@ -85,12 +85,6 @@ const Edit = ({ id }) => {
     [{ value: -1, label: t('select_from_list') }]
   )
 
-  const { options: bonusesOptions } = useOptions(
-    `bonuses_list/`,
-    el => ({ value: el.id, label: el.username }),
-    [{ value: -1, label: t('select_from_list') }]
-  )
-
   useEffect(() => {
     if(!isAdd) {
       handleLoad()
@@ -104,7 +98,7 @@ const Edit = ({ id }) => {
           NAVIGATION.home,
           NAVIGATION.managements.tooltips,
         ]}
-        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+        current={{ text: isAdd ? 'add' : `${t('edit')} ${id}` }}
       />
       <Paper
         classes={['sm']}
@@ -181,7 +175,7 @@ const Edit = ({ id }) => {
         </div>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit

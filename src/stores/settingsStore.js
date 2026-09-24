@@ -1,7 +1,8 @@
 import { create } from 'zustand'
+
 import { getData } from 'src/helpers/api'
 
-export const useSettingsStore = create((set, get) => ({
+export const useSettingsStore = create((set) => ({
   settings: {},
 
   setSettings: async (value) => {

@@ -3,18 +3,18 @@ import { useTranslation } from 'react-i18next'
 
 import { REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useAsideStore } from 'src/stores/asideStore'
-import { useCmdStore } from 'src/stores/cmdStore'
-import { useAuthStore } from 'src/stores/authStore'
 import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
 import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useAsideStore } from 'src/stores/asideStore'
+import { useAuthStore } from 'src/stores/authStore'
+import { useCmdStore } from 'src/stores/cmdStore'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Field from 'components/Field'
 import Button from 'components/Button'
-import CustomSelect from 'components/Select'
+import Field from 'components/Field'
 import Loader from 'components/Loader'
+import CustomSelect from 'components/Select'
 import Debug from 'modules/Debug'
 import GeneratePassword from 'modules/GeneratePassword'
 
@@ -51,7 +51,7 @@ const PlayerAdd = ({ mock }) => {
       setAside(null)
 
       if (credits) {
-        updateAuth({credits})
+        updateAuth({ credits })
       }
     }
   }
@@ -66,7 +66,7 @@ const PlayerAdd = ({ mock }) => {
     [{ value: -1, label: t('select_from_list') }]
   )
 
-  if (!filter) return <Loader type='content' />
+  if (!filter) return <Loader type="content" />
 
   return (
     <form className={style.block} onSubmit={handleSubmit}>
@@ -104,13 +104,13 @@ const PlayerAdd = ({ mock }) => {
           placeholder={t('currency')}
           options={[
             { value: -1, label: t('select_from_list') },
-            ...Object.entries(settings?.currencies).map(([key, el], index) => ({
+            ...Object.entries(settings?.currencies).map(([key, el], _) => ({
               value: key,
               label: el.text
             }))
           ]}
           data={filter?.currency}
-          onChange={value => handlePropsChange(currency, value)}
+          onChange={value => handlePropsChange('currency', value)}
           isRequired={true}
         />
       </div>

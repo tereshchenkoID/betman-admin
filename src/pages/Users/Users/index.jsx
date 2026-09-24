@@ -1,24 +1,27 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ACCESS_TYPE, ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service } from 'src/constant/config'
+import {
+  ACCESS_TYPE, ACCOUNT_TYPE, NAVIGATION, REQUEST_TYPE, service
+} from 'src/constant/config'
 
-import { useAsideStore } from 'src/stores/asideStore'
-import { useCmdStore } from 'src/stores/cmdStore'
-import { useAuthStore } from 'src/stores/authStore'
-import { useApi } from 'src/hooks/useApi'
-import { useSort } from 'src/hooks/useSort'
-import { useFilterState } from 'src/hooks/useFilterState'
 import { buildFormData } from 'src/helpers/buildFormData'
 import { convertOptions } from 'src/helpers/convertOptions'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useSort } from 'src/hooks/useSort'
+import { useAsideStore } from 'src/stores/asideStore'
+import { useAuthStore } from 'src/stores/authStore'
+import { useCmdStore } from 'src/stores/cmdStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
 import Loader from 'components/Loader'
+import Paper from 'components/Paper'
 import CustomSelect from 'components/Select'
-import Pagination from 'modules/Pagination'
 import Debug from 'modules/Debug'
+import Pagination from 'modules/Pagination'
+
 import Table from './Table'
 
 import style from './index.module.scss'
@@ -84,12 +87,12 @@ const Users = () => {
   ], [t])
 
   useEffect(() => {
-    handleSubmit(null, 0);
+    handleSubmit(null, 0)
   }, [quantity])
 
   useEffect(() => {
     if (cmd === 'refresh-table') {
-      handleSubmit(null, data?.pagination?.page, filter, sort);
+      handleSubmit(null, data?.pagination?.page, filter, sort)
       setCmd(null)
     }
   }, [cmd])
@@ -102,11 +105,11 @@ const Users = () => {
         quantity={quantity}
         setQuantity={setQuantity}
       >
-        <Debug data={{...filter, ...sort}} />
+        <Debug data={{ ...filter, ...sort }} />
         <form onSubmit={(e) => handleSubmit(e, 0)}>
           <div className={style.grid}>
             <Field
-              type='text'
+              type="text"
               placeholder={t('id_username')}
               data={filter['q']}
               onChange={value => handlePropsChange('q', value)}
@@ -165,7 +168,7 @@ const Users = () => {
           <Loader type={'loading'} />
         }
         <Pagination
-          position='top'
+          position="top"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />
@@ -181,7 +184,7 @@ const Users = () => {
           </div>
         }
         <Pagination
-          position='bottom'
+          position="bottom"
           pagination={data.pagination}
           handleSubmit={handleSubmit}
         />

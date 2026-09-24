@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ChevronLeft } from 'lucide-react'
 
 import Button from 'components/Button'
 
@@ -23,10 +23,7 @@ const Back = ({
       classes={['secondary', 'square', classes, style.button]}
       placeholder="Back"
     >
-      <FontAwesomeIcon
-        icon="fa-solid fa-angle-left"
-        className={style.icon}
-      />
+      <ChevronLeft size="20" />
     </Button>
   )
 }

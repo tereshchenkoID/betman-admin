@@ -1,0 +1,151 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss"
+  ],
+  "plugins": [
+    "stylelint-order",
+    "@stylistic/stylelint-plugin"
+  ],
+  "ignoreFiles": [
+    "src/scss/**",
+    "**/src/scss/**"
+  ],
+  "rules": {
+    "no-empty-source": null,
+    "@stylistic/max-empty-lines": 1,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": [
+          "-webkit-contacts-auto-fill-button",
+          "-webkit-caps-lock-indicator",
+          "-webkit-credentials-auto-fill-button",
+          "-webkit-strong-password-auto-fill-button"
+        ]
+      }
+    ],
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
+    "color-hex-length": "short",
+    "selector-class-pattern": null,
+    "scss/at-rule-no-unknown": true,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "global"
+        ]
+      }
+    ],
+    "order/order": [
+      "custom-properties",
+      "dollar-variables",
+      "declarations",
+      "rules"
+    ],
+    "order/properties-alphabetical-order": null,
+    "order/properties-order": [
+      "box-sizing",
+      "user-select",
+      "display",
+      "flex",
+      "flex-direction",
+      "flex-wrap",
+      "flex-shrink",
+      "flex-grow",
+      "grid",
+      "grid-template",
+      "grid-template-columns",
+      "grid-template-rows",
+      "grid-template-areas",
+      "grid-auto-columns",
+      "grid-auto-rows",
+      "grid-auto-flow",
+      "grid-area",
+      "grid-column",
+      "grid-column-start",
+      "grid-column-end",
+      "grid-row",
+      "grid-row-start",
+      "grid-row-end",
+      "justify-items",
+      "justify-content",
+      "align-items",
+      "align-content",
+      "gap",
+      "row-gap",
+      "column-gap",
+      "position",
+      "top",
+      "right",
+      "bottom",
+      "left",
+      "inset",
+      "inset-block",
+      "inset-block-start",
+      "inset-block-end",
+      "inset-inline",
+      "inset-inline-start",
+      "inset-inline-end",
+      "aspect-ratio",
+      "margin",
+      "margin-top",
+      "margin-right",
+      "margin-bottom",
+      "margin-left",
+      "margin-block",
+      "margin-inline",
+      "padding",
+      "padding-top",
+      "padding-right",
+      "padding-bottom",
+      "padding-left",
+      "padding-block",
+      "padding-inline",
+      "border",
+      "outline",
+      "border-radius",
+      "width",
+      "min-width",
+      "max-width",
+      "height",
+      "min-height",
+      "max-height",
+      "background",
+      "background-color",
+      "background-image",
+      "background-position",
+      "background-size",
+      "box-shadow",
+      "backdrop-filter",
+      "opacity",
+      "overflow",
+      "overflow-x",
+      "overflow-y",
+      "z-index",
+      "mask",
+      "mask-image",
+      "mask-composite",
+      "animation",
+      "transition",
+      "transform",
+      "font-family",
+      "font-size",
+      "font-weight",
+      "line-height",
+      "text-align",
+      "text-decoration",
+      "text-transform",
+      "color",
+      "cursor",
+      "appearance",
+      "scroll-behavior",
+      "content"
+    ]
+  }
+}

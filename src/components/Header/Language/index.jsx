@@ -1,14 +1,14 @@
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
+
 import i18n from 'i18next'
 
 import { REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useAuthStore } from 'src/stores/authStore'
-
 import { useApi } from 'src/hooks/useApi'
 import { useOutsideClick } from 'src/hooks/useOutsideClick'
+import { useAuthStore } from 'src/stores/authStore'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
 import style from './index.module.scss'
 

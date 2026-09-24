@@ -5,6 +5,7 @@ import { service } from 'src/constant/config'
 import { hexToRgba } from 'src/helpers/hexToRgba'
 
 import Paper from 'components/Paper'
+
 import Scale from './Scale'
 
 import style from './index.module.scss'

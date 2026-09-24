@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ACCOUNT_TYPE } from 'src/constant/config'
+
 import { useAuthStore } from 'src/stores/authStore'
 
 import style from './index.module.scss'

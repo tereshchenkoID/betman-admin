@@ -2,9 +2,9 @@
 
 .main {
   position: relative;
-  min-height: calc(100vh - rem(64px));
+  margin-inline-start: rem(56px);
   padding: rem(16px);
-  margin-left: rem(56px);
+  min-height: calc(100vh - rem(64px));
   overflow-x: auto;
 
   @include tab-l {

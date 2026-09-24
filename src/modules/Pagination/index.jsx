@@ -1,6 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import clsx from 'clsx'
+import {
+  ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight 
+} from 'lucide-react'
 
 import style from './index.module.scss'
 
@@ -32,10 +33,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, 0)}
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-angle-double-left"
-          className={style.icon}
-        />
+        <ChevronsLeft size="20" />
       </button>
       <button
         type={'button'}
@@ -48,10 +46,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, Number(pagination.page) - 1)}
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-angle-left"
-          className={style.icon}
-        />
+        <ChevronLeft size="20" />
       </button>
       <strong className={style.text}>{Number(pagination.page) + 1}</strong>
       <button
@@ -65,10 +60,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, Number(pagination.page) + 1)}
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-angle-right"
-          className={style.icon}
-        />
+        <ChevronRight size="20" />
       </button>
       <button
         type={'button'}
@@ -81,10 +73,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, Number(pagination.pages))}
       >
-        <FontAwesomeIcon
-          icon="fa-solid fa-angle-double-right"
-          className={style.icon}
-        />
+        <ChevronsRight size="20" />
       </button>
     </div>
   )

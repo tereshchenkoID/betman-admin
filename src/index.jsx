@@ -1,11 +1,11 @@
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
-import './i18n'
+import { router } from './router'
 
 import './scss/app.scss'
 
-import { router } from './router'
+import './i18n'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(<RouterProvider router={router} />)

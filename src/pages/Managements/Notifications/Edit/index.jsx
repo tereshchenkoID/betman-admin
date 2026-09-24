@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { X } from 'lucide-react'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
-import { useSettingsStore } from 'src/stores/settingsStore'
-import { useApi } from 'src/hooks/useApi'
-import { useOptions } from 'src/hooks/useOptions'
-import { useFilterState } from 'src/hooks/useFilterState'
 import { buildFormData } from 'src/helpers/buildFormData'
+import { useApi } from 'src/hooks/useApi'
+import { useFilterState } from 'src/hooks/useFilterState'
+import { useOptions } from 'src/hooks/useOptions'
+import { useSettingsStore } from 'src/stores/settingsStore'
 
-import Paper from 'components/Paper'
 import Button from 'components/Button'
 import Field from 'components/Field'
-import Uploader from 'components/Uploader'
-import Tab from 'components/Tab'
-import CustomSelect from 'components/Select'
+import Paper from 'components/Paper'
 import Redactor from 'components/Redactor'
-import Debug from 'modules/Debug'
+import CustomSelect from 'components/Select'
+import Tab from 'components/Tab'
+import Uploader from 'components/Uploader'
 import Breadcrumbs from 'modules/Breadcrumbs'
+import Debug from 'modules/Debug'
 import ImagePreview from 'modules/ImagePreview'
 import Inner from 'modules/Inner'
 
@@ -99,7 +99,7 @@ const Edit = ({ id }) => {
           NAVIGATION.home,
           NAVIGATION.managements.notifications,
         ]}
-        current={{text: isAdd ? 'add' : `${t('edit')} ${id}`}}
+        current={{ text: isAdd ? 'add' : `${t('edit')} ${id}` }}
       />
       <Paper
         classes={['sm']}
@@ -169,7 +169,7 @@ const Edit = ({ id }) => {
               <div className={style.header}>
                 <h3 className={style.title}>{currentTranslation?.title}</h3>
                 <Button classes={['secondary', 'sm', 'square', style.close]}>
-                  <FontAwesomeIcon icon="fa-solid fa-times" />
+                  <X size="20"/>
                 </Button>
               </div>
               <div className={style.content}>
@@ -188,7 +188,7 @@ const Edit = ({ id }) => {
         </div>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default Edit;
+export default Edit
