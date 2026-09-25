@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import { Eye, EyeOff } from 'lucide-react'
+
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -56,9 +57,9 @@ const Password = ({
         {
           show
             ?
-              <Eye size="20" />
+              <Sprite name="eye" size="20" />
             :
-              <EyeOff size="20" />
+              <Sprite name="eye-off" size="20" />
         }
       </button>
     </div>

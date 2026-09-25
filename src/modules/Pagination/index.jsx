@@ -1,7 +1,6 @@
 import clsx from 'clsx'
-import {
-  ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight 
-} from 'lucide-react'
+
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -33,7 +32,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, 0)}
       >
-        <ChevronsLeft size="20" />
+        <Sprite name="chevrons-left" size="20" />
       </button>
       <button
         type={'button'}
@@ -46,7 +45,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, Number(pagination.page) - 1)}
       >
-        <ChevronLeft size="20" />
+        <Sprite name="chevron-left" size="20" />
       </button>
       <strong className={style.text}>{Number(pagination.page) + 1}</strong>
       <button
@@ -60,7 +59,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, Number(pagination.page) + 1)}
       >
-        <ChevronRight size="20" />
+        <Sprite name="chevron-right" size="20" />
       </button>
       <button
         type={'button'}
@@ -73,7 +72,7 @@ const Pagination = ({
         }
         onClick={() => handleSubmit(null, Number(pagination.pages))}
       >
-        <ChevronsRight size="20" />
+        <Sprite name="chevrons-right" size="20" />
       </button>
     </div>
   )

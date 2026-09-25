@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
-import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from 'lucide-react'
 
 import {
   ACCESS_TYPE,
@@ -17,6 +16,7 @@ import { useAuthStore } from 'src/stores/authStore'
 import { useCmdStore } from 'src/stores/cmdStore'
 
 import Icon from 'components/Icon'
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -105,14 +105,12 @@ const Table = ({ data, config, sort, handleSortChange }) => {
 
   const renderSortIcon = (key) => {
     if (sort.key !== key) {
-      return <ArrowUpDown size="14" />
+      return <Sprite name="arrow-up-down" size="14" />
     }
 
     return sort.direction === 'asc'
-      ?
-      <ArrowUpWideNarrow size="14" />
-      :
-      <ArrowDownWideNarrow size="14" />
+      ? <Sprite name="arrow-up-wide-narrow" size="14" />
+      : <Sprite name="arrow-down-wide-narrow" size="14" />
   }
 
   return (

@@ -1,5 +1,6 @@
 import {
-  lazy, Suspense, useEffect, useState 
+  createElement,
+  lazy, Suspense, useEffect, useState
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -145,12 +146,12 @@ const Dashboard = () => {
       </Paper>
       <div className={style.grid}>
         {
-          SECTIONS.map(({ component: Component, height }, idx) => (
+          SECTIONS.map((section, idx) => (
             <Suspense
               key={idx}
-              fallback={<Skeleton styles={{ height }} counts={1} />}
+              fallback={<Skeleton styles={{ height: section.height }} counts={1} />}
             >
-              <Component data={result} />
+              {createElement(section.component, { data: result })}
             </Suspense>
           ))
         }

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import clsx from 'clsx'
-import { ChevronDown } from 'lucide-react'
 
 import { useSettingsStore } from 'src/stores/settingsStore'
+
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -20,7 +21,7 @@ const Debug = ({ data }) => {
         onClick={() => setActive(!active)}
       >
         Debug
-        <ChevronDown size="14" className={style.icon} />
+        <Sprite name="chevron-down" size="14" className={style.icon} />
       </button>
       {
         active &&

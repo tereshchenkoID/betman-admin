@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import clsx from 'clsx'
-import { CalendarDays, X } from 'lucide-react'
+
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -55,7 +56,7 @@ const Field = ({
         isDate
           ?
             <span className={style.remove}>
-              <CalendarDays size="20" />
+              <Sprite name="calendar-days" size="20" />
             </span>
           :
             data &&
@@ -67,7 +68,7 @@ const Field = ({
                   onChange('')
                 }}
               >
-                <X size="20" />
+                <Sprite name="x" size="20" />
               </button>
       }
     </div>

@@ -11,7 +11,7 @@ const Toastify = () => {
       toast[toastify.type](toastify.text)
       clearToastify()
     }
-  }, [toastify])
+  }, [clearToastify, toastify])
 
   return (
     <ToastContainer position="top-right" autoClose={3000} theme="colored" />

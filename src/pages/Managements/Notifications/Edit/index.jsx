@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { X } from 'lucide-react'
 
 import { NAVIGATION, REQUEST_TYPE } from 'src/constant/config'
 
@@ -16,6 +15,7 @@ import Field from 'components/Field'
 import Paper from 'components/Paper'
 import Redactor from 'components/Redactor'
 import CustomSelect from 'components/Select'
+import Sprite from 'components/Sprite'
 import Tab from 'components/Tab'
 import Uploader from 'components/Uploader'
 import Breadcrumbs from 'modules/Breadcrumbs'
@@ -169,7 +169,7 @@ const Edit = ({ id }) => {
               <div className={style.header}>
                 <h3 className={style.title}>{currentTranslation?.title}</h3>
                 <Button classes={['secondary', 'sm', 'square', style.close]}>
-                  <X size="20"/>
+                  <Sprite name="x" size="20" />
                 </Button>
               </div>
               <div className={style.content}>

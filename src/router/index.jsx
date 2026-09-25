@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { createElement, lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
 import { NAVIGATION } from 'constant/config'
@@ -34,7 +34,7 @@ const NotFound = lazy(() => import('pages/NotFound'))
 
 const withSuspense = (Component) => (
   <Suspense fallback={<Loader />}>
-    <Component />
+    {createElement(Component)}
   </Suspense>
 )
 

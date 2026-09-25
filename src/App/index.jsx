@@ -21,25 +21,25 @@ const App = () => {
   const { setSettings } = useSettingsStore()
   const [loading, setLoading] = useState(true)
 
-  const loadConfig = async () => {
-    const response = await fetch('/json/config.json')
-    const config = await response.json()
-    localStorage.setItem('config', JSON.stringify(config.hostnames))
-  }
-
-  const initStores = async () => {
-    const [
-      settings,
-      auth
-    ] = await Promise.all([
-      setSettings(),
-      setAuth(),
-    ])
-
-    return { settings, auth }
-  }
-
   useEffect(() => {
+    const loadConfig = async () => {
+      const response = await fetch('/json/config.json')
+      const config = await response.json()
+      localStorage.setItem('config', JSON.stringify(config.hostnames))
+    }
+
+    const initStores = async () => {
+      const [
+        settings,
+        auth
+      ] = await Promise.all([
+        setSettings(),
+        setAuth(),
+      ])
+
+      return { settings, auth }
+    }
+
     const initApp = async () => {
       try {
         await loadConfig()
@@ -59,7 +59,7 @@ const App = () => {
     }
 
     initApp()
-  }, [])
+  }, [setAuth, setSettings])
 
   if (loading) return <Loader />
 

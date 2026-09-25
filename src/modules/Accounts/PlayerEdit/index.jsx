@@ -1,5 +1,6 @@
 import {
-  lazy, Suspense, useEffect, useState 
+  createElement,
+  lazy, Suspense, useEffect, useState
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
@@ -30,8 +31,6 @@ const PlayerEdit = ({ mock }) => {
   const { setCmd } = useCmdStore()
   const [active, setActive] = useState(0)
   const { filter, setFilter, handlePropsChange } = useFilterState(null)
-
-  const ActiveComponent = TABS[active].component
 
   const handleLoad = async (key = TABS[active].key) => {
     const { data, error } = await request(REQUEST_TYPE.GET, `player/edit/${key}/${mock?.id}`)
@@ -98,12 +97,12 @@ const PlayerEdit = ({ mock }) => {
                 ?
                   <Loader type="content" />
                 :
-                  <ActiveComponent
-                    data={{ key: TABS[active].key }}
-                    filter={filter}
-                    setFilter={setFilter}
-                    handlePropsChange={handlePropsChange}
-                  />
+                  createElement(TABS[active].component, {
+                    data: { key: TABS[active].key },
+                    filter,
+                    setFilter,
+                    handlePropsChange,
+                  })
             }
           </Suspense>
           <div className={style.actions}>

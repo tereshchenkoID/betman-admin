@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
-import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from 'lucide-react'
 
 import { getDate } from 'src/helpers/getDate'
 
 import Loader from 'components/Loader'
+import Sprite from 'components/Sprite'
 import Pagination from 'modules/Pagination'
 
 import style from './index.module.scss'
@@ -29,16 +29,18 @@ const CustomTable = ({
   const renderCell = (key, value, type, row) => {
     if (key.includes('.')) {
       value = getNestedValue(row, key)
-      return <div
-              className={
-                clsx(
-                  type === 'number' ? style.count : '',
-                  Number(value) < 0 ? style.down : style.up
-                )
-              }
-             >
-               {value}
-             </div>
+      return (
+        <div
+          className={
+            clsx(
+              type === 'number' ? style.count : '',
+              Number(value) < 0 ? style.down : style.up
+            )
+          }
+        >
+          {value}
+        </div>
+      )
     }
 
     if (value && typeof value === 'object' && !Array.isArray(value)) {
@@ -71,14 +73,12 @@ const CustomTable = ({
 
   const renderSortIcon = (key) => {
     if (sort.key !== key) {
-      return <ArrowUpDown size="14" />
+      return <Sprite name="arrow-up-down" size="14" />
     }
 
     return sort.direction === 'asc'
-      ?
-      <ArrowUpWideNarrow size="14" />
-      :
-      <ArrowDownWideNarrow size="14" />
+      ? <Sprite name="arrow-up-wide-narrow" size="14" />
+      : <Sprite name="arrow-down-wide-narrow" size="14" />
   }
 
   return (

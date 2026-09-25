@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Plus, X } from 'lucide-react'
 
 import Button from 'components/Button'
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -78,7 +78,7 @@ const MultiImageUploader = ({
     <div className={style.block}>
       <div className={style.upload}>
         <label htmlFor={id} className={style.label}>
-          <Plus size="20"/>
+          <Sprite name="plus" size="20" />
           <span>{t('upload_file')}</span>
         </label>
         <input
@@ -109,7 +109,7 @@ const MultiImageUploader = ({
                   classes={['primary', style.close]}
                   onChange={() => handleRemove(index)}
                 >
-                  <X size="20"/>
+                  <Sprite name="x" size="20" />
                 </Button>
               </div>
             )

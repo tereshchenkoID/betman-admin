@@ -1,7 +1,8 @@
 import clsx from 'clsx'
-import { Moon, Sun } from 'lucide-react'
 
 import { useTheme } from 'context/ThemeContext'
+
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -25,8 +26,8 @@ const Theme = () => {
       />
       <span className={style.label} />
       <span className={style.icons}>
-        <Moon size="20" className={style.icon} />
-        <Sun size="20" className={style.icon} />
+        <Sprite name="moon" size="20" className={style.icon} />
+        <Sprite name="sun" size="20" className={style.icon} />
       </span>
     </label>
   )

@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import clsx from 'clsx'
-import { UserRound } from 'lucide-react'
 
 import { ACCOUNT_TYPE } from 'src/constant/config'
 
@@ -9,6 +8,7 @@ import { useOutsideClick } from 'src/hooks/useOutsideClick'
 import { useAuthStore } from 'src/stores/authStore'
 
 import Language from 'components/Header/Language'
+import Sprite from 'components/Sprite'
 import Theme from 'modules/Theme'
 
 import style from './index.module.scss'
@@ -49,7 +49,7 @@ const Account = () => {
         onClick={() => setActive(!active)}
         aria-label={'Toggle'}
       >
-        <UserRound size="20" />
+        <Sprite name="user-round" size="20" />
       </button>
       <div
         className={

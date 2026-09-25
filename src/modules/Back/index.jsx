@@ -1,6 +1,5 @@
-import { ChevronLeft } from 'lucide-react'
-
 import Button from 'components/Button'
+import Sprite from 'components/Sprite'
 
 import style from './index.module.scss'
 
@@ -23,7 +22,7 @@ const Back = ({
       classes={['secondary', 'square', classes, style.button]}
       placeholder="Back"
     >
-      <ChevronLeft size="20" />
+      <Sprite name="chevron-left" size="20" />
     </Button>
   )
 }

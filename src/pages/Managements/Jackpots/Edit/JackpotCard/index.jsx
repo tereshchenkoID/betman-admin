@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
 
+import Sprite from 'components/Sprite'
 import ImagePreview from 'modules/ImagePreview'
 
 import style from './index.module.scss'
@@ -47,7 +47,7 @@ const JackpotCard = ({ data, currentTranslation }) => {
           {data.games?.length}
         </strong>
         <p>{t('all_games')}</p>
-        <ChevronRight size="20" />
+        <Sprite name="chevron-right" size="20" />
       </NavLink>
       <div
         ref={listRef}

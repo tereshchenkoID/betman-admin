@@ -1,4 +1,6 @@
-import { lazy, memo, Suspense } from 'react'
+import {
+  createElement, lazy, memo, Suspense
+} from 'react'
 import dynamicIconImports from 'lucide-react/dynamicIconImports'
 
 const loadedIcons = new Map()
@@ -34,12 +36,12 @@ const Sprite = memo(({
 
   return (
     <Suspense fallback={null}>
-      <LucideIcon
-        className={className}
-        size={size}
-        color={color}
-        {...props}
-      />
+      {createElement(LucideIcon, {
+        className,
+        size,
+        color,
+        ...props,
+      })}
     </Suspense>
   )
 })
